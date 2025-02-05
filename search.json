@@ -1,0 +1,552 @@
+[
+  {
+    "objectID": "03_Reachability.html",
+    "href": "03_Reachability.html",
+    "title": "3  Graph Reachability",
+    "section": "",
+    "text": "3.1 The Graph Reachability Problem",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
+    ]
+  },
+  {
+    "objectID": "03_Reachability.html#the-graph-reachability-problem",
+    "href": "03_Reachability.html#the-graph-reachability-problem",
+    "title": "3  Graph Reachability",
+    "section": "",
+    "text": "Definition 3.1 (The Graph Reachability Problem) Given a directed graph \\(G = (V,A)\\) and a node \\(s\\). Find the set \\(M\\) of all nodes that are reachable from \\(s\\):\n\ni.e., all nodes that are connected to \\(s\\).\n\n\n\nExample 3.1 Consider the graph \\(G\\) given in Figure 3.6 (a). The set of reachable nodes from \\(s=1\\) is \\(M = \\{1,2,4,5\\}\\) (see Figure 3.6 (b)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Directed graph \\(G\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(M = \\{1,2,4,5\\}\\) for \\(s=1\\).\n\n\n\n\n\n\n\nFigure 3.1: Graph \\(G\\) and reachable set \\(M\\) from node \\(s=1\\).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
+    ]
+  },
+  {
+    "objectID": "03_Reachability.html#algorithm-idea",
+    "href": "03_Reachability.html#algorithm-idea",
+    "title": "3  Graph Reachability",
+    "section": "3.2 Algorithm Idea",
+    "text": "3.2 Algorithm Idea\nThe following steps give an intuitive process for finding reachable nodes from a given node \\(s\\).\n\nExplore \\(s\\): start from \\(s\\) and follow the arcs in its forward star to find its neighbors.\nRepeat with each neighbor of neighbors of \\(s\\).\nRepeat with neighbor of neighbors of neighbors of \\(s\\), etc.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
+    ]
+  },
+  {
+    "objectID": "03_Reachability.html#illustration-of-idea",
+    "href": "03_Reachability.html#illustration-of-idea",
+    "title": "3  Graph Reachability",
+    "section": "3.3 Illustration of Idea",
+    "text": "3.3 Illustration of Idea\nLet’s apply this idea for the graph \\(G\\) given in Figure 3.6 (a) with source node \\(s = 1\\).\n\n3.3.1 Step 1\nThe forward star of \\(s\\) is \\[\n    \\delta^+(\\{1\\}) = \\{(1,2), (1,4)\\}.\n\\] This implies that \\(2\\) and \\(4\\) are both reachable from \\(1\\). That is, \\(M\\) contains \\(\\{1,2,4\\}\\). See Figure 3.6 (a).\n\n\n3.3.2 Step 2\nWe need to explore further from nodes \\(2\\) and \\(4\\). Let’s start with \\(2\\). The only node adjacent to \\(2\\) is node \\(5\\). We can conclude that \\(M\\) contains \\(\\{1,2,4,5\\}\\). See Figure 3.6 (b).\n\n\n3.3.3 Step 3\nLet’s explore from node \\(4\\): \\(2\\) is the only node adjacent to \\(4\\). Our partially computed reachable set \\(M\\) is unchanged. See Figure 3.6 (c).\n\n\n3.3.4 Step 4\nWe haven’t explored from node \\(5\\) yet. Let’s do that now. The only arc incident with \\(5\\) is \\((5,4)\\). Thus, \\(4\\) is adjacent to \\(5\\) and, hence, reachable from \\(1\\). We already knew that \\(4\\) is in \\(M\\), so \\(M\\) is unchanged. See Figure 3.6 (d).\n\n\n3.3.5 Step 5\nWe have a choice of nodes to explore from: \\(\\{2, 4, 5\\}\\). We have already explored each of these nodes and appear to be stuck in a loop. Can we conclude that \\(M = \\{1,2,4,5\\}\\)?\n\n\n\n\n\n\n\n\n\n\n\n(a) Step 1: \\(M \\supseteq \\{1,2,4\\}\\) so far\n\n\n\n\n\n\n\n\n\n\n\n(b) Step 2: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Step 3: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Step 4: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\nFigure 3.2: Steps of the intuitive reachability process. We need to revise the algorithm to decide when to terminate.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
+    ]
+  },
+  {
+    "objectID": "03_Reachability.html#avoiding-cycles",
+    "href": "03_Reachability.html#avoiding-cycles",
+    "title": "3  Graph Reachability",
+    "section": "3.4 Avoiding Cycles",
+    "text": "3.4 Avoiding Cycles\n\n3.4.1 Goal and Notation\nWe need to avoid exploring nodes we have already explored.\nLet’s define \\(M\\) as the set of nodes we have reached and explored.\n\nWhen we reach a node, we can check if it is already in \\(M\\).\nIf it is, we’ve explored it already and shouldn’t again.\n\nLet’s introduce another set \\(Q\\) as a queue of nodes which have been reached but not explored.\n\n\n3.4.2 Algorithm Idea\nInitialize \\(Q\\) as \\(Q = \\{s\\}\\). Each iteration:\n\nChoose vertex \\(i \\in Q\\) to explore.\nAdd to \\(Q\\) any neighbors of \\(i\\) that are not already in \\(Q\\) or \\(M\\).\nAdd \\(i\\) to \\(M\\) since it has been explored.\n\nIf \\(Q = \\{\\} = \\emptyset\\) (empty set), then stop:\n\nWe’ve explored all nodes reachable from \\(s\\).\n\\(M\\) is the set of nodes reachable from \\(s\\).\n\n\n\n3.4.3 Graph Reachability Algorithm (Pseudocode)\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
+    ]
+  },
+  {
+    "objectID": "03_Reachability.html#returning-to-the-example",
+    "href": "03_Reachability.html#returning-to-the-example",
+    "title": "3  Graph Reachability",
+    "section": "3.5 Returning to the Example",
+    "text": "3.5 Returning to the Example\nLet’s consider the graph \\(G\\) given in Figure 3.6 (a) and apply the algorithm to find the set of nodes reachable from \\(s=1\\).\n\n3.5.1 Iteration 1\nWe initialize \\(Q\\) and \\(M\\) as \\[\n    Q = \\{1\\}, \\hspace{0.25in}\n    M = \\emptyset.\n\\] Let’s explore node \\(1\\):\n\nNode 1 has adjacency list \\(L(1) = \\{2,4\\}\\).\nLet’s add {2,4} to \\(Q\\).\nSince we have explored node \\(1\\), we remove \\(1\\) from \\(Q\\) and add \\(1\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.3: Iteration 1: Explore node \\(1\\)\n\n\n\n\n\n3.5.2 Iteration 2\nAfter the first iteration, we have\n\\[\n    Q = \\{2, 4\\}, \\hspace{0.25in}\n    M = \\{1\\}.\n\\]\nWe can continue from node \\(2\\) or node \\(4\\). Let’s explore node \\(2\\):\n\n\\(L(2) = \\{5\\}\\).\nAdd \\(5\\) to \\(Q\\).\nRemove \\(2\\) from \\(Q\\) and add \\(2\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.4: Iteration 2: Explore node \\(2\\)\n\n\n\n\n\n3.5.3 Iteration 3\nWe now have \\[\n    Q = \\{4, 5\\}, \\hspace{0.25in}\n    M = \\{1, 2\\}.\n\\]\nLet’s explore node \\(4\\):\n\n\\(L(4) = \\{2\\}\\).\nWe already have \\(2 \\in M\\); we do not add \\(2\\) to \\(Q\\).\nWe remove \\(4\\) from \\(Q\\) and add \\(4\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.5: Iteration 3: Explore node \\(4\\)\n\n\n\n\n\n3.5.4 Iteration 4\nAfter the first three iterations, we have \\[\n    Q = \\{5\\}, \\hspace{0.25in}\n    M = \\{1, 2, 4\\}.\n\\]\nExploring node \\(5\\), we note:\n\n\\(L(5) = 4\\).\nSince \\(4 \\in M\\) already, we move \\(5\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.6: Iteration 4: Explore node \\(5\\)\n\n\n\n\n\n3.5.5 Iteration 5 – Termination\nAt this stage \\(Q\\) is empty, so we cannot proceed. We conclude that \\(M = \\{1,2,4,5\\}\\)!",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
+    ]
+  },
+  {
+    "objectID": "01_Introduction.html",
+    "href": "01_Introduction.html",
+    "title": "1  Introduction to Algorithms",
+    "section": "",
+    "text": "1.1 Problems and Problem Instances\nA problem \\(P\\) is a general class of questions to answer.\nProblems are (infinite) families of general questions.\nWe call a version of the problem with specific values a problem instance \\(I\\) (or just instance).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Algorithms</span>"
+    ]
+  },
+  {
+    "objectID": "01_Introduction.html#problems-and-problem-instances",
+    "href": "01_Introduction.html#problems-and-problem-instances",
+    "title": "1  Introduction to Algorithms",
+    "section": "",
+    "text": "Example 1.1 (Quadratic Equations) Finding the roots of a quadratic equation \\(ax^2 + bx + c = 0\\) is an example of a problem.\nFinding the roots of a specific quadratic function is an instance of this problem. For example, finding \\(x\\) such that \\(2x^2 + 8x + 5 = 0\\) is a problem instance.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Algorithms</span>"
+    ]
+  },
+  {
+    "objectID": "01_Introduction.html#algorithms",
+    "href": "01_Introduction.html#algorithms",
+    "title": "1  Introduction to Algorithms",
+    "section": "1.2 Algorithms",
+    "text": "1.2 Algorithms\nWe are interested in finding procedures for solving every possible instance of a given problem. Such a procedure is called an algorithm.\n\nDefinition 1.1 (Algorithm) An algorithm for a given problem is a finite sequence of operations which return the correct solution for all problem instances.\n\n\nExample 1.2 (An Algorithm for Quadratic Equations) We solve quadratic equations of the form \\(ax^2 + bx + c = 0\\) using the quadratic formula: \\[ x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}.\\]\nWe can think of evaluating this formula as an algorithm consisting of the steps:\n\nCompute \\(u:= b^2 - 4ac\\).\nCompute \\(v:= 2a\\).\nCompute \\(z := \\sqrt{u} = \\sqrt{b^2 - 4ac}\\).\nCompute \\[\nx_1 = \\frac{-b + z}{v}, \\hspace{0.5in}\nx_2 = \\frac{-b - z}{v}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Algorithms</span>"
+    ]
+  },
+  {
+    "objectID": "01_Introduction.html#goals-of-the-module",
+    "href": "01_Introduction.html#goals-of-the-module",
+    "title": "1  Introduction to Algorithms",
+    "section": "1.3 Goals of the Module",
+    "text": "1.3 Goals of the Module\nWe are interested in:\n\nDesigning algorithms for solving specific problems.\nProving that a proposed algorithm produces correct solutions.\nComplexity of algorithms: Analysing how long it takes for the algorithm to terminate, i.e., how many operations are required in general.\nComplexity of problems: how long it may take to solve a problem, regardless of which algorithm is used.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Algorithms</span>"
+    ]
+  },
+  {
+    "objectID": "01_Introduction.html#combinatorial-optimization",
+    "href": "01_Introduction.html#combinatorial-optimization",
+    "title": "1  Introduction to Algorithms",
+    "section": "1.4 Combinatorial Optimization",
+    "text": "1.4 Combinatorial Optimization\n\n1.4.1 Combinatorial Optimization Problems\nWe will focus on combinatorial optimization problems: \\[\\min c(X) \\text{ such that } X \\in \\mathcal{X},\\] where \\(c: \\mathcal{X} \\mapsto \\mathbf{R}\\) is a cost function and \\(\\mathcal{X}\\) is a finite set of feasible solutions.\n\n\n1.4.2 Solving Combinatorial Problems\n\nSince \\(\\mathcal{X}\\) is finite, we can always solve by complete enumeration: exhaustively calculating \\(c(X)\\) for each \\(X \\in \\mathcal{X}\\) to find one with minimum cost.\nIn practice, \\(\\mathcal{X}\\) is extremely large and complete enumeration is prohibitively expensive.\nIn many cases, \\(\\mathcal{X}\\) is defined implicitly as description and enumerating all possible solutions is a difficult task on its own.\nWe want faster, specialized algorithms exploiting mathematical structure of the given problem.\n\n\n\n1.4.3 Examples of Combinatorial Problems\nCombinatorial optimization is ubiquitous in operations research and management science1\n\nExample 1.3 (Travelling Salesperson Problem) Find a tour of shortest length visiting each location exactly once. Figure 1.1 gives an instance of the TSP and a solution where a tour of 15 cities in Germany is sought.\n\n\n\n\n\n\nFigure 1.1: An optimal traveling salesperson tour through Germany’s 15 largest cities (among over \\(43\\) billion possible routes).\n\n\n\n\n\nExample 1.4 (The Shortest Path Problem) Find shortest/minimum length route in network from origin to destination.\n\n\nExample 1.5 (Knapsack/Assignment Problems) Find maximum value/minimum cost distribution of limited resources.\n\n\n\n1.4.4 Types of Problems\nWe will focus on three primary forms of combinatorial optimization problems.\n\nDefinition 1.2 (Decision Problems) Given set \\(\\mathcal{X}\\), cost \\(c:\\mathcal{X}\\mapsto\\mathbf{R}\\) and scalar \\(L \\in \\mathbf{R}\\): \\[\\text{Determine if there is a } X \\in \\mathcal{X}\n        \\text{ with } c(X)\n        \\le L.\\]\n\nA decision problem takes problem instance defined by \\(\\mathcal{X}\\), \\(c\\), and \\(L\\) as input. An algorithm for this problem would output Yes or No depending on the instance.\n\nDefinition 1.3 (Decision problem – Search version) Given \\(\\mathcal{X}\\), \\(c\\), and \\(L\\) as input. Find \\(X \\in \\mathcal{X}\\) with \\(c(X) \\le L\\).\n\n\nDefinition 1.4 (Optimization problem – Search version) Given \\(\\mathcal{X}\\) and \\(c\\) as input. Find \\(X \\in \\mathcal{X}\\) minimizing \\(c(X)\\).\n\n\n\n1.4.5 Exact and Approximation Algorithms\nThere are two primary classes of algorithms that we will consider: exact and approximation algorithms.\n\nDefinition 1.5 (Exact Algorithms) Exact algorithms provide an exact solution to the problem.\n\n\nDefinition 1.6 (Approximation Algorithms) Approximation Algorithms provide an approximate solution to the problem, but not the exact solution in general.\n\nAn \\(\\alpha\\)-approximate algorithm returns \\(\\tilde X\\) within \\(\\alpha\\)-ratio of optimal value: \\(c(X^*) \\le c(\\tilde X) \\le \\alpha\n\\cdot c(X^*),\\) for some \\(\\alpha &gt; 1\\).\n\n\nAside from these two classes, we also have heuristics which provide potential solutions without guarantees of quality.\n\nDefinition 1.7 (Heuristics) Heuristic algorithms or heuristics provide solutions without guarantee of closeness to the optimal solution \\(c(X^*)\\).\n\n\n\n1.4.6 Deterministic vs Random Algorithms\nWe can also classify algorithms based on whether steps are performed deterministically or at random.\n\nDefinition 1.8 (Deterministic Algorithms) Deterministic Algorithms follow the same series of steps for given input: \\[ \\text{{if A = B do X; else do Y}} \\]\n\n\n\nDefinition 1.9 (Randomized Algorithms) Randomized algorithms have steps depending on random operations: \\[\\text{{Toss coin: if heads, do X; else do Y}}\\]\nA randomized exact/\\(\\alpha\\)-algorithm may only return exact or \\(\\alpha\\) solution within a certain probability.\n\n\n\n1.4.7 Offline vs Online vs Robust Algorithms\nFinally, we can further classify algorithms based on how they process information into problem instances.\n\nDefinition 1.10 (Offline Algorithm) The problem instance \\(I\\) is completely known at the beginning of the algorithm.\n\n\nDefinition 1.11 (Online Algorithm) The problem instance \\(I\\) is not completely known at start of the algorithm. Instead, the algorithm adapts to \\(I\\) as \\(I\\) unfolds over time.\n\n\nDefinition 1.12 Robust Algorithm: Instance \\(I\\) is not completely known at the beginning of the algorithm and it is not revealed over time.\nThe algorithm finds a solution that works for all possible realizations that \\(I\\) can take.\n\n\n\n1.4.8 Example – Canadian Traveller Problem (CTP)\nShortest Path Problem with added complexity of not knowing which roads/routes are unavailable due to the weather beforehand2.\n\n1.4.8.1 Deterministic/Off-line Version\nWe want to find the shortest or minimum length path in a network from origin to destination.\nIf the network routes are deterministic and are known then we have a deterministic exact algorithm for the shortest path problem. We’ll discuss this algorithm at length later in the term.\n\n\n1.4.8.2 The Random Case\nLet’s suppose that the routes are random or partially observed. For example, this could occur when inclement weather causes certain roadways to close, but they are not known until the road closure is encountered en route.\n\nAn online algorithm would find a partial path using known routes (so far), and then dynamically update the solution as conditions change or become known.\nA robust algorithm would find a path/itinerary that works under any weather conditions.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Algorithms</span>"
+    ]
+  },
+  {
+    "objectID": "01_Introduction.html#footnotes",
+    "href": "01_Introduction.html#footnotes",
+    "title": "1  Introduction to Algorithms",
+    "section": "",
+    "text": "https://en.wikipedia.org/wiki/Combinatorial_optimization↩︎\nhttps://en.wikipedia.org/wiki/Canadian_traveller_problem↩︎",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Algorithms</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html",
+    "href": "02_Introduction_to_Graphs.html",
+    "title": "2  Introduction to Graphs",
+    "section": "",
+    "text": "2.1 Directed Graphs",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#directed-graphs",
+    "href": "02_Introduction_to_Graphs.html#directed-graphs",
+    "title": "2  Introduction to Graphs",
+    "section": "",
+    "text": "2.1.1 Introduction\n\nDefinition 2.1 (Directed Graphs) A directed graph is an ordered pair \\(G := (V, A)\\) composed of:\n\na set \\(V\\) of vertices or nodes of size/cardinality \\(n:=|V|\\);\na set \\(A\\) of ordered pairs called arcs of cardinality \\(m:= |A|\\).\n\nFor an arc \\((i,j) \\in A\\), we call \\(i\\) the tail and \\(j\\) the head.\n\n\nWe will focus on graphs without self-loops: \\((i,i)\\) is not an arc!\n\n\nExample 2.1 Consider \\(G = (V, A)\\) with \\[\\begin{aligned}\n    V &= \\{1,2,3,4,5\\},  \\\\ \\\\\n    A &= \\{(1,2), (1,3), (1,5), (2,4), (3,2), (4,1), (5,1), (5,3)\\}.\n\\end{aligned}\n\\]\nWe can represent or visualize \\(G\\) as nodes \\(V\\) joined by lines/arrows corresponding to arcs \\(A\\). Figure 2.1 gives several different representations of this graph.\n\n\n\n\n\n\n\n\n\n\n\n\n(a) A Visualization of the Graph\n\n\n\n\n\n\n\n\n\n\n\n(b) Another Visualization\n\n\n\n\n\n\n\n\n\n\n\n(c) A Third Visualization\n\n\n\n\n\n\n\nFigure 2.1: Three representations of the graph given in Example 2.1.\n\n\n\n\n\n2.1.2 Adjacency\nArcs in a graph define pairwise relationships between nodes.\n\nDefinition 2.2 (Adjacent nodes) Node \\(i \\in V\\) is adjacent to node \\(j \\in V\\) if arc \\((i,j)\\) belongs to \\(A\\).\nIn this case, the arc \\((i,j) \\in A\\) is incident to node \\(j\\).\n\n\nExample 2.2 Consider the graph \\(G=(V,A)\\) given in Example 2.1. Node \\(1\\) is adjacent to \\(3\\) because the arc \\((1,3) \\in A\\) is included in the graph. However, Node \\(3\\) is adjacent to \\(1\\) since \\((3,1) \\notin A\\). See Figure 2.2 for illustrations of these relationships.\n\n\n\n\n\n\n\n\n\n\n\n\n(a) \\(1\\) is adjacent to \\(3\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(3\\) is not adjacent to \\(1\\)\n\n\n\n\n\n\n\nFigure 2.2: Adjacency relations of nodes \\(1\\) and \\(3\\) in \\(G\\) given in Example 2.1.\n\n\n\n\n\n2.1.3 Complete Graphs\n\nDefinition 2.3 (Complete Graphs) A directed graph \\(G = (V, A)\\) is complete if:\n\n\\(A\\) contains an arc for each pair of nodes in \\(V\\);\nEquivalently, every node in \\(V\\) is adjacent to every other node.\n\n\n\nExample 2.3 The graph given in Example 2.1 is not complete or incomplete. Indeed, there are several potential arcs, e.g., \\((4,5)\\), which are not present in this graph.\nHowever, Figure 2.3 (a) provides a visualization of the complete graph on \\(4\\) nodes. Each of the possible arcs between pairs of nodes is present.\n\n\n\n\n\n\n\n\n\n\n\n(a) A Complete Graph with 4 nodes\n\n\n\n\n\n\n\n\n\n\n\n(b) An Incomplete Graph\n\n\n\n\n\n\n\nFigure 2.3: The complete graph with \\(n=4\\) nodes and the incomplete graph from Example 2.1.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#number-of-arcs-in-a-complete-graph",
+    "href": "02_Introduction_to_Graphs.html#number-of-arcs-in-a-complete-graph",
+    "title": "2  Introduction to Graphs",
+    "section": "2.2 Number of Arcs in a Complete Graph",
+    "text": "2.2 Number of Arcs in a Complete Graph\n\nTheorem 2.1 For any directed graph \\(G\\), we have \\(m \\le n(n-1)\\). If \\(G\\) is complete then \\(m = n(n-1)\\).\n\n\nProof. Each of the \\(n\\) nodes could be adjacent to each of the other \\(n-1\\) nodes. Therefore the number of edges is bounded above by \\[\n    m \\le n(n-1).\n\\] When the graph is complete, every possible edge is present, i.e., every node is adjacent to every other node. Therefore, \\[\n    m = n(n-1)\n\\] if \\(G\\) is complete. On the other hand, \\(m &lt; n(n-1)\\) if \\(G\\) is not complete.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#dense-and-sparse-graphs",
+    "href": "02_Introduction_to_Graphs.html#dense-and-sparse-graphs",
+    "title": "2  Introduction to Graphs",
+    "section": "2.3 Dense and Sparse Graphs",
+    "text": "2.3 Dense and Sparse Graphs\n\nDefinition 2.4 (Dense/Sparse Graphs) A directed graph \\(G\\) is sparse if \\(m &lt;&lt; n(n-1)\\). Otherwise \\(G\\) is dense.\n\n\nExample 2.4 Figure 2.4 provides visualisations of three graphs with increasing density.\n\nA sparse graph with \\(5\\%\\) of possible edges present (Figure 2.4 (a)).\nA dense graph with \\(50\\%\\) of possible edges present (Figure 2.4 (b)).\nA very dense graph with \\(95\\%\\) of possible edges present (Figure 2.4 (c)).\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Sparse graph\n\n\n\n\n\n\n\n\n\n\n\n(b) Dense graph\n\n\n\n\n\n\n\n\n\n\n\n(c) Very dense graph\n\n\n\n\n\n\n\nFigure 2.4: Three graphs with \\(n=25\\) with increasing density.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#paths-and-connectivity",
+    "href": "02_Introduction_to_Graphs.html#paths-and-connectivity",
+    "title": "2  Introduction to Graphs",
+    "section": "2.4 Paths and Connectivity",
+    "text": "2.4 Paths and Connectivity\nWe can extend our definition of adjacency to describe pairwise relationships of nodes via sequences of arcs.\n\nDefinition 2.5 (Path) A path is a sequence of arcs \\[(i_1, i_2), (i_2, i_3), \\dots, (i_k, i_{k + 1})\\] with \\(k+1 \\ge 2\\) nodes with distinct origin \\(i_1\\) and destination \\(i_{k+1}\\).\n\nWe can also use the notation \\[\n    (i_1, i_2, \\dots, i_k, i_{k+1})\n\\] to denote a \\((i_1, i_{k+1})\\)-path.\n\nExample 2.5 The graph visualised in Figure 2.5 contains several paths from \\(2\\) to \\(3\\). For example, both \\(P_1 = ((2,4), (4,1), (1,3))\\) and \\(P_2 = ((2,4), (4,1), (1,5), (5,3))\\) are \\(23\\)-paths.\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Path \\(P_1 = ((2,4), (4,1), (1,3))\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) Path \\(P_2 = ((2,4), (4,1), (1,5), (5,3))\\)\n\n\n\n\n\n\n\nFigure 2.5: Two \\(23\\)-paths, \\(P_1\\), \\(P_2\\), in graph \\(G\\).\n\n\n\n\nDefinition 2.6 (Connectivity) Node \\(v\\) is connected to node \\(w\\) if there is path in \\(G\\) with origin \\(i_1 = v\\) and destination \\(i_{k+1} = w\\).\n\n\nDefinition 2.7 A graph is connected if every pair of nodes is connected.\n\n\nExample 2.6 Node \\(2\\) is connected to Node \\(3\\) in the graph given in Example 2.5. Indeed, we saw that there are at least two \\(23\\)-paths in Example 2.5.\nMoreover, the graph \\(G\\) is connected because we every pair of nodes is connected via an arc. Indeed, we can use the subpaths of the paths \\(P_1\\), \\(P_2\\) and the \\(34\\)-path \\[\n    P_3 = ((3,2), (2,4))\n\\]\nto reach every node from every other node. For example, we can use parts of \\(P_2\\) and \\(P_3\\) to find the \\(14\\)-path \\[\n    P_{14} = ((1,5), (5,3), (3,2), (3,4)).\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(P_3 = ((3,2), (2,4))\\)\n\n\n\n\n\n\n\nFigure 2.6: A \\(34\\)-path \\(P_3\\) in \\(G\\). This, along with \\(P_1, P_2\\) from Example 2.5 provides paths between every pair of nodes in \\(G\\); hence, \\(G\\) is connected.\n\n\n\n\n2.4.1 Cycles\nIf a path begins and ends at the same node, then we call it a cycle.\n\nDefinition 2.8 (Cycles) A cycle is a sequence \\[(i_1, i_2), (i_2, i_3), \\dots, (i_k, i_{k + 1})\\] of \\(k \\ge 2\\) consecutive and distinct arcs with \\(i_{k+1} = i_1\\) (i.e., the origin and destination coincide).\n\nNote that a cycle may visit some nodes more than once (other than the origin/destination).\n\nExample 2.7 The graph \\(G\\) given in Figure 2.7 contains the cycles \\(C_1 = (2,5,4,3,2)\\) and \\(C_2 = (1,3,5,4,2,1)\\). Note that \\(C_2\\) visits node \\(2\\) twice. This implies that we also have cycles \\(C_3 = (1,3,2,1)\\) and \\(C_4 = (2,5,4,2)\\).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Cycle \\(C_1 = (2,5,4,3,2)\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Cycle \\(C_2 = (1,3,5,4,2,1)\\)\n\n\n\n\n\n\n\nFigure 2.7: A graph \\(G\\) containing cycles \\(C_1\\) and \\(C_2\\).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#directed-cuts",
+    "href": "02_Introduction_to_Graphs.html#directed-cuts",
+    "title": "2  Introduction to Graphs",
+    "section": "2.5 Directed Cuts",
+    "text": "2.5 Directed Cuts\nHaving introduced notions of connectivity, we now define sets of arcs whose removal disconnect the graph.\n\nDefinition 2.9 (Forward Cut) Let \\(S \\subseteq V\\), that is, \\(S\\) is a subset of the node set \\(V\\).\nThe set of arcs with tail in \\(S\\) and head in \\(V\\setminus S\\) is the forward directed cut induced by \\(S\\): \\[\\delta^+(S) := \\{(i,j) \\in A: i \\in S \\text{ and } j \\in V\\setminus S\\}.\\]\n\nInformally, the forward directed cut is the set of arcs that leave \\(S\\).\n\nDefinition 2.10 (Backward Cut) The backward directed cut induced by \\(S\\) is the set of arcs with tail in \\(V\\setminus S\\) and head in \\(S\\):\n\\[\\delta^-(S) := \\delta^+(V\\setminus S) = \\{(i,j) \\in A: i \\in V\\setminus S  \\text{ and } j \\in S \\}.\\]\n\nThe backward directed cut is the set of arcs entering \\(S\\).\n\nExample 2.8 Consider \\(S = \\{4, 5\\}\\) for the graph given in Figure 2.8 (a). This graph and set of nodes has forward and backward cuts \\[\n    \\delta^+(\\{4,5\\}) = \\{(4,2), (4,3), (5,1)\\}\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(\\delta^+(\\{4,5\\}) = \\{(4,2), (4,3), (5,1)\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) \\(\\delta^-(\\{4,5\\}) = \\{(2,5\\}\\)\n\n\n\n\n\n\n\nFigure 2.8: Forward and backward cuts of \\(S = \\{4,5\\}\\) is graph \\(G\\).\n\n\n\n\n2.5.1 Stars and Degrees\n\nDefinition 2.11 (Stars) Let \\(i \\in V\\). The forward and backward stars of \\(i\\) are the cuts \\[\\delta^+(\\{i\\}) \\text{ and } \\delta^-(\\{i\\})\\] respectively.\n\n\nDefinition 2.12 (Degree) The out-degree and in-degree of \\(i\\) are the number of edges with \\(i\\) as tail and head, respectively: \\[|\\delta^+(\\{i\\})| \\text{ and } |\\delta^-(\\{i\\})|.\\]\n\n:::{#exm-2-stars-degree} Consider \\(v = 3\\), i.e., \\(S = \\{v\\} = \\{3\\}\\), in the graph \\(G\\) considered in Example 2.8:\n\nThe forward star is \\(\\delta^+(\\{3\\}) = \\{(3,2)\\}\\).\n\n\n\n\n\n\n\n\n\nForward star \\(\\delta^+(\\{3\\}) = \\{(3,2)\\}\\)\n\n\n\n\n\n\n\nBackward star \\(\\delta^-(\\{3\\}) = \\{(1,3), (4,3), (5,3)\\}\\)\n\n\n\n\n\n\nFigure 2.9: Forward and backward star of \\(\\{3\\}\\) in \\(G\\). Note that \\(\\{3\\}\\) has out-degree \\(1\\) and in-degree \\(3\\).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#undirected-graphs",
+    "href": "02_Introduction_to_Graphs.html#undirected-graphs",
+    "title": "2  Introduction to Graphs",
+    "section": "2.6 Undirected Graphs",
+    "text": "2.6 Undirected Graphs\n\nDefinition 2.13 (Undirected Graphs) An undirected graph is an ordered pair \\(G := (V, E)\\) composed of\n\na set of vertices \\(V\\) \\((n = |V|)\\)\na set \\(E \\in V\n        \\times V\\) of unordered pairs called edges \\((m = |E|)\\).\n\nFor an edge \\(\\{i,j\\}\\), we call \\(i\\) and \\(j\\) its endpoints.\n\n\nExample 2.9 Consider \\(G=(V,E)\\) with \\[\n\\begin{aligned}\n    V &= \\{1,2,3,4,5\\} \\\\\nE &= \\{12, 13, 15, 23, 24, 25, 34, 35,45\\}.\n\\end{aligned}\n\\] Figure 2.10 gives a visualisation of this graph.\n\n\n\n\n\n\n\nVisualisation of graph \\(G\\) given in Example 2.9\n\n\n\n\nFigure 2.10",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#properties-of-undirected-graphs",
+    "href": "02_Introduction_to_Graphs.html#properties-of-undirected-graphs",
+    "title": "2  Introduction to Graphs",
+    "section": "2.7 Properties of Undirected Graphs",
+    "text": "2.7 Properties of Undirected Graphs\n\n2.7.1 Adjacency\nProperties ofdirected graphs generalize to undirected graphs with minor differences:\n\n\\(ij \\in E\\) is incident to both \\(i\\) and \\(j\\).\nIf \\(ij \\in E\\) then \\(i\\) and \\(j\\) are (mutually) adjacent.\nIf there is a path from \\(i\\) to \\(j\\) then \\(i\\) and \\(j\\) are (mutually) connected.\n\\(G = (V,E)\\) is complete if each pair of vertices in \\(V\\) is adjacent: \\[E = \\{\\{i,j\\}: i, j \\in V,~i\\neq j\\}.\\]\n\n\nTheorem 2.2 Every undirected graph \\(G\\) has \\(|E| \\le n(n-1)/2\\) edges.\n\n\nExample 2.10 Consider the undirected graph \\(G\\) given in Figure 2.11:\n\n\\(0\\) and \\(3\\) are adjacent because \\(\\{0,3\\} \\in E\\).\n\\(0\\) and \\(2\\) are not adjacent because \\(\\{0,2\\} \\notin E\\).\n\\(1\\) and \\(2\\) are connected. Indeed, \\(G\\) contains \\(12\\)-paths \\((1,4,3,2)\\) and \\((1,0,3,2)\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) \\(0\\) and \\(3\\) are adjacent\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(0\\) and \\(2\\) are not adjacent\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) \\(12\\)-path \\((1,4,3,2)\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) \\(12\\)-path \\((1,0,3,2)\\)\n\n\n\n\n\n\n\nFigure 2.11: Adjacency and connectivity properties of graph \\(G\\).\n\n\n\n\n\n2.7.2 Cuts, Stars, and Degree in Undirected Graphs\n\nDefinition 2.14 (Undirected Cuts) The undirected cut induced by \\(S \\subseteq V\\) is the set of edges with one end point in \\(S\\) and one in \\(V\\setminus S\\): \\[\\delta(S) := \\{ ij \\in E: i \\in S,~j\\notin S\\}.\\]\n\n\nDefinition 2.15 (Stars) The star of node \\(i \\in V\\) is the set \\(\\delta(\\{i\\})\\).\n\n\nDefinition 2.16 (Degree) The degree of \\(i \\in V\\) is the cardinality of its star: \\(|\\delta(\\{i\\})|\\).\n\n\nExample 2.11 Consider the graph given in Figure 2.12:\n\nThe cut for \\(S = \\{1,2,5\\}\\) is \\[\n  \\delta(S) = \\{01, 16, 02, 23, 24, 53, 54, 56\\}\n\\]\nThe star for node \\(3\\) is \\[\n  \\delta(\\{3\\}) = \\{23, 53, 63\\}.\n\\]\nNode \\(3\\) has degree \\(3\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Undirected graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Undirected cut \\(\\delta(S)\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) Undirected star \\(\\delta(\\{3\\})\\)\n\n\n\n\n\n\n\nFigure 2.12",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "02_Introduction_to_Graphs.html#adjacency-lists-and-matrices",
+    "href": "02_Introduction_to_Graphs.html#adjacency-lists-and-matrices",
+    "title": "2  Introduction to Graphs",
+    "section": "2.8 Adjacency Lists and Matrices",
+    "text": "2.8 Adjacency Lists and Matrices\n\nDefinition 2.17 (Adjacency Lists) An adjacency list \\(L\\) is a list of size \\(n\\) where each component \\(L(i)\\) is a list of nodes adjacent to \\(i\\):\n\n\\(L(i) = \\{j: (i,j) \\in \\delta^+(\\{i\\})\\}\\) for directed graphs;\n\\(L(i) = \\{j: \\{i,j\\} \\in \\delta(\\{i\\})\\}\\) for undirected graphs.\n\n\n\nDefinition 2.18 (Adjacency Matrices) The adjacency matrix \\(A = A(G)\\) of \\(G = (V, E)\\) is a binary matrix \\(A \\in \\{0,1\\}^{n\\times n}\\) such that \\[\na_{ij} =\n\\begin{cases} 1, & \\text{if } (i,j) \\in E, \\\\ \\\\\n    0, & (i,j) \\notin E.\n\\end{cases}\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n(a) A directed graph\n\n\n\n\n\n\n\n\n\n\n\n(b) An undirected graph\n\n\n\n\n\n\n\nFigure 2.13: Graphs for examples of adjacency lists.\n\n\n\n\nExample 2.12 Consider the directed graph given in Figure 2.13 (a).\nThis graph has the adjacency lists \\[\n\\begin{aligned}\n    L(0) &= \\{1,3\\},  &&& L(1) &= \\{3\\}, \\\\\n    L(2) &= \\{0,1\\}, &&& L(3) &= \\{0\\}.\n\\end{aligned}\n\\] Moreover, the adjacency matrix of this graph is \\[\nA =\n\\begin{pmatrix}\n0 & 1 & 0 & 1 \\\\\n0 & 0 & 0 & 1 \\\\\n1 & 1 & 0 & 0 \\\\\n1 & 0 & 0 & 0\n\\end{pmatrix}.\n\\]\n\n\nExample 2.13 Consider the directed graph given in Figure 2.13 (b).\nThis graph has adjacency lists \\[\n\\begin{aligned}\n    L(0) &= \\{1\\}, &&& L(1) &= \\{0,3\\},  &&& L(2) &= \\{4\\}\\\\\n    L(3) &= \\{1\\}, &&& L(4) &= \\{2\\}.\n\\end{aligned}\n\\] The adjacency matrix is \\[\nA =\n\\begin{pmatrix}\n0 & 1 & 0 & 0 & 0 \\\\\n1 & 0 & 0 & 1 & 0 \\\\\n0 & 0 & 0 & 0 & 1 \\\\\n0 & 1 & 0 & 0 & 0 \\\\\n0 & 0 & 1 & 0 & 0\n\\end{pmatrix}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction to Graphs</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html",
+    "href": "04_Complexity.html",
+    "title": "4  Complexity",
+    "section": "",
+    "text": "4.1 Big-\\(O\\) Notation\nBig-\\(O\\) notation captures the asymptotic behaviour of a function \\(f\\) when compared to another function \\(g\\).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#big-o-notation",
+    "href": "04_Complexity.html#big-o-notation",
+    "title": "4  Complexity",
+    "section": "",
+    "text": "Definition 4.1 (Big-\\(O\\) Notation) Given \\(f,g:\\mathbf{R}\\mapsto\\mathbf{R}\\), we say \\[f = O(g),\\] i.e., \\(f\\) is of order \\(g\\), if there are \\(n_0\\) and \\(c\\in \\mathbf{R}_+\\) such that \\[f(n) \\le c~g(n) \\hspace{0.15in} \\text{for all } n \\ge n_0.\\]\n\n\n\n4.1.1 Properties of Big-\\(O\\) Notation\nLet \\(f\\) and \\(g\\) be positive functions \\((f,g: \\mathbf{R}\\mapsto\\mathbf{R}_+)\\).\n\nIf \\(\\displaystyle \\lim_{n\\rightarrow \\infty}\n\\frac{f(n)}{g(n)}= \\ell \\in (0, \\infty)\\) then \\[\nf = O(g) \\text{  and  } g = O(f).\n\\] For example, \\(f(n) = 2n\\) and \\(g = 3n + \\sqrt{n}\\) satisfy \\(f=O(g)\\) and \\(g=O(f)\\).\nIf \\(\\displaystyle\\lim_{n\\rightarrow \\infty} \\frac{f(n)}{g(n)} = 0\\) then \\[\nf = O(g)\n        \\text{ but }\n        g \\neq O(f).\n\\] For example, \\(f(n)=n\\) and \\(g(n) = 3n^3 + 2n\\) satisfy \\(f=O(g)\\), but \\(g \\neq O(f)\\).\nMultiplicative and additive constants can be ignored: \\[\na f(n) + b = O(f(n)).\n\\] For example, \\(f(n) = 5n^2 + 2 = O(n^2)\\).\nLower order terms can be ignored: if \\(g = O(f)\\) then \\[\nf(n) + g(n) = O(f(n)).\n\\] For example, \\(6n^4 + e^n = O(e^n)\\).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#elementary-operations",
+    "href": "04_Complexity.html#elementary-operations",
+    "title": "4  Complexity",
+    "section": "4.2 Elementary Operations",
+    "text": "4.2 Elementary Operations\nWe can count the number of elementary operations or EOs carried out by an algorithm:\n\nArithmetic operations\nAccesses to memory\nWriting operations, etc.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#computational-complexity",
+    "href": "04_Complexity.html#computational-complexity",
+    "title": "4  Complexity",
+    "section": "4.3 Computational Complexity",
+    "text": "4.3 Computational Complexity\nLet \\(f_A(n)\\) and \\(f_B(n)\\) be the number of EOs required in worst case (the instance that requires the most EOs) by algorithms \\(A\\) and \\(B\\) to solve \\(P\\) with instance size \\(n\\).\n\nDefinition 4.2 We call \\(O(f_A)\\) and \\(O(f_B)\\) the computational complexity of \\(A\\) and \\(B\\). We choose \\(O(f_A)\\) and \\(O(f_B)\\) to be as small as possible.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#cobham-edmonds-thesis-1965",
+    "href": "04_Complexity.html#cobham-edmonds-thesis-1965",
+    "title": "4  Complexity",
+    "section": "4.4 Cobham-Edmonds Thesis (1965)",
+    "text": "4.4 Cobham-Edmonds Thesis (1965)\nWe say that problem \\(P\\) is tractable or well-solved if:\n\nThere is an algorithm \\(A\\) for solving \\(P\\);\n\\(A\\) has polynomial computational complexity.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#converting-eos-to-run-time",
+    "href": "04_Complexity.html#converting-eos-to-run-time",
+    "title": "4  Complexity",
+    "section": "4.4 Converting EOs to Run-Time",
+    "text": "4.4 Converting EOs to Run-Time\nIf each EO takes \\(1\\) \\(\\mu s\\) (1 microsecond):\n\n\n\n\\(n\\)\n\\(f_A(n) = n^2\\)\n\\(f_A(n) = 2^n\\)\n\n\n\n\n\\(10\\)\n\\(0.1~\\text{ms}\\)\n\\(1~\\text{ms}\\)\n\n\n\\(20\\)\n\\(0.4~\\text{ms}\\)\n\\(1.0~\\text{s}\\)\n\n\n\\(30\\)\n\\(0.9~\\text{ms}\\)\n\\(17.9\\text{ min}\\)\n\n\n\\(40\\)\n\\(1.6~\\text{ms}\\)\n\\(12.7\\text{ days}\\)\n\n\n\\(50\\)\n\\(2.5~\\text{ms}\\)\n\\(35.7\\text{ years}\\)\n\n\n\\(60\\)\n\\(3.6~\\text{ms}\\)\n\\(366\\text{ centuries}\\)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#a-comparison-of-complexity-and-scaling",
+    "href": "04_Complexity.html#a-comparison-of-complexity-and-scaling",
+    "title": "4  Complexity",
+    "section": "4.5 A Comparison of Complexity and Scaling",
+    "text": "4.5 A Comparison of Complexity and Scaling\nAssume again that each EO requires \\(1~\\mu\\text{s}\\).\nThe following figure compares how complexity scales as a function of \\(n\\) for\n\nlogarithmic,\npolynomial,\npolylogarithmic, and\nexponential functions.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#scaling-examples",
+    "href": "04_Complexity.html#scaling-examples",
+    "title": "4  Complexity",
+    "section": "4.3 Scaling Examples",
+    "text": "4.3 Scaling Examples\n\n\n\n\n\n\nFigure 4.1: Scaling of functions of \\(n\\)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#example-quadratic-equations",
+    "href": "04_Complexity.html#example-quadratic-equations",
+    "title": "4  Complexity",
+    "section": "4.4 Example: Quadratic Equations",
+    "text": "4.4 Example: Quadratic Equations\nRecall the following algorithm for solving quadratic equation \\(ax^2 + bx + c = 0\\).\nCompute u = b*b - 4*a*c\n\nCompute v = 2*a\n\nCompute w = sqrt(u)\n\nCompute x_plus = -(w - b)/v\n\nCompute x_minus = - (w + b)/v",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#section",
+    "href": "04_Complexity.html#section",
+    "title": "4  Complexity",
+    "section": "4.5 ",
+    "text": "4.5",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#example-graph-reachability",
+    "href": "04_Complexity.html#example-graph-reachability",
+    "title": "4  Complexity",
+    "section": "4.6 Example: Graph Reachability",
+    "text": "4.6 Example: Graph Reachability\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#example-graph-reachability-2",
+    "href": "04_Complexity.html#example-graph-reachability-2",
+    "title": "4  Complexity",
+    "section": "4.4 Example: Graph Reachability – 2",
+    "text": "4.4 Example: Graph Reachability – 2\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#example-graph-reachability-3",
+    "href": "04_Complexity.html#example-graph-reachability-3",
+    "title": "4  Complexity",
+    "section": "4.5 Example: Graph Reachability – 3",
+    "text": "4.5 Example: Graph Reachability – 3\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#example-graph-reachability-4",
+    "href": "04_Complexity.html#example-graph-reachability-4",
+    "title": "4  Complexity",
+    "section": "4.6 Example: Graph Reachability – 4",
+    "text": "4.6 Example: Graph Reachability – 4\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#elementary-operations-and-computational-complexity",
+    "href": "04_Complexity.html#elementary-operations-and-computational-complexity",
+    "title": "4  Complexity",
+    "section": "4.2 Elementary Operations and Computational Complexity",
+    "text": "4.2 Elementary Operations and Computational Complexity\n\n4.2.1 Computational Complexity\nWe can count the number of elementary operations or EOs carried out by an algorithm:\n\nArithmetic operations\nAccesses to memory\nWriting operations, etc.\n\nLet \\(f_A(n)\\) and \\(f_B(n)\\) be the number of EOs required in worst case (the instance that requires the most EOs) by algorithms \\(A\\) and \\(B\\) to solve \\(P\\) with instance size \\(n\\).\n\nDefinition 4.2 We call \\(O(f_A)\\) and \\(O(f_B)\\) the computational complexity of \\(A\\) and \\(B\\). We choose \\(O(f_A)\\) and \\(O(f_B)\\) to be as small as possible.\n\n\n\n4.2.2 The Cobham-Edmonds Thesis (1965)\nWe say that problem \\(P\\) is tractable or well-solved if:\n\nThere is an algorithm \\(A\\) for solving \\(P\\);\n\\(A\\) has polynomial computational complexity.\n\n\n\n4.2.3 Converting EOs and Run-Time\nIf each EO takes \\(1\\) \\(\\mu s\\) (1 microsecond):\n\n\n\n\\(n\\)\n\\(f_A(n) = n^2\\)\n\\(f_A(n) = 2^n\\)\n\n\n\n\n\\(10\\)\n\\(0.1~\\text{ms}\\)\n\\(1~\\text{ms}\\)\n\n\n\\(20\\)\n\\(0.4~\\text{ms}\\)\n\\(1.0~\\text{s}\\)\n\n\n\\(30\\)\n\\(0.9~\\text{ms}\\)\n\\(17.9\\text{ min}\\)\n\n\n\\(40\\)\n\\(1.6~\\text{ms}\\)\n\\(12.7\\text{ days}\\)\n\n\n\\(50\\)\n\\(2.5~\\text{ms}\\)\n\\(35.7\\text{ years}\\)\n\n\n\\(60\\)\n\\(3.6~\\text{ms}\\)\n\\(366\\text{ centuries}\\)\n\n\n\n\n\n4.2.4 A Comparison of Complexity and Scaling\nAssume again that each EO requires \\(1~\\mu\\text{s}\\).\nThe following figure compares how complexity scales as a function of \\(n\\) for\n\nlogarithmic,\npolynomial,\npolylogarithmic, and\nexponential functions.\n\n\n\n\n\n\n\nFigure 4.1: Scaling of functions of \\(n\\)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#the-cobham-edmonds-thesis-1965",
+    "href": "04_Complexity.html#the-cobham-edmonds-thesis-1965",
+    "title": "4  Complexity",
+    "section": "4.3 The Cobham-Edmonds Thesis (1965)",
+    "text": "4.3 The Cobham-Edmonds Thesis (1965)\nWe say that problem \\(P\\) is tractable or well-solved if:\n\nThere is an algorithm \\(A\\) for solving \\(P\\);\n\\(A\\) has polynomial computational complexity.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#example",
+    "href": "04_Complexity.html#example",
+    "title": "4  Complexity",
+    "section": "4.3 Example",
+    "text": "4.3 Example\n\n4.3.1 Complexity of Solving Quadratic Equations\nRecall the following algorithm for solving quadratic equation \\(ax^2 + bx + c = 0\\).\nCompute u = b*b - 4*a*c\n\nCompute v = 2*a\n\nCompute w = sqrt(u)\n\nCompute x_plus = -(w - b)/v\n\nCompute x_minus = - (w + b)/v\n\n\n4.3.2 Complexity of Graph Reachability\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "04_Complexity.html#examples",
+    "href": "04_Complexity.html#examples",
+    "title": "4  Complexity",
+    "section": "4.3 Examples",
+    "text": "4.3 Examples\n\n4.3.1 Complexity of Solving Quadratic Equations\nRecall the following algorithm for solving quadratic equation \\(ax^2 + bx + c = 0\\):\nCompute u = b*b - 4*a*c\n\nCompute v = 2*a\n\nCompute w = sqrt(u)\n\nCompute x_plus = -(w - b)/v\n\nCompute x_minus = - (w + b)/v\nLet’s count the number of operations used in each step of the algorithm:\n\nComputing u requires 3 products and one subtraction (4 arithmetic operations total).\nComputing v requires 1 product.\nComputing w requires 1 call to the sqrt function, which uses a finite number of arithmetic operations. Let’s treat this as 1 operation for the purposes of estimating the complexity of applying the quadratic formula.\nEach of x_plus and x_minus require 3 arithmetic operations.\n\nThe total number of arithmetic operations used by the quadratic formula is \\(12 = O(1)\\).\n\n\n4.3.2 Complexity of Graph Reachability\nLet’s analyse the complexity of the graph reachability algorithm given below:\nInitialize Q = {s} and M = {}. \n\nwhile Q != {}:\n\n    # select a node i in Q\n    Q = Q - {i} # remove i from Q.\n    \n    for j in L(i): # j is adjacent to i.\n    \n        if (j not in M) and (j not in Q):\n            Q = Q + {j} # add j to Q.\n            \n    M = M + {i} # add i to M.\nLet’s first count the number of operations need for each iteration of the algorithm:\n\nChoosing a node i in Q, removing i from Q, and adding i to M requires \\(O(1)\\) operations each.\nThe loop iterating over the adjacency list \\(L(i)\\) runs \\(|L(i)| \\le n-1\\) times. Each occurence of the loop code uses \\(O(1)\\) operations.\nWe perform \\(|Q| \\le |V| = n\\) steps of the outer-most loop.\n\nTherefore, we have the upper bound on complexity \\[\n    O(n(n-1)) = O(|E|).\n\\]\n\n4.3.2.1 An Improved Estimate\nThe steps of the inner for loop is executed for each node \\(i\\) at most once. This implies that each arc \\((i,j)\\) is explored at most once. Therefore, the steps of this loop are executed at most \\(m\\) times total.\nThis implies that the total complexity is \\[\n    O(m) + O(n) = O(m+n).\n\\] This is much smaller than the previous estimate if the graph is sparse, i.e., \\(O(m) &lt;&lt; O(n(n-1))\\).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Complexity</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Math 2014 Algorithms",
+    "section": "",
+    "text": "Preface\nThis document collects lecture notes for Math 2014 Algorithms.\nPlease follow the page navigation for each topic covered in the module.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html",
+    "href": "05a_Shortest_Paths.html",
+    "title": "3  The Shortest Path Problem",
+    "section": "",
+    "text": "3.1 Preliminaries",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#preliminaries",
+    "href": "05a_Shortest_Paths.html#preliminaries",
+    "title": "3  The Shortest Path Problem",
+    "section": "",
+    "text": "Definition 3.1 (The Shortest Path Problem – Unrestricted Lengths (SPP-U)) Given a directed graph \\(G = (V,A)\\) with:\n\ntwo nodes \\(s\\) and \\(t\\);\nlength function \\(\\ell:A\n    \\mapsto \\mathbf{R}\\) (unrestricted in sign).\n\nFind an \\((s,t)\\)-path with minimum total length.\n\n\nExample 3.1 Consider the graph given in Figure 3.1 (a). The shortest \\((1,5)\\)-path in this graph is \\((1,2,3,5)\\) with value equal to \\[\n    \\ell_{12} + \\ell_{23} + \\ell_{35} = 4 -6 -2 = -4.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n(a) A directed graph \\(G\\) with edge lengths \\(\\ell\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) The shortest \\((1,5)\\)-path\n\n\n\n\n\n\n\nFigure 3.1: The shortest \\((1,5)\\)-path in \\(G\\) is \\((1,2,3,5)\\) with length \\(-4\\).\n\n\n\n\n3.1.1 Applications\n\n3.1.1.1 Logistics and Transportation\nIn this field, we want to find \\((s,t)\\)-paths minimizing:\n\nTravel time; \\(\\ell_{ij}\\) is average time traveling along arc \\((i,j)\\).\nFuel consumption.\nLikelihood of delays; etc.\n\n\n\n3.1.1.2 Minimum Cardinality Path\nWe can find a path with minimum number of arcs by assigning \\(\\ell_{ij} = 1\\) for all \\((i,j)\\in A\\).\n\n\n3.1.1.3 Component of Other Algorithm\nSPP appears as a subproblem when solving other combinatorial optimization problems (more details later).\n\n\n\n3.1.2 Simple Paths and Cycles\n\nDefinition 3.2 An \\((s,t)\\)-path \\(P\\) is simple if it does not visit the same node twice.\n\nNote: if \\(P\\) visits the same node twice then \\(P\\) must contain at least one cycle.\n\nExample 3.2 Figure 3.2 gives an example of a simple path and a not simple path within a directed graph.\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) A simple path\n\n\n\n\n\n\n\n\n\n\n\n(c) A not-simple path\n\n\n\n\n\n\n\nFigure 3.2: Simple and not simple \\((4,5)\\)-paths in directed graph \\(G\\).\n\n\n\n\n\n\n3.1.3 Unboundedness and Negative Cycles\n\nTheorem 3.1 Suppose that \\(G\\) contains an \\((s,t)\\)-path \\(P\\) with a negative length cycle. Then SPP-U is unbounded.\n\n\nProof. Suppose that \\(C\\) is a negative length with length \\[\n    \\ell_{C} = \\sum_{ij \\in C} \\ell_{ij} &lt; 0.\n\\]\nSuppose further that \\(P\\) is an \\((s,t)\\)-path that traverses \\(C\\) exactly \\(k\\) times for some integer \\(k&gt; 0\\). That is, \\(C\\) is contained in \\(P\\) exactly \\(k\\) times.\nWe can always augment this path to get a path with strictly smaller length. Indeed, consider the path \\(\\tilde P\\) which contains all arcs of \\(P\\), but traverses \\(C\\) exactly \\(k+1\\) times. Then the length of \\(\\tilde P\\) satisfies \\[\n    \\text{length }\\tilde P = \\text{length } P + \\ell_C\n    &lt; \\text{length } P\n\\] since \\(\\ell_C &lt; 0\\).\n\n\nTheorem 3.2 If no \\((s,t)\\)-path contains a negative-length cycle, then \\(G\\) admits a simple shortest \\((s,t)\\)-path.\n\nIf no \\((s,t)\\)-path in \\(G\\) contains a negative length cycle, then we can solve the SPP-U by restricting our search to simple paths.\n\nProof. Let \\(P\\) be a shortest \\((s,t)\\)-path in \\(G\\). Let’s also assume that every cycle \\(C\\) in \\(P\\) has nonnegative length \\(\\ell_C \\ge 0\\).\nLet’s assume that \\(P\\) contains a cycle \\(C\\) starting and ending with node \\(u\\). That is, we can think of \\(P\\) as the union of the directed \\((s,u)\\)-path \\(P_{su}\\), the cycle \\(C\\), and the \\((u,t)\\)-path \\(P_{ut}\\). Let \\(\\ell^*\\) denote the value of this path.\nNow consider the \\((s,t)\\)-path given by following \\(P_{su}\\) to \\(u\\), then \\(P_{ut}\\) to \\(t\\). This is the path obtained by removing \\(C\\) from \\(P\\). This gives an \\((s,t)\\)-path with length \\[\n    \\ell^* - \\ell_C \\le \\ell^*.\n\\] Thus, removing cycle \\(C\\) from \\(P\\) does not increase the length of the path. We can repeat this process until we have obtained a simple path with minimum path length \\(\\ell^*\\), or we obtain a simple path with length strictly less than \\(\\ell^*\\) (a contradiction).\n\n\nExample 3.3 To illustrate this phenomena, consider the graph given in Figure 3.3. This graph has \\((1,5)\\)-path \\((1,2,3,4, 2,5)\\) with length \\(5\\) (assuming all arcs have length \\(1\\)). However, this path contains the cycle \\(C= (2,3,4,2)\\). Removing the cycle \\(C\\) gives the shorter \\((1,5)\\)-path \\((1,2,5)\\) (with length \\(2\\)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Path of length \\(5\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Cycle \\(C\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Path with cycle removed\n\n\n\n\n\n\n\nFigure 3.3: Illustration of the cycle removal process to obtain a shorter path.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#example",
+    "href": "05a_Shortest_Paths.html#example",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.2 Example",
+    "text": "3.2 Example\nConsider the graph below. What is the shortest \\((1,5)\\)-path?\n\n\n\n\n\n\nFigure 3.1: A directed graph \\(G\\) with edge lengths \\(\\ell\\)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#applications",
+    "href": "05a_Shortest_Paths.html#applications",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.2 Applications",
+    "text": "3.2 Applications\nLogistics/Transportation: Find \\((s,t)\\)-path minimizing:\n\nTravel time; \\(\\ell_{ij}\\) is average time traveling along arc \\((i,j)\\).\nFuel consumption.\nLikelihood of delays; etc.\n\n\nFind a path with minimum number of arcs by assigning \\(\\ell_{ij} = 1\\) for all \\((i,j)\\in A\\).\n\n\nSPP appears as a subproblem when solving other combinatorial optimization problems (more details later).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#simple-paths-and-cycles",
+    "href": "05a_Shortest_Paths.html#simple-paths-and-cycles",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.3 Simple Paths and Cycles",
+    "text": "3.3 Simple Paths and Cycles\n\nDefinition 3.2 An \\(st\\)-path \\(P\\) is simple if it does not visit the same node twice.\n\nNote: if \\(P\\) visits the same node twice then \\(P\\) must contain at least one cycle.\n\n\n\n\n\n\n\n\n\n\n\n(a) A simple path\n\n\n\n\n\n\n\n\n\n\n\n(b) A not-simple path\n\n\n\n\n\n\n\nFigure 3.2: Simple and not simple paths in a directed graph \\(G\\).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#unboundedness-of-spp",
+    "href": "05a_Shortest_Paths.html#unboundedness-of-spp",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.2 Unboundedness of SPP",
+    "text": "3.2 Unboundedness of SPP\n\nTheorem 3.1 Suppose that \\(G\\) contains an \\((s,t)\\)-path \\(P\\) with a negative length cycle. Then SPP-U is unbounded.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section",
+    "href": "05a_Shortest_Paths.html#section",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.2 ",
+    "text": "3.2",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section-1",
+    "href": "05a_Shortest_Paths.html#section-1",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.3 ",
+    "text": "3.3",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section-2",
+    "href": "05a_Shortest_Paths.html#section-2",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.5 ",
+    "text": "3.5",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#solvability-of-spp-u",
+    "href": "05a_Shortest_Paths.html#solvability-of-spp-u",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.2 Solvability of SPP-U",
+    "text": "3.2 Solvability of SPP-U\n\nTheorem 3.2 If no \\((s,t)\\)-path contains a negative-length cycle, then \\(G\\) admits a simple shortest \\((s,t)\\)-path.\n\n\n\nIf no \\((s,t)\\)-path in \\(G\\) contains a negative length cycle, then we can solve the SPP-U by restricting our search to simple paths.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section-3",
+    "href": "05a_Shortest_Paths.html#section-3",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.6 ",
+    "text": "3.6",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section-4",
+    "href": "05a_Shortest_Paths.html#section-4",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.8 ",
+    "text": "3.8",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#removing-cycles",
+    "href": "05a_Shortest_Paths.html#removing-cycles",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.4 Removing Cycles",
+    "text": "3.4 Removing Cycles\n\nExample 3.2 This graph has \\((1,5)\\)-path \\((1,2,3,4, 2,5)\\) with length \\(5\\) (assuming all arcs have length \\(1\\)).\n\n\n\n\n\n\n\nFigure 3.3: Graph with \\((1,5)\\)-path of length \\(5\\)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section-5",
+    "href": "05a_Shortest_Paths.html#section-5",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.10 ",
+    "text": "3.10",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05a_Shortest_Paths.html#section-6",
+    "href": "05a_Shortest_Paths.html#section-6",
+    "title": "3  The Shortest Path Problem",
+    "section": "3.11 ",
+    "text": "3.11",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  }
+]
