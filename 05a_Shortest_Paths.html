@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Math 2014 Algorithms - 3&nbsp; The Shortest Path Problem</title>
+<title>Math 2014 Algorithms - 5&nbsp; The Shortest Path Problem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02_Introduction_to_Graphs.html" rel="prev">
+<link href="./04_Complexity.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -109,7 +109,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05a_Shortest_Paths.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05a_Shortest_Paths.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -154,8 +154,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./03_Reachability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graph Reachability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Complexity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./05a_Shortest_Paths.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span></a>
   </div>
 </li>
     </ul>
@@ -168,11 +180,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries"><span class="header-section-number">3.1</span> Preliminaries</a>
+  <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries"><span class="header-section-number">5.1</span> Preliminaries</a>
   <ul class="collapse">
-  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications"><span class="header-section-number">3.1.1</span> Applications</a></li>
-  <li><a href="#simple-paths-and-cycles" id="toc-simple-paths-and-cycles" class="nav-link" data-scroll-target="#simple-paths-and-cycles"><span class="header-section-number">3.1.2</span> Simple Paths and Cycles</a></li>
-  <li><a href="#unboundedness-and-negative-cycles" id="toc-unboundedness-and-negative-cycles" class="nav-link" data-scroll-target="#unboundedness-and-negative-cycles"><span class="header-section-number">3.1.3</span> Unboundedness and Negative Cycles</a></li>
+  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications"><span class="header-section-number">5.1.1</span> Applications</a></li>
+  <li><a href="#simple-paths-and-cycles" id="toc-simple-paths-and-cycles" class="nav-link" data-scroll-target="#simple-paths-and-cycles"><span class="header-section-number">5.1.2</span> Simple Paths and Cycles</a></li>
+  <li><a href="#unboundedness-and-negative-cycles" id="toc-unboundedness-and-negative-cycles" class="nav-link" data-scroll-target="#unboundedness-and-negative-cycles"><span class="header-section-number">5.1.3</span> Unboundedness and Negative Cycles</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -182,7 +194,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></h1>
 </div>
 
 
@@ -199,10 +211,10 @@ window.Quarto = {
 </header>
 
 
-<section id="preliminaries" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">3.1</span> Preliminaries</h2>
+<section id="preliminaries" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">5.1</span> Preliminaries</h2>
 <div id="def-sppu" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.1 (The Shortest Path Problem – Unrestricted Lengths (SPP-U))</strong></span> Given a <strong>directed graph</strong> <span class="math inline">\(G = (V,A)\)</span> with:</p>
+<p><span class="theorem-title"><strong>Definition 5.1 (The Shortest Path Problem – Unrestricted Lengths (SPP-U))</strong></span> Given a <strong>directed graph</strong> <span class="math inline">\(G = (V,A)\)</span> with:</p>
 <ul>
 <li><p>two nodes <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span>;</p></li>
 <li><p><strong>length function</strong> <span class="math inline">\(\ell:A
@@ -211,7 +223,7 @@ window.Quarto = {
 <p>Find an <span class="math inline">\((s,t)\)</span>-path with <strong>minimum total length</strong>.</p>
 </div>
 <div id="exm-5-15path" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.1</strong></span> Consider the graph given in <a href="#fig-5-sppu-ex" class="quarto-xref">Figure&nbsp;<span>3.1 (a)</span></a>. The shortest <span class="math inline">\((1,5)\)</span>-path in this graph is <span class="math inline">\((1,2,3,5)\)</span> with value equal to <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 5.1</strong></span> Consider the graph given in <a href="#fig-5-sppu-ex" class="quarto-xref">Figure&nbsp;<span>5.1 (a)</span></a>. The shortest <span class="math inline">\((1,5)\)</span>-path in this graph is <span class="math inline">\((1,2,3,5)\)</span> with value equal to <span class="math display">\[
     \ell_{12} + \ell_{23} + \ell_{35} = 4 -6 -2 = -4.
 \]</span></p>
 </div>
@@ -246,14 +258,14 @@ window.Quarto = {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-path-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.1: The shortest <span class="math inline">\((1,5)\)</span>-path in <span class="math inline">\(G\)</span> is <span class="math inline">\((1,2,3,5)\)</span> with length <span class="math inline">\(-4\)</span>.
+Figure&nbsp;5.1: The shortest <span class="math inline">\((1,5)\)</span>-path in <span class="math inline">\(G\)</span> is <span class="math inline">\((1,2,3,5)\)</span> with length <span class="math inline">\(-4\)</span>.
 </figcaption>
 </figure>
 </div>
-<section id="applications" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="applications"><span class="header-section-number">3.1.1</span> Applications</h3>
-<section id="logistics-and-transportation" class="level4" data-number="3.1.1.1">
-<h4 data-number="3.1.1.1" class="anchored" data-anchor-id="logistics-and-transportation"><span class="header-section-number">3.1.1.1</span> Logistics and Transportation</h4>
+<section id="applications" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="applications"><span class="header-section-number">5.1.1</span> Applications</h3>
+<section id="logistics-and-transportation" class="level4" data-number="5.1.1.1">
+<h4 data-number="5.1.1.1" class="anchored" data-anchor-id="logistics-and-transportation"><span class="header-section-number">5.1.1.1</span> Logistics and Transportation</h4>
 <p>In this field, we want to find <span class="math inline">\((s,t)\)</span>-paths minimizing:</p>
 <ul>
 <li><p>Travel time; <span class="math inline">\(\ell_{ij}\)</span> is average time traveling along arc <span class="math inline">\((i,j)\)</span>.</p></li>
@@ -261,23 +273,23 @@ Figure&nbsp;3.1: The shortest <span class="math inline">\((1,5)\)</span>-path in
 <li><p>Likelihood of delays; etc.</p></li>
 </ul>
 </section>
-<section id="minimum-cardinality-path" class="level4" data-number="3.1.1.2">
-<h4 data-number="3.1.1.2" class="anchored" data-anchor-id="minimum-cardinality-path"><span class="header-section-number">3.1.1.2</span> Minimum Cardinality Path</h4>
+<section id="minimum-cardinality-path" class="level4" data-number="5.1.1.2">
+<h4 data-number="5.1.1.2" class="anchored" data-anchor-id="minimum-cardinality-path"><span class="header-section-number">5.1.1.2</span> Minimum Cardinality Path</h4>
 <p>We can find a path with <strong>minimum number of arcs</strong> by assigning <span class="math inline">\(\ell_{ij} = 1\)</span> for all <span class="math inline">\((i,j)\in A\)</span>.</p>
 </section>
-<section id="component-of-other-algorithm" class="level4" data-number="3.1.1.3">
-<h4 data-number="3.1.1.3" class="anchored" data-anchor-id="component-of-other-algorithm"><span class="header-section-number">3.1.1.3</span> Component of Other Algorithm</h4>
+<section id="component-of-other-algorithm" class="level4" data-number="5.1.1.3">
+<h4 data-number="5.1.1.3" class="anchored" data-anchor-id="component-of-other-algorithm"><span class="header-section-number">5.1.1.3</span> Component of Other Algorithm</h4>
 <p><strong>SPP</strong> appears as a <strong>subproblem</strong> when solving other combinatorial optimization problems (more details later).</p>
 </section>
 </section>
-<section id="simple-paths-and-cycles" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="simple-paths-and-cycles"><span class="header-section-number">3.1.2</span> Simple Paths and Cycles</h3>
+<section id="simple-paths-and-cycles" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="simple-paths-and-cycles"><span class="header-section-number">5.1.2</span> Simple Paths and Cycles</h3>
 <div id="def-5-simple-path" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.2</strong></span> An <span class="math inline">\((s,t)\)</span>-path <span class="math inline">\(P\)</span> is <strong>simple</strong> if it does not visit the same node twice.</p>
+<p><span class="theorem-title"><strong>Definition 5.2</strong></span> An <span class="math inline">\((s,t)\)</span>-path <span class="math inline">\(P\)</span> is <strong>simple</strong> if it does not visit the same node twice.</p>
 </div>
 <p><strong>Note:</strong> if <span class="math inline">\(P\)</span> visits the same node twice then <span class="math inline">\(P\)</span> must contain at least one cycle.</p>
 <div id="exm-5-simple-paths" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.2</strong></span> <a href="#fig-5-simple-paths" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> gives an example of a simple path and a not simple path within a directed graph.</p>
+<p><span class="theorem-title"><strong>Example 5.2</strong></span> <a href="#fig-5-simple-paths" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> gives an example of a simple path and a not simple path within a directed graph.</p>
 <div id="fig-5-simple-paths" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-5-simple-paths-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -321,16 +333,16 @@ Figure&nbsp;3.1: The shortest <span class="math inline">\((1,5)\)</span>-path in
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-simple-paths-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: Simple and not simple <span class="math inline">\((4,5)\)</span>-paths in directed graph <span class="math inline">\(G\)</span>.
+Figure&nbsp;5.2: Simple and not simple <span class="math inline">\((4,5)\)</span>-paths in directed graph <span class="math inline">\(G\)</span>.
 </figcaption>
 </figure>
 </div>
 </div>
 </section>
-<section id="unboundedness-and-negative-cycles" class="level3" data-number="3.1.3">
-<h3 data-number="3.1.3" class="anchored" data-anchor-id="unboundedness-and-negative-cycles"><span class="header-section-number">3.1.3</span> Unboundedness and Negative Cycles</h3>
+<section id="unboundedness-and-negative-cycles" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="unboundedness-and-negative-cycles"><span class="header-section-number">5.1.3</span> Unboundedness and Negative Cycles</h3>
 <div id="thm-neg-cycle" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.1</strong></span> Suppose that <span class="math inline">\(G\)</span> contains an <span class="math inline">\((s,t)\)</span>-path <span class="math inline">\(P\)</span> with a <strong>negative length cycle</strong>. Then <strong>SPP-U</strong> is <strong>unbounded</strong>.</p>
+<p><span class="theorem-title"><strong>Theorem 5.1</strong></span> Suppose that <span class="math inline">\(G\)</span> contains an <span class="math inline">\((s,t)\)</span>-path <span class="math inline">\(P\)</span> with a <strong>negative length cycle</strong>. Then <strong>SPP-U</strong> is <strong>unbounded</strong>.</p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>Suppose that <span class="math inline">\(C\)</span> is a negative length with length <span class="math display">\[
@@ -343,7 +355,7 @@ Figure&nbsp;3.2: Simple and not simple <span class="math inline">\((4,5)\)</span
 \]</span> since <span class="math inline">\(\ell_C &lt; 0\)</span>.</p>
 </div>
 <div id="thm-solvability-of-SPPU" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.2</strong></span> If no <span class="math inline">\((s,t)\)</span>-path contains a negative-length cycle, then <span class="math inline">\(G\)</span> admits a <strong>simple shortest <span class="math inline">\((s,t)\)</span>-path</strong>.</p>
+<p><span class="theorem-title"><strong>Theorem 5.2</strong></span> If no <span class="math inline">\((s,t)\)</span>-path contains a negative-length cycle, then <span class="math inline">\(G\)</span> admits a <strong>simple shortest <span class="math inline">\((s,t)\)</span>-path</strong>.</p>
 </div>
 <p>If no <span class="math inline">\((s,t)\)</span>-path in <span class="math inline">\(G\)</span> contains a negative length cycle, then we can solve the <strong>SPP-U</strong> by restricting our search to simple paths.</p>
 <div class="proof">
@@ -354,7 +366,7 @@ Figure&nbsp;3.2: Simple and not simple <span class="math inline">\((4,5)\)</span
 \]</span> Thus, removing cycle <span class="math inline">\(C\)</span> from <span class="math inline">\(P\)</span> does not increase the length of the path. We can repeat this process until we have obtained a simple path with minimum path length <span class="math inline">\(\ell^*\)</span>, or we obtain a simple path with length strictly less than <span class="math inline">\(\ell^*\)</span> (a contradiction).</p>
 </div>
 <div id="exm-5-remove-cycles" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.3</strong></span> To illustrate this phenomena, consider the graph given in <a href="#fig-5-remove-cycle" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>. This graph has <span class="math inline">\((1,5)\)</span>-path <span class="math inline">\((1,2,3,4, 2,5)\)</span> with length <span class="math inline">\(5\)</span> (assuming all arcs have length <span class="math inline">\(1\)</span>). However, this path contains the cycle <span class="math inline">\(C= (2,3,4,2)\)</span>. Removing the cycle <span class="math inline">\(C\)</span> gives the shorter <span class="math inline">\((1,5)\)</span>-path <span class="math inline">\((1,2,5)\)</span> (with length <span class="math inline">\(2\)</span>).</p>
+<p><span class="theorem-title"><strong>Example 5.3</strong></span> To illustrate this phenomena, consider the graph given in <a href="#fig-5-remove-cycle" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>. This graph has <span class="math inline">\((1,5)\)</span>-path <span class="math inline">\((1,2,3,4, 2,5)\)</span> with length <span class="math inline">\(5\)</span> (assuming all arcs have length <span class="math inline">\(1\)</span>). However, this path contains the cycle <span class="math inline">\(C= (2,3,4,2)\)</span>. Removing the cycle <span class="math inline">\(C\)</span> gives the shorter <span class="math inline">\((1,5)\)</span>-path <span class="math inline">\((1,2,5)\)</span> (with length <span class="math inline">\(2\)</span>).</p>
 </div>
 <div id="fig-5-remove-cycle" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -413,7 +425,7 @@ Figure&nbsp;3.2: Simple and not simple <span class="math inline">\((4,5)\)</span
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-remove-cycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.3: Illustration of the cycle removal process to obtain a shorter path.
+Figure&nbsp;5.3: Illustration of the cycle removal process to obtain a shorter path.
 </figcaption>
 </figure>
 </div>
@@ -834,8 +846,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02_Introduction_to_Graphs.html" class="pagination-link" aria-label="Introduction to Graphs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Graphs</span></span>
+      <a href="./04_Complexity.html" class="pagination-link" aria-label="Complexity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Complexity</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

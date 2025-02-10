@@ -14,7 +14,7 @@
     "href": "03_Reachability.html#the-graph-reachability-problem",
     "title": "3  Graph Reachability",
     "section": "",
-    "text": "Definition 3.1 (The Graph Reachability Problem) Given a directed graph \\(G = (V,A)\\) and a node \\(s\\). Find the set \\(M\\) of all nodes that are reachable from \\(s:\\)\n\ni.e., all nodes that are connected to \\(s\\).\n\n\n\nExample 3.1 Consider the graph \\(G\\) given in Figure 4.1 (a). The set of reachable nodes from \\(s=1\\) is \\(M = \\{1,2,4,5\\}\\) (see Figure 4.1 (b)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Directed graph \\(G\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(M = \\{1,2,4,5\\}\\) for \\(s=1\\).\n\n\n\n\n\n\n\nFigure 3.1: Graph \\(G\\) and reachable set \\(M\\) from node \\(s=1\\).",
+    "text": "Definition 3.1 (The Graph Reachability Problem) Given a directed graph \\(G = (V,A)\\) and a node \\(s\\). Find the set \\(M\\) of all nodes that are reachable from \\(s:\\)\n\ni.e., all nodes that are connected to \\(s\\).\n\n\n\nExample 3.1 Consider the graph \\(G\\) given in Figure 4 (a). The set of reachable nodes from \\(s=1\\) is \\(M = \\{1,2,4,5\\}\\) (see Figure 4 (b)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Directed graph \\(G\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(M = \\{1,2,4,5\\}\\) for \\(s=1\\).\n\n\n\n\n\n\n\nFigure 3.1: Graph \\(G\\) and reachable set \\(M\\) from node \\(s=1\\).",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
     ]
@@ -34,7 +34,7 @@
     "href": "03_Reachability.html#illustration-of-idea",
     "title": "3  Graph Reachability",
     "section": "3.3 Illustration of Idea",
-    "text": "3.3 Illustration of Idea\nLet’s apply this idea for the graph \\(G\\) given in Figure 4.1 (a) with source node \\(s = 1\\).\n\n3.3.1 Step 1\nThe forward star of \\(s\\) is \\[\n    \\delta^+(\\{1\\}) = \\{(1,2), (1,4)\\}.\n\\] This implies that \\(2\\) and \\(4\\) are both reachable from \\(1\\). That is, \\(M\\) contains \\(\\{1,2,4\\}\\). See Figure 4.1 (a).\n\n\n3.3.2 Step 2\nWe need to explore further from nodes \\(2\\) and \\(4\\). Let’s start with \\(2\\). The only node adjacent to \\(2\\) is node \\(5\\). We can conclude that \\(M\\) contains \\(\\{1,2,4,5\\}\\). See Figure 4.1 (b).\n\n\n3.3.3 Step 3\nLet’s explore from node \\(4\\): \\(2\\) is the only node adjacent to \\(4\\). Our partially computed reachable set \\(M\\) is unchanged. See Figure 4.1 (c).\n\n\n3.3.4 Step 4\nWe haven’t explored from node \\(5\\) yet. Let’s do that now. The only arc incident with \\(5\\) is \\((5,4)\\). Thus, \\(4\\) is adjacent to \\(5\\) and, hence, reachable from \\(1\\). We already knew that \\(4\\) is in \\(M\\), so \\(M\\) is unchanged. See Figure 4.1 (d).\n\n\n3.3.5 Step 5\nWe have a choice of nodes to explore from: \\(\\{2, 4, 5\\}\\). We have already explored each of these nodes and appear to be stuck in a loop. Can we conclude that \\(M = \\{1,2,4,5\\}\\)?\n\n\n\n\n\n\n\n\n\n\n\n(a) Step 1: \\(M \\supseteq \\{1,2,4\\}\\) so far\n\n\n\n\n\n\n\n\n\n\n\n(b) Step 2: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Step 3: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Step 4: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\nFigure 3.2: Steps of the intuitive reachability process. We need to revise the algorithm to decide when to terminate.",
+    "text": "3.3 Illustration of Idea\nLet’s apply this idea for the graph \\(G\\) given in Figure 4 (a) with source node \\(s = 1\\).\n\n3.3.1 Step 1\nThe forward star of \\(s\\) is \\[\n    \\delta^+(\\{1\\}) = \\{(1,2), (1,4)\\}.\n\\] This implies that \\(2\\) and \\(4\\) are both reachable from \\(1\\). That is, \\(M\\) contains \\(\\{1,2,4\\}\\). See Figure 4 (a).\n\n\n3.3.2 Step 2\nWe need to explore further from nodes \\(2\\) and \\(4\\). Let’s start with \\(2\\). The only node adjacent to \\(2\\) is node \\(5\\). We can conclude that \\(M\\) contains \\(\\{1,2,4,5\\}\\). See Figure 4 (b).\n\n\n3.3.3 Step 3\nLet’s explore from node \\(4\\): \\(2\\) is the only node adjacent to \\(4\\). Our partially computed reachable set \\(M\\) is unchanged. See Figure 4 (c).\n\n\n3.3.4 Step 4\nWe haven’t explored from node \\(5\\) yet. Let’s do that now. The only arc incident with \\(5\\) is \\((5,4)\\). Thus, \\(4\\) is adjacent to \\(5\\) and, hence, reachable from \\(1\\). We already knew that \\(4\\) is in \\(M\\), so \\(M\\) is unchanged. See Figure 4 (d).\n\n\n3.3.5 Step 5\nWe have a choice of nodes to explore from: \\(\\{2, 4, 5\\}\\). We have already explored each of these nodes and appear to be stuck in a loop. Can we conclude that \\(M = \\{1,2,4,5\\}\\)?\n\n\n\n\n\n\n\n\n\n\n\n(a) Step 1: \\(M \\supseteq \\{1,2,4\\}\\) so far\n\n\n\n\n\n\n\n\n\n\n\n(b) Step 2: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Step 3: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Step 4: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\nFigure 3.2: Steps of the intuitive reachability process. We need to revise the algorithm to decide when to terminate.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
     ]
@@ -54,7 +54,7 @@
     "href": "03_Reachability.html#returning-to-the-example",
     "title": "3  Graph Reachability",
     "section": "3.5 Returning to the Example",
-    "text": "3.5 Returning to the Example\nLet’s consider the graph \\(G\\) given in Figure 4.1 (a) and apply the algorithm to find the set of nodes reachable from \\(s=1\\).\n\n3.5.1 Iteration 1\nWe initialize \\(Q\\) and \\(M\\) as \\[\n    Q = \\{1\\}, \\hspace{0.25in}\n    M = \\emptyset.\n\\] Let’s explore node \\(1\\):\n\nNode 1 has adjacency list \\(L(1) = \\{2,4\\}\\).\nLet’s add {2,4} to \\(Q\\).\nSince we have explored node \\(1\\), we remove \\(1\\) from \\(Q\\) and add \\(1\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.3: Iteration 1: Explore node \\(1\\)\n\n\n\n\n\n3.5.2 Iteration 2\nAfter the first iteration, we have\n\\[\n    Q = \\{2, 4\\}, \\hspace{0.25in}\n    M = \\{1\\}.\n\\]\nWe can continue from node \\(2\\) or node \\(4\\). Let’s explore node \\(2\\):\n\n\\(L(2) = \\{5\\}\\).\nAdd \\(5\\) to \\(Q\\).\nRemove \\(2\\) from \\(Q\\) and add \\(2\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.4: Iteration 2: Explore node \\(2\\)\n\n\n\n\n\n3.5.3 Iteration 3\nWe now have \\[\n    Q = \\{4, 5\\}, \\hspace{0.25in}\n    M = \\{1, 2\\}.\n\\]\nLet’s explore node \\(4\\):\n\n\\(L(4) = \\{2\\}\\).\nWe already have \\(2 \\in M\\); we do not add \\(2\\) to \\(Q\\).\nWe remove \\(4\\) from \\(Q\\) and add \\(4\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.5: Iteration 3: Explore node \\(4\\)\n\n\n\n\n\n3.5.4 Iteration 4\nAfter the first three iterations, we have \\[\n    Q = \\{5\\}, \\hspace{0.25in}\n    M = \\{1, 2, 4\\}.\n\\]\nExploring node \\(5\\), we note:\n\n\\(L(5) = 4\\).\nSince \\(4 \\in M\\) already, we move \\(5\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.6: Iteration 4: Explore node \\(5\\)\n\n\n\n\n\n3.5.5 Iteration 5 – Termination\nAt this stage \\(Q\\) is empty, so we cannot proceed. We conclude that \\(M = \\{1,2,4,5\\}\\)!",
+    "text": "3.5 Returning to the Example\nLet’s consider the graph \\(G\\) given in Figure 4 (a) and apply the algorithm to find the set of nodes reachable from \\(s=1\\).\n\n3.5.1 Iteration 1\nWe initialize \\(Q\\) and \\(M\\) as \\[\n    Q = \\{1\\}, \\hspace{0.25in}\n    M = \\emptyset.\n\\] Let’s explore node \\(1\\):\n\nNode 1 has adjacency list \\(L(1) = \\{2,4\\}\\).\nLet’s add {2,4} to \\(Q\\).\nSince we have explored node \\(1\\), we remove \\(1\\) from \\(Q\\) and add \\(1\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.3: Iteration 1: Explore node \\(1\\)\n\n\n\n\n\n3.5.2 Iteration 2\nAfter the first iteration, we have\n\\[\n    Q = \\{2, 4\\}, \\hspace{0.25in}\n    M = \\{1\\}.\n\\]\nWe can continue from node \\(2\\) or node \\(4\\). Let’s explore node \\(2\\):\n\n\\(L(2) = \\{5\\}\\).\nAdd \\(5\\) to \\(Q\\).\nRemove \\(2\\) from \\(Q\\) and add \\(2\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.4: Iteration 2: Explore node \\(2\\)\n\n\n\n\n\n3.5.3 Iteration 3\nWe now have \\[\n    Q = \\{4, 5\\}, \\hspace{0.25in}\n    M = \\{1, 2\\}.\n\\]\nLet’s explore node \\(4\\):\n\n\\(L(4) = \\{2\\}\\).\nWe already have \\(2 \\in M\\); we do not add \\(2\\) to \\(Q\\).\nWe remove \\(4\\) from \\(Q\\) and add \\(4\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.5: Iteration 3: Explore node \\(4\\)\n\n\n\n\n\n3.5.4 Iteration 4\nAfter the first three iterations, we have \\[\n    Q = \\{5\\}, \\hspace{0.25in}\n    M = \\{1, 2, 4\\}.\n\\]\nExploring node \\(5\\), we note:\n\n\\(L(5) = 4\\).\nSince \\(4 \\in M\\) already, we move \\(5\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.6: Iteration 4: Explore node \\(5\\)\n\n\n\n\n\n3.5.5 Iteration 5 – Termination\nAt this stage \\(Q\\) is empty, so we cannot proceed. We conclude that \\(M = \\{1,2,4,5\\}\\)!",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
     ]
@@ -402,21 +402,21 @@
   {
     "objectID": "05a_Shortest_Paths.html",
     "href": "05a_Shortest_Paths.html",
-    "title": "3  The Shortest Path Problem",
+    "title": "5  The Shortest Path Problem",
     "section": "",
-    "text": "3.1 Preliminaries",
+    "text": "5.1 Preliminaries",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
     ]
   },
   {
     "objectID": "05a_Shortest_Paths.html#preliminaries",
     "href": "05a_Shortest_Paths.html#preliminaries",
-    "title": "3  The Shortest Path Problem",
+    "title": "5  The Shortest Path Problem",
     "section": "",
-    "text": "Definition 3.1 (The Shortest Path Problem – Unrestricted Lengths (SPP-U)) Given a directed graph \\(G = (V,A)\\) with:\n\ntwo nodes \\(s\\) and \\(t\\);\nlength function \\(\\ell:A\n    \\mapsto \\mathbf{R}\\) (unrestricted in sign).\n\nFind an \\((s,t)\\)-path with minimum total length.\n\n\nExample 3.1 Consider the graph given in Figure 3.1 (a). The shortest \\((1,5)\\)-path in this graph is \\((1,2,3,5)\\) with value equal to \\[\n    \\ell_{12} + \\ell_{23} + \\ell_{35} = 4 -6 -2 = -4.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n(a) A directed graph \\(G\\) with edge lengths \\(\\ell\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) The shortest \\((1,5)\\)-path\n\n\n\n\n\n\n\nFigure 3.1: The shortest \\((1,5)\\)-path in \\(G\\) is \\((1,2,3,5)\\) with length \\(-4\\).\n\n\n\n\n3.1.1 Applications\n\n3.1.1.1 Logistics and Transportation\nIn this field, we want to find \\((s,t)\\)-paths minimizing:\n\nTravel time; \\(\\ell_{ij}\\) is average time traveling along arc \\((i,j)\\).\nFuel consumption.\nLikelihood of delays; etc.\n\n\n\n3.1.1.2 Minimum Cardinality Path\nWe can find a path with minimum number of arcs by assigning \\(\\ell_{ij} = 1\\) for all \\((i,j)\\in A\\).\n\n\n3.1.1.3 Component of Other Algorithm\nSPP appears as a subproblem when solving other combinatorial optimization problems (more details later).\n\n\n\n3.1.2 Simple Paths and Cycles\n\nDefinition 3.2 An \\((s,t)\\)-path \\(P\\) is simple if it does not visit the same node twice.\n\nNote: if \\(P\\) visits the same node twice then \\(P\\) must contain at least one cycle.\n\nExample 3.2 Figure 3.2 gives an example of a simple path and a not simple path within a directed graph.\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) A simple path\n\n\n\n\n\n\n\n\n\n\n\n(c) A not-simple path\n\n\n\n\n\n\n\nFigure 3.2: Simple and not simple \\((4,5)\\)-paths in directed graph \\(G\\).\n\n\n\n\n\n\n3.1.3 Unboundedness and Negative Cycles\n\nTheorem 3.1 Suppose that \\(G\\) contains an \\((s,t)\\)-path \\(P\\) with a negative length cycle. Then SPP-U is unbounded.\n\n\nProof. Suppose that \\(C\\) is a negative length with length \\[\n    \\ell_{C} = \\sum_{ij \\in C} \\ell_{ij} &lt; 0.\n\\]\nSuppose further that \\(P\\) is an \\((s,t)\\)-path that traverses \\(C\\) exactly \\(k\\) times for some integer \\(k&gt; 0\\). That is, \\(C\\) is contained in \\(P\\) exactly \\(k\\) times.\nWe can always augment this path to get a path with strictly smaller length. Indeed, consider the path \\(\\tilde P\\) which contains all arcs of \\(P\\), but traverses \\(C\\) exactly \\(k+1\\) times. Then the length of \\(\\tilde P\\) satisfies \\[\n    \\text{length }\\tilde P = \\text{length } P + \\ell_C\n    &lt; \\text{length } P\n\\] since \\(\\ell_C &lt; 0\\).\n\n\nTheorem 3.2 If no \\((s,t)\\)-path contains a negative-length cycle, then \\(G\\) admits a simple shortest \\((s,t)\\)-path.\n\nIf no \\((s,t)\\)-path in \\(G\\) contains a negative length cycle, then we can solve the SPP-U by restricting our search to simple paths.\n\nProof. Let \\(P\\) be a shortest \\((s,t)\\)-path in \\(G\\). Let’s also assume that every cycle \\(C\\) in \\(P\\) has nonnegative length \\(\\ell_C \\ge 0\\).\nLet’s assume that \\(P\\) contains a cycle \\(C\\) starting and ending with node \\(u\\). That is, we can think of \\(P\\) as the union of the directed \\((s,u)\\)-path \\(P_{su}\\), the cycle \\(C\\), and the \\((u,t)\\)-path \\(P_{ut}\\). Let \\(\\ell^*\\) denote the value of this path.\nNow consider the \\((s,t)\\)-path given by following \\(P_{su}\\) to \\(u\\), then \\(P_{ut}\\) to \\(t\\). This is the path obtained by removing \\(C\\) from \\(P\\). This gives an \\((s,t)\\)-path with length \\[\n    \\ell^* - \\ell_C \\le \\ell^*.\n\\] Thus, removing cycle \\(C\\) from \\(P\\) does not increase the length of the path. We can repeat this process until we have obtained a simple path with minimum path length \\(\\ell^*\\), or we obtain a simple path with length strictly less than \\(\\ell^*\\) (a contradiction).\n\n\nExample 3.3 To illustrate this phenomena, consider the graph given in Figure 3.3. This graph has \\((1,5)\\)-path \\((1,2,3,4, 2,5)\\) with length \\(5\\) (assuming all arcs have length \\(1\\)). However, this path contains the cycle \\(C= (2,3,4,2)\\). Removing the cycle \\(C\\) gives the shorter \\((1,5)\\)-path \\((1,2,5)\\) (with length \\(2\\)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Path of length \\(5\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Cycle \\(C\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Path with cycle removed\n\n\n\n\n\n\n\nFigure 3.3: Illustration of the cycle removal process to obtain a shorter path.",
+    "text": "Definition 5.1 (The Shortest Path Problem – Unrestricted Lengths (SPP-U)) Given a directed graph \\(G = (V,A)\\) with:\n\ntwo nodes \\(s\\) and \\(t\\);\nlength function \\(\\ell:A\n    \\mapsto \\mathbf{R}\\) (unrestricted in sign).\n\nFind an \\((s,t)\\)-path with minimum total length.\n\n\nExample 5.1 Consider the graph given in Figure 5.1 (a). The shortest \\((1,5)\\)-path in this graph is \\((1,2,3,5)\\) with value equal to \\[\n    \\ell_{12} + \\ell_{23} + \\ell_{35} = 4 -6 -2 = -4.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n(a) A directed graph \\(G\\) with edge lengths \\(\\ell\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) The shortest \\((1,5)\\)-path\n\n\n\n\n\n\n\nFigure 5.1: The shortest \\((1,5)\\)-path in \\(G\\) is \\((1,2,3,5)\\) with length \\(-4\\).\n\n\n\n\n5.1.1 Applications\n\n5.1.1.1 Logistics and Transportation\nIn this field, we want to find \\((s,t)\\)-paths minimizing:\n\nTravel time; \\(\\ell_{ij}\\) is average time traveling along arc \\((i,j)\\).\nFuel consumption.\nLikelihood of delays; etc.\n\n\n\n5.1.1.2 Minimum Cardinality Path\nWe can find a path with minimum number of arcs by assigning \\(\\ell_{ij} = 1\\) for all \\((i,j)\\in A\\).\n\n\n5.1.1.3 Component of Other Algorithm\nSPP appears as a subproblem when solving other combinatorial optimization problems (more details later).\n\n\n\n5.1.2 Simple Paths and Cycles\n\nDefinition 5.2 An \\((s,t)\\)-path \\(P\\) is simple if it does not visit the same node twice.\n\nNote: if \\(P\\) visits the same node twice then \\(P\\) must contain at least one cycle.\n\nExample 5.2 Figure 5.2 gives an example of a simple path and a not simple path within a directed graph.\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) A simple path\n\n\n\n\n\n\n\n\n\n\n\n(c) A not-simple path\n\n\n\n\n\n\n\nFigure 5.2: Simple and not simple \\((4,5)\\)-paths in directed graph \\(G\\).\n\n\n\n\n\n\n5.1.3 Unboundedness and Negative Cycles\n\nTheorem 5.1 Suppose that \\(G\\) contains an \\((s,t)\\)-path \\(P\\) with a negative length cycle. Then SPP-U is unbounded.\n\n\nProof. Suppose that \\(C\\) is a negative length with length \\[\n    \\ell_{C} = \\sum_{ij \\in C} \\ell_{ij} &lt; 0.\n\\]\nSuppose further that \\(P\\) is an \\((s,t)\\)-path that traverses \\(C\\) exactly \\(k\\) times for some integer \\(k&gt; 0\\). That is, \\(C\\) is contained in \\(P\\) exactly \\(k\\) times.\nWe can always augment this path to get a path with strictly smaller length. Indeed, consider the path \\(\\tilde P\\) which contains all arcs of \\(P\\), but traverses \\(C\\) exactly \\(k+1\\) times. Then the length of \\(\\tilde P\\) satisfies \\[\n    \\text{length }\\tilde P = \\text{length } P + \\ell_C\n    &lt; \\text{length } P\n\\] since \\(\\ell_C &lt; 0\\).\n\n\nTheorem 5.2 If no \\((s,t)\\)-path contains a negative-length cycle, then \\(G\\) admits a simple shortest \\((s,t)\\)-path.\n\nIf no \\((s,t)\\)-path in \\(G\\) contains a negative length cycle, then we can solve the SPP-U by restricting our search to simple paths.\n\nProof. Let \\(P\\) be a shortest \\((s,t)\\)-path in \\(G\\). Let’s also assume that every cycle \\(C\\) in \\(P\\) has nonnegative length \\(\\ell_C \\ge 0\\).\nLet’s assume that \\(P\\) contains a cycle \\(C\\) starting and ending with node \\(u\\). That is, we can think of \\(P\\) as the union of the directed \\((s,u)\\)-path \\(P_{su}\\), the cycle \\(C\\), and the \\((u,t)\\)-path \\(P_{ut}\\). Let \\(\\ell^*\\) denote the value of this path.\nNow consider the \\((s,t)\\)-path given by following \\(P_{su}\\) to \\(u\\), then \\(P_{ut}\\) to \\(t\\). This is the path obtained by removing \\(C\\) from \\(P\\). This gives an \\((s,t)\\)-path with length \\[\n    \\ell^* - \\ell_C \\le \\ell^*.\n\\] Thus, removing cycle \\(C\\) from \\(P\\) does not increase the length of the path. We can repeat this process until we have obtained a simple path with minimum path length \\(\\ell^*\\), or we obtain a simple path with length strictly less than \\(\\ell^*\\) (a contradiction).\n\n\nExample 5.3 To illustrate this phenomena, consider the graph given in Figure 5.3. This graph has \\((1,5)\\)-path \\((1,2,3,4, 2,5)\\) with length \\(5\\) (assuming all arcs have length \\(1\\)). However, this path contains the cycle \\(C= (2,3,4,2)\\). Removing the cycle \\(C\\) gives the shorter \\((1,5)\\)-path \\((1,2,5)\\) (with length \\(2\\)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Path of length \\(5\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Cycle \\(C\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Path with cycle removed\n\n\n\n\n\n\n\nFigure 5.3: Illustration of the cycle removal process to obtain a shorter path.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
     ]
   },
   {
@@ -547,6 +547,116 @@
     "text": "3.11",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html",
+    "href": "05b_Bellman_Ford_Algorithm.html",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "",
+    "text": "6.0.1 Single Source Shortest Path Problem – Unrestricted Lengths (SSPP-U)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#section",
+    "href": "05b_Bellman_Ford_Algorithm.html#section",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.1 ",
+    "text": "6.1",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#example-k2",
+    "href": "05b_Bellman_Ford_Algorithm.html#example-k2",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.2 Example (\\(k=2\\))",
+    "text": "6.2 Example (\\(k=2\\))\n\n\n\n\n\n\nFigure 6.8: Shortest Paths of length \\(k=2\\)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#section-1",
+    "href": "05b_Bellman_Ford_Algorithm.html#section-1",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.3 ",
+    "text": "6.3",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#example-k3",
+    "href": "05b_Bellman_Ford_Algorithm.html#example-k3",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.2 Example (\\(k=3\\))",
+    "text": "6.2 Example (\\(k=3\\))\n\n\n\n\n\n\nFigure 6.9: Shortest Paths of length \\(k=3\\)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#section-2",
+    "href": "05b_Bellman_Ford_Algorithm.html#section-2",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.5 ",
+    "text": "6.5",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#example-k4",
+    "href": "05b_Bellman_Ford_Algorithm.html#example-k4",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.4 Example (\\(k=4\\))",
+    "text": "6.4 Example (\\(k=4\\))\nLet’s try one more iteration!\n\n\n\n\n\n\nFigure 6.10: Shortest Paths of length \\(k=4\\)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#section-3",
+    "href": "05b_Bellman_Ford_Algorithm.html#section-3",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.6 ",
+    "text": "6.6",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#section-4",
+    "href": "05b_Bellman_Ford_Algorithm.html#section-4",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.7 ",
+    "text": "6.7",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#section-5",
+    "href": "05b_Bellman_Ford_Algorithm.html#section-5",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.9 ",
+    "text": "6.9",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
+    ]
+  },
+  {
+    "objectID": "05b_Bellman_Ford_Algorithm.html#iteration-4-k4-1",
+    "href": "05b_Bellman_Ford_Algorithm.html#iteration-4-k4-1",
+    "title": "6  The Bellman-Ford Algorithm",
+    "section": "6.1 Iteration 4 (\\(k=4\\))",
+    "text": "6.1 Iteration 4 (\\(k=4\\))\nLet’s try one more iteration!\nNote that \\[\n    f_3(4) + \\ell_{42} = 3 - 3 = 0 &lt; f_2(2).\n\\]\n\n\n\n\n\n\nFigure 6.10: Shortest Paths of length \\(k=4\\)\n\n\n\n\n\n\nTable 6.15: Length of shortest paths of length at most \\(4\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\\(f_3(i)\\)\n0\n4\n-2\n3\n\n\n\\(f_4(i)\\)\n0\n0\n-2\n3\n\n\n\n\n\n\n\n\n\nTable 6.16: Predecessors in shortest paths of length at most \\(4\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\\(P_3(i)\\)\n\\(\\sim\\)\n1\n2\n3\n\n\n\\(P_4(i)\\)\n\\(\\sim\\)\n4\n2\n3\n\n\n\n\n\n\nThis implies that the path \\((1,2,3,4,2)\\) with \\(5\\) arcs has smaller total length than the path \\((1,2)\\). This contradicts ?lem-5-shortest-path and, hence, implies that the shortest path problem is unbounded for this graph. Indeed, further iterations will lead further decrease in \\(f_k(i)\\) for \\(i\\) in the negative length cycle \\((2,3,4,2)\\). We can stop the Bellman-Ford Algorithm after \\(k=n\\) iterations and declare the problem instance unbounded.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>The Bellman-Ford Algorithm</span>"
     ]
   }
 ]
