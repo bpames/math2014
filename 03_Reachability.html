@@ -273,7 +273,7 @@ window.Quarto = {
 </ul>
 </div>
 <div id="exm-3-reachable-nodes" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.1</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-3-graph" class="quarto-xref">Figure&nbsp;<span>4 (a)</span></a>. The set of reachable nodes from <span class="math inline">\(s=1\)</span> is <span class="math inline">\(M = \{1,2,4,5\}\)</span> (see <a href="#fig-3-reachable-set" class="quarto-xref">Figure&nbsp;<span>4 (b)</span></a>).</p>
+<p><span class="theorem-title"><strong>Example 3.1</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-3-graph" class="quarto-xref">Figure&nbsp;<span>6 (a)</span></a>. The set of reachable nodes from <span class="math inline">\(s=1\)</span> is <span class="math inline">\(M = \{1,2,4,5\}\)</span> (see <a href="#fig-3-reachable-set" class="quarto-xref">Figure&nbsp;<span>6 (b)</span></a>).</p>
 </div>
 <div id="fig-" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -322,24 +322,24 @@ Figure&nbsp;3.1: Graph <span class="math inline">\(G\)</span> and reachable set 
 </section>
 <section id="illustration-of-idea" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="illustration-of-idea"><span class="header-section-number">3.3</span> Illustration of Idea</h2>
-<p>Let’s apply this idea for the graph <span class="math inline">\(G\)</span> given in <a href="#fig-3-graph" class="quarto-xref">Figure&nbsp;<span>4 (a)</span></a> with source node <span class="math inline">\(s = 1\)</span>.</p>
+<p>Let’s apply this idea for the graph <span class="math inline">\(G\)</span> given in <a href="#fig-3-graph" class="quarto-xref">Figure&nbsp;<span>6 (a)</span></a> with source node <span class="math inline">\(s = 1\)</span>.</p>
 <section id="step-1" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="step-1"><span class="header-section-number">3.3.1</span> Step 1</h3>
 <p>The forward star of <span class="math inline">\(s\)</span> is <span class="math display">\[
     \delta^+(\{1\}) = \{(1,2), (1,4)\}.
-\]</span> This implies that <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span> are both reachable from <span class="math inline">\(1\)</span>. That is, <span class="math inline">\(M\)</span> contains <span class="math inline">\(\{1,2,4\}\)</span>. See <a href="#fig-3-reach-id1" class="quarto-xref">Figure&nbsp;<span>4 (a)</span></a>.</p>
+\]</span> This implies that <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span> are both reachable from <span class="math inline">\(1\)</span>. That is, <span class="math inline">\(M\)</span> contains <span class="math inline">\(\{1,2,4\}\)</span>. See <a href="#fig-3-reach-id1" class="quarto-xref">Figure&nbsp;<span>6 (a)</span></a>.</p>
 </section>
 <section id="step-2" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="step-2"><span class="header-section-number">3.3.2</span> Step 2</h3>
-<p>We need to explore further from nodes <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span>. Let’s start with <span class="math inline">\(2\)</span>. The only node adjacent to <span class="math inline">\(2\)</span> is node <span class="math inline">\(5\)</span>. We can conclude that <span class="math inline">\(M\)</span> contains <span class="math inline">\(\{1,2,4,5\}\)</span>. See <a href="#fig-3-reach-id2" class="quarto-xref">Figure&nbsp;<span>4 (b)</span></a>.</p>
+<p>We need to explore further from nodes <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span>. Let’s start with <span class="math inline">\(2\)</span>. The only node adjacent to <span class="math inline">\(2\)</span> is node <span class="math inline">\(5\)</span>. We can conclude that <span class="math inline">\(M\)</span> contains <span class="math inline">\(\{1,2,4,5\}\)</span>. See <a href="#fig-3-reach-id2" class="quarto-xref">Figure&nbsp;<span>6 (b)</span></a>.</p>
 </section>
 <section id="step-3" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="step-3"><span class="header-section-number">3.3.3</span> Step 3</h3>
-<p>Let’s explore from node <span class="math inline">\(4\)</span>: <span class="math inline">\(2\)</span> is the only node adjacent to <span class="math inline">\(4\)</span>. Our partially computed reachable set <span class="math inline">\(M\)</span> is unchanged. See <a href="#fig-3-reach-id3" class="quarto-xref">Figure&nbsp;<span>4 (c)</span></a>.</p>
+<p>Let’s explore from node <span class="math inline">\(4\)</span>: <span class="math inline">\(2\)</span> is the only node adjacent to <span class="math inline">\(4\)</span>. Our partially computed reachable set <span class="math inline">\(M\)</span> is unchanged. See <a href="#fig-3-reach-id3" class="quarto-xref">Figure&nbsp;<span>6 (c)</span></a>.</p>
 </section>
 <section id="step-4" class="level3" data-number="3.3.4">
 <h3 data-number="3.3.4" class="anchored" data-anchor-id="step-4"><span class="header-section-number">3.3.4</span> Step 4</h3>
-<p>We haven’t explored from node <span class="math inline">\(5\)</span> yet. Let’s do that now. The only arc incident with <span class="math inline">\(5\)</span> is <span class="math inline">\((5,4)\)</span>. Thus, <span class="math inline">\(4\)</span> is adjacent to <span class="math inline">\(5\)</span> and, hence, reachable from <span class="math inline">\(1\)</span>. We already knew that <span class="math inline">\(4\)</span> is in <span class="math inline">\(M\)</span>, so <span class="math inline">\(M\)</span> is unchanged. See <a href="#fig-3-reach-id4" class="quarto-xref">Figure&nbsp;<span>4 (d)</span></a>.</p>
+<p>We haven’t explored from node <span class="math inline">\(5\)</span> yet. Let’s do that now. The only arc incident with <span class="math inline">\(5\)</span> is <span class="math inline">\((5,4)\)</span>. Thus, <span class="math inline">\(4\)</span> is adjacent to <span class="math inline">\(5\)</span> and, hence, reachable from <span class="math inline">\(1\)</span>. We already knew that <span class="math inline">\(4\)</span> is in <span class="math inline">\(M\)</span>, so <span class="math inline">\(M\)</span> is unchanged. See <a href="#fig-3-reach-id4" class="quarto-xref">Figure&nbsp;<span>6 (d)</span></a>.</p>
 </section>
 <section id="step-5" class="level3" data-number="3.3.5">
 <h3 data-number="3.3.5" class="anchored" data-anchor-id="step-5"><span class="header-section-number">3.3.5</span> Step 5</h3>
@@ -452,7 +452,7 @@ Figure&nbsp;3.2: Steps of the intuitive reachability process. We need to revise 
 </section>
 <section id="returning-to-the-example" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="returning-to-the-example"><span class="header-section-number">3.5</span> Returning to the Example</h2>
-<p>Let’s consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-3-graph" class="quarto-xref">Figure&nbsp;<span>4 (a)</span></a> and apply the algorithm to find the set of nodes reachable from <span class="math inline">\(s=1\)</span>.</p>
+<p>Let’s consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-3-graph" class="quarto-xref">Figure&nbsp;<span>6 (a)</span></a> and apply the algorithm to find the set of nodes reachable from <span class="math inline">\(s=1\)</span>.</p>
 <section id="iteration-1" class="level3" data-number="3.5.1">
 <h3 data-number="3.5.1" class="anchored" data-anchor-id="iteration-1"><span class="header-section-number">3.5.1</span> Iteration 1</h3>
 <p>We initialize <span class="math inline">\(Q\)</span> and <span class="math inline">\(M\)</span> as <span class="math display">\[

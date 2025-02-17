@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Math 2014 Algorithms - 6&nbsp; Minimum Cost Spanning Trees</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05a_Shortest_Paths.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_Minimum_Cost_Spanning_Trees.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Minimum Cost Spanning Trees</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Math 2014 Algorithms</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Algorithms</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction_to_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Graphs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Reachability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graph Reachability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Complexity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05a_Shortest_Paths.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Minimum_Cost_Spanning_Trees.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Minimum Cost Spanning Trees</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries"><span class="header-section-number">6.1</span> Preliminaries</a>
+  <ul class="collapse">
+  <li><a href="#subgraphs" id="toc-subgraphs" class="nav-link" data-scroll-target="#subgraphs"><span class="header-section-number">6.1.1</span> Subgraphs</a></li>
+  <li><a href="#trees" id="toc-trees" class="nav-link" data-scroll-target="#trees"><span class="header-section-number">6.1.2</span> Trees</a></li>
+  <li><a href="#motivating-example" id="toc-motivating-example" class="nav-link" data-scroll-target="#motivating-example"><span class="header-section-number">6.1.3</span> Motivating Example</a></li>
+  <li><a href="#the-minimum-cost-spanning-tree-mst-problem" id="toc-the-minimum-cost-spanning-tree-mst-problem" class="nav-link" data-scroll-target="#the-minimum-cost-spanning-tree-mst-problem"><span class="header-section-number">6.1.4</span> The Minimum Cost Spanning Tree (MST) Problem</a></li>
+  <li><a href="#leaves" id="toc-leaves" class="nav-link" data-scroll-target="#leaves"><span class="header-section-number">6.1.5</span> Leaves</a></li>
+  <li><a href="#the-number-of-edges-of-a-tree" id="toc-the-number-of-edges-of-a-tree" class="nav-link" data-scroll-target="#the-number-of-edges-of-a-tree"><span class="header-section-number">6.1.6</span> The Number of Edges of A Tree</a></li>
+  <li><a href="#the-swap-property" id="toc-the-swap-property" class="nav-link" data-scroll-target="#the-swap-property"><span class="header-section-number">6.1.7</span> The Swap Property</a></li>
+  <li><a href="#swapping-edges-within-a-cut" id="toc-swapping-edges-within-a-cut" class="nav-link" data-scroll-target="#swapping-edges-within-a-cut"><span class="header-section-number">6.1.8</span> Swapping Edges Within a Cut</a></li>
+  </ul></li>
+  <li><a href="#the-jarnik-prim-dijkstra-algorithm" id="toc-the-jarnik-prim-dijkstra-algorithm" class="nav-link" data-scroll-target="#the-jarnik-prim-dijkstra-algorithm"><span class="header-section-number">6.2</span> The Jarnik-Prim-Dijkstra Algorithm</a>
+  <ul class="collapse">
+  <li><a href="#jarniks-theorem" id="toc-jarniks-theorem" class="nav-link" data-scroll-target="#jarniks-theorem"><span class="header-section-number">6.2.1</span> Jarnik’s Theorem</a></li>
+  <li><a href="#the-jarnik-prim-dijkstra-jpd-algorithm" id="toc-the-jarnik-prim-dijkstra-jpd-algorithm" class="nav-link" data-scroll-target="#the-jarnik-prim-dijkstra-jpd-algorithm"><span class="header-section-number">6.2.2</span> The Jarnik-Prim-Dijkstra (JPD) Algorithm</a></li>
+  <li><a href="#example-mst-for-flight-routing" id="toc-example-mst-for-flight-routing" class="nav-link" data-scroll-target="#example-mst-for-flight-routing"><span class="header-section-number">6.2.3</span> Example: MST for Flight Routing</a></li>
+  </ul></li>
+  <li><a href="#improving-the-jpd-algorithm" id="toc-improving-the-jpd-algorithm" class="nav-link" data-scroll-target="#improving-the-jpd-algorithm"><span class="header-section-number">6.3</span> Improving the JPD Algorithm</a>
+  <ul class="collapse">
+  <li><a href="#inefficiency-of-searching-over-edges" id="toc-inefficiency-of-searching-over-edges" class="nav-link" data-scroll-target="#inefficiency-of-searching-over-edges"><span class="header-section-number">6.3.1</span> Inefficiency of Searching over Edges</a></li>
+  <li><a href="#node-labels" id="toc-node-labels" class="nav-link" data-scroll-target="#node-labels"><span class="header-section-number">6.3.2</span> Node Labels</a></li>
+  <li><a href="#better-algorithm-pseudocode" id="toc-better-algorithm-pseudocode" class="nav-link" data-scroll-target="#better-algorithm-pseudocode"><span class="header-section-number">6.3.3</span> Better Algorithm – Pseudocode</a></li>
+  <li><a href="#another-example" id="toc-another-example" class="nav-link" data-scroll-target="#another-example"><span class="header-section-number">6.3.4</span> Another Example</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Minimum Cost Spanning Trees</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="preliminaries" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">6.1</span> Preliminaries</h2>
+<section id="subgraphs" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="subgraphs"><span class="header-section-number">6.1.1</span> Subgraphs</h3>
+<div id="def-6-subgraphs" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.1</strong></span> Let <span class="math inline">\(G = (V,E)\)</span> be an <strong>undirected graph</strong>.</p>
+<p>We call <span class="math inline">\(G_S = (V_S, E_S)\)</span> a <strong>subgraph</strong> of <span class="math inline">\(G\)</span> if</p>
+<ol type="1">
+<li><p><span class="math inline">\(G_S\)</span> is a graph;</p></li>
+<li><p><span class="math inline">\(V_S \subseteq V\)</span> and <span class="math inline">\(E_S \subseteq E\)</span>.</p></li>
+</ol>
+</div>
+<div id="exm-6-subgraphs" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the graph <span class="math inline">\(G = (V,E)\)</span> given in <a href="#fig-6-sgg" class="quarto-xref">Figure&nbsp;<span>6.2 (a)</span></a>. The graph given in <a href="#fig-6-sg" class="quarto-xref">Figure&nbsp;<span>6.2 (b)</span></a> is a subgraph of <span class="math inline">\(G\)</span>. However, the graph given in <a href="#fig-6-notsg" class="quarto-xref">Figure&nbsp;<span>6.2 (c)</span></a> is <em>not</em> a subgraph of <span class="math inline">\(G\)</span> since <span class="math inline">\(\{1,4\} \notin E\)</span>.</p>
+</div>
+<div id="fig-6-subgraph" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-subgraph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-subgraph" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-sgg" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-sgg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/subgraph_ex.png" class="img-fluid figure-img" data-ref-parent="fig-6-subgraph">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-sgg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-subgraph" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-sg" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-sg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/subgraph_ex_1.png" class="img-fluid figure-img" data-ref-parent="fig-6-subgraph">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-sg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) A subgraph
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-subgraph" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-notsg" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-notsg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/subgraph_ex_2.png" class="img-fluid figure-img" data-ref-parent="fig-6-subgraph">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-notsg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Not a subgraph
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-subgraph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: A subgraph of <span class="math inline">\(G\)</span> and a graph that is not a subgraph of <span class="math inline">\(G\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="trees" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="trees"><span class="header-section-number">6.1.2</span> Trees</h3>
+<div id="def-tree" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.2</strong></span> Let <span class="math inline">\(G = (V,E)\)</span> be an <strong>undirected graph</strong>.</p>
+<p>The <strong>subgraph</strong> <span class="math inline">\(G_T = (V_T, E_T)\)</span> is a <strong>tree</strong> if</p>
+<ol type="1">
+<li><p><span class="math inline">\(G_T\)</span> is a <strong>connected</strong>;</p></li>
+<li><p><span class="math inline">\(G_T\)</span> is <strong>acyclic</strong>, i.e., contains no cycles.</p></li>
+</ol>
+<p>A tree <span class="math inline">\(G_T\)</span> is a <strong>spanning tree</strong> if <span class="math inline">\(V_T = V\)</span> (<span class="math inline">\(G_T\)</span> spans/reaches all nodes in <span class="math inline">\(V\)</span>).</p>
+</div>
+<div id="fig-6-subgraph" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-subgraph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-subgraph" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-treeG" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-treeG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/tree_ex.png" class="img-fluid figure-img" data-ref-parent="fig-6-subgraph">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-treeG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-subgraph" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-tree" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/tree_ex_1b.png" class="img-fluid figure-img" data-ref-parent="fig-6-subgraph">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) A Tree
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-subgraph" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-spanning-tree" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-spanning-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/tree_ex_2b.png" class="img-fluid figure-img" data-ref-parent="fig-6-subgraph">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-spanning-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) A Spanning Tree
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-subgraph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Trees in given graph <span class="math inline">\(G\)</span>.
+</figcaption>
+</figure>
+</div>
+<div id="exm-6-trees" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.2</strong></span> Consider the graph <span class="math inline">\(G = (V,E)\)</span> given in <a href="#fig-6-treeG" class="quarto-xref">Figure&nbsp;<span>6.2 (a)</span></a>. The subgraph given in <a href="#fig-6-tree" class="quarto-xref">Figure&nbsp;<span>6.2 (b)</span></a> is a connected and acyclic; therefore, it is a tree. On the otherhand, the subgraph given in <a href="#fig-6-spanning-tree" class="quarto-xref">Figure&nbsp;<span>6.2 (c)</span></a> is a tree and has node set <span class="math inline">\(V\)</span>; therefore, it is a <em>spanning</em> tree.</p>
+</div>
+</section>
+<section id="motivating-example" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="motivating-example"><span class="header-section-number">6.1.3</span> Motivating Example</h3>
+<p>We want to build a new high-speed network at the University:</p>
+<ol type="1">
+<li><p>should connect all buildings; while</p></li>
+<li><p>costing as little as possible.</p></li>
+</ol>
+<p>We can model this problem as that of finding a <strong><em>minimum cost spanning tree</em></strong>.</p>
+<p>Consider the graph <span class="math inline">\(G\)</span> with:</p>
+<ul>
+<li><p>Buildings as vertices;</p></li>
+<li><p>Potential connections as edges.</p></li>
+</ul>
+<p>We want to find a <strong>connected, acyclic subgraph</strong> to minimize cost while ensuring all buildings are connected. Such a tree is highlighted in red in <a href="#fig-6-campus-tree" class="quarto-xref">Figure&nbsp;<span>6.3</span></a>.</p>
+<div id="fig-6-campus-tree" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-campus-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/min_spanning_tree_example.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-campus-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Campus map with minimum spanning tree
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-minimum-cost-spanning-tree-mst-problem" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="the-minimum-cost-spanning-tree-mst-problem"><span class="header-section-number">6.1.4</span> The Minimum Cost Spanning Tree (MST) Problem</h3>
+<div id="def-5-MST" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.3</strong></span> Given an undirected graph <span class="math inline">\(G = (V,E)\)</span> and <strong>cost function</strong> <span class="math inline">\(c: E\mapsto \mathbf{R}\)</span>.</p>
+<p>The <strong>minimum cost spanning tree problem</strong> aims to find a <strong>spanning tree</strong> <span class="math inline">\(G_T = (V_T, E_T)\)</span> of <strong>minimum total cost</strong>: <span class="math display">\[\min~ c(E_T) = \sum_{e \in E_T} c_e.\]</span></p>
+</div>
+<div id="thm-Cayley" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6.1 (Cayley – 1889)</strong></span> A <strong>complete undirected graph</strong> with <span class="math inline">\(n\)</span> nodes contains <span class="math inline">\(n^{n-2}\)</span> spanning trees.</p>
+</div>
+<p>Noncomplete graphs contain fewer spanning trees, but the number is still exponentially large in <span class="math inline">\(n\)</span>. This implies that we cannot solve MST using complete enumeration for even small graphs.</p>
+</section>
+<section id="leaves" class="level3" data-number="6.1.5">
+<h3 data-number="6.1.5" class="anchored" data-anchor-id="leaves"><span class="header-section-number">6.1.5</span> Leaves</h3>
+<div id="def-6-leaves" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.4</strong></span> The nodes of a graph with <strong>degree 1</strong> are called <strong>leaves</strong>.</p>
+</div>
+<div id="thm-6-tree-has-leaf" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6.2</strong></span> A tree contains at least one leaf.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Suppose, on the contrary, that tree <span class="math inline">\(T\)</span> does not contain a leaf. Then every node in <span class="math inline">\(T\)</span> has degree at least <span class="math inline">\(2\)</span>. This implies that <span class="math inline">\(T\)</span> has a cycle; a contradiction.</p>
+</div>
+<div id="fig-6-leaves" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-leaves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/a_tree_highlighted.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-leaves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: A tree with leaves ${1, 2, 3, 6}
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-number-of-edges-of-a-tree" class="level3" data-number="6.1.6">
+<h3 data-number="6.1.6" class="anchored" data-anchor-id="the-number-of-edges-of-a-tree"><span class="header-section-number">6.1.6</span> The Number of Edges of A Tree</h3>
+<div id="thm-6-no-arcs-in-tree" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6.3</strong></span> A tree <span class="math inline">\(G_T\)</span> with <span class="math inline">\(n\)</span> nodes has <span class="math inline">\(m = n-1\)</span> edges.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We’ll prove <a href="#thm-6-no-arcs-in-tree" class="quarto-xref">Theorem&nbsp;<span>6.3</span></a> by induction.</p>
+<p>As a base case, consider <span class="math inline">\(n=1\)</span>. This tree consists of a single node and <span class="math inline">\(0 = n-1\)</span> edges.</p>
+<p>Now suppose that every tree with <span class="math inline">\(k\)</span> nodes has <span class="math inline">\(n-1\)</span> edges. Consider tree <span class="math inline">\(T\)</span> with <span class="math inline">\(k+1\)</span> nodes. We want to show that <span class="math inline">\(T\)</span> has <span class="math inline">\(k\)</span> edges.</p>
+<p>To do so, note that <span class="math inline">\(T\)</span> contains at least one leaf by <a href="#thm-6-tree-has-leaf" class="quarto-xref">Theorem&nbsp;<span>6.2</span></a>. Without loss of generality, let’s assume that node <span class="math inline">\(1\)</span> is a leaf; if not, we can relabel vertices so that <span class="math inline">\(1\)</span> is a leaf. Let’s remove leaf <span class="math inline">\(1\)</span> and its incident edge (there is only one such edge because <span class="math inline">\(1\)</span> has degree-<span class="math inline">\(1\)</span>).</p>
+<p>After deleting this node and edge, we have a connected, acyclic graph with <span class="math inline">\(k\)</span> nodes. By the inductive hypothesis, this tree has <span class="math inline">\(k-1\)</span> edges. Since we deleted <span class="math inline">\(1\)</span> node and <span class="math inline">\(1\)</span> edge, we can conclude that <span class="math inline">\(T\)</span> had <span class="math inline">\(k\)</span> edges. This completes the proof.</p>
+</div>
+<div id="fig-6-delete-leaf" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-delete-leaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-delete-leaf" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-6-delete15" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-delete15-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/delete-15.png" class="img-fluid figure-img" data-ref-parent="fig-6-delete-leaf">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-delete15-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Tree <span class="math inline">\(T\)</span> with leaf <span class="math inline">\(1\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-delete-leaf" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-6-delete15-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-delete15-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/delete-15-2.png" class="img-fluid figure-img" data-ref-parent="fig-6-delete-leaf">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-delete15-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) After removing <span class="math inline">\(\{1,5\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-delete-leaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: Illustration of the pruning process. After removing node <span class="math inline">\(1\)</span> and edge <span class="math inline">\(\{1,5\}\)</span>, we are left with a tree with <span class="math inline">\(5\)</span> nodes.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-swap-property" class="level3" data-number="6.1.7">
+<h3 data-number="6.1.7" class="anchored" data-anchor-id="the-swap-property"><span class="header-section-number">6.1.7</span> The Swap Property</h3>
+<div id="lem-5-swap-property" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 6.1</strong></span> Given tree <span class="math inline">\(G_T = (V_T, E_T)\)</span>, removing an edge <span class="math inline">\(e \in E_T\)</span> creates two subtrees.</p>
+</div>
+<div id="fig-swap-property" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-swap-property-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-swap-property" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/swap_example.png" class="img-fluid figure-img" data-ref-parent="fig-swap-property">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) A tree
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-swap-property" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/swap_example_1.png" class="img-fluid figure-img" data-ref-parent="fig-swap-property">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) A subtree
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-swap-property" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/swap_example_2.png" class="img-fluid figure-img" data-ref-parent="fig-swap-property">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Another subtree
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swap-property-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.6: Subtrees obtained after deleting edge <span class="math inline">\(\{4,5\}\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="swapping-edges-within-a-cut" class="level3" data-number="6.1.8">
+<h3 data-number="6.1.8" class="anchored" data-anchor-id="swapping-edges-within-a-cut"><span class="header-section-number">6.1.8</span> Swapping Edges Within a Cut</h3>
+<div id="lem-6-swap-cut" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 6.2</strong></span> Let <span class="math inline">\(S\)</span> be the vertex set of one of the two subtrees.</p>
+<p>For every edge <span class="math inline">\(f \in \delta(S)\)</span> other than <span class="math inline">\(e\)</span>, the set <span class="math display">\[
+E_T' := E_T \cup \{f\} \setminus \{e\}
+\]</span> is the edge set of a <strong>tree spanning the same set of nodes</strong>.</p>
+</div>
+<div id="exm-6-swap-cuts" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.3</strong></span> Consider the graph <span class="math inline">\(G\)</span> with tree <span class="math inline">\(T\)</span> given by <a href="#fig-6-swap-cuts-G" class="quarto-xref">Figure&nbsp;<span>6.7 (a)</span></a>. The example in <a href="#fig-swap-property" class="quarto-xref">Figure&nbsp;<span>6.6</span></a> illustrates that we obtain two subtrees after removing edge <span class="math inline">\(e=45\)</span>.</p>
+<p>The set <span class="math inline">\(S = \{1,2,3, 5\}\)</span> is the vertex set of one of these trees. The cut induced by <span class="math inline">\(S\)</span> is <span class="math display">\[
+    \delta(S) = \{02, 16, 24\}.
+\]</span> <a href="#lem-6-swap-cut" class="quarto-xref">Lemma&nbsp;<span>6.2</span></a> implies that exchanging <span class="math inline">\(02\)</span> with <span class="math inline">\(45\)</span> yields a new tree <span class="math inline">\(\tilde{T}\)</span> with edge set <span class="math display">\[
+E_{\tilde T} = E_T \setminus \{4,5\} \cup \{0,2\}
+    = \{15, 25, 35, 46, 02\}.
+\]</span> See <a href="#fig-edge-swap" class="quarto-xref">Figure&nbsp;<span>6.7</span></a> for an illustration of this process.</p>
+</div>
+<div id="fig-edge-swap" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-edge-swap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-edge-swap" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-6-swap-cuts-G" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-swap-cuts-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/swap_example_in_cut.png" class="img-fluid figure-img" data-ref-parent="fig-edge-swap">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-swap-cuts-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Tree <span class="math inline">\(T\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-edge-swap" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/swap_example_in_cut_2.png" class="img-fluid figure-img" data-ref-parent="fig-edge-swap">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Tree <span class="math inline">\(\tilde T\)</span> after exchange
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-edge-swap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.7: Example of swapping edges <span class="math inline">\(02\)</span> and <span class="math inline">\(45\)</span> using cuts.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="the-jarnik-prim-dijkstra-algorithm" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="the-jarnik-prim-dijkstra-algorithm"><span class="header-section-number">6.2</span> The Jarnik-Prim-Dijkstra Algorithm</h2>
+<section id="jarniks-theorem" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="jarniks-theorem"><span class="header-section-number">6.2.1</span> Jarnik’s Theorem</h3>
+<div id="thm-6-Jarnik" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6.4 (Jarnik’s Theorem)</strong></span> &nbsp;</p>
+<ul>
+<li><p>Let <span class="math inline">\(F\)</span> be the edge set of a tree strictly contained in an MST.</p></li>
+<li><p>Let <span class="math inline">\(S\subseteq V\)</span> be the set of nodes it spans.</p></li>
+</ul>
+<p>For every edge <span class="math inline">\(e \in \delta(S)\)</span>:</p>
+<ul>
+<li><span class="math inline">\(F \cup \{e\}\)</span> is part of a MST if and only if <span class="math inline">\(e\)</span> has minimum cost in <span class="math inline">\(\delta(S)\)</span>.</li>
+</ul>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We start by proving the “only if” part. Let’s suppose that <span class="math inline">\(F \cup \{e\}\)</span> is part of a MST. We want to show that <span class="math inline">\(e\)</span> has minimum cost in <span class="math inline">\(\delta(S)\)</span> in this case. We’ll use a proof by contradiction. Let’s assume that there is <span class="math inline">\(f\in \delta(S)\)</span> with <span class="math inline">\(c_f &lt; c_e\)</span>.</p>
+<p>Let <span class="math inline">\(T = (V, E_T)\)</span> be a minimum spanning tree such that <span class="math inline">\(F \subseteq E_T\)</span> <em>and</em> <span class="math inline">\(F \cup \{e\} \subseteq E_T\)</span>. By the Swap Property (<a href="#lem-5-swap-property" class="quarto-xref">Lemma&nbsp;<span>6.1</span></a>) the subgraph <span class="math display">\[
+\tilde T = (V, E_T\setminus\{e\} \cup \{f\})
+\]</span> is also a spanning tree. Moreover, the cost of <span class="math inline">\(\tilde T\)</span> satisfies <span class="math display">\[
+    c(\tilde T) = c(T) - c_e + c_f &lt; c(T)
+\]</span> since <span class="math inline">\(c_e &gt; c_f\)</span>.</p>
+<p>This implies that <span class="math inline">\(T\)</span> is <em>not</em> a minimum cost spanning tree; a contradiction. Therefore, we can conclude that if <span class="math inline">\(F \cup \{e\}\)</span> is part of a minimum spanning tree then <span class="math inline">\(c_e \le c_f\)</span> for all <span class="math inline">\(f \in \delta(S)\)</span>.</p>
+<p>This is illustrated in <a href="#fig-6-jarnik1" class="quarto-xref">Figure&nbsp;<span>6.8</span></a>. Consider the spanning tree <span class="math inline">\(T\)</span> given in <a href="#fig-6-jarnik-T" class="quarto-xref">Figure&nbsp;<span>6.8 (a)</span></a> and the edge set <span class="math inline">\(F = \{12\} \subseteq E_T\)</span>; here, <span class="math inline">\(S = \{1,2\}\)</span>. Note that <span class="math inline">\(e = 15\)</span> is in the both <span class="math inline">\(E_T\)</span> and <span class="math inline">\(\delta(S)\)</span>, while <span class="math inline">\(f=23\)</span> belongs to <span class="math inline">\(\delta(S)\)</span>, but not <span class="math inline">\(E_T\)</span>. The swap property implies that we can obtain a spanning tree <span class="math inline">\(\tilde T\)</span> by exchanging the edges <span class="math inline">\(e\)</span> and <span class="math inline">\(f\)</span>. If <span class="math inline">\(c_f &lt; c_e\)</span> then <span class="math inline">\(\tilde T\)</span> is a spanning tree with strictly lower cost than <span class="math inline">\(T\)</span>.</p>
+<div id="fig-6-jarnik1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-jarnik1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-jarnik1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-jarnik-T" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-jarnik-T-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_proof-T.png" class="img-fluid figure-img" data-ref-parent="fig-6-jarnik1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-jarnik-T-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) <span class="math inline">\(T\)</span>, <span class="math inline">\(S = \{1,2\}\)</span>, and <span class="math inline">\(e=15\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-jarnik1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-jarnik-cut" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-jarnik-cut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_proof_cut.png" class="img-fluid figure-img" data-ref-parent="fig-6-jarnik1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-jarnik-cut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(\delta(S)\)</span> and <span class="math inline">\(f=23\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-jarnik1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-jarnik-betterT" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-jarnik-betterT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_proof_betterT.png" class="img-fluid figure-img" data-ref-parent="fig-6-jarnik1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-jarnik-betterT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) <span class="math inline">\(\tilde T\)</span> and <span class="math inline">\(f=23\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-jarnik1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.8: Graph with spanning tree <span class="math inline">\(T\)</span> containing <span class="math inline">\(F = \{12\}\)</span> and edge <span class="math inline">\(e = 15\)</span> and edge <span class="math inline">\(f = 23\)</span>. If <span class="math inline">\(c_e &gt; c_f\)</span>, then <span class="math inline">\(\tilde T\)</span> is a spanning tree is smaller cost than <span class="math inline">\(T\)</span>.
+</figcaption>
+</figure>
+</div>
+<p>We next prove the “if” part. That is, we prove that if <span class="math inline">\(e\)</span> has minimum cost in <span class="math inline">\(\delta(S)\)</span> then <span class="math inline">\(F \cup \{e\}\)</span> is part of a minimum spanning tree. To do so, suppose that <span class="math inline">\(c_e \le c_f\)</span> for all <span class="math inline">\(f \in \delta(S)\)</span>. We want to show that <span class="math inline">\(F \cup \{e\}\)</span> is part of a MST.</p>
+<p>We consider two cases. First, suppose that <span class="math inline">\(e \in E_T\)</span>, where <span class="math inline">\(T\)</span> is the MST containing <span class="math inline">\(f\)</span>. This immediately implies that <span class="math inline">\(e\)</span> belongs to a MST and we’re done.</p>
+<p>Next, suppose that <span class="math inline">\(e \notin E_T\)</span>. Specifically, let <span class="math inline">\(e = uv\)</span> for nodes <span class="math inline">\(u, v \in V\)</span> such that <span class="math inline">\(e \notin E_T\)</span> and <span class="math inline">\(e \in \delta(S)\)</span>; we assume that <span class="math inline">\(u \in S\)</span> and <span class="math inline">\(v \in V \setminus S\)</span>.</p>
+<p>Let <span class="math inline">\(P\)</span> be the <span class="math inline">\((u,v)\)</span>-path joining the end points of <span class="math inline">\(e\)</span> belonging to <span class="math inline">\(T\)</span>. Such a path always exists because <span class="math inline">\(T\)</span> is a spanning tree. Since <span class="math inline">\(P\)</span> starts in <span class="math inline">\(S\)</span> at <span class="math inline">\(u\)</span> and ends in <span class="math inline">\(V\setminus S\)</span> at <span class="math inline">\(v\)</span> there is at least one edge <span class="math inline">\(f\)</span> in both <span class="math inline">\(P\)</span> and <span class="math inline">\(\delta(S)\)</span>, i.e., there is edge <span class="math inline">\(f \in P \cap \delta(S)\)</span>.</p>
+<p>By the swap property, the subgraph <span class="math display">\[
+T' = (V, E_T \setminus \{f\} \cup \{e\})
+\]</span> is a spanning tree. Moreover, <span class="math display">\[
+c(T) \ge c(T') = c(T) - c_f + c_e \le c(T)
+\]</span> since <span class="math inline">\(T\)</span> is a minimum spanning tree and <span class="math inline">\(c_e \le c_f\)</span>. This is only possible if <span class="math inline">\(c_e = c_f\)</span> and <span class="math inline">\(T'\)</span> is also a minimum spanning tree.</p>
+<p>To illustrate this phenomena, consider the edge <span class="math inline">\(e = 15\)</span> in <a href="#fig-6-jarnik-2" class="quarto-xref">Figure&nbsp;<span>6.9</span></a>. This edge is <em>not</em> included in the minimum spanning tree <span class="math inline">\(T\)</span>. However, there is a path <span class="math inline">\(P = (1,2,3,5)\)</span> in <span class="math inline">\(T\)</span> containing the edge <span class="math inline">\(f = 23 \in \delta(\{1,2\})\)</span>. Applying the swap property and the assumption the <span class="math inline">\(c_e \le c_f\)</span> shows that <span class="math inline">\(T'\)</span> is also a minimum cost spanning tree.</p>
+<div id="fig-6-jarnik-2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-jarnik-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-jarnik-2" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-jarnik-no-e" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-jarnik-no-e-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_proof_T_no_e.png" class="img-fluid figure-img" data-ref-parent="fig-6-jarnik-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-jarnik-no-e-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Minimum spanning tree <span class="math inline">\(T\)</span> not including <span class="math inline">\(e = 15\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-jarnik-2" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-jarnik-P" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-jarnik-P-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_proof_P.png" class="img-fluid figure-img" data-ref-parent="fig-6-jarnik-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-jarnik-P-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Path in <span class="math inline">\(T\)</span> from endpoints of <span class="math inline">\(e\)</span> containing <span class="math inline">\(f=23\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-6-jarnik-2" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-6-jarnik-TP" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-jarnik-TP-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_proof_TP.png" class="img-fluid figure-img" data-ref-parent="fig-6-jarnik-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-jarnik-TP-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Minimum spanning tree <span class="math inline">\(T'\)</span> obtained by exchanging <span class="math inline">\(e\)</span> and <span class="math inline">\(f\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-jarnik-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.9: Minimum spanning trees <span class="math inline">\(T\)</span> and <span class="math inline">\(T'\)</span> obtained by exchanging arcs <span class="math inline">\(e\)</span> and <span class="math inline">\(f\)</span> with minimum cost in <span class="math inline">\(\delta(\{1,2\})\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="the-jarnik-prim-dijkstra-jpd-algorithm" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="the-jarnik-prim-dijkstra-jpd-algorithm"><span class="header-section-number">6.2.2</span> The Jarnik-Prim-Dijkstra (JPD) Algorithm</h3>
+<p><a href="#thm-6-Jarnik" class="quarto-xref">Theorem&nbsp;<span>6.4</span></a> suggests the following algorithm for identifying a minimum cost spanning tree in a given graph.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {default} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>Initialize E_T = {} and S = {1}.</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>While |E_T| &lt; n-1:</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>    Choose e = {v,w} in delta(S) of minimum cost c_e.  </span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>    Update E_T = E_T + {e} </span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    Update S = S + {w}.  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="complexity-of-the-jpd-algorithm" class="level4" data-number="6.2.2.1">
+<h4 data-number="6.2.2.1" class="anchored" data-anchor-id="complexity-of-the-jpd-algorithm"><span class="header-section-number">6.2.2.1</span> Complexity of the JPD Algorithm</h4>
+<p>For each step of the while loop, choosing <span class="math inline">\(e\)</span> in Line 5$ costs <span class="math inline">\(O(m)\)</span> operations to search over the set of edges in <span class="math inline">\(\delta(S)\)</span>. The loop is repeated <span class="math inline">\(O(n)\)</span> times, so the total complexity is <span class="math inline">\(O(mn)\)</span> elementary operations. This may be as large as <span class="math inline">\(O(n^3)\)</span> when the graph is very dense of as small as <span class="math inline">\(O(n^2)\)</span> when the graph is very sparse but still connected.</p>
+</section>
+</section>
+<section id="example-mst-for-flight-routing" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="example-mst-for-flight-routing"><span class="header-section-number">6.2.3</span> Example: MST for Flight Routing</h3>
+<p>The following graph <span class="math inline">\(G = (V, E)\)</span> gives available/potential flight routes between 8 cities, with distances in miles. The MST of <span class="math inline">\(G\)</span> gives an airline a means of servicing each city while minimizing travel distance and fuel costs.</p>
+<div id="fig-flights0" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/cities.png" height="375" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.10: Potential flight routes
+</figcaption>
+</figure>
+</div>
+<p>Let’s apply the Jarnik-Prim-Dijsktra Algorithm to find the minimum cost spanning tree in <span class="math inline">\(G\)</span>.</p>
+<section id="step-1" class="level4" data-number="6.2.3.1">
+<h4 data-number="6.2.3.1" class="anchored" data-anchor-id="step-1"><span class="header-section-number">6.2.3.1</span> Step 1</h4>
+<p>We start with <span class="math inline">\(S = \{1\}\)</span>, which induces the cut <span class="math inline">\(\delta(S) = \{14, 18\}\)</span>. Since <span class="math display">\[
+c_{14} = 355 &lt; 695 = c_{18},
+\]</span> we add <span class="math inline">\(14\)</span> to <span class="math inline">\(E_T\)</span> and add <span class="math inline">\(\{4\}\)</span> to <span class="math inline">\(S\)</span>.</p>
+<div id="fig-flights1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-1.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.11: Step 1 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-2" class="level4" data-number="6.2.3.2">
+<h4 data-number="6.2.3.2" class="anchored" data-anchor-id="step-2"><span class="header-section-number">6.2.3.2</span> Step 2</h4>
+<p>Next, <span class="math inline">\(\delta(S) = \{18, 24, 34, 74\}\)</span>. We add <span class="math inline">\(2\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(24\)</span> to <span class="math inline">\(E_T\)</span> because <span class="math inline">\(c_{24} = 74\)</span> is the minimum cost edge in <span class="math inline">\(\delta(S)\)</span>.</p>
+<div id="fig-flights2" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-2.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.12: Step 2 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-3" class="level4" data-number="6.2.3.3">
+<h4 data-number="6.2.3.3" class="anchored" data-anchor-id="step-3"><span class="header-section-number">6.2.3.3</span> Step 3</h4>
+<p>Next, <span class="math inline">\(c_{34} = 262\)</span> has minimum cost among edges in <span class="math inline">\(\delta(S) = \{18, 34, 47, 27\}\)</span>. We add <span class="math inline">\(34\)</span> to <span class="math inline">\(E_T\)</span> and <span class="math inline">\(3\)</span> to <span class="math inline">\(S\)</span>.</p>
+<div id="fig-flights3" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-3.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.13: Step 3 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-4" class="level4" data-number="6.2.3.4">
+<h4 data-number="6.2.3.4" class="anchored" data-anchor-id="step-4"><span class="header-section-number">6.2.3.4</span> Step 4</h4>
+<p>We next add <span class="math inline">\(37\)</span> to <span class="math inline">\(E_T\)</span> and <span class="math inline">\(7\)</span> to <span class="math inline">\(S\)</span> because <span class="math inline">\(c_{37} = 242\)</span> has minimum cost among edges in <span class="math inline">\(\delta(S) = \{37, 47, 27, 18\}\)</span>.</p>
+<div id="fig-flights4" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-4.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.14: Step 4 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-5" class="level4" data-number="6.2.3.5">
+<h4 data-number="6.2.3.5" class="anchored" data-anchor-id="step-5"><span class="header-section-number">6.2.3.5</span> Step 5</h4>
+<p>We next add <span class="math inline">\(67\)</span> to <span class="math inline">\(E_T\)</span> and <span class="math inline">\(6\)</span> to <span class="math inline">\(S\)</span> because <span class="math inline">\(c_{67} = 83\)</span> has minimum cost among edges in <span class="math inline">\(\delta(S) = \{18, 75, 76, 78\}\)</span>.</p>
+<div id="fig-flights5" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-5.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.15: Step 5 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-6" class="level4" data-number="6.2.3.6">
+<h4 data-number="6.2.3.6" class="anchored" data-anchor-id="step-6"><span class="header-section-number">6.2.3.6</span> Step 6</h4>
+<p>Next, <span class="math inline">\(c_{78} = 151\)</span> is minimum cost among edges in <span class="math inline">\(\delta(S) = \{18, 56, 57, 78\}\)</span>. Add <span class="math inline">\(8\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(78\)</span> to <span class="math inline">\(E_T\)</span>.</p>
+<div id="fig-flights6" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-6.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.16: Step 6 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-7" class="level4" data-number="6.2.3.7">
+<h4 data-number="6.2.3.7" class="anchored" data-anchor-id="step-7"><span class="header-section-number">6.2.3.7</span> Step 7</h4>
+<p>Finally, <span class="math inline">\(\delta(S) = \{56, 57\}\)</span>. We have <span class="math display">\[
+c_{56} = 230 &lt; 306 = c_{57},
+\]</span> so we add <span class="math inline">\(56\)</span> to <span class="math inline">\(E_T\)</span>, <span class="math inline">\(5\)</span> to <span class="math inline">\(S\)</span>.</p>
+<div id="fig-flights7" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-7.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.17: Step 7 of the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="termination" class="level4" data-number="6.2.3.8">
+<h4 data-number="6.2.3.8" class="anchored" data-anchor-id="termination"><span class="header-section-number">6.2.3.8</span> Termination</h4>
+<p>Note that <span class="math inline">\(S = \{V\}\)</span> and <span class="math inline">\(E_T\)</span> contains <span class="math inline">\(n-1=7\)</span> edges. This implies that we have constructed the minimum spanning tree <span class="math inline">\(T\)</span>.</p>
+<div id="fig-flights-MST" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flights-MST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/JPD-MST.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights-MST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.18: Minimum spanning tree identified by the JPD Algorithm
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="improving-the-jpd-algorithm" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="improving-the-jpd-algorithm"><span class="header-section-number">6.3</span> Improving the JPD Algorithm</h2>
+<section id="inefficiency-of-searching-over-edges" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="inefficiency-of-searching-over-edges"><span class="header-section-number">6.3.1</span> Inefficiency of Searching over Edges</h3>
+<p><strong>Problem:</strong> The algorithm scans many edges that will never be selected.</p>
+<p>To see why this may be the the case, consider the set <span class="math inline">\(S = \{1, 3, 5\}\)</span> in the graph given in <a href="#fig-6-jpd-problem" class="quarto-xref">Figure&nbsp;<span>6.19</span></a>.</p>
+<div id="fig-6-jpd-problem" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-jpd-problem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/implementation_bug.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-jpd-problem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.19: Graph <span class="math inline">\(G\)</span> with <span class="math inline">\(S = \{1,3,5\}\)</span>
+</figcaption>
+</figure>
+</div>
+<p>For <span class="math inline">\(S = \{1,3,5\}\)</span>, we have <span class="math inline">\(\delta(S) = \{21, 23, 25, 41, 45 \}\)</span>. The JPD Algorithm will add edge <span class="math inline">\(45\)</span> with minimum cost to <span class="math inline">\(E_T\)</span>, but will consider <em>every edge</em> in <span class="math inline">\(G\)</span>. However, we know that the only candidates to be added to <span class="math inline">\(S\)</span> are Nodes <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span>. Since <span class="math inline">\(23\)</span> and <span class="math inline">\(45\)</span> are the minimum cost edges incident with <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span> respectively, we really only need to consider these two edges as candidates for <span class="math inline">\(E_T\)</span>.</p>
+<p>This example implies that if we knew which edge incident with each node has minimum cost, then we can search among nodes, not edges. Since we usually have far fewer nodes than edges, this can lead to substantial improvement in computational cost.</p>
+</section>
+<section id="node-labels" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="node-labels"><span class="header-section-number">6.3.2</span> Node Labels</h3>
+<p>To facilitate this, let’s introduce <strong>two labels</strong> for each node <span class="math inline">\(j \in V \setminus S\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(C(j) := \min_{i \in S}~c_{ij}\)</span> (<strong>minimum cost</strong> of edge connecting <span class="math inline">\(S\)</span> to <span class="math inline">\(j\)</span>);</p></li>
+<li><p><span class="math inline">\(P(j) := \text{argmin}_{i \in S}~c_{ij}\)</span> (endpoint in <span class="math inline">\(S\)</span> of this minimum cost edge).</p></li>
+</ul>
+<div id="exm-6-labels" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.4</strong></span> For the graph given in <a href="#fig-6-jpd-problem" class="quarto-xref">Figure&nbsp;<span>6.19</span></a>, we have <span class="math display">\[
+\begin{aligned}
+    C(2) &amp;= 4, &amp; C(4) &amp;= 2  \\
+    P(2) &amp;= 3, &amp; P(3) &amp;= 5.
+\end{aligned}
+\]</span></p>
+</div>
+<p>If we have <span class="math inline">\(C\)</span> and <span class="math inline">\(P\)</span>, choosing the vertex <span class="math inline">\(w\)</span> to add to <strong>minimum spanning tree</strong> should only require <span class="math inline">\(O(n)\)</span> EOs to compare the values of <span class="math inline">\(C\)</span> for the vertices in <span class="math inline">\(V\setminus S\)</span>.</p>
+<p>Further, we must update <span class="math inline">\(C\)</span> and <span class="math inline">\(P\)</span> whenever <span class="math inline">\(S\)</span> is updated. To do so, we search the <strong>star</strong> of <span class="math inline">\(w\)</span>, which requires <span class="math inline">\(O(n)\)</span> EOs.</p>
+<p>The total complexity is <span class="math inline">\(O(n)\)</span> per iteration and <span class="math inline">\(O(n^2)\)</span> total. This can be much smaller than <span class="math inline">\(O(mn)\)</span>!!</p>
+</section>
+<section id="better-algorithm-pseudocode" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="better-algorithm-pseudocode"><span class="header-section-number">6.3.3</span> Better Algorithm – Pseudocode</h3>
+<p>This suggests the following algorithm.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {default} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>Let S = {1}, E_T = {}, C(1) = 0.</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>% Initialize costs.</span>
+<span id="cb2-4"><a href="#cb2-4"></a>For j in V - {1}</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    Let C(j) = c_{1j} and P(j) = 1</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    (assume c_{1j} = inf if 1j not in E).</span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a>While |E_T| &lt; n-1</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a>    Find w in V \ S minimizing C(w). </span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>    Let S = S + {w} and E_T = E_T + {P(w), w}.  </span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a>    % Update costs</span>
+<span id="cb2-15"><a href="#cb2-15"></a>    For j in V \ S such that wj in delta(w)</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a>        If c_{wj} &lt; C(j): </span>
+<span id="cb2-18"><a href="#cb2-18"></a>            Update C(j) = c_{wj} and P(j) = w.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="another-example" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="another-example"><span class="header-section-number">6.3.4</span> Another Example</h3>
+<p>To illustrate the application of the revised algorithm, let’s consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-6-jpd2-ex" class="quarto-xref">Figure&nbsp;<span>6.20</span></a>.</p>
+<div id="fig-6-jpd2-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6-jpd2-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_ex_labs.png" class="quarto-figure quarto-figure-left figure-img" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-jpd2-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.20: Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+<section id="step-1-1" class="level4" data-number="6.3.4.1">
+<h4 data-number="6.3.4.1" class="anchored" data-anchor-id="step-1-1"><span class="header-section-number">6.3.4.1</span> Step 1</h4>
+<p>Initially, we have <span class="math inline">\(S = \{1\}\)</span>. Note that <span class="math display">\[
+\begin{aligned}
+    C(2) &amp;= c_{12} = 1 \\
+    C(3) &amp;= c_{13} = 1 \\
+    C(4) &amp;= + \infty \\
+    C(5) &amp;= c_{15} = 8.
+\end{aligned}
+\]</span> We choose <span class="math inline">\(w=2\)</span>. We add <span class="math inline">\(2\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(12\)</span> to <span class="math inline">\(E_T\)</span>. Note that we could also choose to add <span class="math inline">\(3\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(13\)</span> to <span class="math inline">\(E_T\)</span> since <span class="math inline">\(c_{12} = c_{13} = 1\)</span>.</p>
+<p>It remains to update <span class="math inline">\(C\)</span> and <span class="math inline">\(P\)</span>. Note that <span class="math display">\[
+\begin{aligned}
+    C(3) &amp;= c_{13} = 1 &lt; c_{23} = c_{w3} \\
+    c_{w5} &amp;=c_{25} = 2 &lt; C(5).
+\end{aligned}
+\]</span> Thus, we set <span class="math inline">\(C(5) = 2\)</span> and <span class="math inline">\(P(5) = 2\)</span> and leave <span class="math inline">\(C(3)\)</span>, <span class="math inline">\(P(3)\)</span> unchanged.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rjpd1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rjpd1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_ex-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rjpd1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.21: Step 1 of the revised JPD algorithm
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>Predecessor and value of minimum cost <span class="math inline">\((1,v)\)</span>-path found so far.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">v</th>
+<th style="text-align: left;">C(v)</th>
+<th style="text-align: left;">P(v)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-1" class="level4" data-number="6.3.4.2">
+<h4 data-number="6.3.4.2" class="anchored" data-anchor-id="step-2-1"><span class="header-section-number">6.3.4.2</span> Step 2</h4>
+<p>We have <span class="math inline">\(S = \{1,2\}\)</span>. Nodes <span class="math inline">\(3\)</span> and <span class="math inline">\(5\)</span> are adjacent to <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>. Since <span class="math display">\[
+C(3) = 1 &lt; 2 = C(5),
+\]</span> we add <span class="math inline">\(3\)</span> to <span class="math inline">\(S\)</span>; since <span class="math inline">\(P(3)=1\)</span>, we add <span class="math inline">\(13\)</span> to <span class="math inline">\(E_T\)</span>. Finally, we update <span class="math display">\[
+C(4) = 5, P(4) = 3
+\]</span> since <span class="math inline">\(4\)</span> is adjacent to <span class="math inline">\(3\)</span>; <span class="math inline">\(C(5)\)</span> and P(5)$ are unchanged.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rjpd2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rjpd2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_ex-2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rjpd2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.22: Step 2 of the revised JPD algorithm
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>Predecessor and value of minimum cost <span class="math inline">\((1,v)\)</span>-path found after two steps of revised JPD algorithm.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">v</th>
+<th style="text-align: left;">C(v)</th>
+<th style="text-align: left;">P(v)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-1" class="level4" data-number="6.3.4.3">
+<h4 data-number="6.3.4.3" class="anchored" data-anchor-id="step-3-1"><span class="header-section-number">6.3.4.3</span> Step 3</h4>
+<p>Since $ C(5) &lt; C(4), $ we add <span class="math inline">\(5\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(25\)</span> to <span class="math inline">\(E_T\)</span>. Note that <span class="math display">\[
+    c_{45} = 4 &lt; C(4) = 5,
+\]</span> we set <span class="math inline">\(C(4) = 4\)</span> and <span class="math inline">\(P(4) = 5\)</span>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rjpd3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rjpd3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_ex-3.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rjpd3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.23: Step 3 of the revised JPD algorithm
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>Predecessor and value of minimum cost <span class="math inline">\((1,v)\)</span>-path found after three steps of revised JPD algorithm.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">v</th>
+<th style="text-align: left;">C(v)</th>
+<th style="text-align: left;">P(v)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-1" class="level4" data-number="6.3.4.4">
+<h4 data-number="6.3.4.4" class="anchored" data-anchor-id="step-4-1"><span class="header-section-number">6.3.4.4</span> Step 4</h4>
+<p>The only edge left to add <span class="math inline">\(E_T\)</span> is <span class="math inline">\(54\)</span>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rjpd4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rjpd4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_ex-4.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rjpd4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.24: Step 4 of the revised JPD algorithm
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>Predecessor and value of minimum cost <span class="math inline">\((1,v)\)</span>-path found after four steps of revised JPD algorithm.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">v</th>
+<th style="text-align: left;">C(v)</th>
+<th style="text-align: left;">P(v)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>This gives the minimum cost spanning tree <span class="math inline">\(T\)</span> found in <a href="#fig-rjpd" class="quarto-xref">Figure&nbsp;<span>6.25</span></a>.</p>
+<div id="fig-rjpd" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rjpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/6/jarnik_ex-T.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rjpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.25: Mininum spanning tree in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05a_Shortest_Paths.html" class="pagination-link" aria-label="The Shortest Path Problem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

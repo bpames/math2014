@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -185,6 +219,17 @@ window.Quarto = {
   <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications"><span class="header-section-number">5.1.1</span> Applications</a></li>
   <li><a href="#simple-paths-and-cycles" id="toc-simple-paths-and-cycles" class="nav-link" data-scroll-target="#simple-paths-and-cycles"><span class="header-section-number">5.1.2</span> Simple Paths and Cycles</a></li>
   <li><a href="#unboundedness-and-negative-cycles" id="toc-unboundedness-and-negative-cycles" class="nav-link" data-scroll-target="#unboundedness-and-negative-cycles"><span class="header-section-number">5.1.3</span> Unboundedness and Negative Cycles</a></li>
+  </ul></li>
+  <li><a href="#the-bellman-ford-algorithm" id="toc-the-bellman-ford-algorithm" class="nav-link" data-scroll-target="#the-bellman-ford-algorithm"><span class="header-section-number">5.2</span> The Bellman-Ford Algorithm</a>
+  <ul class="collapse">
+  <li><a href="#single-source-shortest-path-problem-unrestricted-lengths-sspp-u" id="toc-single-source-shortest-path-problem-unrestricted-lengths-sspp-u" class="nav-link" data-scroll-target="#single-source-shortest-path-problem-unrestricted-lengths-sspp-u"><span class="header-section-number">5.2.1</span> Single Source Shortest Path Problem – Unrestricted Lengths (SSPP-U)</a></li>
+  <li><a href="#subpath-optimality" id="toc-subpath-optimality" class="nav-link" data-scroll-target="#subpath-optimality"><span class="header-section-number">5.2.2</span> Subpath Optimality</a></li>
+  <li><a href="#shortest-paths-of-fixed-length" id="toc-shortest-paths-of-fixed-length" class="nav-link" data-scroll-target="#shortest-paths-of-fixed-length"><span class="header-section-number">5.2.3</span> Shortest Paths of Fixed Length</a></li>
+  <li><a href="#the-bellman-ford-theorem" id="toc-the-bellman-ford-theorem" class="nav-link" data-scroll-target="#the-bellman-ford-theorem"><span class="header-section-number">5.2.4</span> The Bellman-Ford Theorem</a></li>
+  <li><a href="#the-bellman-ford-algorithm-1" id="toc-the-bellman-ford-algorithm-1" class="nav-link" data-scroll-target="#the-bellman-ford-algorithm-1"><span class="header-section-number">5.2.5</span> The Bellman-Ford Algorithm</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">5.2.6</span> Example</a></li>
+  <li><a href="#complexity-of-the-bellman-ford-algorithm" id="toc-complexity-of-the-bellman-ford-algorithm" class="nav-link" data-scroll-target="#complexity-of-the-bellman-ford-algorithm"><span class="header-section-number">5.2.7</span> Complexity of the Bellman-Ford Algorithm</a></li>
+  <li><a href="#detecting-negative-length-cycles" id="toc-detecting-negative-length-cycles" class="nav-link" data-scroll-target="#detecting-negative-length-cycles"><span class="header-section-number">5.2.8</span> Detecting Negative Length Cycles</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -429,8 +474,1226 @@ Figure&nbsp;5.3: Illustration of the cycle removal process to obtain a shorter p
 </figcaption>
 </figure>
 </div>
+</section>
+</section>
+<section id="the-bellman-ford-algorithm" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="the-bellman-ford-algorithm"><span class="header-section-number">5.2</span> The Bellman-Ford Algorithm</h2>
+<section id="single-source-shortest-path-problem-unrestricted-lengths-sspp-u" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="single-source-shortest-path-problem-unrestricted-lengths-sspp-u"><span class="header-section-number">5.2.1</span> Single Source Shortest Path Problem – Unrestricted Lengths (SSPP-U)</h3>
+<div id="def-5-SSPPU" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.3</strong></span> Given a <strong>directed graph</strong> <span class="math inline">\(G = (V,A)\)</span> with <strong>length function</strong> <span class="math inline">\(\ell:A     \mapsto \mathbf{R}\)</span> (unrestricted in sign).</p>
+<p>The <strong>Single Source Shortest Path Problem (SSPP-U)</strong> aims to find an <span class="math inline">\((s,t)\)</span>-path with <strong>minimum total length</strong> for every node <span class="math inline">\(t\)</span> in <span class="math inline">\(V\setminus\{s\}\)</span>.</p>
+</div>
+<div id="exm-5-ex-SSPPU" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.4</strong></span> <a href="#fig-5-ex-SSPPU" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> gives the shortest <span class="math inline">\((1,t)\)</span>-paths in the graph given in <a href="#fig-5-ex" class="quarto-xref">Figure&nbsp;<span>5.4 (a)</span></a> for <span class="math inline">\(t = 2,3,4,5,6\)</span>.</p>
+</div>
+<div id="fig-5-ex-SSPPU" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ex-SSPPU-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-5-ex-SSPPU" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-5-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-5-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/SPPU_2.png" data-ref-parent="fig-5-ex-SSPPU" height="175" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-5-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-5-ex-SSPPU" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/shortest_path_12.png" data-ref-parent="fig-5-ex-SSPPU" height="175" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Shortest <span class="math inline">\((1,2)\)</span>-path
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-5-ex-SSPPU" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/shortest_path_13.png" data-ref-parent="fig-5-ex-SSPPU" height="175" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Shortest <span class="math inline">\((1,3)\)</span>-path
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-5-ex-SSPPU" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/shortest_path_14.png" data-ref-parent="fig-5-ex-SSPPU" height="175" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Shortest <span class="math inline">\((1,4)\)</span>-path
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-5-ex-SSPPU" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/shortest_path_15.png" data-ref-parent="fig-5-ex-SSPPU" height="175" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(e) Shortest <span class="math inline">\((1,5)\)</span>-path
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-5-ex-SSPPU" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/shortest_path_16.png" data-ref-parent="fig-5-ex-SSPPU" height="175" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(f) Shortest <span class="math inline">\((1,6)\)</span>-path
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ex-SSPPU-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4: Shortest <span class="math inline">\((1,t)\)</span>-paths in graph <span class="math inline">\(G\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="subpath-optimality" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="subpath-optimality"><span class="header-section-number">5.2.2</span> Subpath Optimality</h3>
+<p>The following theorem characterizes a very useful properties of shortest paths: any subpath of a shortest path is itself a shortest path.</p>
+<div id="thm-5-subpath-optimality" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 5.3</strong></span> Let <span class="math inline">\(P = (s,i_2), (i_2, i_3), \dots, (i_{k-1}, t)\)</span> be a <strong>shortest <span class="math inline">\((s,t)\)</span>-path</strong>.</p>
+<p>Consider pair of nodes <span class="math inline">\(i_u, i_v\)</span> visited by <span class="math inline">\(P\)</span> with <span class="math inline">\(u &lt; v\)</span>.</p>
+<p>Then the subpath from <span class="math inline">\(i_u\)</span> to <span class="math inline">\(i_v\)</span> is a <strong>shortest <span class="math inline">\((i_u,i_v)\)</span> path</strong>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Suppose, on the contrary, that the subpath <span class="math inline">\(S\)</span> from <span class="math inline">\(i_u\)</span> to <span class="math inline">\(i_v\)</span> in a shortest <span class="math inline">\((s,t)\)</span>-path is <strong><em>not</em></strong> the shortest <span class="math inline">\((i_u, i_v)\)</span>-path. In particular, suppose that <span class="math inline">\(T\)</span> is the shortest <span class="math inline">\((i_u, i_v)\)</span>-path.</p>
+<p>We can construct another <span class="math inline">\((s,t)\)</span>-path <span class="math inline">\(tilde P\)</span> using <span class="math inline">\(P\)</span> and <span class="math inline">\(T\)</span>. Indeed, let <span class="math inline">\(\tilde P = P \setminus S \cup T\)</span> be the path obtained by removing <span class="math inline">\(S\)</span> from <span class="math inline">\(P\)</span> and adding <span class="math inline">\(T\)</span>. Then <span class="math inline">\(\tilde P\)</span> is also a <span class="math inline">\((s,t)\)</span>-path. The length of <span class="math inline">\(\tilde P\)</span> is equal to <span class="math display">\[
+    |P| - |S| + |T| &lt; |P| - |S| + |S| = |P|
+\]</span> since <span class="math inline">\(|T| &lt; |S|\)</span>. This implies that <span class="math inline">\(\tilde P\)</span> is shorter than <span class="math inline">\(P\)</span>; this is a contradiction. Therefore, <span class="math inline">\(S\)</span> must be the shortest <span class="math inline">\((i_u, i_v)\)</span>-path.</p>
+</div>
+</section>
+<section id="shortest-paths-of-fixed-length" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="shortest-paths-of-fixed-length"><span class="header-section-number">5.2.3</span> Shortest Paths of Fixed Length</h3>
+<div id="def-5-length-function" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.4</strong></span> For all <span class="math inline">\(i\in V\)</span>, we define <span class="math inline">\(f_k(i)\)</span> as the <strong>length of a shortest <span class="math inline">\((s,i)\)</span>-path containing at most k arcs</strong>,</p>
+</div>
+<p>We set <span class="math inline">\(f_k(i) = \infty\)</span> if there is no <span class="math inline">\((s,i)\)</span>-path with length at most <span class="math inline">\(k\)</span>.</p>
+<div id="lem-5-shortest-paths" class="absolute theorem lemma" data-top="35%">
+<p><span class="theorem-title"><strong>Lemma 5.1</strong></span> If <span class="math inline">\(k = n-1\)</span>, then <span class="math inline">\(f_{n-1}(i)\)</span> is the <strong>length of a shortest <span class="math inline">\((s,i)\)</span>-path</strong> (without restriction on the number of arcs).</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We can ignore paths that aren’t simple. On the other hand, simple paths contain at most <span class="math inline">\(n\)</span> nodes. Indeed, a simple path does not contain a loop and, hence, visits at most <span class="math inline">\(n\)</span> nodes. Therefore, the shortest <span class="math inline">\((s,i)\)</span>-path contains at most <span class="math inline">\(n-1\)</span> arcs.</p>
+</div>
+</section>
+<section id="the-bellman-ford-theorem" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="the-bellman-ford-theorem"><span class="header-section-number">5.2.4</span> The Bellman-Ford Theorem</h3>
+<p>The following theorem is the basis for our algorithm for calculating shortest paths.</p>
+<div id="thm-5-bellman-ford" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 5.4</strong></span> <span class="math inline">\(f_k(i)\)</span> can be computed <strong><em>recursively</em></strong> as <span class="math display">\[
+f_k(i) = \min \left\{
+        f_{k-1}(i),
+        \;
+        \min_{(j,i) \in \delta^-(i)}
+        \Big\{ f_{k-1}(j) + \ell_{ji} \Big\}
+        \right\}.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Assume that <span class="math inline">\(f_{k-1}(i)\)</span> has been computed for all <span class="math inline">\(i \in V\setminus\{s\}\)</span>. The shortest <span class="math inline">\((s,i)\)</span>-path with at most <span class="math inline">\(k\)</span> arcs </p>
+<ol type="1">
+<li><p>is the shortest <span class="math inline">\((s,i)\)</span>-path with at most <span class="math inline">\(k-1\)</span> arcs; or</p></li>
+<li><p>contains one more arc than the shortest <span class="math inline">\((s,i)\)</span>-path with at most <span class="math inline">\(k-1\)</span> arcs.</p></li>
+</ol>
+<p>In the second case, we can decompose the shortest <span class="math inline">\((s,i)\)</span>-path as:</p>
+<ul>
+<li><p>shortest <span class="math inline">\((s,j)\)</span>-path with <span class="math inline">\(k-1\)</span> arcs for some node <span class="math inline">\(j\)</span>; and</p></li>
+<li><p>arc <span class="math inline">\((j,i)\)</span>.</p></li>
+</ul>
+<p>We choose node <span class="math inline">\(j\)</span> so that <span class="math inline">\(j\)</span> gives <span class="math display">\[
+    \min_{(q,i) \in \delta^-(i)} f_{k-1}(q) + \ell_{qi}.
+\]</span></p>
+</div>
+</section>
+<section id="the-bellman-ford-algorithm-1" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="the-bellman-ford-algorithm-1"><span class="header-section-number">5.2.5</span> The Bellman-Ford Algorithm</h3>
+<section id="setup" class="level4" data-number="5.2.5.1">
+<h4 data-number="5.2.5.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">5.2.5.1</span> Setup</h4>
+<div id="def-5-predecessors" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.5</strong></span> Let <span class="math inline">\(P_k(i)\)</span> be the <strong>predecessor</strong> of <span class="math inline">\(i\)</span> in the shortest <span class="math inline">\((s,i)\)</span>-path with at most <span class="math inline">\(k\)</span> arcs found by the algorithm (so far).</p>
+</div>
+<p>We will maintain <strong>two tables</strong>:</p>
+<ul>
+<li><p>One encoding <span class="math inline">\(f_k(i)\)</span> for each <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>;</p></li>
+<li><p>The other encoding <span class="math inline">\(P_k(i)\)</span> for all <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>.</p></li>
+</ul>
+</section>
+<section id="updates" class="level4" data-number="5.2.5.2">
+<h4 data-number="5.2.5.2" class="anchored" data-anchor-id="updates"><span class="header-section-number">5.2.5.2</span> Updates</h4>
+<p>The algorithm calculates <span class="math inline">\(f_k(i)\)</span> and <span class="math inline">\(P_k(i)\)</span> for all <span class="math inline">\(i \in V\)</span> recursively from <span class="math inline">\(k=1\)</span> to <span class="math inline">\(k=n-1\)</span>.</p>
+<p>We’ll update <span class="math inline">\(f_k(i)\)</span> from <span class="math inline">\(f_{k-1}(i)\)</span> by:</p>
+<ul>
+<li><p>Initially setting <span class="math inline">\(f_k(i) = f_{k-1}(i)\)</span>;</p></li>
+<li><p>Scanning all arcs <span class="math inline">\((j,i)\)</span> in <span class="math inline">\(\delta^{-}(i)\)</span> and update <span class="math inline">\(f_k(i)\)</span> if necessary.</p></li>
+</ul>
+</section>
+<section id="the-bellman-ford-algorithm-pseudocode" class="level4" data-number="5.2.5.3">
+<h4 data-number="5.2.5.3" class="anchored" data-anchor-id="the-bellman-ford-algorithm-pseudocode"><span class="header-section-number">5.2.5.3</span> The Bellman-Ford Algorithm (Pseudocode)</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f_0(s) <span class="op">=</span> <span class="dv">0</span> <span class="kw">and</span> P_0(s) <span class="op">=</span> <span class="op">~</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> V \{s}:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    f_0(i) <span class="op">=</span> <span class="op">+</span>inf <span class="kw">and</span>  P_0(i) <span class="op">=</span> <span class="op">~</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate shortest paths of length k.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> {<span class="dv">1</span>, <span class="dv">2</span>, ..., n<span class="op">-</span><span class="dv">1</span>}:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update shortest si-path.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> V:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        f_k(i) <span class="op">=</span> f_{k<span class="op">-</span><span class="dv">1</span>}(i) </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        P_k(i) <span class="op">=</span> P_{k<span class="op">-</span><span class="dv">1</span>}(i)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Check each edge incident at i.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (j,i) <span class="kw">in</span> delta<span class="op">^</span>{<span class="op">-</span>}(i):            </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update if length-k path is shorter than k-1.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> f_{k<span class="op">-</span><span class="dv">1</span>}(j) <span class="op">+</span> l_{ji} <span class="op">&lt;</span> f_k(i)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                f_k(i) <span class="op">=</span> f_{k<span class="op">-</span><span class="dv">1</span>}(j) <span class="op">+</span> l_{ji} </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                P_k(i) <span class="op">=</span> j</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="example" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="example"><span class="header-section-number">5.2.6</span> Example</h3>
+<section id="iteration-1-k1" class="level4" data-number="5.2.6.1">
+<h4 data-number="5.2.6.1" class="anchored" data-anchor-id="iteration-1-k1"><span class="header-section-number">5.2.6.1</span> Iteration 1 (<span class="math inline">\(k=1\)</span>)</h4>
+<p>Note that nodes <span class="math inline">\(2\)</span> and <span class="math inline">\(6\)</span> are adjacent to <span class="math inline">\(1\)</span>. Thus, they are reachable from <span class="math inline">\(1\)</span> by a path with length at most <span class="math inline">\(1\)</span>. The <em>only</em> paths from <span class="math inline">\(1\)</span> to another node are the single arcs <span class="math inline">\((1,2)\)</span> and <span class="math inline">\((1,6)\)</span>, of lengths <span class="math inline">\(4\)</span> and <span class="math inline">\(3\)</span> respectively. <a href="#fig-5-ex1" class="quarto-xref">Figure&nbsp;<span>5.5</span></a> highlights these paths, and we update the tables <a href="#tbl-5-ex1f" class="quarto-xref">Table&nbsp;<span>5.1</span></a> and <a href="#tbl-ex1P" class="quarto-xref">Table&nbsp;<span>5.2</span></a> accordingly.</p>
+<div id="fig-5-ex1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/BF1.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5: Shortest Paths of length <span class="math inline">\(k=1\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-5-ex1f" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-5-ex1f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Lengths of shortest paths of length at most <span class="math inline">\(1\)</span>.
+</figcaption>
+<div aria-describedby="tbl-5-ex1f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-ex1P" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex1P-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.2: Predecessors in shortest paths of length at most <span class="math inline">\(1\)</span>.
+</figcaption>
+<div aria-describedby="tbl-ex1P-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="iteration-2-k2" class="level4" data-number="5.2.6.2">
+<h4 data-number="5.2.6.2" class="anchored" data-anchor-id="iteration-2-k2"><span class="header-section-number">5.2.6.2</span> Iteration 2 (<span class="math inline">\(k=2\)</span>)</h4>
+<p>Nodes <span class="math inline">\(3\)</span> and <span class="math inline">\(4\)</span> can both be reached from <span class="math inline">\(1\)</span> using a path of length <span class="math inline">\(2\)</span> (with lengths <span class="math inline">\(-2\)</span> and <span class="math inline">\(1\)</span> respectively). Similarly, we have path <span class="math inline">\((1,2,6)\)</span> of length <span class="math inline">\(2\)</span>: <span class="math display">\[
+    \ell_{12} + \ell_{26} = f_1(2) + \ell_{26} = 4 - 2 = 2 &lt; f_1(6) = 3.
+\]</span></p>
+<p>This implies that the path <span class="math inline">\((1,2,6)\)</span> is the shortest <span class="math inline">\((1,6)\)</span>-path with at most <span class="math inline">\(2\)</span> arcs. We update the shortest path and predecessor tables below.</p>
+<div id="fig-5-ex2" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/BF2.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.6: Shortest Paths of length at most <span class="math inline">\(k=2\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-ex2f" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex2f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.3: Lengths of shortest paths of length at most <span class="math inline">\(2\)</span>.
+</figcaption>
+<div aria-describedby="tbl-ex2f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_2\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.4: Predecessors in shortest paths of length at most <span class="math inline">\(2\)</span>.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="iteration-3-k3" class="level4" data-number="5.2.6.3">
+<h4 data-number="5.2.6.3" class="anchored" data-anchor-id="iteration-3-k3"><span class="header-section-number">5.2.6.3</span> Iteration 3 (<span class="math inline">\(k=3\)</span>)</h4>
+<p>Node <span class="math inline">\(5\)</span> is reachable from <span class="math inline">\(1\)</span> by the path <span class="math inline">\((1,2,3,5)\)</span> using <span class="math inline">\(3\)</span> arcs; this path has length <span class="math inline">\(-4\)</span>. On the other hand, every other <span class="math inline">\((s,i)\)</span>-path consisting of <span class="math inline">\(3\)</span> arcs is longer than the shortest <span class="math inline">\((s,i)\)</span>-path of length at most <span class="math inline">\(2\)</span>.</p>
+<div id="fig-5-ex3" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ex3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/BF3.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ex3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.7: Shortest Paths of length at most <span class="math inline">\(k=3\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.5: Lengths of shortest paths of length at most <span class="math inline">\(3\)</span>.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_2\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_3\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">-4</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.6: Predecessors in shortest paths of length at most <span class="math inline">\(3\)</span>.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="iteration-4-k4" class="level4" data-number="5.2.6.4">
+<h4 data-number="5.2.6.4" class="anchored" data-anchor-id="iteration-4-k4"><span class="header-section-number">5.2.6.4</span> Iteration 4 (<span class="math inline">\(k=4\)</span>)</h4>
+<p>Note that we have the <span class="math inline">\((1,4)\)</span>-path <span class="math inline">\((1,2,3,5,4)\)</span> containing <span class="math inline">\(k=4\)</span> arcs. This path has length <span class="math display">\[
+    f_3(5) + \ell_{54} = -4 + 4 = 0 &lt; f_3(4) = 1 = f_2(4).
+\]</span> We set <span class="math inline">\(f_4(4) = 0\)</span> and <span class="math inline">\(P_4(4) = 5\)</span>.</p>
+<p>After checking all other paths containing <span class="math inline">\(k=4\)</span> arcs, we do not change the list of shortest paths.</p>
+<div id="fig-5-ex4" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ex4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/BF4.png" class="quarto-figure quarto-figure-left figure-img" height="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ex4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.8: Shortest Paths of length at most <span class="math inline">\(k=4\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.7: Lengths of shortest paths of length at most <span class="math inline">\(4\)</span>.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_2\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_3\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">-4</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_4\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-4</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.8: Predecessors in shortest paths of length at most <span class="math inline">\(4\)</span>.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="termination" class="level4" data-number="5.2.6.5">
+<h4 data-number="5.2.6.5" class="anchored" data-anchor-id="termination"><span class="header-section-number">5.2.6.5</span> Termination</h4>
+<p>The shortest path using at most <span class="math inline">\(4\)</span> arcs are also shortest paths using at most <span class="math inline">\(5\)</span> arcs for this graph. Since <span class="math inline">\(k=5 = n-1\)</span>, we have found the shortest paths of any length by <a href="#lem-5-shortest-paths" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a>.</p>
+</section>
+</section>
+<section id="complexity-of-the-bellman-ford-algorithm" class="level3" data-number="5.2.7">
+<h3 data-number="5.2.7" class="anchored" data-anchor-id="complexity-of-the-bellman-ford-algorithm"><span class="header-section-number">5.2.7</span> Complexity of the Bellman-Ford Algorithm</h3>
+<p>Let’s analyses how many operations are needed by the Bellman-Ford Algorithm.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f_0(s) <span class="op">=</span> <span class="dv">0</span> <span class="kw">and</span> P_0(s) <span class="op">=</span> <span class="op">~</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> V \{s}:</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    f_0(i) <span class="op">=</span> <span class="op">+</span>inf <span class="kw">and</span>  P_0(i) <span class="op">=</span> <span class="op">~</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate shortest paths of length k.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> {<span class="dv">1</span>, <span class="dv">2</span>, ..., n<span class="op">-</span><span class="dv">1</span>}:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update shortest si-path.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> V:</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        f_k(i) <span class="op">=</span> f_{k<span class="op">-</span><span class="dv">1</span>}(i) </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        P_k(i) <span class="op">=</span> P_{k<span class="op">-</span><span class="dv">1</span>}(i)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Check each edge incident at i.</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (j,i) \<span class="kw">in</span> delta<span class="op">^</span>{<span class="op">-</span>}(i):            </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update if length-k path is shorter than k-1.</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> f_{k<span class="op">-</span><span class="dv">1</span>}(j) <span class="op">+</span> l_{ji} <span class="op">&lt;</span> f_k(i)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                f_k(i) <span class="op">=</span> f_{k<span class="op">-</span><span class="dv">1</span>}(j) <span class="op">+</span> l_{ji} </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                P_k(i) <span class="op">=</span> j</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Initiailization (Lines 1-3) requires <span class="math inline">\(O(n)\)</span> elementary operations.</p>
+<p>The loop from Line 9 to Line 18 is repeated for each <span class="math inline">\(i \in V\)</span> (<span class="math inline">\(O(n)\)</span> times) and consists of the following steps for each <span class="math inline">\(i\)</span>:</p>
+<ul>
+<li><p>Initializing <span class="math inline">\(f_k(i) = f_{k-1}(i)\)</span> and <span class="math inline">\(P_k(i) = P_{k-1}(i)\)</span> (requires <span class="math inline">\(O(1)\)</span> operations).</p></li>
+<li><p>Checking if each arc <span class="math inline">\((j,i)\)</span> with tail <span class="math inline">\(i\)</span> yields a shorter path with <span class="math inline">\(k\)</span> arcs:</p>
+<ul>
+<li><p>Comparing <span class="math inline">\(f_{k-1}(j) + \ell_{ji}\)</span> with <span class="math inline">\(f_k(i)\)</span> requires <span class="math inline">\(O(1)\)</span> operations for each <span class="math inline">\(j\)</span>.</p></li>
+<li><p>We have <span class="math inline">\(|\delta^-(i)| = O(n)\)</span> of these arcs.</p></li>
+</ul></li>
+</ul>
+<p>It follows that the loop from Lines 9–18 requires <span class="math display">\[
+    O(n) \Big( O(1) + O(n) \Big) = O(n^2)
+\]</span> for each <span class="math inline">\(k \in \{1,2,\dots, n-1\}\)</span>. Taking the total over all <span class="math inline">\(k\)</span>, the Bellman-Ford Algorithm requires <span class="math inline">\(O(n^3)\)</span> elementary operations.</p>
+<section id="complexity-in-terms-of-arcs" class="level4" data-number="5.2.7.1">
+<h4 data-number="5.2.7.1" class="anchored" data-anchor-id="complexity-in-terms-of-arcs"><span class="header-section-number">5.2.7.1</span> Complexity in Terms of Arcs</h4>
+<p>Each arc <span class="math inline">\((j,i) \in A\)</span> is considered exactly once for each <span class="math inline">\(k \in \{1,2,\dots, n-1\}\)</span> in the loop from Lines 9–18. This implies that the steps of this loop require <span class="math inline">\(O(|A| + n) = O(m + n)\)</span> elementary operations. This implies that the total complexity of the Bellman-Ford Algorithm require <span class="math display">\[
+    O(nm + n^2)
+\]</span> elementary operations, which is much smaller than <span class="math inline">\(O(n^3)\)</span> if <span class="math inline">\(m &lt;&lt; n^2\)</span>.</p>
+</section>
+</section>
+<section id="detecting-negative-length-cycles" class="level3" data-number="5.2.8">
+<h3 data-number="5.2.8" class="anchored" data-anchor-id="detecting-negative-length-cycles"><span class="header-section-number">5.2.8</span> Detecting Negative Length Cycles</h3>
+<p><strong>Recall:</strong> <strong>SPP-U</strong> (and <strong>SSPP-U</strong>) are <strong>unbounded</strong> if the graph contains a <strong>negative length</strong> cycle. Indeed, we can endlessly apply rounds of update operations and reduce the shortest path lengths <span class="math inline">\(f_k(i)\)</span> indefinitely.</p>
+<p>We can detect whether the problem is unbounded by running one more iteration of the algorithm beyond iteration <span class="math inline">\(k = n-1\)</span>.</p>
+<ul>
+<li><p>If the graph contains a negative-length cycle then an update will take place.</p></li>
+<li><p>This indicates the problem is unbounded and we can stop the algorithm.</p></li>
+</ul>
+<section id="example-1" class="level4" data-number="5.2.8.1">
+<h4 data-number="5.2.8.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">5.2.8.1</span> Example</h4>
+<p>Consider the graph given in <a href="#fig-5-negcyc" class="quarto-xref">Figure&nbsp;<span>5.9</span></a>. This graph has cycle <span class="math inline">\(C = (2,3,4,2)\)</span> with length <span class="math inline">\(-4 &lt; 0\)</span>.</p>
+<div id="fig-5-negcyc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-negcyc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/neg_cycle.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-negcyc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.9: Graph with negative cycle
+</figcaption>
+</figure>
+</div>
+<p>Let’s apply the Bellman-Ford algorithm to find the shortest <span class="math inline">\((1,t)\)</span>-paths in this graph.</p>
+<section id="iteration-1-k1-1" class="level5" data-number="5.2.8.1.1">
+<h5 data-number="5.2.8.1.1" class="anchored" data-anchor-id="iteration-1-k1-1"><span class="header-section-number">5.2.8.1.1</span> Iteration 1 (<span class="math inline">\(k=1\)</span>)</h5>
+<p>The only node adjacent to <span class="math inline">\(1\)</span> is <span class="math inline">\(2\)</span>. Thus, the</p>
+<div id="fig-5-ncex1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ncex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/neg_cycle_1.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ncex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.10: Shortest Paths of length at most <span class="math inline">\(k=1\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.9: Length of shortest paths of length at most <span class="math inline">\(1\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.10: Predecessors in shortest paths of length at most <span class="math inline">\(1\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="iteration-2-k2-1" class="level5" data-number="5.2.8.1.2">
+<h5 data-number="5.2.8.1.2" class="anchored" data-anchor-id="iteration-2-k2-1"><span class="header-section-number">5.2.8.1.2</span> Iteration 2 (<span class="math inline">\(k=2\)</span>)</h5>
+<p>Next, we can reach <span class="math inline">\(3\)</span> from <span class="math inline">\(1\)</span> via a path consisting of <span class="math inline">\(2\)</span> arcs. This path has length <span class="math inline">\(-2\)</span>.</p>
+<div id="fig-5-ncex2" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ncex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/neg_cycle_2.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ncex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.11: Shortest Paths of length at most <span class="math inline">\(k=2\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.11: Length of shortest paths of length at most <span class="math inline">\(2\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_2(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.12: Predecessors in shortest paths of length at most <span class="math inline">\(2\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_2(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="iteration-3-k3-1" class="level5" data-number="5.2.8.1.3">
+<h5 data-number="5.2.8.1.3" class="anchored" data-anchor-id="iteration-3-k3-1"><span class="header-section-number">5.2.8.1.3</span> Iteration 3 (<span class="math inline">\(k=3\)</span>)</h5>
+<p>Node <span class="math inline">\(4\)</span> is the only node that is reachable from <span class="math inline">\(1\)</span> by a path containing <span class="math inline">\(3\)</span> arcs; the path <span class="math inline">\((1,2,3,4)\)</span> has length <span class="math inline">\(3\)</span>.</p>
+<div id="fig-5-ncex3" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ncex3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/neg_cycle_3.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ncex3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.12: Shortest Paths of length <span class="math inline">\(k=3\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.13: Length of shortest paths of length at most <span class="math inline">\(3\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_2(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_3(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.14: Predecessors in shortest paths of length at most <span class="math inline">\(3\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_2(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_3(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="iteration-4-k4-1" class="level5" data-number="5.2.8.1.4">
+<h5 data-number="5.2.8.1.4" class="anchored" data-anchor-id="iteration-4-k4-1"><span class="header-section-number">5.2.8.1.4</span> Iteration 4 (<span class="math inline">\(k=4\)</span>)</h5>
+<p>Let’s try one more iteration!</p>
+<p>Note that <span class="math display">\[
+    f_3(4) + \ell_{42} = 3 - 3 = 0 &lt; f_2(2).
+\]</span></p>
+<div id="fig-5-ncex4" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-ncex4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/5/neg_cycle_4.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-ncex4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.13: Shortest Paths of length <span class="math inline">\(k=4\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.15: Length of shortest paths of length at most <span class="math inline">\(4\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_0(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_1(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_2(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;"><span class="math inline">\(\infty\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(f_3(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f_4(i)\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.16: Predecessors in shortest paths of length at most <span class="math inline">\(4\)</span> in graph with negative cycle.
+</figcaption>
+<div aria-describedby="tbl--caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_0(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_1(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_2(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(P_3(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(P_4(i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sim\)</span></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>This implies that the path <span class="math inline">\((1,2,3,4,2)\)</span> with <span class="math inline">\(5\)</span> arcs has smaller total length than the path <span class="math inline">\((1,2)\)</span>. This contradicts <span class="quarto-unresolved-ref">?lem-5-shortest-path</span> and, hence, implies that the shortest path problem is unbounded for this graph. Indeed, further iterations will lead further decrease in <span class="math inline">\(f_k(i)\)</span> for <span class="math inline">\(i\)</span> in the negative length cycle <span class="math inline">\((2,3,4,2)\)</span>. We can stop the Bellman-Ford Algorithm after <span class="math inline">\(k=n\)</span> iterations and declare the problem instance unbounded.</p>
 
 
+</section>
+</section>
 </section>
 </section>
 
