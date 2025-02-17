@@ -1193,7 +1193,7 @@ Table&nbsp;5.8: Predecessors in shortest paths of length at most <span class="ma
 </section>
 <section id="termination" class="level4" data-number="5.2.6.5">
 <h4 data-number="5.2.6.5" class="anchored" data-anchor-id="termination"><span class="header-section-number">5.2.6.5</span> Termination</h4>
-<p>The shortest path using at most <span class="math inline">\(4\)</span> arcs are also shortest paths using at most <span class="math inline">\(5\)</span> arcs for this graph. Since <span class="math inline">\(k=5 = n-1\)</span>, we have found the shortest paths of any length by <a href="#lem-5-shortest-paths" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a>.</p>
+<p>The shortest path using at most <span class="math inline">\(4\)</span> arcs are also shortest paths using at most <span class="math inline">\(5\)</span> arcs for this graph. Since <span class="math inline">\(k=5 = n-1\)</span>, we have found the shortest paths of any length by <span class="citation" data-cites="lem">@lem</span>.</p>
 </section>
 </section>
 <section id="complexity-of-the-bellman-ford-algorithm" class="level3" data-number="5.2.7">
@@ -1689,7 +1689,7 @@ Table&nbsp;5.16: Predecessors in shortest paths of length at most <span class="m
 </div>
 </figure>
 </div>
-<p>This implies that the path <span class="math inline">\((1,2,3,4,2)\)</span> with <span class="math inline">\(5\)</span> arcs has smaller total length than the path <span class="math inline">\((1,2)\)</span>. This contradicts <span class="quarto-unresolved-ref">?lem-5-shortest-path</span> and, hence, implies that the shortest path problem is unbounded for this graph. Indeed, further iterations will lead further decrease in <span class="math inline">\(f_k(i)\)</span> for <span class="math inline">\(i\)</span> in the negative length cycle <span class="math inline">\((2,3,4,2)\)</span>. We can stop the Bellman-Ford Algorithm after <span class="math inline">\(k=n\)</span> iterations and declare the problem instance unbounded.</p>
+<p>This implies that the path <span class="math inline">\((1,2,3,4,2)\)</span> with <span class="math inline">\(5\)</span> arcs has smaller total length than the path <span class="math inline">\((1,2)\)</span>. This contradicts <a href="#lem-5-shortest-paths" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a> and, hence, implies that the shortest path problem is unbounded for this graph. Indeed, further iterations will lead further decrease in <span class="math inline">\(f_k(i)\)</span> for <span class="math inline">\(i\)</span> in the negative length cycle <span class="math inline">\((2,3,4,2)\)</span>. We can stop the Bellman-Ford Algorithm after <span class="math inline">\(k=n\)</span> iterations and declare the problem instance unbounded.</p>
 
 
 </section>
