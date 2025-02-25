@@ -768,8 +768,8 @@ Figure&nbsp;6.10: Potential flight routes
 </figure>
 </div>
 <p>Let’s apply the Jarnik-Prim-Dijsktra Algorithm to find the minimum cost spanning tree in <span class="math inline">\(G\)</span>.</p>
-<section id="step-1" class="level4" data-number="6.2.3.1">
-<h4 data-number="6.2.3.1" class="anchored" data-anchor-id="step-1"><span class="header-section-number">6.2.3.1</span> Step 1</h4>
+<section id="step-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-1">Step 1</h4>
 <p>We start with <span class="math inline">\(S = \{1\}\)</span>, which induces the cut <span class="math inline">\(\delta(S) = \{14, 18\}\)</span>. Since <span class="math display">\[
 c_{14} = 355 &lt; 695 = c_{18},
 \]</span> we add <span class="math inline">\(14\)</span> to <span class="math inline">\(E_T\)</span> and add <span class="math inline">\(\{4\}\)</span> to <span class="math inline">\(S\)</span>.</p>
@@ -784,8 +784,8 @@ Figure&nbsp;6.11: Step 1 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="step-2" class="level4" data-number="6.2.3.2">
-<h4 data-number="6.2.3.2" class="anchored" data-anchor-id="step-2"><span class="header-section-number">6.2.3.2</span> Step 2</h4>
+<section id="step-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-2">Step 2</h4>
 <p>Next, <span class="math inline">\(\delta(S) = \{18, 24, 34, 74\}\)</span>. We add <span class="math inline">\(2\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(24\)</span> to <span class="math inline">\(E_T\)</span> because <span class="math inline">\(c_{24} = 74\)</span> is the minimum cost edge in <span class="math inline">\(\delta(S)\)</span>.</p>
 <div id="fig-flights2" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -798,8 +798,8 @@ Figure&nbsp;6.12: Step 2 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="step-3" class="level4" data-number="6.2.3.3">
-<h4 data-number="6.2.3.3" class="anchored" data-anchor-id="step-3"><span class="header-section-number">6.2.3.3</span> Step 3</h4>
+<section id="step-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-3">Step 3</h4>
 <p>Next, <span class="math inline">\(c_{34} = 262\)</span> has minimum cost among edges in <span class="math inline">\(\delta(S) = \{18, 34, 47, 27\}\)</span>. We add <span class="math inline">\(34\)</span> to <span class="math inline">\(E_T\)</span> and <span class="math inline">\(3\)</span> to <span class="math inline">\(S\)</span>.</p>
 <div id="fig-flights3" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -812,8 +812,8 @@ Figure&nbsp;6.13: Step 3 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="step-4" class="level4" data-number="6.2.3.4">
-<h4 data-number="6.2.3.4" class="anchored" data-anchor-id="step-4"><span class="header-section-number">6.2.3.4</span> Step 4</h4>
+<section id="step-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-4">Step 4</h4>
 <p>We next add <span class="math inline">\(37\)</span> to <span class="math inline">\(E_T\)</span> and <span class="math inline">\(7\)</span> to <span class="math inline">\(S\)</span> because <span class="math inline">\(c_{37} = 242\)</span> has minimum cost among edges in <span class="math inline">\(\delta(S) = \{37, 47, 27, 18\}\)</span>.</p>
 <div id="fig-flights4" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -826,8 +826,8 @@ Figure&nbsp;6.14: Step 4 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="step-5" class="level4" data-number="6.2.3.5">
-<h4 data-number="6.2.3.5" class="anchored" data-anchor-id="step-5"><span class="header-section-number">6.2.3.5</span> Step 5</h4>
+<section id="step-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-5">Step 5</h4>
 <p>We next add <span class="math inline">\(67\)</span> to <span class="math inline">\(E_T\)</span> and <span class="math inline">\(6\)</span> to <span class="math inline">\(S\)</span> because <span class="math inline">\(c_{67} = 83\)</span> has minimum cost among edges in <span class="math inline">\(\delta(S) = \{18, 75, 76, 78\}\)</span>.</p>
 <div id="fig-flights5" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -840,8 +840,8 @@ Figure&nbsp;6.15: Step 5 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="step-6" class="level4" data-number="6.2.3.6">
-<h4 data-number="6.2.3.6" class="anchored" data-anchor-id="step-6"><span class="header-section-number">6.2.3.6</span> Step 6</h4>
+<section id="step-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-6">Step 6</h4>
 <p>Next, <span class="math inline">\(c_{78} = 151\)</span> is minimum cost among edges in <span class="math inline">\(\delta(S) = \{18, 56, 57, 78\}\)</span>. Add <span class="math inline">\(8\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(78\)</span> to <span class="math inline">\(E_T\)</span>.</p>
 <div id="fig-flights6" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -854,8 +854,8 @@ Figure&nbsp;6.16: Step 6 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="step-7" class="level4" data-number="6.2.3.7">
-<h4 data-number="6.2.3.7" class="anchored" data-anchor-id="step-7"><span class="header-section-number">6.2.3.7</span> Step 7</h4>
+<section id="step-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-7">Step 7</h4>
 <p>Finally, <span class="math inline">\(\delta(S) = \{56, 57\}\)</span>. We have <span class="math display">\[
 c_{56} = 230 &lt; 306 = c_{57},
 \]</span> so we add <span class="math inline">\(56\)</span> to <span class="math inline">\(E_T\)</span>, <span class="math inline">\(5\)</span> to <span class="math inline">\(S\)</span>.</p>
@@ -870,8 +870,8 @@ Figure&nbsp;6.17: Step 7 of the JPD Algorithm
 </figure>
 </div>
 </section>
-<section id="termination" class="level4" data-number="6.2.3.8">
-<h4 data-number="6.2.3.8" class="anchored" data-anchor-id="termination"><span class="header-section-number">6.2.3.8</span> Termination</h4>
+<section id="termination" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="termination">Termination</h4>
 <p>Note that <span class="math inline">\(S = \{V\}\)</span> and <span class="math inline">\(E_T\)</span> contains <span class="math inline">\(n-1=7\)</span> edges. This implies that we have constructed the minimum spanning tree <span class="math inline">\(T\)</span>.</p>
 <div id="fig-flights-MST" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -959,8 +959,8 @@ Figure&nbsp;6.20: Graph <span class="math inline">\(G\)</span>
 </figcaption>
 </figure>
 </div>
-<section id="step-1-1" class="level4" data-number="6.3.4.1">
-<h4 data-number="6.3.4.1" class="anchored" data-anchor-id="step-1-1"><span class="header-section-number">6.3.4.1</span> Step 1</h4>
+<section id="step-1-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-1-1">Step 1</h4>
 <p>Initially, we have <span class="math inline">\(S = \{1\}\)</span>. Note that <span class="math display">\[
 \begin{aligned}
     C(2) &amp;= c_{12} = 1 \\
@@ -1024,13 +1024,13 @@ Figure&nbsp;6.21: Step 1 of the revised JPD algorithm
 </div>
 </div>
 </section>
-<section id="step-2-1" class="level4" data-number="6.3.4.2">
-<h4 data-number="6.3.4.2" class="anchored" data-anchor-id="step-2-1"><span class="header-section-number">6.3.4.2</span> Step 2</h4>
+<section id="step-2-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-2-1">Step 2</h4>
 <p>We have <span class="math inline">\(S = \{1,2\}\)</span>. Nodes <span class="math inline">\(3\)</span> and <span class="math inline">\(5\)</span> are adjacent to <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>. Since <span class="math display">\[
 C(3) = 1 &lt; 2 = C(5),
 \]</span> we add <span class="math inline">\(3\)</span> to <span class="math inline">\(S\)</span>; since <span class="math inline">\(P(3)=1\)</span>, we add <span class="math inline">\(13\)</span> to <span class="math inline">\(E_T\)</span>. Finally, we update <span class="math display">\[
 C(4) = 5, P(4) = 3
-\]</span> since <span class="math inline">\(4\)</span> is adjacent to <span class="math inline">\(3\)</span>; <span class="math inline">\(C(5)\)</span> and P(5)$ are unchanged.</p>
+\]</span> since <span class="math inline">\(4\)</span> is adjacent to <span class="math inline">\(3\)</span>; <span class="math inline">\(C(5)\)</span> and <span class="math inline">\(P(5)\)</span> are unchanged.</p>
 <div>
 
 </div>
@@ -1085,9 +1085,9 @@ Figure&nbsp;6.22: Step 2 of the revised JPD algorithm
 </div>
 </div>
 </section>
-<section id="step-3-1" class="level4" data-number="6.3.4.3">
-<h4 data-number="6.3.4.3" class="anchored" data-anchor-id="step-3-1"><span class="header-section-number">6.3.4.3</span> Step 3</h4>
-<p>Since $ C(5) &lt; C(4), $ we add <span class="math inline">\(5\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(25\)</span> to <span class="math inline">\(E_T\)</span>. Note that <span class="math display">\[
+<section id="step-3-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-3-1">Step 3</h4>
+<p>Since <span class="math inline">\(C(5) &lt; C(4)\)</span>, we add <span class="math inline">\(5\)</span> to <span class="math inline">\(S\)</span> and <span class="math inline">\(25\)</span> to <span class="math inline">\(E_T\)</span>. Note that <span class="math display">\[
     c_{45} = 4 &lt; C(4) = 5,
 \]</span> we set <span class="math inline">\(C(4) = 4\)</span> and <span class="math inline">\(P(4) = 5\)</span>.</p>
 <div>
@@ -1144,8 +1144,8 @@ Figure&nbsp;6.23: Step 3 of the revised JPD algorithm
 </div>
 </div>
 </section>
-<section id="step-4-1" class="level4" data-number="6.3.4.4">
-<h4 data-number="6.3.4.4" class="anchored" data-anchor-id="step-4-1"><span class="header-section-number">6.3.4.4</span> Step 4</h4>
+<section id="step-4-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-4-1">Step 4</h4>
 <p>The only edge left to add <span class="math inline">\(E_T\)</span> is <span class="math inline">\(54\)</span>.</p>
 <div>
 

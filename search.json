@@ -14,7 +14,7 @@
     "href": "03_Reachability.html#the-graph-reachability-problem",
     "title": "3  Graph Reachability",
     "section": "",
-    "text": "Definition 3.1 (The Graph Reachability Problem) Given a directed graph \\(G = (V,A)\\) and a node \\(s\\). Find the set \\(M\\) of all nodes that are reachable from \\(s:\\)\n\ni.e., all nodes that are connected to \\(s\\).\n\n\n\nExample 3.1 Consider the graph \\(G\\) given in Figure 6 (a). The set of reachable nodes from \\(s=1\\) is \\(M = \\{1,2,4,5\\}\\) (see Figure 6 (b)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Directed graph \\(G\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(M = \\{1,2,4,5\\}\\) for \\(s=1\\).\n\n\n\n\n\n\n\nFigure 3.1: Graph \\(G\\) and reachable set \\(M\\) from node \\(s=1\\).",
+    "text": "Definition 3.1 (The Graph Reachability Problem) Given a directed graph \\(G = (V,A)\\) and a node \\(s\\). Find the set \\(M\\) of all nodes that are reachable from \\(s:\\)\n\ni.e., all nodes that are connected to \\(s\\).\n\n\n\nExample 3.1 Consider the graph \\(G\\) given in Figure 2 (a). The set of reachable nodes from \\(s=1\\) is \\(M = \\{1,2,4,5\\}\\) (see Figure 2 (b)).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Directed graph \\(G\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(M = \\{1,2,4,5\\}\\) for \\(s=1\\).\n\n\n\n\n\n\n\nFigure 3.1: Graph \\(G\\) and reachable set \\(M\\) from node \\(s=1\\).",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
     ]
@@ -34,7 +34,7 @@
     "href": "03_Reachability.html#illustration-of-idea",
     "title": "3  Graph Reachability",
     "section": "3.3 Illustration of Idea",
-    "text": "3.3 Illustration of Idea\nLet’s apply this idea for the graph \\(G\\) given in Figure 6 (a) with source node \\(s = 1\\).\n\n3.3.1 Step 1\nThe forward star of \\(s\\) is \\[\n    \\delta^+(\\{1\\}) = \\{(1,2), (1,4)\\}.\n\\] This implies that \\(2\\) and \\(4\\) are both reachable from \\(1\\). That is, \\(M\\) contains \\(\\{1,2,4\\}\\). See Figure 6 (a).\n\n\n3.3.2 Step 2\nWe need to explore further from nodes \\(2\\) and \\(4\\). Let’s start with \\(2\\). The only node adjacent to \\(2\\) is node \\(5\\). We can conclude that \\(M\\) contains \\(\\{1,2,4,5\\}\\). See Figure 6 (b).\n\n\n3.3.3 Step 3\nLet’s explore from node \\(4\\): \\(2\\) is the only node adjacent to \\(4\\). Our partially computed reachable set \\(M\\) is unchanged. See Figure 6 (c).\n\n\n3.3.4 Step 4\nWe haven’t explored from node \\(5\\) yet. Let’s do that now. The only arc incident with \\(5\\) is \\((5,4)\\). Thus, \\(4\\) is adjacent to \\(5\\) and, hence, reachable from \\(1\\). We already knew that \\(4\\) is in \\(M\\), so \\(M\\) is unchanged. See Figure 6 (d).\n\n\n3.3.5 Step 5\nWe have a choice of nodes to explore from: \\(\\{2, 4, 5\\}\\). We have already explored each of these nodes and appear to be stuck in a loop. Can we conclude that \\(M = \\{1,2,4,5\\}\\)?\n\n\n\n\n\n\n\n\n\n\n\n(a) Step 1: \\(M \\supseteq \\{1,2,4\\}\\) so far\n\n\n\n\n\n\n\n\n\n\n\n(b) Step 2: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Step 3: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Step 4: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\nFigure 3.2: Steps of the intuitive reachability process. We need to revise the algorithm to decide when to terminate.",
+    "text": "3.3 Illustration of Idea\nLet’s apply this idea for the graph \\(G\\) given in Figure 2 (a) with source node \\(s = 1\\).\n\n3.3.1 Step 1\nThe forward star of \\(s\\) is \\[\n    \\delta^+(\\{1\\}) = \\{(1,2), (1,4)\\}.\n\\] This implies that \\(2\\) and \\(4\\) are both reachable from \\(1\\). That is, \\(M\\) contains \\(\\{1,2,4\\}\\). See Figure 2 (a).\n\n\n3.3.2 Step 2\nWe need to explore further from nodes \\(2\\) and \\(4\\). Let’s start with \\(2\\). The only node adjacent to \\(2\\) is node \\(5\\). We can conclude that \\(M\\) contains \\(\\{1,2,4,5\\}\\). See Figure 2 (b).\n\n\n3.3.3 Step 3\nLet’s explore from node \\(4\\): \\(2\\) is the only node adjacent to \\(4\\). Our partially computed reachable set \\(M\\) is unchanged. See Figure 2 (c).\n\n\n3.3.4 Step 4\nWe haven’t explored from node \\(5\\) yet. Let’s do that now. The only arc incident with \\(5\\) is \\((5,4)\\). Thus, \\(4\\) is adjacent to \\(5\\) and, hence, reachable from \\(1\\). We already knew that \\(4\\) is in \\(M\\), so \\(M\\) is unchanged. See Figure 2 (d).\n\n\n3.3.5 Step 5\nWe have a choice of nodes to explore from: \\(\\{2, 4, 5\\}\\). We have already explored each of these nodes and appear to be stuck in a loop. Can we conclude that \\(M = \\{1,2,4,5\\}\\)?\n\n\n\n\n\n\n\n\n\n\n\n(a) Step 1: \\(M \\supseteq \\{1,2,4\\}\\) so far\n\n\n\n\n\n\n\n\n\n\n\n(b) Step 2: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Step 3: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Step 4: \\(M \\supseteq \\{1,2,4,5\\}\\)\n\n\n\n\n\n\n\nFigure 3.2: Steps of the intuitive reachability process. We need to revise the algorithm to decide when to terminate.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
     ]
@@ -54,7 +54,7 @@
     "href": "03_Reachability.html#returning-to-the-example",
     "title": "3  Graph Reachability",
     "section": "3.5 Returning to the Example",
-    "text": "3.5 Returning to the Example\nLet’s consider the graph \\(G\\) given in Figure 6 (a) and apply the algorithm to find the set of nodes reachable from \\(s=1\\).\n\n3.5.1 Iteration 1\nWe initialize \\(Q\\) and \\(M\\) as \\[\n    Q = \\{1\\}, \\hspace{0.25in}\n    M = \\emptyset.\n\\] Let’s explore node \\(1\\):\n\nNode 1 has adjacency list \\(L(1) = \\{2,4\\}\\).\nLet’s add {2,4} to \\(Q\\).\nSince we have explored node \\(1\\), we remove \\(1\\) from \\(Q\\) and add \\(1\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.3: Iteration 1: Explore node \\(1\\)\n\n\n\n\n\n3.5.2 Iteration 2\nAfter the first iteration, we have\n\\[\n    Q = \\{2, 4\\}, \\hspace{0.25in}\n    M = \\{1\\}.\n\\]\nWe can continue from node \\(2\\) or node \\(4\\). Let’s explore node \\(2\\):\n\n\\(L(2) = \\{5\\}\\).\nAdd \\(5\\) to \\(Q\\).\nRemove \\(2\\) from \\(Q\\) and add \\(2\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.4: Iteration 2: Explore node \\(2\\)\n\n\n\n\n\n3.5.3 Iteration 3\nWe now have \\[\n    Q = \\{4, 5\\}, \\hspace{0.25in}\n    M = \\{1, 2\\}.\n\\]\nLet’s explore node \\(4\\):\n\n\\(L(4) = \\{2\\}\\).\nWe already have \\(2 \\in M\\); we do not add \\(2\\) to \\(Q\\).\nWe remove \\(4\\) from \\(Q\\) and add \\(4\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.5: Iteration 3: Explore node \\(4\\)\n\n\n\n\n\n3.5.4 Iteration 4\nAfter the first three iterations, we have \\[\n    Q = \\{5\\}, \\hspace{0.25in}\n    M = \\{1, 2, 4\\}.\n\\]\nExploring node \\(5\\), we note:\n\n\\(L(5) = 4\\).\nSince \\(4 \\in M\\) already, we move \\(5\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.6: Iteration 4: Explore node \\(5\\)\n\n\n\n\n\n3.5.5 Iteration 5 – Termination\nAt this stage \\(Q\\) is empty, so we cannot proceed. We conclude that \\(M = \\{1,2,4,5\\}\\)!",
+    "text": "3.5 Returning to the Example\nLet’s consider the graph \\(G\\) given in Figure 2 (a) and apply the algorithm to find the set of nodes reachable from \\(s=1\\).\n\n3.5.1 Iteration 1\nWe initialize \\(Q\\) and \\(M\\) as \\[\n    Q = \\{1\\}, \\hspace{0.25in}\n    M = \\emptyset.\n\\] Let’s explore node \\(1\\):\n\nNode 1 has adjacency list \\(L(1) = \\{2,4\\}\\).\nLet’s add {2,4} to \\(Q\\).\nSince we have explored node \\(1\\), we remove \\(1\\) from \\(Q\\) and add \\(1\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.3: Iteration 1: Explore node \\(1\\)\n\n\n\n\n\n3.5.2 Iteration 2\nAfter the first iteration, we have\n\\[\n    Q = \\{2, 4\\}, \\hspace{0.25in}\n    M = \\{1\\}.\n\\]\nWe can continue from node \\(2\\) or node \\(4\\). Let’s explore node \\(2\\):\n\n\\(L(2) = \\{5\\}\\).\nAdd \\(5\\) to \\(Q\\).\nRemove \\(2\\) from \\(Q\\) and add \\(2\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.4: Iteration 2: Explore node \\(2\\)\n\n\n\n\n\n3.5.3 Iteration 3\nWe now have \\[\n    Q = \\{4, 5\\}, \\hspace{0.25in}\n    M = \\{1, 2\\}.\n\\]\nLet’s explore node \\(4\\):\n\n\\(L(4) = \\{2\\}\\).\nWe already have \\(2 \\in M\\); we do not add \\(2\\) to \\(Q\\).\nWe remove \\(4\\) from \\(Q\\) and add \\(4\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.5: Iteration 3: Explore node \\(4\\)\n\n\n\n\n\n3.5.4 Iteration 4\nAfter the first three iterations, we have \\[\n    Q = \\{5\\}, \\hspace{0.25in}\n    M = \\{1, 2, 4\\}.\n\\]\nExploring node \\(5\\), we note:\n\n\\(L(5) = 4\\).\nSince \\(4 \\in M\\) already, we move \\(5\\) to \\(M\\).\n\n\n\n\n\n\n\nFigure 3.6: Iteration 4: Explore node \\(5\\)\n\n\n\n\n\n3.5.5 Iteration 5 – Termination\nAt this stage \\(Q\\) is empty, so we cannot proceed. We conclude that \\(M = \\{1,2,4,5\\}\\)!",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Graph Reachability</span>"
     ]
@@ -894,7 +894,7 @@
     "href": "05a_Shortest_Paths.html#the-bellman-ford-algorithm",
     "title": "5  The Shortest Path Problem",
     "section": "5.2 The Bellman-Ford Algorithm",
-    "text": "5.2 The Bellman-Ford Algorithm\n\n5.2.1 Single Source Shortest Path Problem – Unrestricted Lengths (SSPP-U)\n\nDefinition 5.3 Given a directed graph \\(G = (V,A)\\) with length function \\(\\ell:A     \\mapsto \\mathbf{R}\\) (unrestricted in sign).\nThe Single Source Shortest Path Problem (SSPP-U) aims to find an \\((s,t)\\)-path with minimum total length for every node \\(t\\) in \\(V\\setminus\\{s\\}\\).\n\n\nExample 5.4 Figure 5.4 gives the shortest \\((1,t)\\)-paths in the graph given in Figure 5.4 (a) for \\(t = 2,3,4,5,6\\).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Shortest \\((1,2)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n(c) Shortest \\((1,3)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n\n\n(d) Shortest \\((1,4)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n(e) Shortest \\((1,5)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n(f) Shortest \\((1,6)\\)-path\n\n\n\n\n\n\n\nFigure 5.4: Shortest \\((1,t)\\)-paths in graph \\(G\\).\n\n\n\n\n\n5.2.2 Subpath Optimality\nThe following theorem characterizes a very useful properties of shortest paths: any subpath of a shortest path is itself a shortest path.\n\nTheorem 5.3 Let \\(P = (s,i_2), (i_2, i_3), \\dots, (i_{k-1}, t)\\) be a shortest \\((s,t)\\)-path.\nConsider pair of nodes \\(i_u, i_v\\) visited by \\(P\\) with \\(u &lt; v\\).\nThen the subpath from \\(i_u\\) to \\(i_v\\) is a shortest \\((i_u,i_v)\\) path.\n\n\nProof. Suppose, on the contrary, that the subpath \\(S\\) from \\(i_u\\) to \\(i_v\\) in a shortest \\((s,t)\\)-path is not the shortest \\((i_u, i_v)\\)-path. In particular, suppose that \\(T\\) is the shortest \\((i_u, i_v)\\)-path.\nWe can construct another \\((s,t)\\)-path \\(tilde P\\) using \\(P\\) and \\(T\\). Indeed, let \\(\\tilde P = P \\setminus S \\cup T\\) be the path obtained by removing \\(S\\) from \\(P\\) and adding \\(T\\). Then \\(\\tilde P\\) is also a \\((s,t)\\)-path. The length of \\(\\tilde P\\) is equal to \\[\n    |P| - |S| + |T| &lt; |P| - |S| + |S| = |P|\n\\] since \\(|T| &lt; |S|\\). This implies that \\(\\tilde P\\) is shorter than \\(P\\); this is a contradiction. Therefore, \\(S\\) must be the shortest \\((i_u, i_v)\\)-path.\n\n\n\n5.2.3 Shortest Paths of Fixed Length\n\nDefinition 5.4 For all \\(i\\in V\\), we define \\(f_k(i)\\) as the length of a shortest \\((s,i)\\)-path containing at most k arcs,\n\nWe set \\(f_k(i) = \\infty\\) if there is no \\((s,i)\\)-path with length at most \\(k\\).\n\nLemma 5.1 If \\(k = n-1\\), then \\(f_{n-1}(i)\\) is the length of a shortest \\((s,i)\\)-path (without restriction on the number of arcs).\n\n\nProof. We can ignore paths that aren’t simple. On the other hand, simple paths contain at most \\(n\\) nodes. Indeed, a simple path does not contain a loop and, hence, visits at most \\(n\\) nodes. Therefore, the shortest \\((s,i)\\)-path contains at most \\(n-1\\) arcs.\n\n\n\n5.2.4 The Bellman-Ford Theorem\nThe following theorem is the basis for our algorithm for calculating shortest paths.\n\nTheorem 5.4 \\(f_k(i)\\) can be computed recursively as \\[\nf_k(i) = \\min \\left\\{\n        f_{k-1}(i),\n        \\;\n        \\min_{(j,i) \\in \\delta^-(i)}\n        \\Big\\{ f_{k-1}(j) + \\ell_{ji} \\Big\\}\n        \\right\\}.\n\\]\n\n\nProof. Assume that \\(f_{k-1}(i)\\) has been computed for all \\(i \\in V\\setminus\\{s\\}\\). The shortest \\((s,i)\\)-path with at most \\(k\\) arcs \n\nis the shortest \\((s,i)\\)-path with at most \\(k-1\\) arcs; or\ncontains one more arc than the shortest \\((s,i)\\)-path with at most \\(k-1\\) arcs.\n\nIn the second case, we can decompose the shortest \\((s,i)\\)-path as:\n\nshortest \\((s,j)\\)-path with \\(k-1\\) arcs for some node \\(j\\); and\narc \\((j,i)\\).\n\nWe choose node \\(j\\) so that \\(j\\) gives \\[\n    \\min_{(q,i) \\in \\delta^-(i)} f_{k-1}(q) + \\ell_{qi}.\n\\]\n\n\n\n5.2.5 The Bellman-Ford Algorithm\n\n5.2.5.1 Setup\n\nDefinition 5.5 Let \\(P_k(i)\\) be the predecessor of \\(i\\) in the shortest \\((s,i)\\)-path with at most \\(k\\) arcs found by the algorithm (so far).\n\nWe will maintain two tables:\n\nOne encoding \\(f_k(i)\\) for each \\(i\\) and \\(k\\);\nThe other encoding \\(P_k(i)\\) for all \\(i\\) and \\(k\\).\n\n\n\n5.2.5.2 Updates\nThe algorithm calculates \\(f_k(i)\\) and \\(P_k(i)\\) for all \\(i \\in V\\) recursively from \\(k=1\\) to \\(k=n-1\\).\nWe’ll update \\(f_k(i)\\) from \\(f_{k-1}(i)\\) by:\n\nInitially setting \\(f_k(i) = f_{k-1}(i)\\);\nScanning all arcs \\((j,i)\\) in \\(\\delta^{-}(i)\\) and update \\(f_k(i)\\) if necessary.\n\n\n\n5.2.5.3 The Bellman-Ford Algorithm (Pseudocode)\nf_0(s) = 0 and P_0(s) = ~ \nfor i in V \\{s}:\n    f_0(i) = +inf and  P_0(i) = ~\n\n# Calculate shortest paths of length k.\nfor k in {1, 2, ..., n-1}:\n   \n    # Update shortest si-path.\n    for i in V:\n        f_k(i) = f_{k-1}(i) \n        P_k(i) = P_{k-1}(i)\n        \n        # Check each edge incident at i.\n        for (j,i) in delta^{-}(i):            \n            # Update if length-k path is shorter than k-1.\n            if f_{k-1}(j) + l_{ji} &lt; f_k(i)\n                f_k(i) = f_{k-1}(j) + l_{ji} \n                P_k(i) = j\n\n\n\n5.2.6 Example\n\n5.2.6.1 Iteration 1 (\\(k=1\\))\nNote that nodes \\(2\\) and \\(6\\) are adjacent to \\(1\\). Thus, they are reachable from \\(1\\) by a path with length at most \\(1\\). The only paths from \\(1\\) to another node are the single arcs \\((1,2)\\) and \\((1,6)\\), of lengths \\(4\\) and \\(3\\) respectively. Figure 5.5 highlights these paths, and we update the tables Table 5.1 and Table 5.2 accordingly.\n\n\n\n\n\n\nFigure 5.5: Shortest Paths of length \\(k=1\\)\n\n\n\n\n\n\nTable 5.1: Lengths of shortest paths of length at most \\(1\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\n\n\n\n\n\n\nTable 5.2: Predecessors in shortest paths of length at most \\(1\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\n\n\n\n\n\n5.2.6.2 Iteration 2 (\\(k=2\\))\nNodes \\(3\\) and \\(4\\) can both be reached from \\(1\\) using a path of length \\(2\\) (with lengths \\(-2\\) and \\(1\\) respectively). Similarly, we have path \\((1,2,6)\\) of length \\(2\\): \\[\n    \\ell_{12} + \\ell_{26} = f_1(2) + \\ell_{26} = 4 - 2 = 2 &lt; f_1(6) = 3.\n\\]\nThis implies that the path \\((1,2,6)\\) is the shortest \\((1,6)\\)-path with at most \\(2\\) arcs. We update the shortest path and predecessor tables below.\n\n\n\n\n\n\nFigure 5.6: Shortest Paths of length at most \\(k=2\\)\n\n\n\n\n\n\nTable 5.3: Lengths of shortest paths of length at most \\(2\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\\(f_2\\)\n0\n4\n-2\n1\n\\(\\infty\\)\n2\n\n\n\n\n\n\n\n\n\nTable 5.4: Predecessors in shortest paths of length at most \\(2\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\\(P_2\\)\n\\(\\sim\\)\n1\n2\n2\n\\(\\sim\\)\n2\n\n\n\n\n\n\n\n\n5.2.6.3 Iteration 3 (\\(k=3\\))\nNode \\(5\\) is reachable from \\(1\\) by the path \\((1,2,3,5)\\) using \\(3\\) arcs; this path has length \\(-4\\). On the other hand, every other \\((s,i)\\)-path consisting of \\(3\\) arcs is longer than the shortest \\((s,i)\\)-path of length at most \\(2\\).\n\n\n\n\n\n\nFigure 5.7: Shortest Paths of length at most \\(k=3\\)\n\n\n\n\n\n\nTable 5.5: Lengths of shortest paths of length at most \\(3\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\\(f_2\\)\n0\n4\n-2\n1\n\\(\\infty\\)\n2\n\n\n\\(f_3\\)\n0\n4\n-2\n1\n-4\n2\n\n\n\n\n\n\n\n\n\nTable 5.6: Predecessors in shortest paths of length at most \\(3\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\\(P_2\\)\n\\(\\sim\\)\n1\n2\n2\n\\(\\sim\\)\n2\n\n\n\\(P_3\\)\n\\(\\sim\\)\n1\n2\n2\n3\n2\n\n\n\n\n\n\n\n\n5.2.6.4 Iteration 4 (\\(k=4\\))\nNote that we have the \\((1,4)\\)-path \\((1,2,3,5,4)\\) containing \\(k=4\\) arcs. This path has length \\[\n    f_3(5) + \\ell_{54} = -4 + 4 = 0 &lt; f_3(4) = 1 = f_2(4).\n\\] We set \\(f_4(4) = 0\\) and \\(P_4(4) = 5\\).\nAfter checking all other paths containing \\(k=4\\) arcs, we do not change the list of shortest paths.\n\n\n\n\n\n\nFigure 5.8: Shortest Paths of length at most \\(k=4\\)\n\n\n\n\n\n\nTable 5.7: Lengths of shortest paths of length at most \\(4\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\\(f_2\\)\n0\n4\n-2\n1\n\\(\\infty\\)\n2\n\n\n\\(f_3\\)\n0\n4\n-2\n1\n-4\n2\n\n\n\\(f_4\\)\n0\n4\n-2\n0\n-4\n2\n\n\n\n\n\n\n\n\n\nTable 5.8: Predecessors in shortest paths of length at most \\(4\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n0\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\\(P_2\\)\n\\(\\sim\\)\n1\n2\n2\n\\(\\sim\\)\n2\n\n\n\\(P_3\\)\n\\(\\sim\\)\n1\n2\n2\n3\n2\n\n\n\\(P_4\\)\n\\(\\sim\\)\n1\n2\n5\n3\n2\n\n\n\n\n\n\n\n\n5.2.6.5 Termination\nThe shortest path using at most \\(4\\) arcs are also shortest paths using at most \\(5\\) arcs for this graph. Since \\(k=5 = n-1\\), we have found the shortest paths of any length by Lemma 5.1.\n\n\n\n5.2.7 Complexity of the Bellman-Ford Algorithm\nLet’s analyses how many operations are needed by the Bellman-Ford Algorithm.\nf_0(s) = 0 and P_0(s) = ~ \nfor i in V \\{s}:\n    f_0(i) = +inf and  P_0(i) = ~\n\n# Calculate shortest paths of length k.\nfor k in {1, 2, ..., n-1}:\n   \n    # Update shortest si-path.\n    for i in V:\n        f_k(i) = f_{k-1}(i) \n        P_k(i) = P_{k-1}(i)\n        \n        # Check each edge incident at i.\n        for (j,i) \\in delta^{-}(i):            \n            # Update if length-k path is shorter than k-1.\n            if f_{k-1}(j) + l_{ji} &lt; f_k(i)\n                f_k(i) = f_{k-1}(j) + l_{ji} \n                P_k(i) = j\nInitiailization (Lines 1-3) requires \\(O(n)\\) elementary operations.\nThe loop from Line 9 to Line 18 is repeated for each \\(i \\in V\\) (\\(O(n)\\) times) and consists of the following steps for each \\(i\\):\n\nInitializing \\(f_k(i) = f_{k-1}(i)\\) and \\(P_k(i) = P_{k-1}(i)\\) (requires \\(O(1)\\) operations).\nChecking if each arc \\((j,i)\\) with tail \\(i\\) yields a shorter path with \\(k\\) arcs:\n\nComparing \\(f_{k-1}(j) + \\ell_{ji}\\) with \\(f_k(i)\\) requires \\(O(1)\\) operations for each \\(j\\).\nWe have \\(|\\delta^-(i)| = O(n)\\) of these arcs.\n\n\nIt follows that the loop from Lines 9–18 requires \\[\n    O(n) \\Big( O(1) + O(n) \\Big) = O(n^2)\n\\] for each \\(k \\in \\{1,2,\\dots, n-1\\}\\). Taking the total over all \\(k\\), the Bellman-Ford Algorithm requires \\(O(n^3)\\) elementary operations.\n\n5.2.7.1 Complexity in Terms of Arcs\nEach arc \\((j,i) \\in A\\) is considered exactly once for each \\(k \\in \\{1,2,\\dots, n-1\\}\\) in the loop from Lines 9–18. This implies that the steps of this loop require \\(O(|A| + n) = O(m + n)\\) elementary operations. This implies that the total complexity of the Bellman-Ford Algorithm require \\[\n    O(nm + n^2)\n\\] elementary operations, which is much smaller than \\(O(n^3)\\) if \\(m &lt;&lt; n^2\\).\n\n\n\n5.2.8 Detecting Negative Length Cycles\nRecall: SPP-U (and SSPP-U) are unbounded if the graph contains a negative length cycle. Indeed, we can endlessly apply rounds of update operations and reduce the shortest path lengths \\(f_k(i)\\) indefinitely.\nWe can detect whether the problem is unbounded by running one more iteration of the algorithm beyond iteration \\(k = n-1\\).\n\nIf the graph contains a negative-length cycle then an update will take place.\nThis indicates the problem is unbounded and we can stop the algorithm.\n\n\n5.2.8.1 Example\nConsider the graph given in Figure 5.9. This graph has cycle \\(C = (2,3,4,2)\\) with length \\(-4 &lt; 0\\).\n\n\n\n\n\n\nFigure 5.9: Graph with negative cycle\n\n\n\nLet’s apply the Bellman-Ford algorithm to find the shortest \\((1,t)\\)-paths in this graph.\n\n5.2.8.1.1 Iteration 1 (\\(k=1\\))\nThe only node adjacent to \\(1\\) is \\(2\\). Thus, the\n\n\n\n\n\n\nFigure 5.10: Shortest Paths of length at most \\(k=1\\)\n\n\n\n\n\n\nTable 5.9: Length of shortest paths of length at most \\(1\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\n\n\n\n\n\n\nTable 5.10: Predecessors in shortest paths of length at most \\(1\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\n\n\n\n\n\n5.2.8.1.2 Iteration 2 (\\(k=2\\))\nNext, we can reach \\(3\\) from \\(1\\) via a path consisting of \\(2\\) arcs. This path has length \\(-2\\).\n\n\n\n\n\n\nFigure 5.11: Shortest Paths of length at most \\(k=2\\)\n\n\n\n\n\n\nTable 5.11: Length of shortest paths of length at most \\(2\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\n\n\n\n\n\n\nTable 5.12: Predecessors in shortest paths of length at most \\(2\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\n\n\n\n\n\n5.2.8.1.3 Iteration 3 (\\(k=3\\))\nNode \\(4\\) is the only node that is reachable from \\(1\\) by a path containing \\(3\\) arcs; the path \\((1,2,3,4)\\) has length \\(3\\).\n\n\n\n\n\n\nFigure 5.12: Shortest Paths of length \\(k=3\\)\n\n\n\n\n\n\nTable 5.13: Length of shortest paths of length at most \\(3\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\\(f_3(i)\\)\n0\n4\n-2\n3\n\n\n\n\n\n\n\n\n\nTable 5.14: Predecessors in shortest paths of length at most \\(3\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\\(P_3(i)\\)\n\\(\\sim\\)\n1\n2\n3\n\n\n\n\n\n\n\n\n5.2.8.1.4 Iteration 4 (\\(k=4\\))\nLet’s try one more iteration!\nNote that \\[\n    f_3(4) + \\ell_{42} = 3 - 3 = 0 &lt; f_2(2).\n\\]\n\n\n\n\n\n\nFigure 5.13: Shortest Paths of length \\(k=4\\)\n\n\n\n\n\n\nTable 5.15: Length of shortest paths of length at most \\(4\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\\(f_3(i)\\)\n0\n4\n-2\n3\n\n\n\\(f_4(i)\\)\n0\n0\n-2\n3\n\n\n\n\n\n\n\n\n\nTable 5.16: Predecessors in shortest paths of length at most \\(4\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\\(P_3(i)\\)\n\\(\\sim\\)\n1\n2\n3\n\n\n\\(P_4(i)\\)\n\\(\\sim\\)\n4\n2\n3\n\n\n\n\n\n\nThis implies that the path \\((1,2,3,4,2)\\) with \\(5\\) arcs has smaller total length than the path \\((1,2)\\). This contradicts ?lem-5-shortest-path and, hence, implies that the shortest path problem is unbounded for this graph. Indeed, further iterations will lead further decrease in \\(f_k(i)\\) for \\(i\\) in the negative length cycle \\((2,3,4,2)\\). We can stop the Bellman-Ford Algorithm after \\(k=n\\) iterations and declare the problem instance unbounded.",
+    "text": "5.2 The Bellman-Ford Algorithm\n\n5.2.1 Single Source Shortest Path Problem – Unrestricted Lengths (SSPP-U)\n\nDefinition 5.3 Given a directed graph \\(G = (V,A)\\) with length function \\(\\ell:A     \\mapsto \\mathbf{R}\\) (unrestricted in sign).\nThe Single Source Shortest Path Problem (SSPP-U) aims to find an \\((s,t)\\)-path with minimum total length for every node \\(t\\) in \\(V\\setminus\\{s\\}\\).\n\n\nExample 5.4 Figure 5.4 gives the shortest \\((1,t)\\)-paths in the graph given in Figure 5.4 (a) for \\(t = 2,3,4,5,6\\).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Shortest \\((1,2)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n(c) Shortest \\((1,3)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n\n\n(d) Shortest \\((1,4)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n(e) Shortest \\((1,5)\\)-path\n\n\n\n\n\n\n\n\n\n\n\n(f) Shortest \\((1,6)\\)-path\n\n\n\n\n\n\n\nFigure 5.4: Shortest \\((1,t)\\)-paths in graph \\(G\\).\n\n\n\n\n\n5.2.2 Subpath Optimality\nThe following theorem characterizes a very useful properties of shortest paths: any subpath of a shortest path is itself a shortest path.\n\nTheorem 5.3 Let \\(P = (s,i_2), (i_2, i_3), \\dots, (i_{k-1}, t)\\) be a shortest \\((s,t)\\)-path.\nConsider pair of nodes \\(i_u, i_v\\) visited by \\(P\\) with \\(u &lt; v\\).\nThen the subpath from \\(i_u\\) to \\(i_v\\) is a shortest \\((i_u,i_v)\\) path.\n\n\nProof. Suppose, on the contrary, that the subpath \\(S\\) from \\(i_u\\) to \\(i_v\\) in a shortest \\((s,t)\\)-path is not the shortest \\((i_u, i_v)\\)-path. In particular, suppose that \\(T\\) is the shortest \\((i_u, i_v)\\)-path.\nWe can construct another \\((s,t)\\)-path \\(tilde P\\) using \\(P\\) and \\(T\\). Indeed, let \\(\\tilde P = P \\setminus S \\cup T\\) be the path obtained by removing \\(S\\) from \\(P\\) and adding \\(T\\). Then \\(\\tilde P\\) is also a \\((s,t)\\)-path. The length of \\(\\tilde P\\) is equal to \\[\n    |P| - |S| + |T| &lt; |P| - |S| + |S| = |P|\n\\] since \\(|T| &lt; |S|\\). This implies that \\(\\tilde P\\) is shorter than \\(P\\); this is a contradiction. Therefore, \\(S\\) must be the shortest \\((i_u, i_v)\\)-path.\n\n\n\n5.2.3 Shortest Paths of Fixed Length\n\nDefinition 5.4 For all \\(i\\in V\\), we define \\(f_k(i)\\) as the length of a shortest \\((s,i)\\)-path containing at most k arcs,\n\nWe set \\(f_k(i) = \\infty\\) if there is no \\((s,i)\\)-path with length at most \\(k\\).\n\nLemma 5.1 If \\(k = n-1\\), then \\(f_{n-1}(i)\\) is the length of a shortest \\((s,i)\\)-path (without restriction on the number of arcs).\n\n\nProof. We can ignore paths that aren’t simple. On the other hand, simple paths contain at most \\(n\\) nodes. Indeed, a simple path does not contain a loop and, hence, visits at most \\(n\\) nodes. Therefore, the shortest \\((s,i)\\)-path contains at most \\(n-1\\) arcs.\n\n\n\n5.2.4 The Bellman-Ford Theorem\nThe following theorem is the basis for our algorithm for calculating shortest paths.\n\nTheorem 5.4 \\(f_k(i)\\) can be computed recursively as \\[\nf_k(i) = \\min \\left\\{\n        f_{k-1}(i),\n        \\;\n        \\min_{(j,i) \\in \\delta^-(i)}\n        \\Big\\{ f_{k-1}(j) + \\ell_{ji} \\Big\\}\n        \\right\\}.\n\\]\n\n\nProof. Assume that \\(f_{k-1}(i)\\) has been computed for all \\(i \\in V\\setminus\\{s\\}\\). The shortest \\((s,i)\\)-path with at most \\(k\\) arcs \n\nis the shortest \\((s,i)\\)-path with at most \\(k-1\\) arcs; or\ncontains one more arc than the shortest \\((s,i)\\)-path with at most \\(k-1\\) arcs.\n\nIn the second case, we can decompose the shortest \\((s,i)\\)-path as:\n\nshortest \\((s,j)\\)-path with \\(k-1\\) arcs for some node \\(j\\); and\narc \\((j,i)\\).\n\nWe choose node \\(j\\) so that \\(j\\) gives \\[\n    \\min_{(q,i) \\in \\delta^-(i)} f_{k-1}(q) + \\ell_{qi}.\n\\]\n\n\n\n5.2.5 The Bellman-Ford Algorithm\n\n5.2.5.1 Setup\n\nDefinition 5.5 Let \\(P_k(i)\\) be the predecessor of \\(i\\) in the shortest \\((s,i)\\)-path with at most \\(k\\) arcs found by the algorithm (so far).\n\nWe will maintain two tables:\n\nOne encoding \\(f_k(i)\\) for each \\(i\\) and \\(k\\);\nThe other encoding \\(P_k(i)\\) for all \\(i\\) and \\(k\\).\n\n\n\n5.2.5.2 Updates\nThe algorithm calculates \\(f_k(i)\\) and \\(P_k(i)\\) for all \\(i \\in V\\) recursively from \\(k=1\\) to \\(k=n-1\\).\nWe’ll update \\(f_k(i)\\) from \\(f_{k-1}(i)\\) by:\n\nInitially setting \\(f_k(i) = f_{k-1}(i)\\);\nScanning all arcs \\((j,i)\\) in \\(\\delta^{-}(i)\\) and update \\(f_k(i)\\) if necessary.\n\n\n\n5.2.5.3 The Bellman-Ford Algorithm (Pseudocode)\nf_0(s) = 0 and P_0(s) = ~ \nfor i in V \\{s}:\n    f_0(i) = +inf and  P_0(i) = ~\n\n# Calculate shortest paths of length k.\nfor k in {1, 2, ..., n-1}:\n   \n    # Update shortest si-path.\n    for i in V:\n        f_k(i) = f_{k-1}(i) \n        P_k(i) = P_{k-1}(i)\n        \n        # Check each edge incident at i.\n        for (j,i) in delta^{-}(i):            \n            # Update if length-k path is shorter than k-1.\n            if f_{k-1}(j) + l_{ji} &lt; f_k(i)\n                f_k(i) = f_{k-1}(j) + l_{ji} \n                P_k(i) = j\n\n\n\n5.2.6 Example\n\n5.2.6.1 Iteration 1 (\\(k=1\\))\nNote that nodes \\(2\\) and \\(6\\) are adjacent to \\(1\\). Thus, they are reachable from \\(1\\) by a path with length at most \\(1\\). The only paths from \\(1\\) to another node are the single arcs \\((1,2)\\) and \\((1,6)\\), of lengths \\(4\\) and \\(3\\) respectively. Figure 5.5 highlights these paths, and we update the tables Table 5.1 and Table 5.2 accordingly.\n\n\n\n\n\n\nFigure 5.5: Shortest Paths of length \\(k=1\\)\n\n\n\n\n\n\nTable 5.1: Lengths of shortest paths of length at most \\(1\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\n\n\n\n\n\n\nTable 5.2: Predecessors in shortest paths of length at most \\(1\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\n\n\n\n\n\n5.2.6.2 Iteration 2 (\\(k=2\\))\nNodes \\(3\\) and \\(4\\) can both be reached from \\(1\\) using a path of length \\(2\\) (with lengths \\(-2\\) and \\(1\\) respectively). Similarly, we have path \\((1,2,6)\\) of length \\(2\\): \\[\n    \\ell_{12} + \\ell_{26} = f_1(2) + \\ell_{26} = 4 - 2 = 2 &lt; f_1(6) = 3.\n\\]\nThis implies that the path \\((1,2,6)\\) is the shortest \\((1,6)\\)-path with at most \\(2\\) arcs. We update the shortest path and predecessor tables below.\n\n\n\n\n\n\nFigure 5.6: Shortest Paths of length at most \\(k=2\\)\n\n\n\n\n\n\nTable 5.3: Lengths of shortest paths of length at most \\(2\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\\(f_2\\)\n0\n4\n-2\n1\n\\(\\infty\\)\n2\n\n\n\n\n\n\n\n\n\nTable 5.4: Predecessors in shortest paths of length at most \\(2\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\\(P_2\\)\n\\(\\sim\\)\n1\n2\n2\n\\(\\sim\\)\n2\n\n\n\n\n\n\n\n\n5.2.6.3 Iteration 3 (\\(k=3\\))\nNode \\(5\\) is reachable from \\(1\\) by the path \\((1,2,3,5)\\) using \\(3\\) arcs; this path has length \\(-4\\). On the other hand, every other \\((s,i)\\)-path consisting of \\(3\\) arcs is longer than the shortest \\((s,i)\\)-path of length at most \\(2\\).\n\n\n\n\n\n\nFigure 5.7: Shortest Paths of length at most \\(k=3\\)\n\n\n\n\n\n\nTable 5.5: Lengths of shortest paths of length at most \\(3\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\\(f_2\\)\n0\n4\n-2\n1\n\\(\\infty\\)\n2\n\n\n\\(f_3\\)\n0\n4\n-2\n1\n-4\n2\n\n\n\n\n\n\n\n\n\nTable 5.6: Predecessors in shortest paths of length at most \\(3\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\\(P_2\\)\n\\(\\sim\\)\n1\n2\n2\n\\(\\sim\\)\n2\n\n\n\\(P_3\\)\n\\(\\sim\\)\n1\n2\n2\n3\n2\n\n\n\n\n\n\n\n\n5.2.6.4 Iteration 4 (\\(k=4\\))\nNote that we have the \\((1,4)\\)-path \\((1,2,3,5,4)\\) containing \\(k=4\\) arcs. This path has length \\[\n    f_3(5) + \\ell_{54} = -4 + 4 = 0 &lt; f_3(4) = 1 = f_2(4).\n\\] We set \\(f_4(4) = 0\\) and \\(P_4(4) = 5\\).\nAfter checking all other paths containing \\(k=4\\) arcs, we do not change the list of shortest paths.\n\n\n\n\n\n\nFigure 5.8: Shortest Paths of length at most \\(k=4\\)\n\n\n\n\n\n\nTable 5.7: Lengths of shortest paths of length at most \\(4\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(f_0\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n3\n\n\n\\(f_2\\)\n0\n4\n-2\n1\n\\(\\infty\\)\n2\n\n\n\\(f_3\\)\n0\n4\n-2\n1\n-4\n2\n\n\n\\(f_4\\)\n0\n4\n-2\n0\n-4\n2\n\n\n\n\n\n\n\n\n\nTable 5.8: Predecessors in shortest paths of length at most \\(4\\).\n\n\n\n\n\n\n1\n2\n3\n4\n5\n6\n\n\n\n\n\\(P_0\\)\n0\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_0\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n1\n\n\n\\(P_2\\)\n\\(\\sim\\)\n1\n2\n2\n\\(\\sim\\)\n2\n\n\n\\(P_3\\)\n\\(\\sim\\)\n1\n2\n2\n3\n2\n\n\n\\(P_4\\)\n\\(\\sim\\)\n1\n2\n5\n3\n2\n\n\n\n\n\n\n\n\n5.2.6.5 Termination\nThe shortest path using at most \\(4\\) arcs are also shortest paths using at most \\(5\\) arcs for this graph. Since \\(k=5 = n-1\\), we have found the shortest paths of any length by @lem.\n\n\n\n5.2.7 Complexity of the Bellman-Ford Algorithm\nLet’s analyses how many operations are needed by the Bellman-Ford Algorithm.\nf_0(s) = 0 and P_0(s) = ~ \nfor i in V \\{s}:\n    f_0(i) = +inf and  P_0(i) = ~\n\n# Calculate shortest paths of length k.\nfor k in {1, 2, ..., n-1}:\n   \n    # Update shortest si-path.\n    for i in V:\n        f_k(i) = f_{k-1}(i) \n        P_k(i) = P_{k-1}(i)\n        \n        # Check each edge incident at i.\n        for (j,i) \\in delta^{-}(i):            \n            # Update if length-k path is shorter than k-1.\n            if f_{k-1}(j) + l_{ji} &lt; f_k(i)\n                f_k(i) = f_{k-1}(j) + l_{ji} \n                P_k(i) = j\nInitiailization (Lines 1-3) requires \\(O(n)\\) elementary operations.\nThe loop from Line 9 to Line 18 is repeated for each \\(i \\in V\\) (\\(O(n)\\) times) and consists of the following steps for each \\(i\\):\n\nInitializing \\(f_k(i) = f_{k-1}(i)\\) and \\(P_k(i) = P_{k-1}(i)\\) (requires \\(O(1)\\) operations).\nChecking if each arc \\((j,i)\\) with tail \\(i\\) yields a shorter path with \\(k\\) arcs:\n\nComparing \\(f_{k-1}(j) + \\ell_{ji}\\) with \\(f_k(i)\\) requires \\(O(1)\\) operations for each \\(j\\).\nWe have \\(|\\delta^-(i)| = O(n)\\) of these arcs.\n\n\nIt follows that the loop from Lines 9–18 requires \\[\n    O(n) \\Big( O(1) + O(n) \\Big) = O(n^2)\n\\] for each \\(k \\in \\{1,2,\\dots, n-1\\}\\). Taking the total over all \\(k\\), the Bellman-Ford Algorithm requires \\(O(n^3)\\) elementary operations.\n\n5.2.7.1 Complexity in Terms of Arcs\nEach arc \\((j,i) \\in A\\) is considered exactly once for each \\(k \\in \\{1,2,\\dots, n-1\\}\\) in the loop from Lines 9–18. This implies that the steps of this loop require \\(O(|A| + n) = O(m + n)\\) elementary operations. This implies that the total complexity of the Bellman-Ford Algorithm require \\[\n    O(nm + n^2)\n\\] elementary operations, which is much smaller than \\(O(n^3)\\) if \\(m &lt;&lt; n^2\\).\n\n\n\n5.2.8 Detecting Negative Length Cycles\nRecall: SPP-U (and SSPP-U) are unbounded if the graph contains a negative length cycle. Indeed, we can endlessly apply rounds of update operations and reduce the shortest path lengths \\(f_k(i)\\) indefinitely.\nWe can detect whether the problem is unbounded by running one more iteration of the algorithm beyond iteration \\(k = n-1\\).\n\nIf the graph contains a negative-length cycle then an update will take place.\nThis indicates the problem is unbounded and we can stop the algorithm.\n\n\n5.2.8.1 Example\nConsider the graph given in Figure 5.9. This graph has cycle \\(C = (2,3,4,2)\\) with length \\(-4 &lt; 0\\).\n\n\n\n\n\n\nFigure 5.9: Graph with negative cycle\n\n\n\nLet’s apply the Bellman-Ford algorithm to find the shortest \\((1,t)\\)-paths in this graph.\n\n5.2.8.1.1 Iteration 1 (\\(k=1\\))\nThe only node adjacent to \\(1\\) is \\(2\\). Thus, the\n\n\n\n\n\n\nFigure 5.10: Shortest Paths of length at most \\(k=1\\)\n\n\n\n\n\n\nTable 5.9: Length of shortest paths of length at most \\(1\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\n\n\n\n\n\n\nTable 5.10: Predecessors in shortest paths of length at most \\(1\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\n\n\n\n\n\n5.2.8.1.2 Iteration 2 (\\(k=2\\))\nNext, we can reach \\(3\\) from \\(1\\) via a path consisting of \\(2\\) arcs. This path has length \\(-2\\).\n\n\n\n\n\n\nFigure 5.11: Shortest Paths of length at most \\(k=2\\)\n\n\n\n\n\n\nTable 5.11: Length of shortest paths of length at most \\(2\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\n\n\n\n\n\n\nTable 5.12: Predecessors in shortest paths of length at most \\(2\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\n\n\n\n\n\n5.2.8.1.3 Iteration 3 (\\(k=3\\))\nNode \\(4\\) is the only node that is reachable from \\(1\\) by a path containing \\(3\\) arcs; the path \\((1,2,3,4)\\) has length \\(3\\).\n\n\n\n\n\n\nFigure 5.12: Shortest Paths of length \\(k=3\\)\n\n\n\n\n\n\nTable 5.13: Length of shortest paths of length at most \\(3\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\\(f_3(i)\\)\n0\n4\n-2\n3\n\n\n\n\n\n\n\n\n\nTable 5.14: Predecessors in shortest paths of length at most \\(3\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\\(P_3(i)\\)\n\\(\\sim\\)\n1\n2\n3\n\n\n\n\n\n\n\n\n5.2.8.1.4 Iteration 4 (\\(k=4\\))\nLet’s try one more iteration!\nNote that \\[\n    f_3(4) + \\ell_{42} = 3 - 3 = 0 &lt; f_2(2).\n\\]\n\n\n\n\n\n\nFigure 5.13: Shortest Paths of length \\(k=4\\)\n\n\n\n\n\n\nTable 5.15: Length of shortest paths of length at most \\(4\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(f_0(i)\\)\n0\n\\(\\infty\\)\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_1(i)\\)\n0\n4\n\\(\\infty\\)\n\\(\\infty\\)\n\n\n\\(f_2(i)\\)\n0\n4\n-2\n\\(\\infty\\)\n\n\n\\(f_3(i)\\)\n0\n4\n-2\n3\n\n\n\\(f_4(i)\\)\n0\n0\n-2\n3\n\n\n\n\n\n\n\n\n\nTable 5.16: Predecessors in shortest paths of length at most \\(4\\) in graph with negative cycle.\n\n\n\n\n\n\n1\n2\n3\n4\n\n\n\n\n\\(P_0(i)\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_1(i)\\)\n\\(\\sim\\)\n1\n\\(\\sim\\)\n\\(\\sim\\)\n\n\n\\(P_2(i)\\)\n\\(\\sim\\)\n1\n2\n\\(\\sim\\)\n\n\n\\(P_3(i)\\)\n\\(\\sim\\)\n1\n2\n3\n\n\n\\(P_4(i)\\)\n\\(\\sim\\)\n4\n2\n3\n\n\n\n\n\n\nThis implies that the path \\((1,2,3,4,2)\\) with \\(5\\) arcs has smaller total length than the path \\((1,2)\\). This contradicts Lemma 5.1 and, hence, implies that the shortest path problem is unbounded for this graph. Indeed, further iterations will lead further decrease in \\(f_k(i)\\) for \\(i\\) in the negative length cycle \\((2,3,4,2)\\). We can stop the Bellman-Ford Algorithm after \\(k=n\\) iterations and declare the problem instance unbounded.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Shortest Path Problem</span>"
     ]
@@ -1244,7 +1244,7 @@
     "href": "06_Minimum_Cost_Spanning_Trees.html#the-jarnik-prim-dijkstra-algorithm",
     "title": "6  Minimum Cost Spanning Trees",
     "section": "6.2 The Jarnik-Prim-Dijkstra Algorithm",
-    "text": "6.2 The Jarnik-Prim-Dijkstra Algorithm\n\n6.2.1 Jarnik’s Theorem\n\nTheorem 6.4 (Jarnik’s Theorem)  \n\nLet \\(F\\) be the edge set of a tree strictly contained in an MST.\nLet \\(S\\subseteq V\\) be the set of nodes it spans.\n\nFor every edge \\(e \\in \\delta(S)\\):\n\n\\(F \\cup \\{e\\}\\) is part of a MST if and only if \\(e\\) has minimum cost in \\(\\delta(S)\\).\n\n\n\nProof. We start by proving the “only if” part. Let’s suppose that \\(F \\cup \\{e\\}\\) is part of a MST. We want to show that \\(e\\) has minimum cost in \\(\\delta(S)\\) in this case. We’ll use a proof by contradiction. Let’s assume that there is \\(f\\in \\delta(S)\\) with \\(c_f &lt; c_e\\).\nLet \\(T = (V, E_T)\\) be a minimum spanning tree such that \\(F \\subseteq E_T\\) and \\(F \\cup \\{e\\} \\subseteq E_T\\). By the Swap Property (Lemma 6.1) the subgraph \\[\n\\tilde T = (V, E_T\\setminus\\{e\\} \\cup \\{f\\})\n\\] is also a spanning tree. Moreover, the cost of \\(\\tilde T\\) satisfies \\[\n    c(\\tilde T) = c(T) - c_e + c_f &lt; c(T)\n\\] since \\(c_e &gt; c_f\\).\nThis implies that \\(T\\) is not a minimum cost spanning tree; a contradiction. Therefore, we can conclude that if \\(F \\cup \\{e\\}\\) is part of a minimum spanning tree then \\(c_e \\le c_f\\) for all \\(f \\in \\delta(S)\\).\nThis is illustrated in Figure 6.8. Consider the spanning tree \\(T\\) given in Figure 6.8 (a) and the edge set \\(F = \\{12\\} \\subseteq E_T\\); here, \\(S = \\{1,2\\}\\). Note that \\(e = 15\\) is in the both \\(E_T\\) and \\(\\delta(S)\\), while \\(f=23\\) belongs to \\(\\delta(S)\\), but not \\(E_T\\). The swap property implies that we can obtain a spanning tree \\(\\tilde T\\) by exchanging the edges \\(e\\) and \\(f\\). If \\(c_f &lt; c_e\\) then \\(\\tilde T\\) is a spanning tree with strictly lower cost than \\(T\\).\n\n\n\n\n\n\n\n\n\n\n\n(a) \\(T\\), \\(S = \\{1,2\\}\\), and \\(e=15\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(\\delta(S)\\) and \\(f=23\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) \\(\\tilde T\\) and \\(f=23\\)\n\n\n\n\n\n\n\nFigure 6.8: Graph with spanning tree \\(T\\) containing \\(F = \\{12\\}\\) and edge \\(e = 15\\) and edge \\(f = 23\\). If \\(c_e &gt; c_f\\), then \\(\\tilde T\\) is a spanning tree is smaller cost than \\(T\\).\n\n\n\nWe next prove the “if” part. That is, we prove that if \\(e\\) has minimum cost in \\(\\delta(S)\\) then \\(F \\cup \\{e\\}\\) is part of a minimum spanning tree. To do so, suppose that \\(c_e \\le c_f\\) for all \\(f \\in \\delta(S)\\). We want to show that \\(F \\cup \\{e\\}\\) is part of a MST.\nWe consider two cases. First, suppose that \\(e \\in E_T\\), where \\(T\\) is the MST containing \\(f\\). This immediately implies that \\(e\\) belongs to a MST and we’re done.\nNext, suppose that \\(e \\notin E_T\\). Specifically, let \\(e = uv\\) for nodes \\(u, v \\in V\\) such that \\(e \\notin E_T\\) and \\(e \\in \\delta(S)\\); we assume that \\(u \\in S\\) and \\(v \\in V \\setminus S\\).\nLet \\(P\\) be the \\((u,v)\\)-path joining the end points of \\(e\\) belonging to \\(T\\). Such a path always exists because \\(T\\) is a spanning tree. Since \\(P\\) starts in \\(S\\) at \\(u\\) and ends in \\(V\\setminus S\\) at \\(v\\) there is at least one edge \\(f\\) in both \\(P\\) and \\(\\delta(S)\\), i.e., there is edge \\(f \\in P \\cap \\delta(S)\\).\nBy the swap property, the subgraph \\[\nT' = (V, E_T \\setminus \\{f\\} \\cup \\{e\\})\n\\] is a spanning tree. Moreover, \\[\nc(T) \\ge c(T') = c(T) - c_f + c_e \\le c(T)\n\\] since \\(T\\) is a minimum spanning tree and \\(c_e \\le c_f\\). This is only possible if \\(c_e = c_f\\) and \\(T'\\) is also a minimum spanning tree.\nTo illustrate this phenomena, consider the edge \\(e = 15\\) in Figure 6.9. This edge is not included in the minimum spanning tree \\(T\\). However, there is a path \\(P = (1,2,3,5)\\) in \\(T\\) containing the edge \\(f = 23 \\in \\delta(\\{1,2\\})\\). Applying the swap property and the assumption the \\(c_e \\le c_f\\) shows that \\(T'\\) is also a minimum cost spanning tree.\n\n\n\n\n\n\n\n\n\n\n\n(a) Minimum spanning tree \\(T\\) not including \\(e = 15\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) Path in \\(T\\) from endpoints of \\(e\\) containing \\(f=23\\).\n\n\n\n\n\n\n\n\n\n\n\n(c) Minimum spanning tree \\(T'\\) obtained by exchanging \\(e\\) and \\(f\\).\n\n\n\n\n\n\n\nFigure 6.9: Minimum spanning trees \\(T\\) and \\(T'\\) obtained by exchanging arcs \\(e\\) and \\(f\\) with minimum cost in \\(\\delta(\\{1,2\\})\\).\n\n\n\n\n\n\n6.2.2 The Jarnik-Prim-Dijkstra (JPD) Algorithm\nTheorem 6.4 suggests the following algorithm for identifying a minimum cost spanning tree in a given graph.\nInitialize E_T = {} and S = {1}.\n\nWhile |E_T| &lt; n-1:\n\n    Choose e = {v,w} in delta(S) of minimum cost c_e.  \n\n    Update E_T = E_T + {e} \n\n    Update S = S + {w}.  \n\n6.2.2.1 Complexity of the JPD Algorithm\nFor each step of the while loop, choosing \\(e\\) in Line 5$ costs \\(O(m)\\) operations to search over the set of edges in \\(\\delta(S)\\). The loop is repeated \\(O(n)\\) times, so the total complexity is \\(O(mn)\\) elementary operations. This may be as large as \\(O(n^3)\\) when the graph is very dense of as small as \\(O(n^2)\\) when the graph is very sparse but still connected.\n\n\n\n6.2.3 Example: MST for Flight Routing\nThe following graph \\(G = (V, E)\\) gives available/potential flight routes between 8 cities, with distances in miles. The MST of \\(G\\) gives an airline a means of servicing each city while minimizing travel distance and fuel costs.\n\n\n\n\n\n\nFigure 6.10: Potential flight routes\n\n\n\nLet’s apply the Jarnik-Prim-Dijsktra Algorithm to find the minimum cost spanning tree in \\(G\\).\n\n6.2.3.1 Step 1\nWe start with \\(S = \\{1\\}\\), which induces the cut \\(\\delta(S) = \\{14, 18\\}\\). Since \\[\nc_{14} = 355 &lt; 695 = c_{18},\n\\] we add \\(14\\) to \\(E_T\\) and add \\(\\{4\\}\\) to \\(S\\).\n\n\n\n\n\n\nFigure 6.11: Step 1 of the JPD Algorithm\n\n\n\n\n\n6.2.3.2 Step 2\nNext, \\(\\delta(S) = \\{18, 24, 34, 74\\}\\). We add \\(2\\) to \\(S\\) and \\(24\\) to \\(E_T\\) because \\(c_{24} = 74\\) is the minimum cost edge in \\(\\delta(S)\\).\n\n\n\n\n\n\nFigure 6.12: Step 2 of the JPD Algorithm\n\n\n\n\n\n6.2.3.3 Step 3\nNext, \\(c_{34} = 262\\) has minimum cost among edges in \\(\\delta(S) = \\{18, 34, 47, 27\\}\\). We add \\(34\\) to \\(E_T\\) and \\(3\\) to \\(S\\).\n\n\n\n\n\n\nFigure 6.13: Step 3 of the JPD Algorithm\n\n\n\n\n\n6.2.3.4 Step 4\nWe next add \\(37\\) to \\(E_T\\) and \\(7\\) to \\(S\\) because \\(c_{37} = 242\\) has minimum cost among edges in \\(\\delta(S) = \\{37, 47, 27, 18\\}\\).\n\n\n\n\n\n\nFigure 6.14: Step 4 of the JPD Algorithm\n\n\n\n\n\n6.2.3.5 Step 5\nWe next add \\(67\\) to \\(E_T\\) and \\(6\\) to \\(S\\) because \\(c_{67} = 83\\) has minimum cost among edges in \\(\\delta(S) = \\{18, 75, 76, 78\\}\\).\n\n\n\n\n\n\nFigure 6.15: Step 5 of the JPD Algorithm\n\n\n\n\n\n6.2.3.6 Step 6\nNext, \\(c_{78} = 151\\) is minimum cost among edges in \\(\\delta(S) = \\{18, 56, 57, 78\\}\\). Add \\(8\\) to \\(S\\) and \\(78\\) to \\(E_T\\).\n\n\n\n\n\n\nFigure 6.16: Step 6 of the JPD Algorithm\n\n\n\n\n\n6.2.3.7 Step 7\nFinally, \\(\\delta(S) = \\{56, 57\\}\\). We have \\[\nc_{56} = 230 &lt; 306 = c_{57},\n\\] so we add \\(56\\) to \\(E_T\\), \\(5\\) to \\(S\\).\n\n\n\n\n\n\nFigure 6.17: Step 7 of the JPD Algorithm\n\n\n\n\n\n6.2.3.8 Termination\nNote that \\(S = \\{V\\}\\) and \\(E_T\\) contains \\(n-1=7\\) edges. This implies that we have constructed the minimum spanning tree \\(T\\).\n\n\n\n\n\n\nFigure 6.18: Minimum spanning tree identified by the JPD Algorithm",
+    "text": "6.2 The Jarnik-Prim-Dijkstra Algorithm\n\n6.2.1 Jarnik’s Theorem\n\nTheorem 6.4 (Jarnik’s Theorem)  \n\nLet \\(F\\) be the edge set of a tree strictly contained in an MST.\nLet \\(S\\subseteq V\\) be the set of nodes it spans.\n\nFor every edge \\(e \\in \\delta(S)\\):\n\n\\(F \\cup \\{e\\}\\) is part of a MST if and only if \\(e\\) has minimum cost in \\(\\delta(S)\\).\n\n\n\nProof. We start by proving the “only if” part. Let’s suppose that \\(F \\cup \\{e\\}\\) is part of a MST. We want to show that \\(e\\) has minimum cost in \\(\\delta(S)\\) in this case. We’ll use a proof by contradiction. Let’s assume that there is \\(f\\in \\delta(S)\\) with \\(c_f &lt; c_e\\).\nLet \\(T = (V, E_T)\\) be a minimum spanning tree such that \\(F \\subseteq E_T\\) and \\(F \\cup \\{e\\} \\subseteq E_T\\). By the Swap Property (Lemma 6.1) the subgraph \\[\n\\tilde T = (V, E_T\\setminus\\{e\\} \\cup \\{f\\})\n\\] is also a spanning tree. Moreover, the cost of \\(\\tilde T\\) satisfies \\[\n    c(\\tilde T) = c(T) - c_e + c_f &lt; c(T)\n\\] since \\(c_e &gt; c_f\\).\nThis implies that \\(T\\) is not a minimum cost spanning tree; a contradiction. Therefore, we can conclude that if \\(F \\cup \\{e\\}\\) is part of a minimum spanning tree then \\(c_e \\le c_f\\) for all \\(f \\in \\delta(S)\\).\nThis is illustrated in Figure 6.8. Consider the spanning tree \\(T\\) given in Figure 6.8 (a) and the edge set \\(F = \\{12\\} \\subseteq E_T\\); here, \\(S = \\{1,2\\}\\). Note that \\(e = 15\\) is in the both \\(E_T\\) and \\(\\delta(S)\\), while \\(f=23\\) belongs to \\(\\delta(S)\\), but not \\(E_T\\). The swap property implies that we can obtain a spanning tree \\(\\tilde T\\) by exchanging the edges \\(e\\) and \\(f\\). If \\(c_f &lt; c_e\\) then \\(\\tilde T\\) is a spanning tree with strictly lower cost than \\(T\\).\n\n\n\n\n\n\n\n\n\n\n\n(a) \\(T\\), \\(S = \\{1,2\\}\\), and \\(e=15\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) \\(\\delta(S)\\) and \\(f=23\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) \\(\\tilde T\\) and \\(f=23\\)\n\n\n\n\n\n\n\nFigure 6.8: Graph with spanning tree \\(T\\) containing \\(F = \\{12\\}\\) and edge \\(e = 15\\) and edge \\(f = 23\\). If \\(c_e &gt; c_f\\), then \\(\\tilde T\\) is a spanning tree is smaller cost than \\(T\\).\n\n\n\nWe next prove the “if” part. That is, we prove that if \\(e\\) has minimum cost in \\(\\delta(S)\\) then \\(F \\cup \\{e\\}\\) is part of a minimum spanning tree. To do so, suppose that \\(c_e \\le c_f\\) for all \\(f \\in \\delta(S)\\). We want to show that \\(F \\cup \\{e\\}\\) is part of a MST.\nWe consider two cases. First, suppose that \\(e \\in E_T\\), where \\(T\\) is the MST containing \\(f\\). This immediately implies that \\(e\\) belongs to a MST and we’re done.\nNext, suppose that \\(e \\notin E_T\\). Specifically, let \\(e = uv\\) for nodes \\(u, v \\in V\\) such that \\(e \\notin E_T\\) and \\(e \\in \\delta(S)\\); we assume that \\(u \\in S\\) and \\(v \\in V \\setminus S\\).\nLet \\(P\\) be the \\((u,v)\\)-path joining the end points of \\(e\\) belonging to \\(T\\). Such a path always exists because \\(T\\) is a spanning tree. Since \\(P\\) starts in \\(S\\) at \\(u\\) and ends in \\(V\\setminus S\\) at \\(v\\) there is at least one edge \\(f\\) in both \\(P\\) and \\(\\delta(S)\\), i.e., there is edge \\(f \\in P \\cap \\delta(S)\\).\nBy the swap property, the subgraph \\[\nT' = (V, E_T \\setminus \\{f\\} \\cup \\{e\\})\n\\] is a spanning tree. Moreover, \\[\nc(T) \\ge c(T') = c(T) - c_f + c_e \\le c(T)\n\\] since \\(T\\) is a minimum spanning tree and \\(c_e \\le c_f\\). This is only possible if \\(c_e = c_f\\) and \\(T'\\) is also a minimum spanning tree.\nTo illustrate this phenomena, consider the edge \\(e = 15\\) in Figure 6.9. This edge is not included in the minimum spanning tree \\(T\\). However, there is a path \\(P = (1,2,3,5)\\) in \\(T\\) containing the edge \\(f = 23 \\in \\delta(\\{1,2\\})\\). Applying the swap property and the assumption the \\(c_e \\le c_f\\) shows that \\(T'\\) is also a minimum cost spanning tree.\n\n\n\n\n\n\n\n\n\n\n\n(a) Minimum spanning tree \\(T\\) not including \\(e = 15\\).\n\n\n\n\n\n\n\n\n\n\n\n(b) Path in \\(T\\) from endpoints of \\(e\\) containing \\(f=23\\).\n\n\n\n\n\n\n\n\n\n\n\n(c) Minimum spanning tree \\(T'\\) obtained by exchanging \\(e\\) and \\(f\\).\n\n\n\n\n\n\n\nFigure 6.9: Minimum spanning trees \\(T\\) and \\(T'\\) obtained by exchanging arcs \\(e\\) and \\(f\\) with minimum cost in \\(\\delta(\\{1,2\\})\\).\n\n\n\n\n\n\n6.2.2 The Jarnik-Prim-Dijkstra (JPD) Algorithm\nTheorem 6.4 suggests the following algorithm for identifying a minimum cost spanning tree in a given graph.\nInitialize E_T = {} and S = {1}.\n\nWhile |E_T| &lt; n-1:\n\n    Choose e = {v,w} in delta(S) of minimum cost c_e.  \n\n    Update E_T = E_T + {e} \n\n    Update S = S + {w}.  \n\n6.2.2.1 Complexity of the JPD Algorithm\nFor each step of the while loop, choosing \\(e\\) in Line 5$ costs \\(O(m)\\) operations to search over the set of edges in \\(\\delta(S)\\). The loop is repeated \\(O(n)\\) times, so the total complexity is \\(O(mn)\\) elementary operations. This may be as large as \\(O(n^3)\\) when the graph is very dense of as small as \\(O(n^2)\\) when the graph is very sparse but still connected.\n\n\n\n6.2.3 Example: MST for Flight Routing\nThe following graph \\(G = (V, E)\\) gives available/potential flight routes between 8 cities, with distances in miles. The MST of \\(G\\) gives an airline a means of servicing each city while minimizing travel distance and fuel costs.\n\n\n\n\n\n\nFigure 6.10: Potential flight routes\n\n\n\nLet’s apply the Jarnik-Prim-Dijsktra Algorithm to find the minimum cost spanning tree in \\(G\\).\n\nStep 1\nWe start with \\(S = \\{1\\}\\), which induces the cut \\(\\delta(S) = \\{14, 18\\}\\). Since \\[\nc_{14} = 355 &lt; 695 = c_{18},\n\\] we add \\(14\\) to \\(E_T\\) and add \\(\\{4\\}\\) to \\(S\\).\n\n\n\n\n\n\nFigure 6.11: Step 1 of the JPD Algorithm\n\n\n\n\n\nStep 2\nNext, \\(\\delta(S) = \\{18, 24, 34, 74\\}\\). We add \\(2\\) to \\(S\\) and \\(24\\) to \\(E_T\\) because \\(c_{24} = 74\\) is the minimum cost edge in \\(\\delta(S)\\).\n\n\n\n\n\n\nFigure 6.12: Step 2 of the JPD Algorithm\n\n\n\n\n\nStep 3\nNext, \\(c_{34} = 262\\) has minimum cost among edges in \\(\\delta(S) = \\{18, 34, 47, 27\\}\\). We add \\(34\\) to \\(E_T\\) and \\(3\\) to \\(S\\).\n\n\n\n\n\n\nFigure 6.13: Step 3 of the JPD Algorithm\n\n\n\n\n\nStep 4\nWe next add \\(37\\) to \\(E_T\\) and \\(7\\) to \\(S\\) because \\(c_{37} = 242\\) has minimum cost among edges in \\(\\delta(S) = \\{37, 47, 27, 18\\}\\).\n\n\n\n\n\n\nFigure 6.14: Step 4 of the JPD Algorithm\n\n\n\n\n\nStep 5\nWe next add \\(67\\) to \\(E_T\\) and \\(6\\) to \\(S\\) because \\(c_{67} = 83\\) has minimum cost among edges in \\(\\delta(S) = \\{18, 75, 76, 78\\}\\).\n\n\n\n\n\n\nFigure 6.15: Step 5 of the JPD Algorithm\n\n\n\n\n\nStep 6\nNext, \\(c_{78} = 151\\) is minimum cost among edges in \\(\\delta(S) = \\{18, 56, 57, 78\\}\\). Add \\(8\\) to \\(S\\) and \\(78\\) to \\(E_T\\).\n\n\n\n\n\n\nFigure 6.16: Step 6 of the JPD Algorithm\n\n\n\n\n\nStep 7\nFinally, \\(\\delta(S) = \\{56, 57\\}\\). We have \\[\nc_{56} = 230 &lt; 306 = c_{57},\n\\] so we add \\(56\\) to \\(E_T\\), \\(5\\) to \\(S\\).\n\n\n\n\n\n\nFigure 6.17: Step 7 of the JPD Algorithm\n\n\n\n\n\nTermination\nNote that \\(S = \\{V\\}\\) and \\(E_T\\) contains \\(n-1=7\\) edges. This implies that we have constructed the minimum spanning tree \\(T\\).\n\n\n\n\n\n\nFigure 6.18: Minimum spanning tree identified by the JPD Algorithm",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Minimum Cost Spanning Trees</span>"
     ]
@@ -1254,9 +1254,469 @@
     "href": "06_Minimum_Cost_Spanning_Trees.html#improving-the-jpd-algorithm",
     "title": "6  Minimum Cost Spanning Trees",
     "section": "6.3 Improving the JPD Algorithm",
-    "text": "6.3 Improving the JPD Algorithm\n\n6.3.1 Inefficiency of Searching over Edges\nProblem: The algorithm scans many edges that will never be selected.\nTo see why this may be the the case, consider the set \\(S = \\{1, 3, 5\\}\\) in the graph given in Figure 6.19.\n\n\n\n\n\n\nFigure 6.19: Graph \\(G\\) with \\(S = \\{1,3,5\\}\\)\n\n\n\nFor \\(S = \\{1,3,5\\}\\), we have \\(\\delta(S) = \\{21, 23, 25, 41, 45 \\}\\). The JPD Algorithm will add edge \\(45\\) with minimum cost to \\(E_T\\), but will consider every edge in \\(G\\). However, we know that the only candidates to be added to \\(S\\) are Nodes \\(2\\) and \\(4\\). Since \\(23\\) and \\(45\\) are the minimum cost edges incident with \\(2\\) and \\(4\\) respectively, we really only need to consider these two edges as candidates for \\(E_T\\).\nThis example implies that if we knew which edge incident with each node has minimum cost, then we can search among nodes, not edges. Since we usually have far fewer nodes than edges, this can lead to substantial improvement in computational cost.\n\n\n6.3.2 Node Labels\nTo facilitate this, let’s introduce two labels for each node \\(j \\in V \\setminus S\\):\n\n\\(C(j) := \\min_{i \\in S}~c_{ij}\\) (minimum cost of edge connecting \\(S\\) to \\(j\\));\n\\(P(j) := \\text{argmin}_{i \\in S}~c_{ij}\\) (endpoint in \\(S\\) of this minimum cost edge).\n\n\nExample 6.4 For the graph given in Figure 6.19, we have \\[\n\\begin{aligned}\n    C(2) &= 4, & C(4) &= 2  \\\\\n    P(2) &= 3, & P(3) &= 5.\n\\end{aligned}\n\\]\n\nIf we have \\(C\\) and \\(P\\), choosing the vertex \\(w\\) to add to minimum spanning tree should only require \\(O(n)\\) EOs to compare the values of \\(C\\) for the vertices in \\(V\\setminus S\\).\nFurther, we must update \\(C\\) and \\(P\\) whenever \\(S\\) is updated. To do so, we search the star of \\(w\\), which requires \\(O(n)\\) EOs.\nThe total complexity is \\(O(n)\\) per iteration and \\(O(n^2)\\) total. This can be much smaller than \\(O(mn)\\)!!\n\n\n6.3.3 Better Algorithm – Pseudocode\nThis suggests the following algorithm.\nLet S = {1}, E_T = {}, C(1) = 0.\n\n% Initialize costs.\nFor j in V - {1}\n    Let C(j) = c_{1j} and P(j) = 1\n    (assume c_{1j} = inf if 1j not in E).\n\nWhile |E_T| &lt; n-1\n\n    Find w in V \\ S minimizing C(w). \n\n    Let S = S + {w} and E_T = E_T + {P(w), w}.  \n\n    % Update costs\n    For j in V \\ S such that wj in delta(w)\n\n        If c_{wj} &lt; C(j): \n            Update C(j) = c_{wj} and P(j) = w.\n\n\n6.3.4 Another Example\nTo illustrate the application of the revised algorithm, let’s consider the graph \\(G\\) given in Figure 6.20.\n\n\n\n\n\n\nFigure 6.20: Graph \\(G\\)\n\n\n\n\n6.3.4.1 Step 1\nInitially, we have \\(S = \\{1\\}\\). Note that \\[\n\\begin{aligned}\n    C(2) &= c_{12} = 1 \\\\\n    C(3) &= c_{13} = 1 \\\\\n    C(4) &= + \\infty \\\\\n    C(5) &= c_{15} = 8.\n\\end{aligned}\n\\] We choose \\(w=2\\). We add \\(2\\) to \\(S\\) and \\(12\\) to \\(E_T\\). Note that we could also choose to add \\(3\\) to \\(S\\) and \\(13\\) to \\(E_T\\) since \\(c_{12} = c_{13} = 1\\).\nIt remains to update \\(C\\) and \\(P\\). Note that \\[\n\\begin{aligned}\n    C(3) &= c_{13} = 1 &lt; c_{23} = c_{w3} \\\\\n    c_{w5} &=c_{25} = 2 &lt; C(5).\n\\end{aligned}\n\\] Thus, we set \\(C(5) = 2\\) and \\(P(5) = 2\\) and leave \\(C(3)\\), \\(P(3)\\) unchanged.\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.21: Step 1 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found so far.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n5\n2\n2\n\n\n\n\n\n\n\n\n6.3.4.2 Step 2\nWe have \\(S = \\{1,2\\}\\). Nodes \\(3\\) and \\(5\\) are adjacent to \\(1\\) and \\(2\\). Since \\[\nC(3) = 1 &lt; 2 = C(5),\n\\] we add \\(3\\) to \\(S\\); since \\(P(3)=1\\), we add \\(13\\) to \\(E_T\\). Finally, we update \\[\nC(4) = 5, P(4) = 3\n\\] since \\(4\\) is adjacent to \\(3\\); \\(C(5)\\) and P(5)$ are unchanged.\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.22: Step 2 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found after two steps of revised JPD algorithm.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n4\n5\n3\n\n\n5\n2\n2\n\n\n\n\n\n\n\n\n6.3.4.3 Step 3\nSince $ C(5) &lt; C(4), $ we add \\(5\\) to \\(S\\) and \\(25\\) to \\(E_T\\). Note that \\[\n    c_{45} = 4 &lt; C(4) = 5,\n\\] we set \\(C(4) = 4\\) and \\(P(4) = 5\\).\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.23: Step 3 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found after three steps of revised JPD algorithm.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n4\n5\n3\n\n\n5\n2\n2\n\n\n\n\n\n\n\n\n6.3.4.4 Step 4\nThe only edge left to add \\(E_T\\) is \\(54\\).\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.24: Step 4 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found after four steps of revised JPD algorithm.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n4\n4\n5\n\n\n5\n2\n2\n\n\n\n\n\n\nThis gives the minimum cost spanning tree \\(T\\) found in Figure 6.25.\n\n\n\n\n\n\nFigure 6.25: Mininum spanning tree in \\(G\\)",
+    "text": "6.3 Improving the JPD Algorithm\n\n6.3.1 Inefficiency of Searching over Edges\nProblem: The algorithm scans many edges that will never be selected.\nTo see why this may be the the case, consider the set \\(S = \\{1, 3, 5\\}\\) in the graph given in Figure 6.19.\n\n\n\n\n\n\nFigure 6.19: Graph \\(G\\) with \\(S = \\{1,3,5\\}\\)\n\n\n\nFor \\(S = \\{1,3,5\\}\\), we have \\(\\delta(S) = \\{21, 23, 25, 41, 45 \\}\\). The JPD Algorithm will add edge \\(45\\) with minimum cost to \\(E_T\\), but will consider every edge in \\(G\\). However, we know that the only candidates to be added to \\(S\\) are Nodes \\(2\\) and \\(4\\). Since \\(23\\) and \\(45\\) are the minimum cost edges incident with \\(2\\) and \\(4\\) respectively, we really only need to consider these two edges as candidates for \\(E_T\\).\nThis example implies that if we knew which edge incident with each node has minimum cost, then we can search among nodes, not edges. Since we usually have far fewer nodes than edges, this can lead to substantial improvement in computational cost.\n\n\n6.3.2 Node Labels\nTo facilitate this, let’s introduce two labels for each node \\(j \\in V \\setminus S\\):\n\n\\(C(j) := \\min_{i \\in S}~c_{ij}\\) (minimum cost of edge connecting \\(S\\) to \\(j\\));\n\\(P(j) := \\text{argmin}_{i \\in S}~c_{ij}\\) (endpoint in \\(S\\) of this minimum cost edge).\n\n\nExample 6.4 For the graph given in Figure 6.19, we have \\[\n\\begin{aligned}\n    C(2) &= 4, & C(4) &= 2  \\\\\n    P(2) &= 3, & P(3) &= 5.\n\\end{aligned}\n\\]\n\nIf we have \\(C\\) and \\(P\\), choosing the vertex \\(w\\) to add to minimum spanning tree should only require \\(O(n)\\) EOs to compare the values of \\(C\\) for the vertices in \\(V\\setminus S\\).\nFurther, we must update \\(C\\) and \\(P\\) whenever \\(S\\) is updated. To do so, we search the star of \\(w\\), which requires \\(O(n)\\) EOs.\nThe total complexity is \\(O(n)\\) per iteration and \\(O(n^2)\\) total. This can be much smaller than \\(O(mn)\\)!!\n\n\n6.3.3 Better Algorithm – Pseudocode\nThis suggests the following algorithm.\nLet S = {1}, E_T = {}, C(1) = 0.\n\n% Initialize costs.\nFor j in V - {1}\n    Let C(j) = c_{1j} and P(j) = 1\n    (assume c_{1j} = inf if 1j not in E).\n\nWhile |E_T| &lt; n-1\n\n    Find w in V \\ S minimizing C(w). \n\n    Let S = S + {w} and E_T = E_T + {P(w), w}.  \n\n    % Update costs\n    For j in V \\ S such that wj in delta(w)\n\n        If c_{wj} &lt; C(j): \n            Update C(j) = c_{wj} and P(j) = w.\n\n\n6.3.4 Another Example\nTo illustrate the application of the revised algorithm, let’s consider the graph \\(G\\) given in Figure 6.20.\n\n\n\n\n\n\nFigure 6.20: Graph \\(G\\)\n\n\n\n\nStep 1\nInitially, we have \\(S = \\{1\\}\\). Note that \\[\n\\begin{aligned}\n    C(2) &= c_{12} = 1 \\\\\n    C(3) &= c_{13} = 1 \\\\\n    C(4) &= + \\infty \\\\\n    C(5) &= c_{15} = 8.\n\\end{aligned}\n\\] We choose \\(w=2\\). We add \\(2\\) to \\(S\\) and \\(12\\) to \\(E_T\\). Note that we could also choose to add \\(3\\) to \\(S\\) and \\(13\\) to \\(E_T\\) since \\(c_{12} = c_{13} = 1\\).\nIt remains to update \\(C\\) and \\(P\\). Note that \\[\n\\begin{aligned}\n    C(3) &= c_{13} = 1 &lt; c_{23} = c_{w3} \\\\\n    c_{w5} &=c_{25} = 2 &lt; C(5).\n\\end{aligned}\n\\] Thus, we set \\(C(5) = 2\\) and \\(P(5) = 2\\) and leave \\(C(3)\\), \\(P(3)\\) unchanged.\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.21: Step 1 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found so far.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n5\n2\n2\n\n\n\n\n\n\n\n\nStep 2\nWe have \\(S = \\{1,2\\}\\). Nodes \\(3\\) and \\(5\\) are adjacent to \\(1\\) and \\(2\\). Since \\[\nC(3) = 1 &lt; 2 = C(5),\n\\] we add \\(3\\) to \\(S\\); since \\(P(3)=1\\), we add \\(13\\) to \\(E_T\\). Finally, we update \\[\nC(4) = 5, P(4) = 3\n\\] since \\(4\\) is adjacent to \\(3\\); \\(C(5)\\) and \\(P(5)\\) are unchanged.\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.22: Step 2 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found after two steps of revised JPD algorithm.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n4\n5\n3\n\n\n5\n2\n2\n\n\n\n\n\n\n\n\nStep 3\nSince \\(C(5) &lt; C(4)\\), we add \\(5\\) to \\(S\\) and \\(25\\) to \\(E_T\\). Note that \\[\n    c_{45} = 4 &lt; C(4) = 5,\n\\] we set \\(C(4) = 4\\) and \\(P(4) = 5\\).\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.23: Step 3 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found after three steps of revised JPD algorithm.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n4\n5\n3\n\n\n5\n2\n2\n\n\n\n\n\n\n\n\nStep 4\nThe only edge left to add \\(E_T\\) is \\(54\\).\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6.24: Step 4 of the revised JPD algorithm\n\n\n\n\n\n\nPredecessor and value of minimum cost \\((1,v)\\)-path found after four steps of revised JPD algorithm.\n\n\nv\nC(v)\nP(v)\n\n\n\n\n2\n1\n1\n\n\n3\n1\n1\n\n\n4\n4\n5\n\n\n5\n2\n2\n\n\n\n\n\n\nThis gives the minimum cost spanning tree \\(T\\) found in Figure 6.25.\n\n\n\n\n\n\nFigure 6.25: Mininum spanning tree in \\(G\\)",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Minimum Cost Spanning Trees</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html",
+    "href": "07_Network_Flows.html",
+    "title": "6  Network Flows",
+    "section": "",
+    "text": "6.1 Model Formulation",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#model-formulation",
+    "href": "07_Network_Flows.html#model-formulation",
+    "title": "6  Network Flows",
+    "section": "",
+    "text": "6.1.1 Motivation\nWe want to figure out the maximum amount of some commodity can be transported from a certain node \\(s\\) to another point \\(t\\) of a network.\nThis can take the form of any of the following (among many other examples):\n\nOil, water, really any fluid in pipeline network;\nVehicle traffic in a roadway network;\nInformation in a communication network;\nSpread of disease in pandemic models.\n\n\n\n6.1.2 Standard Constraints\nRegardless of physical application/interpretation of the network, we have the following standard collection of constraints.\n\n6.1.2.1 Capacity constraints\nEach pipe cannot carry more than its capacity. - Let \\(x_{ij}\\) denote the amount of commodity carried from \\(i\\) to \\(j\\) and let \\(k_{ij}\\) denote the capacity of the pipe from \\(i\\) to \\(j\\). - Then we must have \\[\n    0 \\le x_{ij} \\le  k_{ij}.\n\\]\n\n\n6.1.2.2 Balance constraints\nThe commodity cannot enter or leave the network except at source \\(s\\) and sink \\(t\\).\n\nConsider node \\(h\\) (not \\(s\\) or \\(t\\)).\nThe flow of the commodity into \\(h\\) must be equal to the flow out of \\(h\\): \\[\n  \\sum_{(i,h) \\in \\delta^{-}(h)} x_{ih}  =\n  \\sum_{(h,j) \\in \\delta^{+}(h)} x_{hj}.\n\\]\n\n\n\n\n6.1.3 The Maximum Flow Problem\nGiven a directed graph \\(G = (V,A)\\), arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\), and nodes \\(s,t \\in V\\).\n\nDefinition 6.1 (Maximum Flow Problem) Find a function \\(x: A \\mapsto \\mathbf{R}_+\\) (called a flow) satisfying:\n\ncapacity constraints: \\[\n0 \\le x_{ij} \\le k_{ij}\n\\] for all \\((i,j) \\in A\\);\nbalance constraints: \\[\n\\sum_{(i,h) \\in \\delta^{-}(h)} x_{ih}  =\n\\sum_{(h,j) \\in \\delta^{+}(h)} x_{hj}\n\\] for all $h V {s,t},\nmaximizing the net flow value: \\[\n\\varphi(\\{s\\}) = \\varphi(x) =\n\\sum_{(s,j) \\in \\delta^{+}(s)} x_{sj} -\n\\sum_{(i,s) \\in \\delta^{-}(s)} x_{is}.\n\\]\n\n\n\n\n6.1.4 Example\n\nExample 6.1 Figure 6.1 gives an example of a flow \\(x\\) for the given graph \\(G\\) with capacity \\(k\\).\n\n\n\n\n\n\nFigure 6.1: Graph \\(G\\) with capacity \\(k\\) and flow \\(x\\). Arc \\(ij\\) has label \\(x_{ij}, k_{ij}\\)\n\n\n\nThe flow can be written as \\[\n\\begin{aligned}\nx_{s1} &= 3, &&& x_{s2}&=0 \\\\\nx_{12} &= 2, &&& x_{1t} &= 1 \\\\\nx_{21} &= 0, &&& x_{2t} &= 2.\n\\end{aligned}\n\\] This flow \\(x\\) has value \\(\\varphi(x) = 3.\\)\n\n\n\n6.1.5 Formulation as a Linear Program\nWe can write the maximum flow problem as the linear program or linear optimization problem1: \\[\n\\begin{array}{ll}\n\\max & \\varphi \\\\\n\\text{s.t.} & \\displaystyle\n\\sum_{(h,j) \\in \\delta^+(h)} x_{hj}\n    - \\sum_{(i,h) \\in \\delta^-(h)} x_{ih}=\n\\begin{cases}\n    + \\varphi, & \\text{if } h =s, \\\\\n    - \\varphi, & \\text{if } h = t,\\\\\n    0, &\\text{otherwise},\n\\end{cases} \\\\\n& 0 \\le x_{ij} \\le k_{ij} \\text{ for all } (i,j) \\in A,\n\\\\\n& \\varphi \\ge 0.\n\\end{array}\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section",
+    "href": "07_Network_Flows.html#section",
+    "title": "6  Network Flows",
+    "section": "6.3 ",
+    "text": "6.3",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#formulation-as-a-linear-program",
+    "href": "07_Network_Flows.html#formulation-as-a-linear-program",
+    "title": "6  Network Flows",
+    "section": "6.3 Formulation as a Linear Program",
+    "text": "6.3 Formulation as a Linear Program\nWe can write the maximum flow problem as the linear program or linear optimization problem\\(^1\\): \\[\n\\begin{array}{ll}\n\\max & \\varphi \\\\\n\\text{s.t.} & \\displaystyle\n\\sum_{(h,j) \\in \\delta^+(h)} x_{hj}\n    - \\sum_{(i,h) \\in \\delta^-(h)} x_{ih}=\n\\begin{cases}\n    + \\varphi, & \\text{if } h =s, \\\\\n    - \\varphi, & \\text{if } h = t,\\\\\n    0, &\\text{otherwise},\n\\end{cases} \\\\\n& 0 \\le x_{ij} \\le k_{ij} \\text{ for all } (i,j) \\in A,\n\\\\\n& \\varphi \\ge 0.\n\\end{array}\n\\]\n\n1: https://en.wikipedia.org/wiki/Linear_programming",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#st-cuts",
+    "href": "07_Network_Flows.html#st-cuts",
+    "title": "6  Network Flows",
+    "section": "6.2 \\(st\\)-cuts",
+    "text": "6.2 \\(st\\)-cuts\nGiven a subset of nodes \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V \\setminus S\\).\n\nDefinition 6.2 An st-cut is the set of arcs that enter or leave \\(S\\): \\[\n\\delta(S) = \\delta^+(S) \\cup \\delta^{-}(S).\n\\]\n\n\nDefinition 6.3 The (forward) capacity of the \\(st\\)-cut is \\[\nk(\\delta(S)) = \\sum_{(i,j) \\in \\delta^+(S)} k_{ij}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#net-flow",
+    "href": "07_Network_Flows.html#net-flow",
+    "title": "6  Network Flows",
+    "section": "6.3 Net Flow",
+    "text": "6.3 Net Flow\n\nDefinition 6.4 The net flow across \\(\\delta (S)\\) is \\[\n\\varphi(\\delta(S)) := \\sum_{(i,j)\\in \\delta^+(S)} x_{ij}\n    - \\sum_{(i,j) \\in \\delta^{-}(S)} x_{ij}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-1",
+    "href": "07_Network_Flows.html#example-1",
+    "title": "6  Network Flows",
+    "section": "6.3 Example",
+    "text": "6.3 Example\n\n\n\n\n\n\nFigure 6.2: Directed graph with \\(S=\\{s,2\\}\\)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-1",
+    "href": "07_Network_Flows.html#section-1",
+    "title": "6  Network Flows",
+    "section": "6.4 ",
+    "text": "6.4",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-2",
+    "href": "07_Network_Flows.html#section-2",
+    "title": "6  Network Flows",
+    "section": "6.5 ",
+    "text": "6.5",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#conservation-of-flow-across-cuts",
+    "href": "07_Network_Flows.html#conservation-of-flow-across-cuts",
+    "title": "6  Network Flows",
+    "section": "6.5 Conservation of Flow Across Cuts",
+    "text": "6.5 Conservation of Flow Across Cuts\n\nLemma 6.1 Given a flow \\(x\\) with net value \\(\\varphi\\), we have \\[\n\\varphi(\\delta(S)) = \\varphi\n\\] for every \\(S \\subseteq V\\) with \\(s \\in S\\), \\(t \\in V \\setminus S\\).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-3",
+    "href": "07_Network_Flows.html#section-3",
+    "title": "6  Network Flows",
+    "section": "6.6 ",
+    "text": "6.6",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-4",
+    "href": "07_Network_Flows.html#section-4",
+    "title": "6  Network Flows",
+    "section": "6.7 ",
+    "text": "6.7",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-5",
+    "href": "07_Network_Flows.html#section-5",
+    "title": "6  Network Flows",
+    "section": "6.9 ",
+    "text": "6.9",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-6",
+    "href": "07_Network_Flows.html#section-6",
+    "title": "6  Network Flows",
+    "section": "6.10 ",
+    "text": "6.10",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-7",
+    "href": "07_Network_Flows.html#section-7",
+    "title": "6  Network Flows",
+    "section": "6.11 ",
+    "text": "6.11",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#weak-duality",
+    "href": "07_Network_Flows.html#weak-duality",
+    "title": "6  Network Flows",
+    "section": "6.8 Weak Duality",
+    "text": "6.8 Weak Duality\n\nTheorem 6.1 For each \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V\\setminus S\\), we have \\[\n\\varphi \\le k(\\delta(S)).\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-8",
+    "href": "07_Network_Flows.html#section-8",
+    "title": "6  Network Flows",
+    "section": "6.12 ",
+    "text": "6.12",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-9",
+    "href": "07_Network_Flows.html#section-9",
+    "title": "6  Network Flows",
+    "section": "6.14 ",
+    "text": "6.14",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-10",
+    "href": "07_Network_Flows.html#section-10",
+    "title": "6  Network Flows",
+    "section": "6.15 ",
+    "text": "6.15",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-11",
+    "href": "07_Network_Flows.html#section-11",
+    "title": "6  Network Flows",
+    "section": "6.17 ",
+    "text": "6.17",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-dual-problem-min-cut",
+    "href": "07_Network_Flows.html#the-dual-problem-min-cut",
+    "title": "6  Network Flows",
+    "section": "6.13 The Dual Problem: Min Cut",
+    "text": "6.13 The Dual Problem: Min Cut\n\nDefinition 6.5 (Minimum Cut Problem) Given a directed graph \\(G = (V, A)\\) with arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\) and two nodes \\(s,t \\in V\\).\nFind an \\(st\\)-cut of minimum capacity.\n\n\n\n\n\n\n\nFigure 6.4: Minimum capacity cuts in \\(G\\)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-12",
+    "href": "07_Network_Flows.html#section-12",
+    "title": "6  Network Flows",
+    "section": "6.30 ",
+    "text": "6.30",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-13",
+    "href": "07_Network_Flows.html#section-13",
+    "title": "6  Network Flows",
+    "section": "6.32 ",
+    "text": "6.32",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#weak-duality-revisited",
+    "href": "07_Network_Flows.html#weak-duality-revisited",
+    "title": "6  Network Flows",
+    "section": "6.16 Weak Duality Revisited",
+    "text": "6.16 Weak Duality Revisited\nThe relationship \\[\n\\begin{aligned}\n    & \\varphi \\le k(\\delta(S)) \\text{ for all $st$-cuts} \\\\\n    & \\Leftrightarrow \\;\\;\\;\n    \\varphi \\le \\min_S \\Big\\{k(\\delta(S)): \\delta(S) \\text{ is a $st$-cut}\\Big\\}\n\\end{aligned}\n\\] holds for all net flow values \\(\\varphi\\).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-14",
+    "href": "07_Network_Flows.html#section-14",
+    "title": "6  Network Flows",
+    "section": "6.34 ",
+    "text": "6.34",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#strong-duality-max-flow-min-cut-theorem",
+    "href": "07_Network_Flows.html#strong-duality-max-flow-min-cut-theorem",
+    "title": "6  Network Flows",
+    "section": "6.18 Strong Duality: Max-Flow Min-Cut Theorem",
+    "text": "6.18 Strong Duality: Max-Flow Min-Cut Theorem\nConsider flow \\(x\\) of net value \\(\\varphi\\) and \\(st\\)-cut \\(\\delta(S)\\) of capacity \\(k(\\delta(S)).\\)\n\nLemma 6.2 If \\(\\varphi = k(\\delta(S))\\), then \\(x\\) is a maximum flow and \\(\\delta(S)\\) is a minimum cut.\n\n\nTheorem 6.2 The value of a maximum flow is always equal to the capacity of a minimum \\(st\\)-cut.\n\n\nWe’ll construct an algorithmic proof: reveals and constructs the flow and \\(st\\)-cut while solving the problem.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-ford-fulkerson-algorithm-idea",
+    "href": "07_Network_Flows.html#the-ford-fulkerson-algorithm-idea",
+    "title": "6  Network Flows",
+    "section": "6.19 The Ford-Fulkerson Algorithm: Idea",
+    "text": "6.19 The Ford-Fulkerson Algorithm: Idea\nIdea: Starting from given flow \\(x\\), find an \\(st\\)-path along which \\(\\varphi\\) can be increased.\n\n\n\n\n\n\nFigure 6.5: A path with excess capacity",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#another-path-with-improved-flow",
+    "href": "07_Network_Flows.html#another-path-with-improved-flow",
+    "title": "6  Network Flows",
+    "section": "6.20 Another Path with Improved Flow",
+    "text": "6.20 Another Path with Improved Flow\n\n\n\n\n\n\nFigure 6.6: Another path with excess capacity",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#forward-and-backward-arcs",
+    "href": "07_Network_Flows.html#forward-and-backward-arcs",
+    "title": "6  Network Flows",
+    "section": "6.21 Forward and Backward Arcs",
+    "text": "6.21 Forward and Backward Arcs\nWe can increase flow using:\n\nthe original arcs in the graph (forward arcs), and\narcs whose directions have been flipped (backward arcs).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Flow in \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Flow in \\(G\\)\n\n\n\n\n\n\n\nFigure 6.7: Increasing flow using forward and backward arcs.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#saturated-and-empty-arcs",
+    "href": "07_Network_Flows.html#saturated-and-empty-arcs",
+    "title": "6  Network Flows",
+    "section": "6.22 Saturated and Empty Arcs",
+    "text": "6.22 Saturated and Empty Arcs\n\nDefinition 6.6 An arc \\((i,j)\\) is saturated if \\(x_{ij} = k_{ij}\\).\n\n\nDefinition 6.7 An arc \\((i,j)\\) is empty if \\(x_{ij} = 0\\).\n\n\nObservation:\n\nIf \\((i,j)\\) is not saturated \\((x_{ij} &lt; k_{ij})\\) then \\(x_{ij}\\) can be increased.\nIf \\((i,j)\\) is not empty \\((x_{ij} &gt; 0)\\) then \\(x_{ij}\\) can be decreased.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-2",
+    "href": "07_Network_Flows.html#example-2",
+    "title": "6  Network Flows",
+    "section": "6.23 Example",
+    "text": "6.23 Example\n\n\n\n\n\n\nFigure 6.8: Saturated and empty arcs in \\(G\\)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#augmenting-paths",
+    "href": "07_Network_Flows.html#augmenting-paths",
+    "title": "6  Network Flows",
+    "section": "6.24 Augmenting Paths",
+    "text": "6.24 Augmenting Paths\n\nDefinition 6.8 (Augmenting Paths) We call a \\(st\\)-path using a combination of forward and backward arcs an augmenting path if:\n\nAll forward arcs are not saturated \\((x_{ij} &lt; k_{ij})\\); and\nAll backward arcs are not empty \\((x_{ij} &gt; 0)\\).\n\n\n\nIdea: we can improve net flow value by increasing flow on forward arcs and decreasing flow on backward arcs.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-of-an-augmenting-path",
+    "href": "07_Network_Flows.html#example-of-an-augmenting-path",
+    "title": "6  Network Flows",
+    "section": "6.25 Example of an Augmenting Path",
+    "text": "6.25 Example of an Augmenting Path\n\n\n\n\n\n\nFigure 6.9: An augmenting Path",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-auxiliary-network",
+    "href": "07_Network_Flows.html#the-auxiliary-network",
+    "title": "6  Network Flows",
+    "section": "6.26 The Auxiliary Network",
+    "text": "6.26 The Auxiliary Network\nWe can construct an auxiliary network \\(G' = (V, A')\\) with auxiliary capacity function \\(k': A \\mapsto \\mathbf{R}_+\\) that accounts for all possible flow variations with respect to current flow \\(x\\).\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &lt; k_{ij}\\) (not saturated), we add forward arc \\((i,j)\\) to \\(A'\\) with \\(k'_{ij} = k_{ij} - x_{ij}\\).\n\nThis arc models the possibility of increasing the flow on \\((i,j)\\).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-auxiliary-network-2",
+    "href": "07_Network_Flows.html#the-auxiliary-network-2",
+    "title": "6  Network Flows",
+    "section": "6.27 The Auxiliary Network – 2",
+    "text": "6.27 The Auxiliary Network – 2\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &gt; 0\\) (not empty), we add backward arc \\((j,i)\\) to \\(A'\\) with \\(k'_{ji} = x_{ij}\\).\n\nThis models the possibility of decreasing the flow on \\((i,j)\\).\n\nIf \\(0 &lt; x_{ij}&lt; k_{ij}\\) we add both a forward arc \\((i,j)\\) and a backward arc \\((j,i)\\) to \\(A'\\).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-augmentation-step",
+    "href": "07_Network_Flows.html#the-augmentation-step",
+    "title": "6  Network Flows",
+    "section": "6.28 The Augmentation Step",
+    "text": "6.28 The Augmentation Step\nStart with flow \\(x\\) and corresponding auxiliary network \\(G'\\) with auxiliary capacities \\(k'\\).\n\nIdentify \\(st\\)-path \\(P\\) in \\(G'\\).\n\nLet \\(\\displaystyle\\Delta = \\min_{(i,j)\\in P} k'_{ij}\\).\nAdd \\(\\Delta\\) to all forward arcs.\nSubtract \\(\\Delta\\) from all backward arcs.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-3",
+    "href": "07_Network_Flows.html#example-3",
+    "title": "6  Network Flows",
+    "section": "6.29 Example",
+    "text": "6.29 Example\nLet’s find the maximum flow for \\(s = 1\\) and \\(t=7\\) for the graph below. We start from \\(x = 0\\) with net flow \\(\\varphi = 0\\):\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.10: Details of Step 1",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-15",
+    "href": "07_Network_Flows.html#section-15",
+    "title": "6  Network Flows",
+    "section": "6.36 ",
+    "text": "6.36",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#step-2",
+    "href": "07_Network_Flows.html#step-2",
+    "title": "6  Network Flows",
+    "section": "6.31 Step 2",
+    "text": "6.31 Step 2\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.11: Details of Step 2",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-16",
+    "href": "07_Network_Flows.html#section-16",
+    "title": "6  Network Flows",
+    "section": "6.37 ",
+    "text": "6.37",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#step-3",
+    "href": "07_Network_Flows.html#step-3",
+    "title": "6  Network Flows",
+    "section": "6.33 Step 3",
+    "text": "6.33 Step 3\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.12: Details of Step 3",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-17",
+    "href": "07_Network_Flows.html#section-17",
+    "title": "6  Network Flows",
+    "section": "6.39 ",
+    "text": "6.39",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#step-4",
+    "href": "07_Network_Flows.html#step-4",
+    "title": "6  Network Flows",
+    "section": "6.35 Step 4",
+    "text": "6.35 Step 4\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.13: Details of Step 4",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-18",
+    "href": "07_Network_Flows.html#section-18",
+    "title": "6  Network Flows",
+    "section": "6.43 ",
+    "text": "6.43",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#footnotes",
+    "href": "07_Network_Flows.html#footnotes",
+    "title": "6  Network Flows",
+    "section": "",
+    "text": "https://en.wikipedia.org/wiki/Linear_programming↩︎",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#cuts-and-flow",
+    "href": "07_Network_Flows.html#cuts-and-flow",
+    "title": "6  Network Flows",
+    "section": "6.2 Cuts and Flow",
+    "text": "6.2 Cuts and Flow\n\n6.2.1 \\(st\\)-cuts\nGiven a subset of nodes \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V \\setminus S\\).\n\nDefinition 6.2 An st-cut is the set of arcs that enter or leave \\(S\\): \\[\n\\delta(S) = \\delta^+(S) \\cup \\delta^{-}(S).\n\\]\n\n\nDefinition 6.3 The (forward) capacity of the \\(st\\)-cut is \\[\nk(\\delta(S)) = \\sum_{(i,j) \\in \\delta^+(S)} k_{ij}.\n\\]\n\n\n\n6.2.2 Net Flow across a Cut\n\nDefinition 6.4 The net flow across \\(\\delta (S)\\) is \\[\n\\varphi(\\delta(S)) := \\sum_{(i,j)\\in \\delta^+(S)} x_{ij}\n    - \\sum_{(i,j) \\in \\delta^{-}(S)} x_{ij}.\n\\]\n\n\n\n6.2.3 Example\n\nExample 6.2 Consider the graph given in Figure 6.2.\n\n\n\n\n\n\nFigure 6.2: Directed graph with \\(S=\\{s,2\\}\\)\n\n\n\nThe forward and backward cuts induced by \\(S\\) are given in Figure 6.3.\n\n\n\n\n\n\n\n\n\n\n\n(a) Forward cut \\(\\delta^{+}(S) = \\{(s,1), (2,1), (2,t)\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Backward cut \\(\\delta^{-}(S) = \\{(1,2)\\}\\)\n\n\n\n\n\n\n\nFigure 6.3: Induced cuts in graph \\(G\\) given in Figure 6.2.\n\n\n\nThe \\(st\\)-cut induced by \\(S\\) is \\[\n    \\delta(S) = \\delta^{+}(S) \\cup \\delta^{-}(S)\n    = \\{(s,1), (2,1), (2,t), (1,2)\\}.\n\\] The forward capacity of this cut is \\[\n    k(\\delta(S)) = 7 + 1 + 5 = 13.\n\\] The value of this cut is \\[\n    \\varphi(\\delta(S)) = 3 + 0 + 2 - 2 = 3.\n\\]\n\n\n\n6.2.4 Conservation of Flow Across Cuts\n\nLemma 6.1 Given a flow \\(x\\) with net value \\(\\varphi\\), we have \\[\n\\varphi(\\delta(S)) = \\varphi\n\\] for every \\(S \\subseteq V\\) with \\(s \\in S\\), \\(t \\in V \\setminus S\\).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   }
 ]

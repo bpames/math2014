@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Math 2014 Algorithms - 6&nbsp; Network Flows</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05a_Shortest_Paths.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Network_Flows.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Network Flows</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Math 2014 Algorithms</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Algorithms</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction_to_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Graphs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Reachability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graph Reachability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Complexity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05a_Shortest_Paths.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Network_Flows.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Network Flows</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#model-formulation" id="toc-model-formulation" class="nav-link active" data-scroll-target="#model-formulation"><span class="header-section-number">6.1</span> Model Formulation</a>
+  <ul class="collapse">
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">6.1.1</span> Motivation</a></li>
+  <li><a href="#standard-constraints" id="toc-standard-constraints" class="nav-link" data-scroll-target="#standard-constraints"><span class="header-section-number">6.1.2</span> Standard Constraints</a></li>
+  <li><a href="#the-maximum-flow-problem" id="toc-the-maximum-flow-problem" class="nav-link" data-scroll-target="#the-maximum-flow-problem"><span class="header-section-number">6.1.3</span> The Maximum Flow Problem</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">6.1.4</span> Example</a></li>
+  <li><a href="#formulation-as-a-linear-program" id="toc-formulation-as-a-linear-program" class="nav-link" data-scroll-target="#formulation-as-a-linear-program"><span class="header-section-number">6.1.5</span> Formulation as a Linear Program</a></li>
+  </ul></li>
+  <li><a href="#cuts-and-flow" id="toc-cuts-and-flow" class="nav-link" data-scroll-target="#cuts-and-flow"><span class="header-section-number">6.2</span> Cuts and Flow</a>
+  <ul class="collapse">
+  <li><a href="#st-cuts" id="toc-st-cuts" class="nav-link" data-scroll-target="#st-cuts"><span class="header-section-number">6.2.1</span> <span class="math inline">\(st\)</span>-cuts</a></li>
+  <li><a href="#net-flow-across-a-cut" id="toc-net-flow-across-a-cut" class="nav-link" data-scroll-target="#net-flow-across-a-cut"><span class="header-section-number">6.2.2</span> Net Flow across a Cut</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">6.2.3</span> Example</a></li>
+  <li><a href="#conservation-of-flow-across-cuts" id="toc-conservation-of-flow-across-cuts" class="nav-link" data-scroll-target="#conservation-of-flow-across-cuts"><span class="header-section-number">6.2.4</span> Conservation of Flow Across Cuts</a></li>
+  </ul></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">6.3</span> </a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">6.4</span> </a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"><span class="header-section-number">6.5</span> </a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"><span class="header-section-number">6.6</span> </a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4"><span class="header-section-number">6.7</span> </a></li>
+  <li><a href="#weak-duality" id="toc-weak-duality" class="nav-link" data-scroll-target="#weak-duality"><span class="header-section-number">6.8</span> Weak Duality</a></li>
+  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5"><span class="header-section-number">6.9</span> </a></li>
+  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6"><span class="header-section-number">6.10</span> </a></li>
+  <li><a href="#section-7" id="toc-section-7" class="nav-link" data-scroll-target="#section-7"><span class="header-section-number">6.11</span> </a></li>
+  <li><a href="#section-8" id="toc-section-8" class="nav-link" data-scroll-target="#section-8"><span class="header-section-number">6.12</span> </a></li>
+  <li><a href="#the-dual-problem-min-cut" id="toc-the-dual-problem-min-cut" class="nav-link" data-scroll-target="#the-dual-problem-min-cut"><span class="header-section-number">6.13</span> The Dual Problem: Min Cut</a></li>
+  <li><a href="#section-9" id="toc-section-9" class="nav-link" data-scroll-target="#section-9"><span class="header-section-number">6.14</span> </a></li>
+  <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10"><span class="header-section-number">6.15</span> </a></li>
+  <li><a href="#weak-duality-revisited" id="toc-weak-duality-revisited" class="nav-link" data-scroll-target="#weak-duality-revisited"><span class="header-section-number">6.16</span> Weak Duality Revisited</a></li>
+  <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11"><span class="header-section-number">6.17</span> </a></li>
+  <li><a href="#strong-duality-max-flow-min-cut-theorem" id="toc-strong-duality-max-flow-min-cut-theorem" class="nav-link" data-scroll-target="#strong-duality-max-flow-min-cut-theorem"><span class="header-section-number">6.18</span> Strong Duality: Max-Flow Min-Cut Theorem</a></li>
+  <li><a href="#the-ford-fulkerson-algorithm-idea" id="toc-the-ford-fulkerson-algorithm-idea" class="nav-link" data-scroll-target="#the-ford-fulkerson-algorithm-idea"><span class="header-section-number">6.19</span> The Ford-Fulkerson Algorithm: Idea</a></li>
+  <li><a href="#another-path-with-improved-flow" id="toc-another-path-with-improved-flow" class="nav-link" data-scroll-target="#another-path-with-improved-flow"><span class="header-section-number">6.20</span> Another Path with Improved Flow</a></li>
+  <li><a href="#forward-and-backward-arcs" id="toc-forward-and-backward-arcs" class="nav-link" data-scroll-target="#forward-and-backward-arcs"><span class="header-section-number">6.21</span> Forward and Backward Arcs</a></li>
+  <li><a href="#saturated-and-empty-arcs" id="toc-saturated-and-empty-arcs" class="nav-link" data-scroll-target="#saturated-and-empty-arcs"><span class="header-section-number">6.22</span> Saturated and Empty Arcs</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">6.23</span> Example</a></li>
+  <li><a href="#augmenting-paths" id="toc-augmenting-paths" class="nav-link" data-scroll-target="#augmenting-paths"><span class="header-section-number">6.24</span> Augmenting Paths</a></li>
+  <li><a href="#example-of-an-augmenting-path" id="toc-example-of-an-augmenting-path" class="nav-link" data-scroll-target="#example-of-an-augmenting-path"><span class="header-section-number">6.25</span> Example of an Augmenting Path</a></li>
+  <li><a href="#the-auxiliary-network" id="toc-the-auxiliary-network" class="nav-link" data-scroll-target="#the-auxiliary-network"><span class="header-section-number">6.26</span> The Auxiliary Network</a></li>
+  <li><a href="#the-auxiliary-network-2" id="toc-the-auxiliary-network-2" class="nav-link" data-scroll-target="#the-auxiliary-network-2"><span class="header-section-number">6.27</span> The Auxiliary Network – 2</a></li>
+  <li><a href="#the-augmentation-step" id="toc-the-augmentation-step" class="nav-link" data-scroll-target="#the-augmentation-step"><span class="header-section-number">6.28</span> The Augmentation Step</a></li>
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="header-section-number">6.29</span> Example</a></li>
+  <li><a href="#section-12" id="toc-section-12" class="nav-link" data-scroll-target="#section-12"><span class="header-section-number">6.30</span> </a></li>
+  <li><a href="#step-2" id="toc-step-2" class="nav-link" data-scroll-target="#step-2"><span class="header-section-number">6.31</span> Step 2</a></li>
+  <li><a href="#section-13" id="toc-section-13" class="nav-link" data-scroll-target="#section-13"><span class="header-section-number">6.32</span> </a></li>
+  <li><a href="#step-3" id="toc-step-3" class="nav-link" data-scroll-target="#step-3"><span class="header-section-number">6.33</span> Step 3</a></li>
+  <li><a href="#section-14" id="toc-section-14" class="nav-link" data-scroll-target="#section-14"><span class="header-section-number">6.34</span> </a></li>
+  <li><a href="#step-4" id="toc-step-4" class="nav-link" data-scroll-target="#step-4"><span class="header-section-number">6.35</span> Step 4</a></li>
+  <li><a href="#section-15" id="toc-section-15" class="nav-link" data-scroll-target="#section-15"><span class="header-section-number">6.36</span> </a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Network Flows</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="model-formulation" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="model-formulation"><span class="header-section-number">6.1</span> Model Formulation</h2>
+<section id="motivation" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">6.1.1</span> Motivation</h3>
+<p>We want to figure out the maximum amount of some commodity can be transported from a certain node <span class="math inline">\(s\)</span> to another point <span class="math inline">\(t\)</span> of a network.</p>
+<p>This can take the form of any of the following (among many other examples):</p>
+<ul>
+<li>Oil, water, really any fluid in pipeline network;</li>
+<li>Vehicle traffic in a roadway network;</li>
+<li>Information in a communication network;</li>
+<li>Spread of disease in pandemic models.</li>
+</ul>
+</section>
+<section id="standard-constraints" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="standard-constraints"><span class="header-section-number">6.1.2</span> Standard Constraints</h3>
+<p>Regardless of physical application/interpretation of the network, we have the following standard collection of constraints.</p>
+<section id="capacity-constraints" class="level4" data-number="6.1.2.1">
+<h4 data-number="6.1.2.1" class="anchored" data-anchor-id="capacity-constraints"><span class="header-section-number">6.1.2.1</span> Capacity constraints</h4>
+<p>Each pipe cannot carry more than its capacity. - Let <span class="math inline">\(x_{ij}\)</span> denote the amount of commodity carried from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and let <span class="math inline">\(k_{ij}\)</span> denote the capacity of the pipe from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>. - Then we must have <span class="math display">\[
+    0 \le x_{ij} \le  k_{ij}.
+\]</span></p>
+</section>
+<section id="balance-constraints" class="level4" data-number="6.1.2.2">
+<h4 data-number="6.1.2.2" class="anchored" data-anchor-id="balance-constraints"><span class="header-section-number">6.1.2.2</span> Balance constraints</h4>
+<p>The commodity cannot enter or leave the network except at source <span class="math inline">\(s\)</span> and sink <span class="math inline">\(t\)</span>.</p>
+<ul>
+<li>Consider node <span class="math inline">\(h\)</span> (not <span class="math inline">\(s\)</span> or <span class="math inline">\(t\)</span>).</li>
+<li>The flow of the commodity <em>into</em> <span class="math inline">\(h\)</span> must be equal to the flow <em>out of</em> <span class="math inline">\(h\)</span>: <span class="math display">\[
+  \sum_{(i,h) \in \delta^{-}(h)} x_{ih}  =
+  \sum_{(h,j) \in \delta^{+}(h)} x_{hj}.
+\]</span></li>
+</ul>
+</section>
+</section>
+<section id="the-maximum-flow-problem" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="the-maximum-flow-problem"><span class="header-section-number">6.1.3</span> The Maximum Flow Problem</h3>
+<p>Given a <strong>directed graph</strong> <span class="math inline">\(G = (V,A)\)</span>, <strong>arc capacity function</strong> <span class="math inline">\(k: A \mapsto \mathbf{R}_+\)</span>, and nodes <span class="math inline">\(s,t \in V\)</span>.</p>
+<div id="def-max-flow-prob" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.1 (Maximum Flow Problem)</strong></span> Find a function <span class="math inline">\(x: A \mapsto \mathbf{R}_+\)</span> (called a <strong>flow</strong>) satisfying:</p>
+<ul>
+<li><p><strong>capacity constraints:</strong> <span class="math display">\[
+0 \le x_{ij} \le k_{ij}
+\]</span> for all <span class="math inline">\((i,j) \in A\)</span>;</p></li>
+<li><p><strong>balance constraints:</strong> <span class="math display">\[
+\sum_{(i,h) \in \delta^{-}(h)} x_{ih}  =
+\sum_{(h,j) \in \delta^{+}(h)} x_{hj}
+\]</span> for all $h V {s,t},</p></li>
+<li><p><strong>maximizing the net flow value:</strong> <span class="math display">\[
+\varphi(\{s\}) = \varphi(x) =
+\sum_{(s,j) \in \delta^{+}(s)} x_{sj} -
+\sum_{(i,s) \in \delta^{-}(s)} x_{is}.
+\]</span></p></li>
+</ul>
+</div>
+</section>
+<section id="example" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="example"><span class="header-section-number">6.1.4</span> Example</h3>
+<div id="exm-7-flow-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.1</strong></span> <a href="#fig-7-flow-ex" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> gives an example of a flow <span class="math inline">\(x\)</span> for the given graph <span class="math inline">\(G\)</span> with capacity <span class="math inline">\(k\)</span>.</p>
+<div id="fig-7-flow-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-flow-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/flow_ex.png" class="quarto-figure quarto-figure-left figure-img" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-flow-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Graph <span class="math inline">\(G\)</span> with capacity <span class="math inline">\(k\)</span> and flow <span class="math inline">\(x\)</span>. Arc <span class="math inline">\(ij\)</span> has label <span class="math inline">\(x_{ij}, k_{ij}\)</span>
+</figcaption>
+</figure>
+</div>
+<p>The flow can be written as <span class="math display">\[
+\begin{aligned}
+x_{s1} &amp;= 3, &amp;&amp;&amp; x_{s2}&amp;=0 \\
+x_{12} &amp;= 2, &amp;&amp;&amp; x_{1t} &amp;= 1 \\
+x_{21} &amp;= 0, &amp;&amp;&amp; x_{2t} &amp;= 2.
+\end{aligned}
+\]</span> This flow <span class="math inline">\(x\)</span> has value <span class="math inline">\(\varphi(x) = 3.\)</span></p>
+</div>
+</section>
+<section id="formulation-as-a-linear-program" class="level3" data-number="6.1.5">
+<h3 data-number="6.1.5" class="anchored" data-anchor-id="formulation-as-a-linear-program"><span class="header-section-number">6.1.5</span> Formulation as a Linear Program</h3>
+<p>We can write the <strong>maximum flow problem</strong> as the <strong>linear program</strong> or <strong>linear optimization problem</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>: <span class="math display">\[
+\begin{array}{ll}
+\max &amp; \varphi \\
+\text{s.t.} &amp; \displaystyle
+\sum_{(h,j) \in \delta^+(h)} x_{hj}
+    - \sum_{(i,h) \in \delta^-(h)} x_{ih}=
+\begin{cases}
+    + \varphi, &amp; \text{if } h =s, \\
+    - \varphi, &amp; \text{if } h = t,\\
+    0, &amp;\text{otherwise},
+\end{cases} \\
+&amp; 0 \le x_{ij} \le k_{ij} \text{ for all } (i,j) \in A,
+\\
+&amp; \varphi \ge 0.
+\end{array}
+\]</span></p>
+</section>
+</section>
+<section id="cuts-and-flow" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="cuts-and-flow"><span class="header-section-number">6.2</span> Cuts and Flow</h2>
+<section id="st-cuts" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="st-cuts"><span class="header-section-number">6.2.1</span> <span class="math inline">\(st\)</span>-cuts</h3>
+<p>Given a subset of nodes <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \in V \setminus S\)</span>.</p>
+<div id="def-st-cut" class="absolute theorem definition" data-top="30%">
+<p><span class="theorem-title"><strong>Definition 6.2</strong></span> An <strong>st-cut</strong> is the set of arcs that <strong>enter</strong> or <strong>leave</strong> <span class="math inline">\(S\)</span>: <span class="math display">\[
+\delta(S) = \delta^+(S) \cup \delta^{-}(S).
+\]</span></p>
+</div>
+<div id="def-capacity-cut" class="absolute theorem definition" data-top="60%">
+<p><span class="theorem-title"><strong>Definition 6.3</strong></span> The <strong>(forward) capacity</strong> of the <span class="math inline">\(st\)</span>-cut is <span class="math display">\[
+k(\delta(S)) = \sum_{(i,j) \in \delta^+(S)} k_{ij}.
+\]</span></p>
+</div>
+</section>
+<section id="net-flow-across-a-cut" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="net-flow-across-a-cut"><span class="header-section-number">6.2.2</span> Net Flow across a Cut</h3>
+<div id="def-net-flow" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.4</strong></span> The <strong>net flow</strong> across <span class="math inline">\(\delta (S)\)</span> is <span class="math display">\[
+\varphi(\delta(S)) := \sum_{(i,j)\in \delta^+(S)} x_{ij}
+    - \sum_{(i,j) \in \delta^{-}(S)} x_{ij}.
+\]</span></p>
+</div>
+</section>
+<section id="example-1" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">6.2.3</span> Example</h3>
+<div id="exm-7-cut-flow" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.2</strong></span> Consider the graph given in <a href="#fig-7-cut-ex" class="quarto-xref">Figure&nbsp;<span>6.2</span></a>.</p>
+<div id="fig-7-cut-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/flow_cut_ex.png" class="quarto-figure quarto-figure-left figure-img" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Directed graph with <span class="math inline">\(S=\{s,2\}\)</span>
+</figcaption>
+</figure>
+</div>
+<p>The forward and backward cuts induced by <span class="math inline">\(S\)</span> are given in <a href="#fig-7-cut-ex-cuts" class="quarto-xref">Figure&nbsp;<span>6.3</span></a>.</p>
+<div id="fig-7-cut-ex-cuts" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-cut-ex-cuts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-cut-ex-cuts" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-cut-ex-fwd-cut" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-cut-ex-fwd-cut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/st-cut-forward.png" class="img-fluid figure-img" data-ref-parent="fig-7-cut-ex-cuts">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-cut-ex-fwd-cut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Forward cut <span class="math inline">\(\delta^{+}(S) = \{(s,1), (2,1), (2,t)\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-cut-ex-cuts" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-cut-ex-bwd-cut" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-cut-ex-bwd-cut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/st-cut-backward.png" class="img-fluid figure-img" data-ref-parent="fig-7-cut-ex-cuts">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-cut-ex-bwd-cut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Backward cut <span class="math inline">\(\delta^{-}(S) = \{(1,2)\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-cut-ex-cuts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Induced cuts in graph <span class="math inline">\(G\)</span> given in <a href="#fig-7-cut-ex" class="quarto-xref">Figure&nbsp;<span>6.2</span></a>.
+</figcaption>
+</figure>
+</div>
+<p>The <span class="math inline">\(st\)</span>-cut induced by <span class="math inline">\(S\)</span> is <span class="math display">\[
+    \delta(S) = \delta^{+}(S) \cup \delta^{-}(S)
+    = \{(s,1), (2,1), (2,t), (1,2)\}.
+\]</span> The forward capacity of this cut is <span class="math display">\[
+    k(\delta(S)) = 7 + 1 + 5 = 13.
+\]</span> The value of this cut is <span class="math display">\[
+    \varphi(\delta(S)) = 3 + 0 + 2 - 2 = 3.
+\]</span></p>
+</div>
+</section>
+<section id="conservation-of-flow-across-cuts" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="conservation-of-flow-across-cuts"><span class="header-section-number">6.2.4</span> Conservation of Flow Across Cuts</h3>
+<div id="lem-7-conservation-of-flow" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 6.1</strong></span> Given a flow <span class="math inline">\(x\)</span> with net value <span class="math inline">\(\varphi\)</span>, we have <span class="math display">\[
+\varphi(\delta(S)) = \varphi
+\]</span> for every <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span>, <span class="math inline">\(t \in V \setminus S\)</span>.</p>
+</div>
+</section>
+</section>
+<section id="section" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="section"><span class="header-section-number">6.3</span> </h2>
+</section>
+<section id="section-1" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="section-1"><span class="header-section-number">6.4</span> </h2>
+</section>
+<section id="section-2" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="section-2"><span class="header-section-number">6.5</span> </h2>
+</section>
+<section id="section-3" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="section-3"><span class="header-section-number">6.6</span> </h2>
+</section>
+<section id="section-4" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="section-4"><span class="header-section-number">6.7</span> </h2>
+</section>
+<section id="weak-duality" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="weak-duality"><span class="header-section-number">6.8</span> Weak Duality</h2>
+<div id="thm-7-weak-duality-cuts" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6.1</strong></span> For each <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \in V\setminus S\)</span>, we have <span class="math display">\[
+\varphi \le k(\delta(S)).
+\]</span></p>
+</div>
+</section>
+<section id="section-5" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="section-5"><span class="header-section-number">6.9</span> </h2>
+</section>
+<section id="section-6" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="section-6"><span class="header-section-number">6.10</span> </h2>
+</section>
+<section id="section-7" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="section-7"><span class="header-section-number">6.11</span> </h2>
+</section>
+<section id="section-8" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="section-8"><span class="header-section-number">6.12</span> </h2>
+</section>
+<section id="the-dual-problem-min-cut" class="level2" data-number="6.13">
+<h2 data-number="6.13" class="anchored" data-anchor-id="the-dual-problem-min-cut"><span class="header-section-number">6.13</span> The Dual Problem: Min Cut</h2>
+<div id="def-7-min-cut-problem" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.5 (Minimum Cut Problem)</strong></span> Given a directed graph <span class="math inline">\(G = (V, A)\)</span> with arc capacity function <span class="math inline">\(k: A \mapsto \mathbf{R}_+\)</span> and two nodes <span class="math inline">\(s,t \in V\)</span>.</p>
+<p>Find an <span class="math inline">\(st\)</span>-cut of <strong>minimum capacity</strong>.</p>
+</div>
+<div id="fig-7-min-cut-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-min-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/just_cap.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-min-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: Minimum capacity cuts in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="section-9" class="level2" data-number="6.14">
+<h2 data-number="6.14" class="anchored" data-anchor-id="section-9"><span class="header-section-number">6.14</span> </h2>
+</section>
+<section id="section-10" class="level2" data-number="6.15">
+<h2 data-number="6.15" class="anchored" data-anchor-id="section-10"><span class="header-section-number">6.15</span> </h2>
+</section>
+<section id="weak-duality-revisited" class="level2" data-number="6.16">
+<h2 data-number="6.16" class="anchored" data-anchor-id="weak-duality-revisited"><span class="header-section-number">6.16</span> Weak Duality Revisited</h2>
+<p>The relationship <span class="math display">\[
+\begin{aligned}
+    &amp; \varphi \le k(\delta(S)) \text{ for all $st$-cuts} \\
+    &amp; \Leftrightarrow \;\;\;
+    \varphi \le \min_S \Big\{k(\delta(S)): \delta(S) \text{ is a $st$-cut}\Big\}
+\end{aligned}
+\]</span> holds for <strong>all net flow values</strong> <span class="math inline">\(\varphi\)</span>.</p>
+</section>
+<section id="section-11" class="level2" data-number="6.17">
+<h2 data-number="6.17" class="anchored" data-anchor-id="section-11"><span class="header-section-number">6.17</span> </h2>
+</section>
+<section id="strong-duality-max-flow-min-cut-theorem" class="level2" data-number="6.18">
+<h2 data-number="6.18" class="anchored" data-anchor-id="strong-duality-max-flow-min-cut-theorem"><span class="header-section-number">6.18</span> Strong Duality: Max-Flow Min-Cut Theorem</h2>
+<p>Consider flow <span class="math inline">\(x\)</span> of net value <span class="math inline">\(\varphi\)</span> and <span class="math inline">\(st\)</span>-cut <span class="math inline">\(\delta(S)\)</span> of capacity <span class="math inline">\(k(\delta(S)).\)</span></p>
+<div id="lem-7-mfmc-lem" class="absolute theorem lemma" data-top="40%">
+<p><span class="theorem-title"><strong>Lemma 6.2</strong></span> If <span class="math inline">\(\varphi = k(\delta(S))\)</span>, then <span class="math inline">\(x\)</span> is a <strong>maximum flow</strong> and <span class="math inline">\(\delta(S)\)</span> is a <strong>minimum cut</strong>.</p>
+</div>
+<div id="thm-mfmc-thm" class="absolute theorem" data-top="57%">
+<p><span class="theorem-title"><strong>Theorem 6.2</strong></span> The value of a maximum flow is <strong>always</strong> equal to the capacity of a <strong>minimum</strong> <span class="math inline">\(st\)</span>-cut.</p>
+</div>
+<div class="absolute" data-bottom="5%">
+<p>We’ll construct an <strong>algorithmic proof:</strong> reveals and constructs the flow and <span class="math inline">\(st\)</span>-cut while solving the problem.</p>
+</div>
+</section>
+<section id="the-ford-fulkerson-algorithm-idea" class="level2" data-number="6.19">
+<h2 data-number="6.19" class="anchored" data-anchor-id="the-ford-fulkerson-algorithm-idea"><span class="header-section-number">6.19</span> The Ford-Fulkerson Algorithm: Idea</h2>
+<p><strong>Idea:</strong> Starting from given flow <span class="math inline">\(x\)</span>, find an <span class="math inline">\(st\)</span>-path along which <span class="math inline">\(\varphi\)</span> can be increased.</p>
+<div id="fig-7-incrementing-path-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_idea_1.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: A path with excess capacity
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="another-path-with-improved-flow" class="level2" data-number="6.20">
+<h2 data-number="6.20" class="anchored" data-anchor-id="another-path-with-improved-flow"><span class="header-section-number">6.20</span> Another Path with Improved Flow</h2>
+<div id="fig-7-incrementing-path-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_idea_1.png" class="quarto-figure quarto-figure-left figure-img" height="425">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.6: Another path with excess capacity
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="forward-and-backward-arcs" class="level2" data-number="6.21">
+<h2 data-number="6.21" class="anchored" data-anchor-id="forward-and-backward-arcs"><span class="header-section-number">6.21</span> Forward and Backward Arcs</h2>
+<p>We can increase flow using:</p>
+<ul>
+<li><p>the <strong>original arcs</strong> in the graph (<strong>forward arcs</strong>), <strong><em>and</em></strong></p></li>
+<li><p>arcs whose directions have been flipped (<strong>backward arcs</strong>).</p></li>
+</ul>
+<div id="fig-7-flows-illustrating-forward-backward-arcs" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-flows-illustrating-forward-backward-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-fwd-arcs" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_idea_1.png" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" height="250" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Flow in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-fwd-arcs" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_idea_2.png" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" height="250" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Flow in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-flows-illustrating-forward-backward-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.7: Increasing flow using forward and backward arcs.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="saturated-and-empty-arcs" class="level2" data-number="6.22">
+<h2 data-number="6.22" class="anchored" data-anchor-id="saturated-and-empty-arcs"><span class="header-section-number">6.22</span> Saturated and Empty Arcs</h2>
+<div id="def-7-saturated-arcs" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.6</strong></span> An arc <span class="math inline">\((i,j)\)</span> is <strong>saturated</strong> if <span class="math inline">\(x_{ij} = k_{ij}\)</span>.</p>
+</div>
+<div id="def-empty-arcs" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.7</strong></span> An arc <span class="math inline">\((i,j)\)</span> is <strong>empty</strong> if <span class="math inline">\(x_{ij} = 0\)</span>.</p>
+</div>
+<div class="absolute" data-top="40%">
+<p><strong>Observation:</strong></p>
+<ul>
+<li><p>If <span class="math inline">\((i,j)\)</span> is <strong>not saturated</strong> <span class="math inline">\((x_{ij} &lt; k_{ij})\)</span> then <span class="math inline">\(x_{ij}\)</span> can be <strong>increased</strong>.</p></li>
+<li><p>If <span class="math inline">\((i,j)\)</span> is <strong>not empty</strong> <span class="math inline">\((x_{ij} &gt; 0)\)</span> then <span class="math inline">\(x_{ij}\)</span> can be <strong>decreased</strong>.</p></li>
+</ul>
+</div>
+</section>
+<section id="example-2" class="level2" data-number="6.23">
+<h2 data-number="6.23" class="anchored" data-anchor-id="example-2"><span class="header-section-number">6.23</span> Example</h2>
+<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_idea_ex_flow.png" class="quarto-figure quarto-figure-left figure-img" height="425">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.8: Saturated and empty arcs in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="augmenting-paths" class="level2" data-number="6.24">
+<h2 data-number="6.24" class="anchored" data-anchor-id="augmenting-paths"><span class="header-section-number">6.24</span> Augmenting Paths</h2>
+<div id="def-aug-path" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.8 (Augmenting Paths)</strong></span> We call a <span class="math inline">\(st\)</span>-path using a combination of forward and backward arcs an <strong>augmenting path</strong> if:</p>
+<ul>
+<li><p>All <strong>forward arcs</strong> are <strong>not saturated</strong> <span class="math inline">\((x_{ij} &lt; k_{ij})\)</span>; and</p></li>
+<li><p>All <strong>backward arcs</strong> are <strong>not empty</strong> <span class="math inline">\((x_{ij} &gt; 0)\)</span>.</p></li>
+</ul>
+</div>
+<div class="absolute" data-top="60%">
+<p><strong>Idea:</strong> we can improve net flow value by <strong>increasing flow on forward arcs</strong> and <strong>decreasing flow on backward arcs</strong>.</p>
+</div>
+</section>
+<section id="example-of-an-augmenting-path" class="level2" data-number="6.25">
+<h2 data-number="6.25" class="anchored" data-anchor-id="example-of-an-augmenting-path"><span class="header-section-number">6.25</span> Example of an Augmenting Path</h2>
+<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_idea_ex_flow.png" class="quarto-figure quarto-figure-left figure-img" height="425">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.9: An augmenting Path
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-auxiliary-network" class="level2" data-number="6.26">
+<h2 data-number="6.26" class="anchored" data-anchor-id="the-auxiliary-network"><span class="header-section-number">6.26</span> The Auxiliary Network</h2>
+<p>We can construct an <strong>auxiliary network</strong> <span class="math inline">\(G' = (V, A')\)</span> with <strong>auxiliary capacity function</strong> <span class="math inline">\(k': A \mapsto \mathbf{R}_+\)</span> that accounts for all possible flow variations with respect to current flow <span class="math inline">\(x\)</span>.</p>
+<p>For all <span class="math inline">\((i,j) \in A\)</span>:</p>
+<ul>
+<li><p>If <span class="math inline">\(x_{ij} &lt; k_{ij}\)</span> (not saturated), we add <strong>forward arc</strong> <span class="math inline">\((i,j)\)</span> to <span class="math inline">\(A'\)</span> with <span class="math inline">\(k'_{ij} = k_{ij} - x_{ij}\)</span>.</p>
+<ul>
+<li>This arc models the <strong>possibility of increasing the flow</strong> on <span class="math inline">\((i,j)\)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-auxiliary-network-2" class="level2" data-number="6.27">
+<h2 data-number="6.27" class="anchored" data-anchor-id="the-auxiliary-network-2"><span class="header-section-number">6.27</span> The Auxiliary Network – 2</h2>
+<p>For all <span class="math inline">\((i,j) \in A\)</span>:</p>
+<ul>
+<li><p>If <span class="math inline">\(x_{ij} &gt; 0\)</span> (not empty), we add <strong>backward arc</strong> <span class="math inline">\((j,i)\)</span> to <span class="math inline">\(A'\)</span> with <span class="math inline">\(k'_{ji} = x_{ij}\)</span>.</p>
+<ul>
+<li>This models the <strong>possibility of decreasing the flow</strong> on <span class="math inline">\((i,j)\)</span>.</li>
+</ul></li>
+<li><p>If <span class="math inline">\(0 &lt; x_{ij}&lt; k_{ij}\)</span> we add both a forward arc <span class="math inline">\((i,j)\)</span> and a backward arc <span class="math inline">\((j,i)\)</span> to <span class="math inline">\(A'\)</span>.</p></li>
+</ul>
+</section>
+<section id="the-augmentation-step" class="level2" data-number="6.28">
+<h2 data-number="6.28" class="anchored" data-anchor-id="the-augmentation-step"><span class="header-section-number">6.28</span> The Augmentation Step</h2>
+<p>Start with flow <span class="math inline">\(x\)</span> and corresponding auxiliary network <span class="math inline">\(G'\)</span> with auxiliary capacities <span class="math inline">\(k'\)</span>.</p>
+<ol type="1">
+<li>Identify <span class="math inline">\(st\)</span>-path <span class="math inline">\(P\)</span> in <span class="math inline">\(G'\)</span>.<br>
+</li>
+<li>Let <span class="math inline">\(\displaystyle\Delta = \min_{(i,j)\in P} k'_{ij}\)</span>.</li>
+<li>Add <span class="math inline">\(\Delta\)</span> to all forward arcs.</li>
+<li>Subtract <span class="math inline">\(\Delta\)</span> from all backward arcs.</li>
+</ol>
+</section>
+<section id="example-3" class="level2" data-number="6.29">
+<h2 data-number="6.29" class="anchored" data-anchor-id="example-3"><span class="header-section-number">6.29</span> Example</h2>
+<p>Let’s find the <strong>maximum flow</strong> for <span class="math inline">\(s = 1\)</span> and <span class="math inline">\(t=7\)</span> for the graph below. We start from <span class="math inline">\(x = 0\)</span> with net flow <span class="math inline">\(\varphi = 0\)</span>:</p>
+<div id="fig-7-aux-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="275">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="275">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.10: Details of Step 1
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="section-12" class="level2" data-number="6.30">
+<h2 data-number="6.30" class="anchored" data-anchor-id="section-12"><span class="header-section-number">6.30</span> </h2>
+</section>
+<section id="step-2" class="level2" data-number="6.31">
+<h2 data-number="6.31" class="anchored" data-anchor-id="step-2"><span class="header-section-number">6.31</span> Step 2</h2>
+<div id="fig-7-aux-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.11: Details of Step 2
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="section-13" class="level2" data-number="6.32">
+<h2 data-number="6.32" class="anchored" data-anchor-id="section-13"><span class="header-section-number">6.32</span> </h2>
+</section>
+<section id="step-3" class="level2" data-number="6.33">
+<h2 data-number="6.33" class="anchored" data-anchor-id="step-3"><span class="header-section-number">6.33</span> Step 3</h2>
+<div id="fig-7-aux-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.12: Details of Step 3
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="section-14" class="level2" data-number="6.34">
+<h2 data-number="6.34" class="anchored" data-anchor-id="section-14"><span class="header-section-number">6.34</span> </h2>
+</section>
+<section id="step-4" class="level2" data-number="6.35">
+<h2 data-number="6.35" class="anchored" data-anchor-id="step-4"><span class="header-section-number">6.35</span> Step 4</h2>
+<div id="fig-7-aux-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.13: Details of Step 4
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="section-15" class="level2" data-number="6.36">
+<h2 data-number="6.36" class="anchored" data-anchor-id="section-15"><span class="header-section-number">6.36</span> </h2>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/Linear_programming" class="uri">https://en.wikipedia.org/wiki/Linear_programming</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05a_Shortest_Paths.html" class="pagination-link" aria-label="The Shortest Path Problem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
