@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Math 2014 Algorithms - 6&nbsp; Network Flows</title>
+<title>Math 2014 Algorithms - 7&nbsp; Network Flows</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./05a_Shortest_Paths.html" rel="prev">
+<link href="./06_Minimum_Cost_Spanning_Trees.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -109,7 +109,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Network_Flows.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Network Flows</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Network_Flows.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Network Flows</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -172,8 +172,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./06_Minimum_Cost_Spanning_Trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Minimum Cost Spanning Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./07_Network_Flows.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Network Flows</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Network Flows</span></span></a>
   </div>
 </li>
     </ul>
@@ -186,55 +192,36 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#model-formulation" id="toc-model-formulation" class="nav-link active" data-scroll-target="#model-formulation"><span class="header-section-number">6.1</span> Model Formulation</a>
+  <li><a href="#model-formulation" id="toc-model-formulation" class="nav-link active" data-scroll-target="#model-formulation"><span class="header-section-number">7.1</span> Model Formulation</a>
   <ul class="collapse">
-  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">6.1.1</span> Motivation</a></li>
-  <li><a href="#standard-constraints" id="toc-standard-constraints" class="nav-link" data-scroll-target="#standard-constraints"><span class="header-section-number">6.1.2</span> Standard Constraints</a></li>
-  <li><a href="#the-maximum-flow-problem" id="toc-the-maximum-flow-problem" class="nav-link" data-scroll-target="#the-maximum-flow-problem"><span class="header-section-number">6.1.3</span> The Maximum Flow Problem</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">6.1.4</span> Example</a></li>
-  <li><a href="#formulation-as-a-linear-program" id="toc-formulation-as-a-linear-program" class="nav-link" data-scroll-target="#formulation-as-a-linear-program"><span class="header-section-number">6.1.5</span> Formulation as a Linear Program</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">7.1.1</span> Motivation</a></li>
+  <li><a href="#standard-constraints" id="toc-standard-constraints" class="nav-link" data-scroll-target="#standard-constraints"><span class="header-section-number">7.1.2</span> Standard Constraints</a></li>
+  <li><a href="#the-maximum-flow-problem" id="toc-the-maximum-flow-problem" class="nav-link" data-scroll-target="#the-maximum-flow-problem"><span class="header-section-number">7.1.3</span> The Maximum Flow Problem</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">7.1.4</span> Example</a></li>
+  <li><a href="#formulation-as-a-linear-program" id="toc-formulation-as-a-linear-program" class="nav-link" data-scroll-target="#formulation-as-a-linear-program"><span class="header-section-number">7.1.5</span> Formulation as a Linear Program</a></li>
   </ul></li>
-  <li><a href="#cuts-and-flow" id="toc-cuts-and-flow" class="nav-link" data-scroll-target="#cuts-and-flow"><span class="header-section-number">6.2</span> Cuts and Flow</a>
+  <li><a href="#cuts-and-flow" id="toc-cuts-and-flow" class="nav-link" data-scroll-target="#cuts-and-flow"><span class="header-section-number">7.2</span> Cuts and Flow</a>
   <ul class="collapse">
-  <li><a href="#st-cuts" id="toc-st-cuts" class="nav-link" data-scroll-target="#st-cuts"><span class="header-section-number">6.2.1</span> <span class="math inline">\(st\)</span>-cuts</a></li>
-  <li><a href="#net-flow-across-a-cut" id="toc-net-flow-across-a-cut" class="nav-link" data-scroll-target="#net-flow-across-a-cut"><span class="header-section-number">6.2.2</span> Net Flow across a Cut</a></li>
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">6.2.3</span> Example</a></li>
-  <li><a href="#conservation-of-flow-across-cuts" id="toc-conservation-of-flow-across-cuts" class="nav-link" data-scroll-target="#conservation-of-flow-across-cuts"><span class="header-section-number">6.2.4</span> Conservation of Flow Across Cuts</a></li>
+  <li><a href="#st-cuts" id="toc-st-cuts" class="nav-link" data-scroll-target="#st-cuts"><span class="header-section-number">7.2.1</span> <span class="math inline">\(st\)</span>-cuts</a></li>
+  <li><a href="#net-flow-across-a-cut" id="toc-net-flow-across-a-cut" class="nav-link" data-scroll-target="#net-flow-across-a-cut"><span class="header-section-number">7.2.2</span> Net Flow across a Cut</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">7.2.3</span> Example</a></li>
+  <li><a href="#conservation-of-flow-across-cuts" id="toc-conservation-of-flow-across-cuts" class="nav-link" data-scroll-target="#conservation-of-flow-across-cuts"><span class="header-section-number">7.2.4</span> Conservation of Flow Across Cuts</a></li>
   </ul></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">6.3</span> </a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">6.4</span> </a></li>
-  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"><span class="header-section-number">6.5</span> </a></li>
-  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"><span class="header-section-number">6.6</span> </a></li>
-  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4"><span class="header-section-number">6.7</span> </a></li>
-  <li><a href="#weak-duality" id="toc-weak-duality" class="nav-link" data-scroll-target="#weak-duality"><span class="header-section-number">6.8</span> Weak Duality</a></li>
-  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5"><span class="header-section-number">6.9</span> </a></li>
-  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6"><span class="header-section-number">6.10</span> </a></li>
-  <li><a href="#section-7" id="toc-section-7" class="nav-link" data-scroll-target="#section-7"><span class="header-section-number">6.11</span> </a></li>
-  <li><a href="#section-8" id="toc-section-8" class="nav-link" data-scroll-target="#section-8"><span class="header-section-number">6.12</span> </a></li>
-  <li><a href="#the-dual-problem-min-cut" id="toc-the-dual-problem-min-cut" class="nav-link" data-scroll-target="#the-dual-problem-min-cut"><span class="header-section-number">6.13</span> The Dual Problem: Min Cut</a></li>
-  <li><a href="#section-9" id="toc-section-9" class="nav-link" data-scroll-target="#section-9"><span class="header-section-number">6.14</span> </a></li>
-  <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10"><span class="header-section-number">6.15</span> </a></li>
-  <li><a href="#weak-duality-revisited" id="toc-weak-duality-revisited" class="nav-link" data-scroll-target="#weak-duality-revisited"><span class="header-section-number">6.16</span> Weak Duality Revisited</a></li>
-  <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11"><span class="header-section-number">6.17</span> </a></li>
-  <li><a href="#strong-duality-max-flow-min-cut-theorem" id="toc-strong-duality-max-flow-min-cut-theorem" class="nav-link" data-scroll-target="#strong-duality-max-flow-min-cut-theorem"><span class="header-section-number">6.18</span> Strong Duality: Max-Flow Min-Cut Theorem</a></li>
-  <li><a href="#the-ford-fulkerson-algorithm-idea" id="toc-the-ford-fulkerson-algorithm-idea" class="nav-link" data-scroll-target="#the-ford-fulkerson-algorithm-idea"><span class="header-section-number">6.19</span> The Ford-Fulkerson Algorithm: Idea</a></li>
-  <li><a href="#another-path-with-improved-flow" id="toc-another-path-with-improved-flow" class="nav-link" data-scroll-target="#another-path-with-improved-flow"><span class="header-section-number">6.20</span> Another Path with Improved Flow</a></li>
-  <li><a href="#forward-and-backward-arcs" id="toc-forward-and-backward-arcs" class="nav-link" data-scroll-target="#forward-and-backward-arcs"><span class="header-section-number">6.21</span> Forward and Backward Arcs</a></li>
-  <li><a href="#saturated-and-empty-arcs" id="toc-saturated-and-empty-arcs" class="nav-link" data-scroll-target="#saturated-and-empty-arcs"><span class="header-section-number">6.22</span> Saturated and Empty Arcs</a></li>
-  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">6.23</span> Example</a></li>
-  <li><a href="#augmenting-paths" id="toc-augmenting-paths" class="nav-link" data-scroll-target="#augmenting-paths"><span class="header-section-number">6.24</span> Augmenting Paths</a></li>
-  <li><a href="#example-of-an-augmenting-path" id="toc-example-of-an-augmenting-path" class="nav-link" data-scroll-target="#example-of-an-augmenting-path"><span class="header-section-number">6.25</span> Example of an Augmenting Path</a></li>
-  <li><a href="#the-auxiliary-network" id="toc-the-auxiliary-network" class="nav-link" data-scroll-target="#the-auxiliary-network"><span class="header-section-number">6.26</span> The Auxiliary Network</a></li>
-  <li><a href="#the-auxiliary-network-2" id="toc-the-auxiliary-network-2" class="nav-link" data-scroll-target="#the-auxiliary-network-2"><span class="header-section-number">6.27</span> The Auxiliary Network – 2</a></li>
-  <li><a href="#the-augmentation-step" id="toc-the-augmentation-step" class="nav-link" data-scroll-target="#the-augmentation-step"><span class="header-section-number">6.28</span> The Augmentation Step</a></li>
-  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="header-section-number">6.29</span> Example</a></li>
-  <li><a href="#section-12" id="toc-section-12" class="nav-link" data-scroll-target="#section-12"><span class="header-section-number">6.30</span> </a></li>
-  <li><a href="#step-2" id="toc-step-2" class="nav-link" data-scroll-target="#step-2"><span class="header-section-number">6.31</span> Step 2</a></li>
-  <li><a href="#section-13" id="toc-section-13" class="nav-link" data-scroll-target="#section-13"><span class="header-section-number">6.32</span> </a></li>
-  <li><a href="#step-3" id="toc-step-3" class="nav-link" data-scroll-target="#step-3"><span class="header-section-number">6.33</span> Step 3</a></li>
-  <li><a href="#section-14" id="toc-section-14" class="nav-link" data-scroll-target="#section-14"><span class="header-section-number">6.34</span> </a></li>
-  <li><a href="#step-4" id="toc-step-4" class="nav-link" data-scroll-target="#step-4"><span class="header-section-number">6.35</span> Step 4</a></li>
-  <li><a href="#section-15" id="toc-section-15" class="nav-link" data-scroll-target="#section-15"><span class="header-section-number">6.36</span> </a></li>
+  <li><a href="#duality" id="toc-duality" class="nav-link" data-scroll-target="#duality"><span class="header-section-number">7.3</span> Duality</a>
+  <ul class="collapse">
+  <li><a href="#weak-duality" id="toc-weak-duality" class="nav-link" data-scroll-target="#weak-duality"><span class="header-section-number">7.3.1</span> Weak Duality</a></li>
+  <li><a href="#the-minimum-cut-problem" id="toc-the-minimum-cut-problem" class="nav-link" data-scroll-target="#the-minimum-cut-problem"><span class="header-section-number">7.3.2</span> The Minimum Cut Problem</a></li>
+  <li><a href="#strong-duality-max-flow-min-cut-theorem" id="toc-strong-duality-max-flow-min-cut-theorem" class="nav-link" data-scroll-target="#strong-duality-max-flow-min-cut-theorem"><span class="header-section-number">7.3.3</span> Strong Duality: Max-Flow Min-Cut Theorem</a></li>
+  </ul></li>
+  <li><a href="#the-ford-fulkerson-algorithm-idea" id="toc-the-ford-fulkerson-algorithm-idea" class="nav-link" data-scroll-target="#the-ford-fulkerson-algorithm-idea"><span class="header-section-number">7.4</span> The Ford-Fulkerson Algorithm – Idea</a>
+  <ul class="collapse">
+  <li><a href="#improving-flows-along-forward-and-backward-arcs" id="toc-improving-flows-along-forward-and-backward-arcs" class="nav-link" data-scroll-target="#improving-flows-along-forward-and-backward-arcs"><span class="header-section-number">7.4.1</span> Improving Flows along Forward and Backward Arcs</a></li>
+  <li><a href="#saturated-and-empty-arcs" id="toc-saturated-and-empty-arcs" class="nav-link" data-scroll-target="#saturated-and-empty-arcs"><span class="header-section-number">7.4.2</span> Saturated and Empty Arcs</a></li>
+  <li><a href="#augmenting-paths" id="toc-augmenting-paths" class="nav-link" data-scroll-target="#augmenting-paths"><span class="header-section-number">7.4.3</span> Augmenting Paths</a></li>
+  <li><a href="#the-auxiliary-network" id="toc-the-auxiliary-network" class="nav-link" data-scroll-target="#the-auxiliary-network"><span class="header-section-number">7.4.4</span> The Auxiliary Network</a></li>
+  <li><a href="#the-augmentation-step" id="toc-the-augmentation-step" class="nav-link" data-scroll-target="#the-augmentation-step"><span class="header-section-number">7.4.5</span> The Augmentation Step</a></li>
+  </ul></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">7.5</span> Example</a></li>
   </ul>
 </nav>
     </div>
@@ -243,7 +230,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Network Flows</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Network Flows</span></h1>
 </div>
 
 
@@ -260,10 +247,10 @@ window.Quarto = {
 </header>
 
 
-<section id="model-formulation" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="model-formulation"><span class="header-section-number">6.1</span> Model Formulation</h2>
-<section id="motivation" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">6.1.1</span> Motivation</h3>
+<section id="model-formulation" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="model-formulation"><span class="header-section-number">7.1</span> Model Formulation</h2>
+<section id="motivation" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">7.1.1</span> Motivation</h3>
 <p>We want to figure out the maximum amount of some commodity can be transported from a certain node <span class="math inline">\(s\)</span> to another point <span class="math inline">\(t\)</span> of a network.</p>
 <p>This can take the form of any of the following (among many other examples):</p>
 <ul>
@@ -273,17 +260,17 @@ window.Quarto = {
 <li>Spread of disease in pandemic models.</li>
 </ul>
 </section>
-<section id="standard-constraints" class="level3" data-number="6.1.2">
-<h3 data-number="6.1.2" class="anchored" data-anchor-id="standard-constraints"><span class="header-section-number">6.1.2</span> Standard Constraints</h3>
+<section id="standard-constraints" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="standard-constraints"><span class="header-section-number">7.1.2</span> Standard Constraints</h3>
 <p>Regardless of physical application/interpretation of the network, we have the following standard collection of constraints.</p>
-<section id="capacity-constraints" class="level4" data-number="6.1.2.1">
-<h4 data-number="6.1.2.1" class="anchored" data-anchor-id="capacity-constraints"><span class="header-section-number">6.1.2.1</span> Capacity constraints</h4>
+<section id="capacity-constraints" class="level4" data-number="7.1.2.1">
+<h4 data-number="7.1.2.1" class="anchored" data-anchor-id="capacity-constraints"><span class="header-section-number">7.1.2.1</span> Capacity constraints</h4>
 <p>Each pipe cannot carry more than its capacity. - Let <span class="math inline">\(x_{ij}\)</span> denote the amount of commodity carried from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and let <span class="math inline">\(k_{ij}\)</span> denote the capacity of the pipe from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>. - Then we must have <span class="math display">\[
     0 \le x_{ij} \le  k_{ij}.
 \]</span></p>
 </section>
-<section id="balance-constraints" class="level4" data-number="6.1.2.2">
-<h4 data-number="6.1.2.2" class="anchored" data-anchor-id="balance-constraints"><span class="header-section-number">6.1.2.2</span> Balance constraints</h4>
+<section id="balance-constraints" class="level4" data-number="7.1.2.2">
+<h4 data-number="7.1.2.2" class="anchored" data-anchor-id="balance-constraints"><span class="header-section-number">7.1.2.2</span> Balance constraints</h4>
 <p>The commodity cannot enter or leave the network except at source <span class="math inline">\(s\)</span> and sink <span class="math inline">\(t\)</span>.</p>
 <ul>
 <li>Consider node <span class="math inline">\(h\)</span> (not <span class="math inline">\(s\)</span> or <span class="math inline">\(t\)</span>).</li>
@@ -294,11 +281,11 @@ window.Quarto = {
 </ul>
 </section>
 </section>
-<section id="the-maximum-flow-problem" class="level3" data-number="6.1.3">
-<h3 data-number="6.1.3" class="anchored" data-anchor-id="the-maximum-flow-problem"><span class="header-section-number">6.1.3</span> The Maximum Flow Problem</h3>
+<section id="the-maximum-flow-problem" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="the-maximum-flow-problem"><span class="header-section-number">7.1.3</span> The Maximum Flow Problem</h3>
 <p>Given a <strong>directed graph</strong> <span class="math inline">\(G = (V,A)\)</span>, <strong>arc capacity function</strong> <span class="math inline">\(k: A \mapsto \mathbf{R}_+\)</span>, and nodes <span class="math inline">\(s,t \in V\)</span>.</p>
 <div id="def-max-flow-prob" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.1 (Maximum Flow Problem)</strong></span> Find a function <span class="math inline">\(x: A \mapsto \mathbf{R}_+\)</span> (called a <strong>flow</strong>) satisfying:</p>
+<p><span class="theorem-title"><strong>Definition 7.1 (Maximum Flow Problem)</strong></span> Find a function <span class="math inline">\(x: A \mapsto \mathbf{R}_+\)</span> (called a <strong>flow</strong>) satisfying:</p>
 <ul>
 <li><p><strong>capacity constraints:</strong> <span class="math display">\[
 0 \le x_{ij} \le k_{ij}
@@ -315,17 +302,17 @@ window.Quarto = {
 </ul>
 </div>
 </section>
-<section id="example" class="level3" data-number="6.1.4">
-<h3 data-number="6.1.4" class="anchored" data-anchor-id="example"><span class="header-section-number">6.1.4</span> Example</h3>
+<section id="example" class="level3" data-number="7.1.4">
+<h3 data-number="7.1.4" class="anchored" data-anchor-id="example"><span class="header-section-number">7.1.4</span> Example</h3>
 <div id="exm-7-flow-ex" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.1</strong></span> <a href="#fig-7-flow-ex" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> gives an example of a flow <span class="math inline">\(x\)</span> for the given graph <span class="math inline">\(G\)</span> with capacity <span class="math inline">\(k\)</span>.</p>
-<div id="fig-7-flow-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<p><span class="theorem-title"><strong>Example 7.1</strong></span> <a href="#fig-7-flow-ex" class="quarto-xref">Figure&nbsp;<span>7.1</span></a> gives an example of a flow <span class="math inline">\(x\)</span> for the given graph <span class="math inline">\(G\)</span> with capacity <span class="math inline">\(k\)</span>.</p>
+<div id="fig-7-flow-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-flow-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/7/flow_ex.png" class="quarto-figure quarto-figure-left figure-img" height="300">
+<img src="Figures/7/flow_ex.png" height="300" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-flow-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.1: Graph <span class="math inline">\(G\)</span> with capacity <span class="math inline">\(k\)</span> and flow <span class="math inline">\(x\)</span>. Arc <span class="math inline">\(ij\)</span> has label <span class="math inline">\(x_{ij}, k_{ij}\)</span>
+Figure&nbsp;7.1: Graph <span class="math inline">\(G\)</span> with capacity <span class="math inline">\(k\)</span> and flow <span class="math inline">\(x\)</span>. Arc <span class="math inline">\(ij\)</span> has label <span class="math inline">\(x_{ij}, k_{ij}\)</span>
 </figcaption>
 </figure>
 </div>
@@ -338,8 +325,8 @@ x_{21} &amp;= 0, &amp;&amp;&amp; x_{2t} &amp;= 2.
 \]</span> This flow <span class="math inline">\(x\)</span> has value <span class="math inline">\(\varphi(x) = 3.\)</span></p>
 </div>
 </section>
-<section id="formulation-as-a-linear-program" class="level3" data-number="6.1.5">
-<h3 data-number="6.1.5" class="anchored" data-anchor-id="formulation-as-a-linear-program"><span class="header-section-number">6.1.5</span> Formulation as a Linear Program</h3>
+<section id="formulation-as-a-linear-program" class="level3" data-number="7.1.5">
+<h3 data-number="7.1.5" class="anchored" data-anchor-id="formulation-as-a-linear-program"><span class="header-section-number">7.1.5</span> Formulation as a Linear Program</h3>
 <p>We can write the <strong>maximum flow problem</strong> as the <strong>linear program</strong> or <strong>linear optimization problem</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>: <span class="math display">\[
 \begin{array}{ll}
 \max &amp; \varphi \\
@@ -358,46 +345,46 @@ x_{21} &amp;= 0, &amp;&amp;&amp; x_{2t} &amp;= 2.
 \]</span></p>
 </section>
 </section>
-<section id="cuts-and-flow" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="cuts-and-flow"><span class="header-section-number">6.2</span> Cuts and Flow</h2>
-<section id="st-cuts" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="st-cuts"><span class="header-section-number">6.2.1</span> <span class="math inline">\(st\)</span>-cuts</h3>
+<section id="cuts-and-flow" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="cuts-and-flow"><span class="header-section-number">7.2</span> Cuts and Flow</h2>
+<section id="st-cuts" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="st-cuts"><span class="header-section-number">7.2.1</span> <span class="math inline">\(st\)</span>-cuts</h3>
 <p>Given a subset of nodes <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \in V \setminus S\)</span>.</p>
 <div id="def-st-cut" class="absolute theorem definition" data-top="30%">
-<p><span class="theorem-title"><strong>Definition 6.2</strong></span> An <strong>st-cut</strong> is the set of arcs that <strong>enter</strong> or <strong>leave</strong> <span class="math inline">\(S\)</span>: <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 7.2</strong></span> An <strong>st-cut</strong> is the set of arcs that <strong>enter</strong> or <strong>leave</strong> <span class="math inline">\(S\)</span>: <span class="math display">\[
 \delta(S) = \delta^+(S) \cup \delta^{-}(S).
 \]</span></p>
 </div>
 <div id="def-capacity-cut" class="absolute theorem definition" data-top="60%">
-<p><span class="theorem-title"><strong>Definition 6.3</strong></span> The <strong>(forward) capacity</strong> of the <span class="math inline">\(st\)</span>-cut is <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 7.3</strong></span> The <strong>(forward) capacity</strong> of the <span class="math inline">\(st\)</span>-cut is <span class="math display">\[
 k(\delta(S)) = \sum_{(i,j) \in \delta^+(S)} k_{ij}.
 \]</span></p>
 </div>
 </section>
-<section id="net-flow-across-a-cut" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="net-flow-across-a-cut"><span class="header-section-number">6.2.2</span> Net Flow across a Cut</h3>
+<section id="net-flow-across-a-cut" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="net-flow-across-a-cut"><span class="header-section-number">7.2.2</span> Net Flow across a Cut</h3>
 <div id="def-net-flow" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.4</strong></span> The <strong>net flow</strong> across <span class="math inline">\(\delta (S)\)</span> is <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 7.4</strong></span> The <strong>net flow</strong> across <span class="math inline">\(\delta (S)\)</span> is <span class="math display">\[
 \varphi(\delta(S)) := \sum_{(i,j)\in \delta^+(S)} x_{ij}
     - \sum_{(i,j) \in \delta^{-}(S)} x_{ij}.
 \]</span></p>
 </div>
 </section>
-<section id="example-1" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">6.2.3</span> Example</h3>
+<section id="example-1" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">7.2.3</span> Example</h3>
 <div id="exm-7-cut-flow" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.2</strong></span> Consider the graph given in <a href="#fig-7-cut-ex" class="quarto-xref">Figure&nbsp;<span>6.2</span></a>.</p>
-<div id="fig-7-cut-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<p><span class="theorem-title"><strong>Example 7.2</strong></span> Consider the graph given in <a href="#fig-7-cut-ex" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>.</p>
+<div id="fig-7-cut-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/7/flow_cut_ex.png" class="quarto-figure quarto-figure-left figure-img" height="300">
+<img src="Figures/7/flow_cut_ex.png" height="300" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.2: Directed graph with <span class="math inline">\(S=\{s,2\}\)</span>
+Figure&nbsp;7.2: Directed graph with <span class="math inline">\(S=\{s,2\}\)</span>
 </figcaption>
 </figure>
 </div>
-<p>The forward and backward cuts induced by <span class="math inline">\(S\)</span> are given in <a href="#fig-7-cut-ex-cuts" class="quarto-xref">Figure&nbsp;<span>6.3</span></a>.</p>
+<p>The forward and backward cuts induced by <span class="math inline">\(S\)</span> are given in <a href="#fig-7-cut-ex-cuts" class="quarto-xref">Figure&nbsp;<span>7.3</span></a>.</p>
 <div id="fig-7-cut-ex-cuts" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-cut-ex-cuts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -429,7 +416,7 @@ Figure&nbsp;6.2: Directed graph with <span class="math inline">\(S=\{s,2\}\)</sp
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-cut-ex-cuts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.3: Induced cuts in graph <span class="math inline">\(G\)</span> given in <a href="#fig-7-cut-ex" class="quarto-xref">Figure&nbsp;<span>6.2</span></a>.
+Figure&nbsp;7.3: Induced cuts in graph <span class="math inline">\(G\)</span> given in <a href="#fig-7-cut-ex" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>.
 </figcaption>
 </figure>
 </div>
@@ -443,75 +430,101 @@ Figure&nbsp;6.3: Induced cuts in graph <span class="math inline">\(G\)</span> gi
 \]</span></p>
 </div>
 </section>
-<section id="conservation-of-flow-across-cuts" class="level3" data-number="6.2.4">
-<h3 data-number="6.2.4" class="anchored" data-anchor-id="conservation-of-flow-across-cuts"><span class="header-section-number">6.2.4</span> Conservation of Flow Across Cuts</h3>
+<section id="conservation-of-flow-across-cuts" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="conservation-of-flow-across-cuts"><span class="header-section-number">7.2.4</span> Conservation of Flow Across Cuts</h3>
 <div id="lem-7-conservation-of-flow" class="theorem lemma">
-<p><span class="theorem-title"><strong>Lemma 6.1</strong></span> Given a flow <span class="math inline">\(x\)</span> with net value <span class="math inline">\(\varphi\)</span>, we have <span class="math display">\[
+<p><span class="theorem-title"><strong>Lemma 7.1</strong></span> Given a flow <span class="math inline">\(x\)</span> with net value <span class="math inline">\(\varphi\)</span>, we have <span class="math display">\[
 \varphi(\delta(S)) = \varphi
 \]</span> for every <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span>, <span class="math inline">\(t \in V \setminus S\)</span>.</p>
 </div>
+<div id="proof">
+<p>Consider the balance constraint <span class="math display">\[
+\sum_{(h,j) \in \delta^+(h)} x_{hj}
+    - \sum_{(i,h) \in \delta^-(h)} x_{ih}=
+\begin{cases}
+    + \varphi, &amp; \text{if } h =s, \\
+    - \varphi, &amp; \text{if } h = t,\\
+    0, &amp;\text{otherwise}.
+\end{cases}
+\]</span> Let’s take the sum of both sides over all <span class="math inline">\(h \in S\)</span>; note that <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \notin S\)</span>. First, the sum of the right-hand side over <span class="math inline">\(h \in S\)</span> is equal to <span class="math inline">\(\varphi\)</span>.</p>
+<p>Next, each arc <span class="math inline">\((i,j)\)</span> with <span class="math inline">\(i,j \in S\)</span> appears twice in the sum on the left-hand side: - When <span class="math inline">\(h =i\)</span>, we add <span class="math inline">\(+x_{ij}\)</span> to the total. - When <span class="math inline">\(h = j\)</span>, we add <span class="math inline">\(-x_{ij}\)</span> to the total. These two values cancel when we take the sum over all <span class="math inline">\(h\)</span>. On the other hand, if <span class="math inline">\(i\in S\)</span> and <span class="math inline">\(j \in V \setminus S\)</span>, then <span class="math inline">\((i,j) \in \delta^{+}(S)\)</span> and appears once in the sum of the left-hand side (when <span class="math inline">\(h=i\)</span>). Finally, if <span class="math inline">\(i \in V \setminus S\)</span>, <span class="math inline">\(j \in S\)</span> then <span class="math inline">\((i,j) \in \delta^-(S)\)</span> and this edge contributes <span class="math inline">\(-x_{ij}\)</span> to the sum in the left-hand side. Putting everything together, we have <span class="math display">\[
+\sum_{(i,j)\in\delta^+(S)} x_{ij} - \sum_{(i,j)\in\delta^-(S)} x_{ij} = \varphi.
+\]</span> This completes the proof.</p>
+</div>
 </section>
 </section>
-<section id="section" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="section"><span class="header-section-number">6.3</span> </h2>
-</section>
-<section id="section-1" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="section-1"><span class="header-section-number">6.4</span> </h2>
-</section>
-<section id="section-2" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="section-2"><span class="header-section-number">6.5</span> </h2>
-</section>
-<section id="section-3" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="section-3"><span class="header-section-number">6.6</span> </h2>
-</section>
-<section id="section-4" class="level2" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="section-4"><span class="header-section-number">6.7</span> </h2>
-</section>
-<section id="weak-duality" class="level2" data-number="6.8">
-<h2 data-number="6.8" class="anchored" data-anchor-id="weak-duality"><span class="header-section-number">6.8</span> Weak Duality</h2>
+<section id="duality" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="duality"><span class="header-section-number">7.3</span> Duality</h2>
+<section id="weak-duality" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="weak-duality"><span class="header-section-number">7.3.1</span> Weak Duality</h3>
+<p>The following theorem gives an upper bound on the value of <em>any flow</em> in terms of the capacity of <em>an arbitrary cut</em>. Specifically, the value of any flow is at most the capacity of any <span class="math inline">\(st\)</span>-cut.</p>
 <div id="thm-7-weak-duality-cuts" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 6.1</strong></span> For each <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \in V\setminus S\)</span>, we have <span class="math display">\[
-\varphi \le k(\delta(S)).
+<p><span class="theorem-title"><strong>Theorem 7.1</strong></span> For each <span class="math inline">\(S \subseteq V\)</span> with <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \in V\setminus S\)</span>, we have <span class="math display">\[
+\varphi(x) \le k(\delta(S))
+\]</span> for any flow <span class="math inline">\(x\)</span>.</p>
+</div>
+<div id="proof">
+<p>Let <span class="math inline">\(x\)</span> be a feasible flow and consider <span class="math inline">\(st\)</span>-cut <span class="math inline">\(S\)</span>. Then <span class="math display">\[
+\sum_{(i,j)\in\delta^+(S)} x_{ij} \le \sum_{(i,j)\in\delta^+(S)} k_{ij}
+\]</span> since <span class="math inline">\(x_{ij}\)</span> k_{ij}$ for any arc <span class="math inline">\((i,j)\)</span>. On the other hand, <span class="math display">\[
+- \sum_{(i,j)\in\delta^-(S)} x_{ij} le 0,
+\]</span> since <span class="math inline">\(x_{ij} \ge 0\)</span> for any arc <span class="math inline">\((i,j)\)</span>. Applying conservation of flow, <a href="#lem-7-conservation-of-flow" class="quarto-xref">Lemma&nbsp;<span>7.1</span></a>, we have <span class="math display">\[
+\varphi = \sum_{(i,j)\in\delta^+(S)} x_{ij}  - \sum_{(i,j)\in\delta^-(S)} x_{ij}
+\le \sum_{(i,j)\in\delta^+(S)} k_{ij} = k(\delta(S)).
 \]</span></p>
 </div>
 </section>
-<section id="section-5" class="level2" data-number="6.9">
-<h2 data-number="6.9" class="anchored" data-anchor-id="section-5"><span class="header-section-number">6.9</span> </h2>
-</section>
-<section id="section-6" class="level2" data-number="6.10">
-<h2 data-number="6.10" class="anchored" data-anchor-id="section-6"><span class="header-section-number">6.10</span> </h2>
-</section>
-<section id="section-7" class="level2" data-number="6.11">
-<h2 data-number="6.11" class="anchored" data-anchor-id="section-7"><span class="header-section-number">6.11</span> </h2>
-</section>
-<section id="section-8" class="level2" data-number="6.12">
-<h2 data-number="6.12" class="anchored" data-anchor-id="section-8"><span class="header-section-number">6.12</span> </h2>
-</section>
-<section id="the-dual-problem-min-cut" class="level2" data-number="6.13">
-<h2 data-number="6.13" class="anchored" data-anchor-id="the-dual-problem-min-cut"><span class="header-section-number">6.13</span> The Dual Problem: Min Cut</h2>
-<div id="def-7-min-cut-problem" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.5 (Minimum Cut Problem)</strong></span> Given a directed graph <span class="math inline">\(G = (V, A)\)</span> with arc capacity function <span class="math inline">\(k: A \mapsto \mathbf{R}_+\)</span> and two nodes <span class="math inline">\(s,t \in V\)</span>.</p>
-<p>Find an <span class="math inline">\(st\)</span>-cut of <strong>minimum capacity</strong>.</p>
+<section id="the-minimum-cut-problem" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="the-minimum-cut-problem"><span class="header-section-number">7.3.2</span> The Minimum Cut Problem</h3>
+<p><a href="#thm-7-weak-duality-cuts" class="quarto-xref">Theorem&nbsp;<span>7.1</span></a> holds for every <span class="math inline">\(st\)</span>-cut. In particular, it is true for the cut with minimum capacity. Thus, for any feasible flow <span class="math inline">\(x\)</span>, we have <span class="math display">\[
+    \varphi(x) \le \Big\{ k(\delta(S)): \delta(S) \text{if a $st$-cut}\Big\}.
+\]</span></p>
+<p>::: {#def-7-min-cut-problem}</p>
+<section id="minimum-cut-problem" class="level4" data-number="7.3.2.1">
+<h4 data-number="7.3.2.1" class="anchored" data-anchor-id="minimum-cut-problem"><span class="header-section-number">7.3.2.1</span> Minimum Cut Problem</h4>
+<p>Given a directed graph <span class="math inline">\(G = (V, A)\)</span> with arc capacity function <span class="math inline">\(k: A \mapsto \mathbf{R}_+\)</span> and two nodes <span class="math inline">\(s,t \in V\)</span>.</p>
+<div id="exm-7-min-cap-cut-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.3</strong></span> Consider the graph given in <a href="#fig-7-flow-ex" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>. Find an <span class="math inline">\(st\)</span>-cut of <strong>minimum capacity</strong>.</p>
 </div>
-<div id="fig-7-min-cut-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div id="fig-7-min-cuts-in-flow-ex" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-7-min-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/just_cap.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
+<div aria-describedby="fig-7-min-cuts-in-flow-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-min-cuts-in-flow-ex" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-min-cut-ex-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-min-cut-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/min-cut-1.png" class="img-fluid figure-img" data-ref-parent="fig-7-min-cuts-in-flow-ex">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-min-cut-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.4: Minimum capacity cuts in <span class="math inline">\(G\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-min-cut-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Minimum capacity cut <span class="math inline">\(\delta(\{s\})\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-min-cuts-in-flow-ex" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-min-cut-ex-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-min-cut-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/min-cut-2.png" class="img-fluid figure-img" data-ref-parent="fig-7-min-cuts-in-flow-ex">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-min-cut-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Minimum capacity cut <span class="math inline">\(\delta(\{s\})\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-min-cuts-in-flow-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.4: Two minimum capacity cuts in <a href="#fig-7-flow-ex" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="section-9" class="level2" data-number="6.14">
-<h2 data-number="6.14" class="anchored" data-anchor-id="section-9"><span class="header-section-number">6.14</span> </h2>
 </section>
-<section id="section-10" class="level2" data-number="6.15">
-<h2 data-number="6.15" class="anchored" data-anchor-id="section-10"><span class="header-section-number">6.15</span> </h2>
-</section>
-<section id="weak-duality-revisited" class="level2" data-number="6.16">
-<h2 data-number="6.16" class="anchored" data-anchor-id="weak-duality-revisited"><span class="header-section-number">6.16</span> Weak Duality Revisited</h2>
+<section id="strong-duality-max-flow-min-cut-theorem" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="strong-duality-max-flow-min-cut-theorem"><span class="header-section-number">7.3.3</span> Strong Duality: Max-Flow Min-Cut Theorem</h3>
 <p>The relationship <span class="math display">\[
 \begin{aligned}
     &amp; \varphi \le k(\delta(S)) \text{ for all $st$-cuts} \\
@@ -519,81 +532,73 @@ Figure&nbsp;6.4: Minimum capacity cuts in <span class="math inline">\(G\)</span>
     \varphi \le \min_S \Big\{k(\delta(S)): \delta(S) \text{ is a $st$-cut}\Big\}
 \end{aligned}
 \]</span> holds for <strong>all net flow values</strong> <span class="math inline">\(\varphi\)</span>.</p>
+<p>This implies that for any flow value <span class="math inline">\(\varphi\)</span> we have <span class="math display">\[
+\varphi \le \max \Big\{\varphi(x): x \text{ is a flow}\Big\}
+\le
+\Big\{ k(\delta(S)): \delta(S) \text{if a $st$-cut}\Big\}.
+\]</span></p>
+<p>The maximum flow value and minimum cut capacity are actually guaranteed to agree for every flow network. We have the following two results.</p>
+<div id="lem-7-mfmc-lem" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.2</strong></span> Consider flow <span class="math inline">\(x\)</span> of net value <span class="math inline">\(\varphi\)</span> and <span class="math inline">\(st\)</span>-cut <span class="math inline">\(\delta(S)\)</span> of capacity <span class="math inline">\(k(\delta(S)).\)</span></p>
+<p>If <span class="math inline">\(\varphi = k(\delta(S))\)</span>, then <span class="math inline">\(x\)</span> is a <strong>maximum flow</strong> and <span class="math inline">\(\delta(S)\)</span> is a <strong>minimum cut</strong>.</p>
+</div>
+<div id="thm-mfmc-thm" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 7.2</strong></span> The value of a maximum flow is <strong>always</strong> equal to the capacity of a <strong>minimum</strong> <span class="math inline">\(st\)</span>-cut.</p>
+</div>
+<p>We’ll construct an <strong>algorithmic proof:</strong> we’ll present an algorithm that reveals and constructs the flow and <span class="math inline">\(st\)</span>-cut while solving the problem.</p>
 </section>
-<section id="section-11" class="level2" data-number="6.17">
-<h2 data-number="6.17" class="anchored" data-anchor-id="section-11"><span class="header-section-number">6.17</span> </h2>
 </section>
-<section id="strong-duality-max-flow-min-cut-theorem" class="level2" data-number="6.18">
-<h2 data-number="6.18" class="anchored" data-anchor-id="strong-duality-max-flow-min-cut-theorem"><span class="header-section-number">6.18</span> Strong Duality: Max-Flow Min-Cut Theorem</h2>
-<p>Consider flow <span class="math inline">\(x\)</span> of net value <span class="math inline">\(\varphi\)</span> and <span class="math inline">\(st\)</span>-cut <span class="math inline">\(\delta(S)\)</span> of capacity <span class="math inline">\(k(\delta(S)).\)</span></p>
-<div id="lem-7-mfmc-lem" class="absolute theorem lemma" data-top="40%">
-<p><span class="theorem-title"><strong>Lemma 6.2</strong></span> If <span class="math inline">\(\varphi = k(\delta(S))\)</span>, then <span class="math inline">\(x\)</span> is a <strong>maximum flow</strong> and <span class="math inline">\(\delta(S)\)</span> is a <strong>minimum cut</strong>.</p>
-</div>
-<div id="thm-mfmc-thm" class="absolute theorem" data-top="57%">
-<p><span class="theorem-title"><strong>Theorem 6.2</strong></span> The value of a maximum flow is <strong>always</strong> equal to the capacity of a <strong>minimum</strong> <span class="math inline">\(st\)</span>-cut.</p>
-</div>
-<div class="absolute" data-bottom="5%">
-<p>We’ll construct an <strong>algorithmic proof:</strong> reveals and constructs the flow and <span class="math inline">\(st\)</span>-cut while solving the problem.</p>
-</div>
-</section>
-<section id="the-ford-fulkerson-algorithm-idea" class="level2" data-number="6.19">
-<h2 data-number="6.19" class="anchored" data-anchor-id="the-ford-fulkerson-algorithm-idea"><span class="header-section-number">6.19</span> The Ford-Fulkerson Algorithm: Idea</h2>
-<p><strong>Idea:</strong> Starting from given flow <span class="math inline">\(x\)</span>, find an <span class="math inline">\(st\)</span>-path along which <span class="math inline">\(\varphi\)</span> can be increased.</p>
-<div id="fig-7-incrementing-path-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_idea_1.png" class="img-fluid quarto-figure quarto-figure-left figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.5: A path with excess capacity
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="another-path-with-improved-flow" class="level2" data-number="6.20">
-<h2 data-number="6.20" class="anchored" data-anchor-id="another-path-with-improved-flow"><span class="header-section-number">6.20</span> Another Path with Improved Flow</h2>
-<div id="fig-7-incrementing-path-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_idea_1.png" class="quarto-figure quarto-figure-left figure-img" height="425">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-incrementing-path-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.6: Another path with excess capacity
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="forward-and-backward-arcs" class="level2" data-number="6.21">
-<h2 data-number="6.21" class="anchored" data-anchor-id="forward-and-backward-arcs"><span class="header-section-number">6.21</span> Forward and Backward Arcs</h2>
-<p>We can increase flow using:</p>
+<section id="the-ford-fulkerson-algorithm-idea" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="the-ford-fulkerson-algorithm-idea"><span class="header-section-number">7.4</span> The Ford-Fulkerson Algorithm – Idea</h2>
+<section id="improving-flows-along-forward-and-backward-arcs" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="improving-flows-along-forward-and-backward-arcs"><span class="header-section-number">7.4.1</span> Improving Flows along Forward and Backward Arcs</h3>
+<p><strong>Idea:</strong> Starting from given flow <span class="math inline">\(x\)</span>, we will try to find an <span class="math inline">\(st\)</span>-path along which <span class="math inline">\(\varphi\)</span> can be increased.</p>
+<p>We can increase flow using</p>
 <ul>
 <li><p>the <strong>original arcs</strong> in the graph (<strong>forward arcs</strong>), <strong><em>and</em></strong></p></li>
 <li><p>arcs whose directions have been flipped (<strong>backward arcs</strong>).</p></li>
 </ul>
+<div id="exm-7-forward-backward-arcs" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.4</strong></span> Consider the graph given in <a href="#fig-fb-arcs-0" class="quarto-xref">Figure&nbsp;<span>7.5 (a)</span></a> with flow <span class="math inline">\(x\)</span> indicated.</p>
+<p>We can increase the total flow by increasing by two units of flow along the <em>forward arcs</em> comprising the path <span class="math inline">\((s2, 21, 1t)\)</span>. This gives a new flow with value <span class="math inline">\(\varphi=3\)</span>.</p>
+<p>Subsequently, we can move an additional <span class="math inline">\(1\)</span> unit of flow by redirecting <span class="math inline">\(1\)</span> unit of flow along arc <span class="math inline">\(21\)</span> to flow along <span class="math inline">\(2t\)</span> and pushing an additional unit of flow along <span class="math inline">\(s1\)</span>; see <a href="#fig-7-fwd-arcs" class="quarto-xref">Figure&nbsp;<span>7.5 (b)</span></a>. This is equivalent to pushing <span class="math inline">\(1\)</span> unit of flow along the path <span class="math inline">\((s,1,2,t)\)</span>, where <span class="math inline">\(s1, 2t\)</span> are forward arcs and <span class="math inline">\(12\)</span> is a backward arc; see <a href="#fig-7-bwd-arc" class="quarto-xref">Figure&nbsp;<span>7.5 (c)</span></a>.</p>
+</div>
 <div id="fig-7-flows-illustrating-forward-backward-arcs" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-flows-illustrating-forward-backward-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-fwd-arcs" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-fb-arcs-0" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_idea_1.png" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" height="250" class="figure-img">
+<div aria-describedby="fig-fb-arcs-0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_0.png" class="img-fluid figure-img" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Flow in <span class="math inline">\(G\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fb-arcs-0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Initial flow <span class="math inline">\(x\)</span>
 </figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div id="fig-7-fwd-arcs" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_idea_2.png" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" height="250" class="figure-img">
+<img src="Figures/7/FF_idea_1.png" class="img-fluid figure-img" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-fwd-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Flow in <span class="math inline">\(G\)</span>
+(b) Increased flow along path <span class="math inline">\((s,2,1,t)\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-bwd-arc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-bwd-arc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_2.png" class="img-fluid figure-img" data-ref-parent="fig-7-flows-illustrating-forward-backward-arcs">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-bwd-arc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Increased flow along path <span class="math inline">\((s,1,2,t)\)</span>
 </figcaption>
 </figure>
 </div>
@@ -601,68 +606,121 @@ Figure&nbsp;6.6: Another path with excess capacity
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-flows-illustrating-forward-backward-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.7: Increasing flow using forward and backward arcs.
+Figure&nbsp;7.5: Increasing flow using forward and backward arcs.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="saturated-and-empty-arcs" class="level2" data-number="6.22">
-<h2 data-number="6.22" class="anchored" data-anchor-id="saturated-and-empty-arcs"><span class="header-section-number">6.22</span> Saturated and Empty Arcs</h2>
+<section id="saturated-and-empty-arcs" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="saturated-and-empty-arcs"><span class="header-section-number">7.4.2</span> Saturated and Empty Arcs</h3>
 <div id="def-7-saturated-arcs" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.6</strong></span> An arc <span class="math inline">\((i,j)\)</span> is <strong>saturated</strong> if <span class="math inline">\(x_{ij} = k_{ij}\)</span>.</p>
+<p><span class="theorem-title"><strong>Definition 7.5</strong></span> An arc <span class="math inline">\((i,j)\)</span> is <strong>saturated</strong> if <span class="math inline">\(x_{ij} = k_{ij}\)</span>.</p>
 </div>
 <div id="def-empty-arcs" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.7</strong></span> An arc <span class="math inline">\((i,j)\)</span> is <strong>empty</strong> if <span class="math inline">\(x_{ij} = 0\)</span>.</p>
+<p><span class="theorem-title"><strong>Definition 7.6</strong></span> An arc <span class="math inline">\((i,j)\)</span> is <strong>empty</strong> if <span class="math inline">\(x_{ij} = 0\)</span>.</p>
 </div>
-<div class="absolute" data-top="40%">
-<p><strong>Observation:</strong></p>
+<p><strong>Observation:</strong> Our algorithm for finding the maximum flow and minimum capacity cut hinges on the following:</p>
 <ul>
 <li><p>If <span class="math inline">\((i,j)\)</span> is <strong>not saturated</strong> <span class="math inline">\((x_{ij} &lt; k_{ij})\)</span> then <span class="math inline">\(x_{ij}\)</span> can be <strong>increased</strong>.</p></li>
 <li><p>If <span class="math inline">\((i,j)\)</span> is <strong>not empty</strong> <span class="math inline">\((x_{ij} &gt; 0)\)</span> then <span class="math inline">\(x_{ij}\)</span> can be <strong>decreased</strong>.</p></li>
 </ul>
+<div id="exm-7-saturated" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.5</strong></span> Consider the graph <span class="math inline">\(G\)</span> with flow <span class="math inline">\(x\)</span> given in @#fig-7-saturated-ex-G.</p>
+<ul>
+<li>Arcs <span class="math inline">\(s2\)</span>, <span class="math inline">\(21\)</span>, and <span class="math inline">\(1t\)</span> are saturated;</li>
+<li>Arc <span class="math inline">\(2t\)</span> is empty;</li>
+<li>Arc <span class="math inline">\(s1\)</span> is not empty or saturated.</li>
+</ul>
 </div>
-</section>
-<section id="example-2" class="level2" data-number="6.23">
-<h2 data-number="6.23" class="anchored" data-anchor-id="example-2"><span class="header-section-number">6.23</span> Example</h2>
-<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div id="fig-7-saturated" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_idea_ex_flow.png" class="quarto-figure quarto-figure-left figure-img" height="425">
+<div aria-describedby="fig-7-saturated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-saturated" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-saturated-ex-G" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-saturated-ex-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_ex_flow.png" class="img-fluid figure-img" data-ref-parent="fig-7-saturated">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.8: Saturated and empty arcs in <span class="math inline">\(G\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-saturated-ex-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span> with flow <span class="math inline">\(x\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-saturated" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_saturated.png" class="img-fluid figure-img" data-ref-parent="fig-7-saturated">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Saturated arcs <span class="math inline">\(s2\)</span>, <span class="math inline">\(21\)</span>, and $1t
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-saturated" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_empty.png" class="img-fluid figure-img" data-ref-parent="fig-7-saturated">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Empty arc <span class="math inline">\(2t\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-saturated" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_neither.png" class="img-fluid figure-img" data-ref-parent="fig-7-saturated">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Arc <span class="math inline">\(s1\)</span> is neither.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-saturated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.6: Saturated and empty arcs for flow <span class="math inline">\(x\)</span> in the given graph.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="augmenting-paths" class="level2" data-number="6.24">
-<h2 data-number="6.24" class="anchored" data-anchor-id="augmenting-paths"><span class="header-section-number">6.24</span> Augmenting Paths</h2>
+<section id="augmenting-paths" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="augmenting-paths"><span class="header-section-number">7.4.3</span> Augmenting Paths</h3>
 <div id="def-aug-path" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.8 (Augmenting Paths)</strong></span> We call a <span class="math inline">\(st\)</span>-path using a combination of forward and backward arcs an <strong>augmenting path</strong> if:</p>
+<p><span class="theorem-title"><strong>Definition 7.7 (Augmenting Paths)</strong></span> We call a <span class="math inline">\(st\)</span>-path using a combination of forward and backward arcs an <strong>augmenting path</strong> if:</p>
 <ul>
 <li><p>All <strong>forward arcs</strong> are <strong>not saturated</strong> <span class="math inline">\((x_{ij} &lt; k_{ij})\)</span>; and</p></li>
 <li><p>All <strong>backward arcs</strong> are <strong>not empty</strong> <span class="math inline">\((x_{ij} &gt; 0)\)</span>.</p></li>
 </ul>
 </div>
-<div class="absolute" data-top="60%">
-<p><strong>Idea:</strong> we can improve net flow value by <strong>increasing flow on forward arcs</strong> and <strong>decreasing flow on backward arcs</strong>.</p>
+<p>We can improve net flow value by <strong>increasing flow on forward arcs</strong> and <strong>decreasing flow on backward arcs</strong>.</p>
+<div id="exm-7-augmenting-path" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.6</strong></span> The graph <span class="math inline">\(G\)</span> and flow <span class="math inline">\(x\)</span> indicated in <a href="#fig-7-augmenting" class="quarto-xref">Figure&nbsp;<span>7.7</span></a> has augmenting path <span class="math inline">\(P=(s,1,2,t)\)</span>.</p>
 </div>
-</section>
-<section id="example-of-an-augmenting-path" class="level2" data-number="6.25">
-<h2 data-number="6.25" class="anchored" data-anchor-id="example-of-an-augmenting-path"><span class="header-section-number">6.25</span> Example of an Augmenting Path</h2>
-<div id="fig-7-saturated-ex" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div id="fig-7-augmenting" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_idea_ex_flow.png" class="quarto-figure quarto-figure-left figure-img" height="425">
+<div aria-describedby="fig-7-augmenting-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_idea_augmenting.png" height="300" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-saturated-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.9: An augmenting Path
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-augmenting-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.7: An augmenting path <span class="math inline">\(P=(s,1,2,t)\)</span>
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="the-auxiliary-network" class="level2" data-number="6.26">
-<h2 data-number="6.26" class="anchored" data-anchor-id="the-auxiliary-network"><span class="header-section-number">6.26</span> The Auxiliary Network</h2>
+<section id="the-auxiliary-network" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="the-auxiliary-network"><span class="header-section-number">7.4.4</span> The Auxiliary Network</h3>
+<p>At each step of our algorithm, we will try to find an augmenting path. We will construct an additional flow network to facilitate finding such an augmenting path.</p>
 <p>We can construct an <strong>auxiliary network</strong> <span class="math inline">\(G' = (V, A')\)</span> with <strong>auxiliary capacity function</strong> <span class="math inline">\(k': A \mapsto \mathbf{R}_+\)</span> that accounts for all possible flow variations with respect to current flow <span class="math inline">\(x\)</span>.</p>
 <p>For all <span class="math inline">\((i,j) \in A\)</span>:</p>
 <ul>
@@ -670,12 +728,6 @@ Figure&nbsp;6.9: An augmenting Path
 <ul>
 <li>This arc models the <strong>possibility of increasing the flow</strong> on <span class="math inline">\((i,j)\)</span>.</li>
 </ul></li>
-</ul>
-</section>
-<section id="the-auxiliary-network-2" class="level2" data-number="6.27">
-<h2 data-number="6.27" class="anchored" data-anchor-id="the-auxiliary-network-2"><span class="header-section-number">6.27</span> The Auxiliary Network – 2</h2>
-<p>For all <span class="math inline">\((i,j) \in A\)</span>:</p>
-<ul>
 <li><p>If <span class="math inline">\(x_{ij} &gt; 0\)</span> (not empty), we add <strong>backward arc</strong> <span class="math inline">\((j,i)\)</span> to <span class="math inline">\(A'\)</span> with <span class="math inline">\(k'_{ji} = x_{ij}\)</span>.</p>
 <ul>
 <li>This models the <strong>possibility of decreasing the flow</strong> on <span class="math inline">\((i,j)\)</span>.</li>
@@ -683,8 +735,8 @@ Figure&nbsp;6.9: An augmenting Path
 <li><p>If <span class="math inline">\(0 &lt; x_{ij}&lt; k_{ij}\)</span> we add both a forward arc <span class="math inline">\((i,j)\)</span> and a backward arc <span class="math inline">\((j,i)\)</span> to <span class="math inline">\(A'\)</span>.</p></li>
 </ul>
 </section>
-<section id="the-augmentation-step" class="level2" data-number="6.28">
-<h2 data-number="6.28" class="anchored" data-anchor-id="the-augmentation-step"><span class="header-section-number">6.28</span> The Augmentation Step</h2>
+<section id="the-augmentation-step" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="the-augmentation-step"><span class="header-section-number">7.4.5</span> The Augmentation Step</h3>
 <p>Start with flow <span class="math inline">\(x\)</span> and corresponding auxiliary network <span class="math inline">\(G'\)</span> with auxiliary capacities <span class="math inline">\(k'\)</span>.</p>
 <ol type="1">
 <li>Identify <span class="math inline">\(st\)</span>-path <span class="math inline">\(P\)</span> in <span class="math inline">\(G'\)</span>.<br>
@@ -694,33 +746,62 @@ Figure&nbsp;6.9: An augmenting Path
 <li>Subtract <span class="math inline">\(\Delta\)</span> from all backward arcs.</li>
 </ol>
 </section>
-<section id="example-3" class="level2" data-number="6.29">
-<h2 data-number="6.29" class="anchored" data-anchor-id="example-3"><span class="header-section-number">6.29</span> Example</h2>
-<p>Let’s find the <strong>maximum flow</strong> for <span class="math inline">\(s = 1\)</span> and <span class="math inline">\(t=7\)</span> for the graph below. We start from <span class="math inline">\(x = 0\)</span> with net flow <span class="math inline">\(\varphi = 0\)</span>:</p>
+</section>
+<section id="example-2" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="example-2"><span class="header-section-number">7.5</span> Example</h2>
+<div id="exm-7-FF-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.7</strong></span> Let’s find the <strong>maximum flow</strong> for <span class="math inline">\(s = 1\)</span> and <span class="math inline">\(t=7\)</span> for the graph <a href="#fig-7-FF-1" class="quarto-xref">Figure&nbsp;<span>7.12 (a)</span></a>.</p>
+<p>We start from <span class="math inline">\(x = 0\)</span> with net flow <span class="math inline">\(\varphi = 0\)</span>. The initial auxiliary graph <span class="math inline">\(G'\)</span> is equal to <span class="math inline">\(G\)</span>.</p>
+</div>
+<div id="fig-7-FF-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_example.png" height="350" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.8: Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+<section id="step-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-1">Step 1</h4>
+<p>We have several augmenting paths to choose from. Consider <span class="math inline">\(P = (1,2,3,7)\)</span> in <span class="math inline">\(G'\)</span>. The minimum edge capacity in <span class="math inline">\(G'\)</span> along this augmenting path is <span class="math inline">\(\Delta = 2\)</span>. All arcs in this path are forward arcs, so we add <span class="math inline">\(\Delta\)</span> to <span class="math inline">\(x_{ij}\)</span> for arcs <span class="math inline">\(12, 23, 37\)</span>, and leave all flow on other edges equal to <span class="math inline">\(0\)</span>.</p>
 <div id="fig-7-aux-1" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="275">
+<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/FF_example.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Graph <span class="math inline">\(G\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Auxiliary Graph <span class="math inline">\(G'\)</span>
 </figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-ap1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="275">
+<div aria-describedby="fig-7-ap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/aug-path-1.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-ap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Augmenting Path
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-flow1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/flow-1.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Updated Flow
 </figcaption>
 </figure>
 </div>
@@ -728,40 +809,50 @@ Figure&nbsp;6.9: An augmenting Path
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.10: Details of Step 1
+Figure&nbsp;7.9: Details of Step 1.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="section-12" class="level2" data-number="6.30">
-<h2 data-number="6.30" class="anchored" data-anchor-id="section-12"><span class="header-section-number">6.30</span> </h2>
-</section>
-<section id="step-2" class="level2" data-number="6.31">
-<h2 data-number="6.31" class="anchored" data-anchor-id="step-2"><span class="header-section-number">6.31</span> Step 2</h2>
+<section id="step-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-2">Step 2</h4>
+<p>Arcs <span class="math inline">\(12\)</span>, <span class="math inline">\(23\)</span>, and <span class="math inline">\(37\)</span> are now <em>saturated</em>. We can update the auxiliary graph by reversing each of these edges and setting the capacity equal to the flow value across each arc. This reveals the augmenting path <span class="math inline">\(P = (1,5,6,7)\)</span> (among several possible augmenting paths). This path has minimum capacity arc with capacity <span class="math inline">\(\Delta = 2\)</span> and every arc is a <em>forward arc</em> on this path. Thus, we can increase flow across each of these arcs by <span class="math inline">\(\Delta=2\)</span>.</p>
 <div id="fig-7-aux-1" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-FF-A2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+<div aria-describedby="fig-7-FF-A2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/aux-2.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Graph <span class="math inline">\(G\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Auxiliary Graph <span class="math inline">\(G'\)</span>
 </figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-ap2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+<div aria-describedby="fig-7-ap2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/aug-path-2.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-ap2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Augmenting Path
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-flow2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/flow-2.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Updated Flow
 </figcaption>
 </figure>
 </div>
@@ -769,40 +860,89 @@ Figure&nbsp;6.10: Details of Step 1
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.11: Details of Step 2
+Figure&nbsp;7.10: Details of Step 2.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="section-13" class="level2" data-number="6.32">
-<h2 data-number="6.32" class="anchored" data-anchor-id="section-13"><span class="header-section-number">6.32</span> </h2>
+<section id="step-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-3">Step 3</h4>
+<p>Next, we have augmenting path <span class="math inline">\(P=(1,4,3,2,6,7)\)</span>. Note that this path uses the <em>nonempty backward arc</em> <span class="math inline">\(32\)</span>. The minimum capacity arc in the auxiliary graph along this path is <span class="math inline">\(43\)</span>, with capacity <span class="math inline">\(k'_{43} = 1 = \Delta\)</span>. We can update our flow by increasing the flow by <span class="math inline">\(\Delta=1\)</span> along all forward arcs in this path and decreasing flow across backward arcs by <span class="math inline">\(\Delta=1\)</span></p>
+<div id="fig-7-aux-3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-aux-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-3" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-FF-A3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-FF-A3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/aux-3.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Auxiliary Graph <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-3" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-ap3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-ap3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/aug-path-3.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-ap3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Augmenting Path
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-3" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-7-flow3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/flow-3.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Updated Flow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.11: Details of Step 3.
+</figcaption>
+</figure>
+</div>
 </section>
-<section id="step-3" class="level2" data-number="6.33">
-<h2 data-number="6.33" class="anchored" data-anchor-id="step-3"><span class="header-section-number">6.33</span> Step 3</h2>
+<section id="step-4-and-termination" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-4-and-termination">Step 4 and Termination</h4>
+<p>After updating the flow and auxiliary graph <span class="math inline">\(G'\)</span>, we can note that <span class="math inline">\(t\)</span> is <em>not reachable</em> from <span class="math inline">\(s\)</span> in <span class="math inline">\(G'\)</span>. Indeed, the reachable set from <span class="math inline">\(s\)</span> in <span class="math inline">\(G'\)</span> is <span class="math inline">\(S=\{s,4\}\)</span>. Note that the cut <span class="math inline">\(\delta(S)\)</span> defined by <span class="math inline">\(S\)</span> has capacity <span class="math inline">\(k=(\delta(S)) = 5\)</span>. This is equal to the total value of the flow <span class="math inline">\(x\)</span> (<span class="math inline">\(\varphi = 5\)</span>). This implies that <span class="math inline">\(x\)</span> is a maximimum value flow and <span class="math inline">\(\delta(S)\)</span> is a minimum capacity cut; we can stop applying the algorithm.</p>
 <div id="fig-7-aux-1" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div id="fig-7-FF-1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+<img src="Figures/7/aux-4.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Graph <span class="math inline">\(G\)</span>
+(a) Auxiliary Graph <span class="math inline">\(G'\)</span>
 </figcaption>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
+<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
+<img src="Figures/7/min-cut.png" class="img-fluid figure-img" data-ref-parent="fig-7-aux-1">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
+(b) Reachable nodes <span class="math inline">\(S\)</span> and minimum capacity cut <span class="math inline">\(\delta(S)\)</span>
 </figcaption>
 </figure>
 </div>
@@ -810,56 +950,371 @@ Figure&nbsp;6.11: Details of Step 2
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.12: Details of Step 3
+Figure&nbsp;7.12: Details of Step 4
 </figcaption>
 </figure>
 </div>
-</section>
-<section id="section-14" class="level2" data-number="6.34">
-<h2 data-number="6.34" class="anchored" data-anchor-id="section-14"><span class="header-section-number">6.34</span> </h2>
-</section>
-<section id="step-4" class="level2" data-number="6.35">
-<h2 data-number="6.35" class="anchored" data-anchor-id="step-4"><span class="header-section-number">6.35</span> Step 4</h2>
-<div id="fig-7-aux-1" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Graph <span class="math inline">\(G\)</span>
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-aux-1" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-7-FF-A1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Figures/FF_example_aux.png" class="quarto-figure quarto-figure-left figure-img" data-ref-parent="fig-7-aux-1" height="300">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-FF-A1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Auxiliary Graph <span class="math inline">\(G'\)</span>
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-aux-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.13: Details of Step 4
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="section-15" class="level2" data-number="6.36">
-<h2 data-number="6.36" class="anchored" data-anchor-id="section-15"><span class="header-section-number">6.36</span> </h2>
+<!-- 
+## Termination and Correctness
+
+### Stopping Condition
+
+Let $S^*$ be the set of nodes **reachable** from $s \in G'$ when the
+algorithm stops.
+
+We can conclude that $\delta_{G'}^+(S^*) = \emptyset$.
+
+By the construction of $G'$, this implies that:
+
+-   Every arc $(i,j) \in \delta_{G}^+(S^*)$ is **saturated!**
+
+-   Every arc $(i,j) \in \delta_{G}^-(S^*)$ is **empty!**
+
+### Correctness of the FF-Algorithm
+
+When the algorithm terminates, **all arcs in** $\delta_G^+(S^*)$ **are
+saturated** and **all arcs in** $\delta_G^-(S^*)$ **are empty**:
+$$
+\varphi =\varphi(\delta(S^*)) = \sum_{(i,j) \in \delta^+_G(S^*)} x_{ij} - \sum_{(i,j) \in \delta^-_G(S^*)} x_{ij}
+= k(\delta(S^*)).
+$$
+However,
+we know that
+$$
+\varphi \le \text{max flow value} \le \text{min cut value}
+\le k(\delta(S^*)). 
+$$
+
+This shows that when the
+algorithm terms, we have found a **flow equal in value** to the
+**capacity of an $s,t$ cut**!.
+
+This implies that:
+
+-   The **flow is optimal for the maximum flow problem**.
+
+-   The **cut is optimal for the minimum cut problem**
+
+This establishes that the Ford-Fulkerson algorithm **always finds an
+optimal solution!**
+
+This is an **algorithmic proof** of the **max-flow min-cut theorem**.
+
+## The Ford-Fulkerson Algorithm -- Pseudocode
 
 
+
+```tcdshnmqj
+Initialize x = 0, phi = 0.
+
+While x is not a max flow:
+    Construct auxiliary graph G' = (V, A') with capacities k_{ij}'.
+
+    Find an st-path P in G'. 
+
+    If P does not exist: % Terminate
+        STOP! x is a max flow.
+    Else % Update flow.
+        Delta =  min {k_{ij}': (i,j) \in P }
+        phi = phi + Delta. 
+
+        For (i,j) in P: 
+            If (i,j) is a forward arcL
+                x_{ij} = x_{ij} + \Delta
+            Else 
+                x_{ij} = x_{ij} - \Delta
+```
+
+
+
+## Complexity of the Ford-Fulkerson Algorithm
+
+### A Rough Bound  on Elementary Operations
+
+We can count the number of elementary operations used by each iteration of the Ford-Fulkerson Algorithm:
+
+- Constructing the auxiliary graph $G'$ in Line 4 costs $O(m+n)$ elementary operations. Indeed, we need to construct a copy of $G$, change direction of arcs (if necessary), and update capacities. This requires a finite number of operations for each arc and node.
+
+- We can find an $st$-path, if one exists, using a modification of the *graph reachability algorithm*.
+This requires $O(m+n)$ elementary operations. 
+
+- The remaining steps in the loop require $O(|P|)$ elementary operations for augmenting path $P$.
+Assuming that $P$ is a simple path, we have $|P| \le n-1$ edges.
+
+Therefore, each iteration of the Ford-Fulkerson Algorithm requires $O(m)$ elementary operations (assuming $n = O(m)$).
+If the algorithm uses $q$ iterations, then the total number of operations is 
+$$
+    O(qm).
+$$
+
+## Worst-Case Analysis of the Number of Iterations
+
+To bound the number of operations needed by the Ford-Fulkerson Algorith, we need to determine how many iterations are needed by the Ford-Fulkerson Algorithm in worst-case?
+
+The following lemma will help determine an upper bound on the number of iterations needed.
+
+::: {#lem-7-int-Delta}
+If all capacities $k_{ij}$ are **integer** then $k_{ij}'$, $\Delta$, and
+$x$ are **integer at each iteration**.
+:::
+
+Since $\Delta$ is integer, we could have **unit increment** $\Delta = 1$
+each iteration (in worst case).
+More precisely, there are graphs where 
+$$
+\Delta = \min_{ij} k_{ij}' = 1 
+$$
+every iteration of the Ford-Fulkerson Algorithm.
+In this case, if we start with flow value $\varphi=0$ then we need $q = \varphi^*$ iterations, where $\varphi^*$ is the value of the maximum flow.
+
+On the other hand, if $\Delta$ is integral and positive every iteration, then we increment $\varphi$ by *at least* $\Delta$ each iteration. Therefore, $q \le \varphi^*$ if the capacities are integral. 
+
+It follows that the worst-case complexity of the Ford-Fulkerson Algorithm is $O(\varphi^* m )$.
+
+### A Pathologically Bad Example 
+
+:::{#exm-7-bad-ex}
+Let's apply the Ford-Fulkerson Algorithm with the graph $G$ given in @fig-7-comp-1 and initial flow $x=0$.
+:::
+
+We increase flow by $\Delta=1$ along the augmenting path $P = (s,2,1,t)$ (@fig-7-aug-path)
+This yields the new flow given in @fig-7-flow-1.
+
+![Graph $G$](Figures/7/comp_ex.png){#fig-7-comp-1 height=350}
+
+:::{#fig-7-bad-ex-1 layout-ncol="2"}
+![Augmenting path in auxiliary graph](Figures/7/bad-aug-path-1.png){#fig-7-aug-path}
+
+![Updated flow](Figures/7/bad-flow1.png){#fig-7-flow-1}
+
+Details for first step of the Ford-Fulkerson Algorithm.
+:::
+
+After updating the flow, we need to update the auxiliary graph. This reveals the augmenting path $P=(s,1,2,t)$. We can increase the flow along this path by $\Delta=1$. See @fig-7-bad-ex-2.
+
+:::{#fig-7-bad-ex-2 layout-ncol="2"}
+![Augmenting path in auxiliary graph](Figures/7/bad-aux-2.png){#fig-7-aug-path}
+
+![Updated flow](Figures/7/bad-flow2.png){#fig-7-flow-2}
+
+Details for second step of the Ford-Fulkerson Algorithm.
+:::
+
+We can repeat this process. In the next step, we have augmenting path $P=(s,2,1,t)$; this is the same augmented path used in Step 1. We can increase flow by $\Delta=1$. In the fourth step, we increase flow by $1$ along the augmenting path $P=(s,1,2,t)$.
+
+:::{#fig-7-bad-ex-3 layout-ncol="2"}
+![Augmenting path in auxiliary graph](Figures/7/bad-aux-3.png){#fig-7-aug-path}
+
+![Updated flow](Figures/7/bad-flow3.png){#fig-7-flow-3}
+
+Details for third step of the Ford-Fulkerson Algorithm.
+:::
+
+:::{#fig-7-bad-ex-3 layout-ncol="2"}
+![Augmenting path in auxiliary graph](Figures/7/bad-aux-4.png){#fig-7-aug-path}
+
+![Updated flow](Figures/7/bad-flow3.png){#fig-7-flow-4}
+
+Details for fourth step of the Ford-Fulkerson Algorithm.
+:::
+
+We can repeat this process a total of $M$ times ($2M$ iterations). 
+This gives optimal flow given in 
+
+![Optimal flow in graph $G$ given in @fig-7-comp-1](Figures/7/bad-flowtermination.png){#fig-complexity-ex-opt height=350}
+
+Applying the Ford-Fulkerson Algorithm with this graph requires exactly $q = 2M = \varphi^*$ iterations.
+
+### Does the FF Algorithm Run in Polynomial Time? 
+
+We have deduced that the
+**Ford-Fulkerson algorithm** has complexity of $O(\varphi^* m)$.
+
+It is unclear whether $O(\varphi^* m)$ a **polynomial of the instance
+size**.
+
+Unfortunately, we can't bound $\varphi^*$ as a polynomial of $n$ and/or
+$m$.
+
+**Question:** how should we represent the size of $\varphi^*$?
+
+
+### Aside: Binary Encoding
+
+We'll use **binary encoding** of numbers in our model of complexity.
+
+**Binary encoding** is a **positional notation system** with base $2$:
+
+-   Uses **two symbols:** $0$ and $1$.
+
+-   It is **positional:** same symbol represents different orders of
+    magnitude based on relative position.
+
+-   Digit/symbol is called a **bit.**
+
+::: {#exm-7-2-to-10}
+Let's convert the **base-2** or **binary encoding** $100110$ to
+**base-10**: 
+$$
+\begin{aligned}
+(100110)_{10} &= 0 \cdot 2^0 + 1 \cdot 2^1 + 0\cdot 2^3 + 0 \cdot 2^4 + 1 \cdot 2^5 \\
+&= 2 + 4 + 32 = 38.
+\end{aligned}
+$$
+:::
+
+
+
+:::{#thm-7-binary-storage}
+Given a **base-10** number $n$, we
+need 
+$$
+    \lfloor{\log n \rfloor} + 1 = O(\log n)
+$$ 
+bits to encode it in
+base-2.
+:::
+
+::: {#exm-7-binary-storage}
+For example, 
+$$
+(38)_{10} = (100110)_{2}
+$$
+requires 
+$$
+    \lfloor\log_2(38)\rfloor \approx \lfloor 5.25\rfloor + 1 = 6 
+$$
+bits of storage.
+:::
+
+### Storage Needs of the Maximum Flow Problem 
+
+For an instance of the maximum flow problem, 
+we need to store the 
+**graph topology**, i.e., nodes and adjacencies encoded by arcs, and the **capacity value per arc**.
+
+We can extend our notion of an **adjacency list** to keep track of
+indices and arc capacities.
+We will store the capacity of an arc using tuples in a list for each node. This is illustrated in the following example.
+
+:::{#exm-max-flow-storage} 
+Consider the graph given in @fig-7-max-cut-storage. 
+We can encode the edges within the adjacency list.
+For example, nodes $2$ and $t$ are both adjacent $1$, by arcs with capacities $2$ and $6$ respectively. We can encode this using a modified adjacency list 
+$$
+    L(1) = \{(2,2), (t,6)\}. 
+$$
+We can construct adjacency lists for each remaining node using an identical process:
+$$
+\begin{aligned}
+    L(s) &= \{(1,7), (2,4)\}, \\ 
+    L(2) &= \{(1,1), (t,5)\}, \\
+    L(t) &= \emptyset.
+\end{aligned}
+$$
+:::
+
+![Graph $G$](Figures/7/just_cap.png){#fig-7-max-cut-storage height=350}
+
+### Instance Size of Maximum Flow
+
+Arc $(i,j)$ corresponds to an entry in **adjacency sublist**
+$L(i)$.
+
+Using a **binary encoding**, each entry contains:
+
+-   The **index** $j \in \{1,\dots, n\}$ encoded using
+    $$
+    \lfloor{\log j \rfloor} + 1 = O(\log j) = O(\log n)\text{ bits,}
+    $$
+    since $\log j = O(\log n)$. 
+
+-   The **capacity** $k_{ij}$ of arc $(i,j)$ encoded using
+    $$\lfloor{\log k_{ij} \rfloor} + 1 = O(\log k_{\max}) \text{ bits,}$$
+    where $k_{\max} := \max\left\{k_{ij}: (i,j) \in A \right\}$.
+
+This **totals**
+$O\Big(m \big(\log n + \log k_{\max} \big) \Big)$ bits.
+
+:::{#exm-7-bad-ex-total}
+Consider the graph $G$ given in @fig-7-comp-1.
+Recall, that solving the maximum flow problem using the Ford-Fulkerson Algorithm has complexity $O(\varphi^*)$.
+We'd like to know
+how this complexity $O(\varphi^*)$ compares to instance size $O(m(\log n + \log k_{\max}))$.
+
+Recall that $\varphi^* = 2M$ for this example. Moreover, $k_{\max} = M$. 
+Unfortunately, the instance size depends *logarithmically* on $k_{\max}$, *not linearly*.
+Indeed, 
+$$
+    k_{\max} = 2^{\log_2 (k_{\max})}. 
+$$
+This implies that 
+$$
+O(\varphi^* m = O(k_{\max} m) = O\left( 2^{\log k_{\max}}\cdot m \right),
+$$
+which grows exponentially in $\log (k_{\max})$.
+
+On the other hand, the instance size $O(m(\log n + \log k_{\max}))$ grows linearly in $\log (k_{\max})$. 
+
+Therefore, $O(\varphi^* m)$ is ***not a polynomial function*** of the instance size.
+Therefore, the Ford-Fulkerson Algorithm is ***not polynomial*** in complexity.
+:::
+
+
+### The General Case 
+This example establishes that the **Ford-Fulkerson
+Algorithm** is **not polynomial**.
+
+We can generalize the complexity of the FF algorithm **without** relying
+on $\varphi^*$.
+To avoid using $\varphi^*$, which is usually not known, we can substitute an upper bound on $\varphi^*$. 
+
+:::{#exm-7-bound-ex}
+As a simple example, consider a graph with maximum capacity $k_{\max}$ and $m$ arcs. Then 
+$$
+\varphi^* \le m k_{\max} 
+$$
+since each arc cannot carry more flow than $k_{\max}$ and there are $m$ arcs.
+This gives the upper bound on complexity
+$$
+    O(\varphi^* m) \le O\left( (k_{\max} m) \cdot m \right) 
+    = O\left(k_{\max} m^2 \right).
+$$
+Unfortunately, this upper bound is *tight*: there are graphs $G$ for which the Ford-Fulkerson Algorithm uses $\varphi^* = k_{\max} m$ iterations.
+:::
+
+
+
+### Pseudopolynomiality 
+
+The complexity $O(k_{\max} m^2)$ is **not polynomial** if
+we assume a **binary encoding** because $k_{\max} = O(2^{\log k_{\max}})$.
+
+However, the instance size is **polynomial** with respect to instance
+size if we use a **unary encoding** (encode integers using only $1$s):
+
+- For example, $7$ is encoded in unary as $1111111$. 
+
+Using a unary encoding, we need:
+
+-   $O(mn)$ symbols to store the graph topology, and
+
+-   $O(mk_{\max})$ symbols to store the arc capacities.
+
+We call such an algorithm **pseudopolynomial**.
+
+### Polynomial-Time Algorithms for FF
+
+**Strongly polynomial algorithms** do exist for the maximum flow problem. 
+The **Edmonds/Karp
+algorithm**[^71][^72] is the most widely used example, but is beyond the scope of this course.
+
+[^71]: <https://cp-algorithms.com/graph/edmonds_karp.html>
+
+[^72]:<https://en.wikipedia.org/wiki/Edmonds-Karp_algorithm>] -->
+
+
+</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
@@ -1280,8 +1735,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05a_Shortest_Paths.html" class="pagination-link" aria-label="The Shortest Path Problem">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span>
+      <a href="./06_Minimum_Cost_Spanning_Trees.html" class="pagination-link" aria-label="Minimum Cost Spanning Trees">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Minimum Cost Spanning Trees</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -1262,31 +1262,31 @@
   {
     "objectID": "07_Network_Flows.html",
     "href": "07_Network_Flows.html",
-    "title": "6  Network Flows",
+    "title": "7  Network Flows",
     "section": "",
-    "text": "6.1 Model Formulation",
+    "text": "7.1 Model Formulation",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#model-formulation",
     "href": "07_Network_Flows.html#model-formulation",
-    "title": "6  Network Flows",
+    "title": "7  Network Flows",
     "section": "",
-    "text": "6.1.1 Motivation\nWe want to figure out the maximum amount of some commodity can be transported from a certain node \\(s\\) to another point \\(t\\) of a network.\nThis can take the form of any of the following (among many other examples):\n\nOil, water, really any fluid in pipeline network;\nVehicle traffic in a roadway network;\nInformation in a communication network;\nSpread of disease in pandemic models.\n\n\n\n6.1.2 Standard Constraints\nRegardless of physical application/interpretation of the network, we have the following standard collection of constraints.\n\n6.1.2.1 Capacity constraints\nEach pipe cannot carry more than its capacity. - Let \\(x_{ij}\\) denote the amount of commodity carried from \\(i\\) to \\(j\\) and let \\(k_{ij}\\) denote the capacity of the pipe from \\(i\\) to \\(j\\). - Then we must have \\[\n    0 \\le x_{ij} \\le  k_{ij}.\n\\]\n\n\n6.1.2.2 Balance constraints\nThe commodity cannot enter or leave the network except at source \\(s\\) and sink \\(t\\).\n\nConsider node \\(h\\) (not \\(s\\) or \\(t\\)).\nThe flow of the commodity into \\(h\\) must be equal to the flow out of \\(h\\): \\[\n  \\sum_{(i,h) \\in \\delta^{-}(h)} x_{ih}  =\n  \\sum_{(h,j) \\in \\delta^{+}(h)} x_{hj}.\n\\]\n\n\n\n\n6.1.3 The Maximum Flow Problem\nGiven a directed graph \\(G = (V,A)\\), arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\), and nodes \\(s,t \\in V\\).\n\nDefinition 6.1 (Maximum Flow Problem) Find a function \\(x: A \\mapsto \\mathbf{R}_+\\) (called a flow) satisfying:\n\ncapacity constraints: \\[\n0 \\le x_{ij} \\le k_{ij}\n\\] for all \\((i,j) \\in A\\);\nbalance constraints: \\[\n\\sum_{(i,h) \\in \\delta^{-}(h)} x_{ih}  =\n\\sum_{(h,j) \\in \\delta^{+}(h)} x_{hj}\n\\] for all $h V {s,t},\nmaximizing the net flow value: \\[\n\\varphi(\\{s\\}) = \\varphi(x) =\n\\sum_{(s,j) \\in \\delta^{+}(s)} x_{sj} -\n\\sum_{(i,s) \\in \\delta^{-}(s)} x_{is}.\n\\]\n\n\n\n\n6.1.4 Example\n\nExample 6.1 Figure 6.1 gives an example of a flow \\(x\\) for the given graph \\(G\\) with capacity \\(k\\).\n\n\n\n\n\n\nFigure 6.1: Graph \\(G\\) with capacity \\(k\\) and flow \\(x\\). Arc \\(ij\\) has label \\(x_{ij}, k_{ij}\\)\n\n\n\nThe flow can be written as \\[\n\\begin{aligned}\nx_{s1} &= 3, &&& x_{s2}&=0 \\\\\nx_{12} &= 2, &&& x_{1t} &= 1 \\\\\nx_{21} &= 0, &&& x_{2t} &= 2.\n\\end{aligned}\n\\] This flow \\(x\\) has value \\(\\varphi(x) = 3.\\)\n\n\n\n6.1.5 Formulation as a Linear Program\nWe can write the maximum flow problem as the linear program or linear optimization problem1: \\[\n\\begin{array}{ll}\n\\max & \\varphi \\\\\n\\text{s.t.} & \\displaystyle\n\\sum_{(h,j) \\in \\delta^+(h)} x_{hj}\n    - \\sum_{(i,h) \\in \\delta^-(h)} x_{ih}=\n\\begin{cases}\n    + \\varphi, & \\text{if } h =s, \\\\\n    - \\varphi, & \\text{if } h = t,\\\\\n    0, &\\text{otherwise},\n\\end{cases} \\\\\n& 0 \\le x_{ij} \\le k_{ij} \\text{ for all } (i,j) \\in A,\n\\\\\n& \\varphi \\ge 0.\n\\end{array}\n\\]",
+    "text": "7.1.1 Motivation\nWe want to figure out the maximum amount of some commodity can be transported from a certain node \\(s\\) to another point \\(t\\) of a network.\nThis can take the form of any of the following (among many other examples):\n\nOil, water, really any fluid in pipeline network;\nVehicle traffic in a roadway network;\nInformation in a communication network;\nSpread of disease in pandemic models.\n\n\n\n7.1.2 Standard Constraints\nRegardless of physical application/interpretation of the network, we have the following standard collection of constraints.\n\n7.1.2.1 Capacity constraints\nEach pipe cannot carry more than its capacity. - Let \\(x_{ij}\\) denote the amount of commodity carried from \\(i\\) to \\(j\\) and let \\(k_{ij}\\) denote the capacity of the pipe from \\(i\\) to \\(j\\). - Then we must have \\[\n    0 \\le x_{ij} \\le  k_{ij}.\n\\]\n\n\n7.1.2.2 Balance constraints\nThe commodity cannot enter or leave the network except at source \\(s\\) and sink \\(t\\).\n\nConsider node \\(h\\) (not \\(s\\) or \\(t\\)).\nThe flow of the commodity into \\(h\\) must be equal to the flow out of \\(h\\): \\[\n  \\sum_{(i,h) \\in \\delta^{-}(h)} x_{ih}  =\n  \\sum_{(h,j) \\in \\delta^{+}(h)} x_{hj}.\n\\]\n\n\n\n\n7.1.3 The Maximum Flow Problem\nGiven a directed graph \\(G = (V,A)\\), arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\), and nodes \\(s,t \\in V\\).\n\nDefinition 7.1 (Maximum Flow Problem) Find a function \\(x: A \\mapsto \\mathbf{R}_+\\) (called a flow) satisfying:\n\ncapacity constraints: \\[\n0 \\le x_{ij} \\le k_{ij}\n\\] for all \\((i,j) \\in A\\);\nbalance constraints: \\[\n\\sum_{(i,h) \\in \\delta^{-}(h)} x_{ih}  =\n\\sum_{(h,j) \\in \\delta^{+}(h)} x_{hj}\n\\] for all $h V {s,t},\nmaximizing the net flow value: \\[\n\\varphi(\\{s\\}) = \\varphi(x) =\n\\sum_{(s,j) \\in \\delta^{+}(s)} x_{sj} -\n\\sum_{(i,s) \\in \\delta^{-}(s)} x_{is}.\n\\]\n\n\n\n\n7.1.4 Example\n\nExample 7.1 Figure 7.1 gives an example of a flow \\(x\\) for the given graph \\(G\\) with capacity \\(k\\).\n\n\n\n\n\n\nFigure 7.1: Graph \\(G\\) with capacity \\(k\\) and flow \\(x\\). Arc \\(ij\\) has label \\(x_{ij}, k_{ij}\\)\n\n\n\nThe flow can be written as \\[\n\\begin{aligned}\nx_{s1} &= 3, &&& x_{s2}&=0 \\\\\nx_{12} &= 2, &&& x_{1t} &= 1 \\\\\nx_{21} &= 0, &&& x_{2t} &= 2.\n\\end{aligned}\n\\] This flow \\(x\\) has value \\(\\varphi(x) = 3.\\)\n\n\n\n7.1.5 Formulation as a Linear Program\nWe can write the maximum flow problem as the linear program or linear optimization problem1: \\[\n\\begin{array}{ll}\n\\max & \\varphi \\\\\n\\text{s.t.} & \\displaystyle\n\\sum_{(h,j) \\in \\delta^+(h)} x_{hj}\n    - \\sum_{(i,h) \\in \\delta^-(h)} x_{ih}=\n\\begin{cases}\n    + \\varphi, & \\text{if } h =s, \\\\\n    - \\varphi, & \\text{if } h = t,\\\\\n    0, &\\text{otherwise},\n\\end{cases} \\\\\n& 0 \\le x_{ij} \\le k_{ij} \\text{ for all } (i,j) \\in A,\n\\\\\n& \\varphi \\ge 0.\n\\end{array}\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section",
     "href": "07_Network_Flows.html#section",
-    "title": "6  Network Flows",
-    "section": "6.3 ",
-    "text": "6.3",
+    "title": "7  Network Flows",
+    "section": "7.10 ",
+    "text": "7.10",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
@@ -1332,21 +1332,21 @@
   {
     "objectID": "07_Network_Flows.html#section-1",
     "href": "07_Network_Flows.html#section-1",
-    "title": "6  Network Flows",
-    "section": "6.4 ",
-    "text": "6.4",
+    "title": "7  Network Flows",
+    "section": "7.15 ",
+    "text": "7.15",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-2",
     "href": "07_Network_Flows.html#section-2",
-    "title": "6  Network Flows",
-    "section": "6.5 ",
-    "text": "6.5",
+    "title": "7  Network Flows",
+    "section": "7.16 ",
+    "text": "7.16",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
@@ -1362,361 +1362,601 @@
   {
     "objectID": "07_Network_Flows.html#section-3",
     "href": "07_Network_Flows.html#section-3",
-    "title": "6  Network Flows",
-    "section": "6.6 ",
-    "text": "6.6",
+    "title": "7  Network Flows",
+    "section": "7.17 ",
+    "text": "7.17",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-4",
     "href": "07_Network_Flows.html#section-4",
-    "title": "6  Network Flows",
-    "section": "6.7 ",
-    "text": "6.7",
+    "title": "7  Network Flows",
+    "section": "7.18 ",
+    "text": "7.18",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-5",
     "href": "07_Network_Flows.html#section-5",
-    "title": "6  Network Flows",
-    "section": "6.9 ",
-    "text": "6.9",
+    "title": "7  Network Flows",
+    "section": "7.19 ",
+    "text": "7.19",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-6",
     "href": "07_Network_Flows.html#section-6",
-    "title": "6  Network Flows",
-    "section": "6.10 ",
-    "text": "6.10",
+    "title": "7  Network Flows",
+    "section": "7.21 ",
+    "text": "7.21",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-7",
     "href": "07_Network_Flows.html#section-7",
-    "title": "6  Network Flows",
-    "section": "6.11 ",
-    "text": "6.11",
+    "title": "7  Network Flows",
+    "section": "7.22 ",
+    "text": "7.22",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#weak-duality",
     "href": "07_Network_Flows.html#weak-duality",
-    "title": "6  Network Flows",
-    "section": "6.8 Weak Duality",
-    "text": "6.8 Weak Duality\n\nTheorem 6.1 For each \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V\\setminus S\\), we have \\[\n\\varphi \\le k(\\delta(S)).\n\\]",
+    "title": "7  Network Flows",
+    "section": "7.3 Weak Duality",
+    "text": "7.3 Weak Duality\nThe following theorem gives an upper bound on the value of any flow in terms of the capacity of an arbitrary cut. Specifically, the value of any flow is at most the capacity of any \\(st\\)-cut.\n\nTheorem 7.1 For each \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V\\setminus S\\), we have \\[\n\\varphi(x) \\le k(\\delta(S))\n\\] for any flow \\(x\\).\n\n\nLet \\(x\\) be a feasible flow and consider \\(st\\)-cut \\(S\\). Then \\[\n\\sum_{(i,j)\\in\\delta^+(S)} x_{ij} \\le \\sum_{(i,j)\\in\\delta^+(S)} k_{ij}\n\\] since \\(x_{ij}\\) k_{ij}$ for any arc \\((i,j)\\). On the other hand, \\[\n- \\sum_{(i,j)\\in\\delta^-(S)} x_{ij} le 0,\n\\] since \\(x_{ij} \\ge 0\\) for any arc \\((i,j)\\). Applying conservation of flow, Lemma 7.1, we have \\[\n\\varphi = \\sum_{(i,j)\\in\\delta^+(S)} x_{ij}  - \\sum_{(i,j)\\in\\delta^-(S)} x_{ij}\n\\le \\sum_{(i,j)\\in\\delta^+(S)} k_{ij} = k(\\delta(S)).\n\\]",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-8",
     "href": "07_Network_Flows.html#section-8",
-    "title": "6  Network Flows",
-    "section": "6.12 ",
-    "text": "6.12",
+    "title": "7  Network Flows",
+    "section": "7.23 ",
+    "text": "7.23",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-9",
     "href": "07_Network_Flows.html#section-9",
-    "title": "6  Network Flows",
-    "section": "6.14 ",
-    "text": "6.14",
+    "title": "7  Network Flows",
+    "section": "7.24 ",
+    "text": "7.24",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-10",
     "href": "07_Network_Flows.html#section-10",
-    "title": "6  Network Flows",
-    "section": "6.15 ",
-    "text": "6.15",
+    "title": "7  Network Flows",
+    "section": "7.25 ",
+    "text": "7.25",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-11",
     "href": "07_Network_Flows.html#section-11",
-    "title": "6  Network Flows",
-    "section": "6.17 ",
-    "text": "6.17",
+    "title": "7  Network Flows",
+    "section": "7.29 ",
+    "text": "7.29",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#the-dual-problem-min-cut",
     "href": "07_Network_Flows.html#the-dual-problem-min-cut",
-    "title": "6  Network Flows",
-    "section": "6.13 The Dual Problem: Min Cut",
-    "text": "6.13 The Dual Problem: Min Cut\n\nDefinition 6.5 (Minimum Cut Problem) Given a directed graph \\(G = (V, A)\\) with arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\) and two nodes \\(s,t \\in V\\).\nFind an \\(st\\)-cut of minimum capacity.\n\n\n\n\n\n\n\nFigure 6.4: Minimum capacity cuts in \\(G\\)",
+    "title": "7  Network Flows",
+    "section": "7.4 The Dual Problem: Min Cut",
+    "text": "7.4 The Dual Problem: Min Cut\nTheorem 7.1 holds for every \\(st\\)-cut. In particular, it is true for the cut with minimum capacity. Thus, for any feasible flow \\(x\\), we have \\[\n    \\varphi(x) \\le \\Big\\{ k(\\delta(S)): \\delta(S) \\text{if a $st$-cut}\\Big\\}.\n\\]\n\nDefinition 7.5 (Minimum Cut Problem) Given a directed graph \\(G = (V, A)\\) with arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\) and two nodes \\(s,t \\in V\\).\nFind an \\(st\\)-cut of minimum capacity.\n\n\n\n\n\n\n\nFigure 7.4: Minimum capacity cuts in \\(G\\)",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-12",
     "href": "07_Network_Flows.html#section-12",
-    "title": "6  Network Flows",
-    "section": "6.30 ",
-    "text": "6.30",
+    "title": "7  Network Flows",
+    "section": "7.30 ",
+    "text": "7.30",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-13",
     "href": "07_Network_Flows.html#section-13",
-    "title": "6  Network Flows",
-    "section": "6.32 ",
-    "text": "6.32",
+    "title": "7  Network Flows",
+    "section": "7.33 ",
+    "text": "7.33",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#weak-duality-revisited",
     "href": "07_Network_Flows.html#weak-duality-revisited",
-    "title": "6  Network Flows",
-    "section": "6.16 Weak Duality Revisited",
-    "text": "6.16 Weak Duality Revisited\nThe relationship \\[\n\\begin{aligned}\n    & \\varphi \\le k(\\delta(S)) \\text{ for all $st$-cuts} \\\\\n    & \\Leftrightarrow \\;\\;\\;\n    \\varphi \\le \\min_S \\Big\\{k(\\delta(S)): \\delta(S) \\text{ is a $st$-cut}\\Big\\}\n\\end{aligned}\n\\] holds for all net flow values \\(\\varphi\\).",
+    "title": "7  Network Flows",
+    "section": "7.7 Weak Duality Revisited",
+    "text": "7.7 Weak Duality Revisited\nThe relationship \\[\n\\begin{aligned}\n    & \\varphi \\le k(\\delta(S)) \\text{ for all $st$-cuts} \\\\\n    & \\Leftrightarrow \\;\\;\\;\n    \\varphi \\le \\min_S \\Big\\{k(\\delta(S)): \\delta(S) \\text{ is a $st$-cut}\\Big\\}\n\\end{aligned}\n\\] holds for all net flow values \\(\\varphi\\).",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-14",
     "href": "07_Network_Flows.html#section-14",
-    "title": "6  Network Flows",
-    "section": "6.34 ",
-    "text": "6.34",
+    "title": "7  Network Flows",
+    "section": "7.35 ",
+    "text": "7.35",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#strong-duality-max-flow-min-cut-theorem",
     "href": "07_Network_Flows.html#strong-duality-max-flow-min-cut-theorem",
-    "title": "6  Network Flows",
-    "section": "6.18 Strong Duality: Max-Flow Min-Cut Theorem",
-    "text": "6.18 Strong Duality: Max-Flow Min-Cut Theorem\nConsider flow \\(x\\) of net value \\(\\varphi\\) and \\(st\\)-cut \\(\\delta(S)\\) of capacity \\(k(\\delta(S)).\\)\n\nLemma 6.2 If \\(\\varphi = k(\\delta(S))\\), then \\(x\\) is a maximum flow and \\(\\delta(S)\\) is a minimum cut.\n\n\nTheorem 6.2 The value of a maximum flow is always equal to the capacity of a minimum \\(st\\)-cut.\n\n\nWe’ll construct an algorithmic proof: reveals and constructs the flow and \\(st\\)-cut while solving the problem.",
+    "title": "7  Network Flows",
+    "section": "7.9 Strong Duality: Max-Flow Min-Cut Theorem",
+    "text": "7.9 Strong Duality: Max-Flow Min-Cut Theorem\nConsider flow \\(x\\) of net value \\(\\varphi\\) and \\(st\\)-cut \\(\\delta(S)\\) of capacity \\(k(\\delta(S)).\\)\n\nLemma 7.2 If \\(\\varphi = k(\\delta(S))\\), then \\(x\\) is a maximum flow and \\(\\delta(S)\\) is a minimum cut.\n\n\nTheorem 7.2 The value of a maximum flow is always equal to the capacity of a minimum \\(st\\)-cut.\n\n\nWe’ll construct an algorithmic proof: reveals and constructs the flow and \\(st\\)-cut while solving the problem.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#the-ford-fulkerson-algorithm-idea",
     "href": "07_Network_Flows.html#the-ford-fulkerson-algorithm-idea",
-    "title": "6  Network Flows",
-    "section": "6.19 The Ford-Fulkerson Algorithm: Idea",
-    "text": "6.19 The Ford-Fulkerson Algorithm: Idea\nIdea: Starting from given flow \\(x\\), find an \\(st\\)-path along which \\(\\varphi\\) can be increased.\n\n\n\n\n\n\nFigure 6.5: A path with excess capacity",
+    "title": "7  Network Flows",
+    "section": "7.4 The Ford-Fulkerson Algorithm – Idea",
+    "text": "7.4 The Ford-Fulkerson Algorithm – Idea\n\n7.4.1 Improving Flows along Forward and Backward Arcs\nIdea: Starting from given flow \\(x\\), we will try to find an \\(st\\)-path along which \\(\\varphi\\) can be increased.\nWe can increase flow using\n\nthe original arcs in the graph (forward arcs), and\narcs whose directions have been flipped (backward arcs).\n\n\nExample 7.4 Consider the graph given in Figure 7.5 (a) with flow \\(x\\) indicated.\nWe can increase the total flow by increasing by two units of flow along the forward arcs comprising the path \\((s2, 21, 1t)\\). This gives a new flow with value \\(\\varphi=3\\).\nSubsequently, we can move an additional \\(1\\) unit of flow by redirecting \\(1\\) unit of flow along arc \\(21\\) to flow along \\(2t\\) and pushing an additional unit of flow along \\(s1\\); see Figure 7.5 (b). This is equivalent to pushing \\(1\\) unit of flow along the path \\((s,1,2,t)\\), where \\(s1, 2t\\) are forward arcs and \\(12\\) is a backward arc; see Figure 7.5 (c).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Initial flow \\(x\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Increased flow along path \\((s,2,1,t)\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) Increased flow along path \\((s,1,2,t)\\)\n\n\n\n\n\n\n\nFigure 7.5: Increasing flow using forward and backward arcs.\n\n\n\n\n\n7.4.2 Saturated and Empty Arcs\n\nDefinition 7.5 An arc \\((i,j)\\) is saturated if \\(x_{ij} = k_{ij}\\).\n\n\nDefinition 7.6 An arc \\((i,j)\\) is empty if \\(x_{ij} = 0\\).\n\nObservation: Our algorithm for finding the maximum flow and minimum capacity cut hinges on the following:\n\nIf \\((i,j)\\) is not saturated \\((x_{ij} &lt; k_{ij})\\) then \\(x_{ij}\\) can be increased.\nIf \\((i,j)\\) is not empty \\((x_{ij} &gt; 0)\\) then \\(x_{ij}\\) can be decreased.\n\n\nExample 7.5 Consider the graph \\(G\\) with flow \\(x\\) given in @#fig-7-saturated-ex-G.\n\nArcs \\(s2\\), \\(21\\), and \\(1t\\) are saturated;\nArc \\(2t\\) is empty;\nArc \\(s1\\) is not empty or saturated.\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\) with flow \\(x\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Saturated arcs \\(s2\\), \\(21\\), and $1t\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Empty arc \\(2t\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Arc \\(s1\\) is neither.\n\n\n\n\n\n\n\nFigure 7.6: Saturated and empty arcs for flow \\(x\\) in the given graph.\n\n\n\n\n\n7.4.3 Augmenting Paths\n\nDefinition 7.7 (Augmenting Paths) We call a \\(st\\)-path using a combination of forward and backward arcs an augmenting path if:\n\nAll forward arcs are not saturated \\((x_{ij} &lt; k_{ij})\\); and\nAll backward arcs are not empty \\((x_{ij} &gt; 0)\\).\n\n\nWe can improve net flow value by increasing flow on forward arcs and decreasing flow on backward arcs.\n\nExample 7.6 The graph \\(G\\) and flow \\(x\\) indicated in Figure 7.7 has augmenting path \\(P=(s,1,2,t)\\).\n\n\n\n\n\n\n\nFigure 7.7: An augmenting path \\(P=(s,1,2,t)\\)\n\n\n\n\n\n7.4.4 The Auxiliary Network\nAt each step of our algorithm, we will try to find an augmenting path. We will construct an additional flow network to facilitate finding such an augmenting path.\nWe can construct an auxiliary network \\(G' = (V, A')\\) with auxiliary capacity function \\(k': A \\mapsto \\mathbf{R}_+\\) that accounts for all possible flow variations with respect to current flow \\(x\\).\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &lt; k_{ij}\\) (not saturated), we add forward arc \\((i,j)\\) to \\(A'\\) with \\(k'_{ij} = k_{ij} - x_{ij}\\).\n\nThis arc models the possibility of increasing the flow on \\((i,j)\\).\n\nIf \\(x_{ij} &gt; 0\\) (not empty), we add backward arc \\((j,i)\\) to \\(A'\\) with \\(k'_{ji} = x_{ij}\\).\n\nThis models the possibility of decreasing the flow on \\((i,j)\\).\n\nIf \\(0 &lt; x_{ij}&lt; k_{ij}\\) we add both a forward arc \\((i,j)\\) and a backward arc \\((j,i)\\) to \\(A'\\).\n\n\n\n7.4.5 The Augmentation Step\nStart with flow \\(x\\) and corresponding auxiliary network \\(G'\\) with auxiliary capacities \\(k'\\).\n\nIdentify \\(st\\)-path \\(P\\) in \\(G'\\).\n\nLet \\(\\displaystyle\\Delta = \\min_{(i,j)\\in P} k'_{ij}\\).\nAdd \\(\\Delta\\) to all forward arcs.\nSubtract \\(\\Delta\\) from all backward arcs.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#another-path-with-improved-flow",
     "href": "07_Network_Flows.html#another-path-with-improved-flow",
-    "title": "6  Network Flows",
-    "section": "6.20 Another Path with Improved Flow",
-    "text": "6.20 Another Path with Improved Flow\n\n\n\n\n\n\nFigure 6.6: Another path with excess capacity",
+    "title": "7  Network Flows",
+    "section": "7.5 Another Path with Improved Flow",
+    "text": "7.5 Another Path with Improved Flow\n\n\n\n\n\n\nFigure 7.6: Another path with excess capacity",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#forward-and-backward-arcs",
     "href": "07_Network_Flows.html#forward-and-backward-arcs",
-    "title": "6  Network Flows",
-    "section": "6.21 Forward and Backward Arcs",
-    "text": "6.21 Forward and Backward Arcs\nWe can increase flow using:\n\nthe original arcs in the graph (forward arcs), and\narcs whose directions have been flipped (backward arcs).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Flow in \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Flow in \\(G\\)\n\n\n\n\n\n\n\nFigure 6.7: Increasing flow using forward and backward arcs.",
+    "title": "7  Network Flows",
+    "section": "7.6 Forward and Backward Arcs",
+    "text": "7.6 Forward and Backward Arcs\nWe can increase flow using:\n\nthe original arcs in the graph (forward arcs), and\narcs whose directions have been flipped (backward arcs).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Flow in \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Flow in \\(G\\)\n\n\n\n\n\n\n\nFigure 7.7: Increasing flow using forward and backward arcs.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#saturated-and-empty-arcs",
     "href": "07_Network_Flows.html#saturated-and-empty-arcs",
-    "title": "6  Network Flows",
-    "section": "6.22 Saturated and Empty Arcs",
-    "text": "6.22 Saturated and Empty Arcs\n\nDefinition 6.6 An arc \\((i,j)\\) is saturated if \\(x_{ij} = k_{ij}\\).\n\n\nDefinition 6.7 An arc \\((i,j)\\) is empty if \\(x_{ij} = 0\\).\n\n\nObservation:\n\nIf \\((i,j)\\) is not saturated \\((x_{ij} &lt; k_{ij})\\) then \\(x_{ij}\\) can be increased.\nIf \\((i,j)\\) is not empty \\((x_{ij} &gt; 0)\\) then \\(x_{ij}\\) can be decreased.",
+    "title": "7  Network Flows",
+    "section": "7.5 Saturated and Empty Arcs",
+    "text": "7.5 Saturated and Empty Arcs\n\nDefinition 7.5 An arc \\((i,j)\\) is saturated if \\(x_{ij} = k_{ij}\\).\n\n\nDefinition 7.6 An arc \\((i,j)\\) is empty if \\(x_{ij} = 0\\).\n\n\nObservation:\n\nIf \\((i,j)\\) is not saturated \\((x_{ij} &lt; k_{ij})\\) then \\(x_{ij}\\) can be increased.\nIf \\((i,j)\\) is not empty \\((x_{ij} &gt; 0)\\) then \\(x_{ij}\\) can be decreased.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#example-2",
     "href": "07_Network_Flows.html#example-2",
-    "title": "6  Network Flows",
-    "section": "6.23 Example",
-    "text": "6.23 Example\n\n\n\n\n\n\nFigure 6.8: Saturated and empty arcs in \\(G\\)",
+    "title": "7  Network Flows",
+    "section": "7.5 Example",
+    "text": "7.5 Example\n\nExample 7.7 Let’s find the maximum flow for \\(s = 1\\) and \\(t=7\\) for the graph Figure 7.12 (a).\nWe start from \\(x = 0\\) with net flow \\(\\varphi = 0\\). The initial auxiliary graph \\(G'\\) is equal to \\(G\\).\n\n\n\n\n\n\n\nFigure 7.8: Graph \\(G\\)\n\n\n\n\nStep 1\nWe have several augmenting paths to choose from. Consider \\(P = (1,2,3,7)\\) in \\(G'\\). The minimum edge capacity in \\(G'\\) along this augmenting path is \\(\\Delta = 2\\). All arcs in this path are forward arcs, so we add \\(\\Delta\\) to \\(x_{ij}\\) for arcs \\(12, 23, 37\\), and leave all flow on other edges equal to \\(0\\).\n\n\n\n\n\n\n\n\n\n\n\n(a) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Augmenting Path\n\n\n\n\n\n\n\n\n\n\n\n(c) Updated Flow\n\n\n\n\n\n\n\nFigure 7.9: Details of Step 1.\n\n\n\n\n\nStep 2\nArcs \\(12\\), \\(23\\), and \\(37\\) are now saturated. We can update the auxiliary graph by reversing each of these edges and setting the capacity equal to the flow value across each arc. This reveals the augmenting path \\(P = (1,5,6,7)\\) (among several possible augmenting paths). This path has minimum capacity arc with capacity \\(\\Delta = 2\\) and every arc is a forward arc on this path. Thus, we can increase flow across each of these arcs by \\(\\Delta=2\\).\n\n\n\n\n\n\n\n\n\n\n\n(a) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Augmenting Path\n\n\n\n\n\n\n\n\n\n\n\n(c) Updated Flow\n\n\n\n\n\n\n\nFigure 7.10: Details of Step 2.\n\n\n\n\n\nStep 3\nNext, we have augmenting path \\(P=(1,4,3,2,6,7)\\). Note that this path uses the nonempty backward arc \\(32\\). The minimum capacity arc in the auxiliary graph along this path is \\(43\\), with capacity \\(k'_{43} = 1 = \\Delta\\). We can update our flow by increasing the flow by \\(\\Delta=1\\) along all forward arcs in this path and decreasing flow across backward arcs by \\(\\Delta=1\\)\n\n\n\n\n\n\n\n\n\n\n\n(a) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Augmenting Path\n\n\n\n\n\n\n\n\n\n\n\n(c) Updated Flow\n\n\n\n\n\n\n\nFigure 7.11: Details of Step 3.\n\n\n\n\n\nStep 4 and Termination\nAfter updating the flow and auxiliary graph \\(G'\\), we can note that \\(t\\) is not reachable from \\(s\\) in \\(G'\\). Indeed, the reachable set from \\(s\\) in \\(G'\\) is \\(S=\\{s,4\\}\\). Note that the cut \\(\\delta(S)\\) defined by \\(S\\) has capacity \\(k=(\\delta(S)) = 5\\). This is equal to the total value of the flow \\(x\\) (\\(\\varphi = 5\\)). This implies that \\(x\\) is a maximimum value flow and \\(\\delta(S)\\) is a minimum capacity cut; we can stop applying the algorithm.\n\n\n\n\n\n\n\n\n\n\n\n(a) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Reachable nodes \\(S\\) and minimum capacity cut \\(\\delta(S)\\)\n\n\n\n\n\n\n\nFigure 7.12: Details of Step 4",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#augmenting-paths",
     "href": "07_Network_Flows.html#augmenting-paths",
-    "title": "6  Network Flows",
-    "section": "6.24 Augmenting Paths",
-    "text": "6.24 Augmenting Paths\n\nDefinition 6.8 (Augmenting Paths) We call a \\(st\\)-path using a combination of forward and backward arcs an augmenting path if:\n\nAll forward arcs are not saturated \\((x_{ij} &lt; k_{ij})\\); and\nAll backward arcs are not empty \\((x_{ij} &gt; 0)\\).\n\n\n\nIdea: we can improve net flow value by increasing flow on forward arcs and decreasing flow on backward arcs.",
+    "title": "7  Network Flows",
+    "section": "7.5 Augmenting Paths",
+    "text": "7.5 Augmenting Paths\n\nDefinition 7.7 (Augmenting Paths) We call a \\(st\\)-path using a combination of forward and backward arcs an augmenting path if:\n\nAll forward arcs are not saturated \\((x_{ij} &lt; k_{ij})\\); and\nAll backward arcs are not empty \\((x_{ij} &gt; 0)\\).\n\n\n\nIdea: we can improve net flow value by increasing flow on forward arcs and decreasing flow on backward arcs.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#example-of-an-augmenting-path",
     "href": "07_Network_Flows.html#example-of-an-augmenting-path",
-    "title": "6  Network Flows",
-    "section": "6.25 Example of an Augmenting Path",
-    "text": "6.25 Example of an Augmenting Path\n\n\n\n\n\n\nFigure 6.9: An augmenting Path",
+    "title": "7  Network Flows",
+    "section": "7.5 Example of an Augmenting Path",
+    "text": "7.5 Example of an Augmenting Path\n\n\n\n\n\n\nFigure 7.7: An augmenting Path",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#the-auxiliary-network",
     "href": "07_Network_Flows.html#the-auxiliary-network",
-    "title": "6  Network Flows",
-    "section": "6.26 The Auxiliary Network",
-    "text": "6.26 The Auxiliary Network\nWe can construct an auxiliary network \\(G' = (V, A')\\) with auxiliary capacity function \\(k': A \\mapsto \\mathbf{R}_+\\) that accounts for all possible flow variations with respect to current flow \\(x\\).\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &lt; k_{ij}\\) (not saturated), we add forward arc \\((i,j)\\) to \\(A'\\) with \\(k'_{ij} = k_{ij} - x_{ij}\\).\n\nThis arc models the possibility of increasing the flow on \\((i,j)\\).",
+    "title": "7  Network Flows",
+    "section": "7.5 The Auxiliary Network",
+    "text": "7.5 The Auxiliary Network\nWe can construct an auxiliary network \\(G' = (V, A')\\) with auxiliary capacity function \\(k': A \\mapsto \\mathbf{R}_+\\) that accounts for all possible flow variations with respect to current flow \\(x\\).\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &lt; k_{ij}\\) (not saturated), we add forward arc \\((i,j)\\) to \\(A'\\) with \\(k'_{ij} = k_{ij} - x_{ij}\\).\n\nThis arc models the possibility of increasing the flow on \\((i,j)\\).\n\nIf \\(x_{ij} &gt; 0\\) (not empty), we add backward arc \\((j,i)\\) to \\(A'\\) with \\(k'_{ji} = x_{ij}\\).\n\nThis models the possibility of decreasing the flow on \\((i,j)\\).\n\nIf \\(0 &lt; x_{ij}&lt; k_{ij}\\) we add both a forward arc \\((i,j)\\) and a backward arc \\((j,i)\\) to \\(A'\\).",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#the-auxiliary-network-2",
     "href": "07_Network_Flows.html#the-auxiliary-network-2",
-    "title": "6  Network Flows",
-    "section": "6.27 The Auxiliary Network – 2",
-    "text": "6.27 The Auxiliary Network – 2\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &gt; 0\\) (not empty), we add backward arc \\((j,i)\\) to \\(A'\\) with \\(k'_{ji} = x_{ij}\\).\n\nThis models the possibility of decreasing the flow on \\((i,j)\\).\n\nIf \\(0 &lt; x_{ij}&lt; k_{ij}\\) we add both a forward arc \\((i,j)\\) and a backward arc \\((j,i)\\) to \\(A'\\).",
+    "title": "7  Network Flows",
+    "section": "7.6 The Auxiliary Network – 2",
+    "text": "7.6 The Auxiliary Network – 2\nFor all \\((i,j) \\in A\\):\n\nIf \\(x_{ij} &gt; 0\\) (not empty), we add backward arc \\((j,i)\\) to \\(A'\\) with \\(k'_{ji} = x_{ij}\\).\n\nThis models the possibility of decreasing the flow on \\((i,j)\\).\n\nIf \\(0 &lt; x_{ij}&lt; k_{ij}\\) we add both a forward arc \\((i,j)\\) and a backward arc \\((j,i)\\) to \\(A'\\).",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#the-augmentation-step",
     "href": "07_Network_Flows.html#the-augmentation-step",
-    "title": "6  Network Flows",
-    "section": "6.28 The Augmentation Step",
-    "text": "6.28 The Augmentation Step\nStart with flow \\(x\\) and corresponding auxiliary network \\(G'\\) with auxiliary capacities \\(k'\\).\n\nIdentify \\(st\\)-path \\(P\\) in \\(G'\\).\n\nLet \\(\\displaystyle\\Delta = \\min_{(i,j)\\in P} k'_{ij}\\).\nAdd \\(\\Delta\\) to all forward arcs.\nSubtract \\(\\Delta\\) from all backward arcs.",
+    "title": "7  Network Flows",
+    "section": "7.6 The Augmentation Step",
+    "text": "7.6 The Augmentation Step\nStart with flow \\(x\\) and corresponding auxiliary network \\(G'\\) with auxiliary capacities \\(k'\\).\n\nIdentify \\(st\\)-path \\(P\\) in \\(G'\\).\n\nLet \\(\\displaystyle\\Delta = \\min_{(i,j)\\in P} k'_{ij}\\).\nAdd \\(\\Delta\\) to all forward arcs.\nSubtract \\(\\Delta\\) from all backward arcs.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#example-3",
     "href": "07_Network_Flows.html#example-3",
-    "title": "6  Network Flows",
-    "section": "6.29 Example",
-    "text": "6.29 Example\nLet’s find the maximum flow for \\(s = 1\\) and \\(t=7\\) for the graph below. We start from \\(x = 0\\) with net flow \\(\\varphi = 0\\):\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.10: Details of Step 1",
+    "title": "7  Network Flows",
+    "section": "7.12 Example",
+    "text": "7.12 Example\n\n\n\n\n\n\nFigure 7.19: Graph \\(G\\)",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-15",
     "href": "07_Network_Flows.html#section-15",
-    "title": "6  Network Flows",
-    "section": "6.36 ",
-    "text": "6.36",
+    "title": "7  Network Flows",
+    "section": "7.37 ",
+    "text": "7.37",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#step-2",
     "href": "07_Network_Flows.html#step-2",
-    "title": "6  Network Flows",
-    "section": "6.31 Step 2",
-    "text": "6.31 Step 2\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.11: Details of Step 2",
+    "title": "7  Network Flows",
+    "section": "7.6 Step 2",
+    "text": "7.6 Step 2\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 7.10: Details of Step 2",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-16",
     "href": "07_Network_Flows.html#section-16",
-    "title": "6  Network Flows",
-    "section": "6.37 ",
-    "text": "6.37",
+    "title": "7  Network Flows",
+    "section": "7.38 ",
+    "text": "7.38",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#step-3",
     "href": "07_Network_Flows.html#step-3",
-    "title": "6  Network Flows",
-    "section": "6.33 Step 3",
-    "text": "6.33 Step 3\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.12: Details of Step 3",
+    "title": "7  Network Flows",
+    "section": "7.6 Step 3",
+    "text": "7.6 Step 3\nNext, we have augmenting path \\(P=(1,4,3,2,6,7)\\). Note that this path uses the nonempty backward arc \\(32\\). The minimum capacity arc in the auxiliary graph along this path is \\(43\\), with capacity \\(k'_{43} = 1 = \\Delta\\). We can update our flow by increasing the flow by \\(\\Delta=1\\) along all forward arcs in this path and decreasing flow across backward arcs by \\(\\Delta=1\\)\n\n\n\n\n\n\n\n\n\n\n\n(a) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Augmenting Path\n\n\n\n\n\n\n\n\n\n\n\n(c) Updated Flow\n\n\n\n\n\n\n\nFigure 7.11: Details of Step 3.\n\n\n\n\n7.6.0.1 Step 4 and Termination\nAfter updating the flow and auxiliary graph \\(G'\\), we can note that \\(t\\) is not reachable from \\(s\\) in \\(G'\\). Indeed, the reachable set from \\(s\\) in \\(G'\\) is \\(S=\\{s,4\\}\\). Note that the cut defined \\(\\delta(S)\\) has capacity \\(k=(\\delta(S)) = 5\\). This is equal to the total value of the flow \\(x\\) (\\(\\varphi = 5\\)). This implies that \\(x\\) is a maximimum value flow and \\(\\delta(S)\\) is a minimum capacity cut; we can stop applying the algorithm.\n\n\n\n\n\n\n\n\n\n\n\n(a) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Reachable nodes \\(S\\) and minimum capacity cut \\(\\delta(S)\\)\n\n\n\n\n\n\n\nFigure 7.12: Details of Step 4",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-17",
     "href": "07_Network_Flows.html#section-17",
-    "title": "6  Network Flows",
-    "section": "6.39 ",
-    "text": "6.39",
+    "title": "7  Network Flows",
+    "section": "7.39 ",
+    "text": "7.39",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#step-4",
     "href": "07_Network_Flows.html#step-4",
-    "title": "6  Network Flows",
-    "section": "6.35 Step 4",
-    "text": "6.35 Step 4\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 6.13: Details of Step 4",
+    "title": "7  Network Flows",
+    "section": "7.9 Step 4",
+    "text": "7.9 Step 4\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph \\(G'\\)\n\n\n\n\n\n\n\nFigure 7.12: Details of Step 4",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#section-18",
     "href": "07_Network_Flows.html#section-18",
-    "title": "6  Network Flows",
-    "section": "6.43 ",
-    "text": "6.43",
+    "title": "7  Network Flows",
+    "section": "7.40 ",
+    "text": "7.40",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#footnotes",
     "href": "07_Network_Flows.html#footnotes",
-    "title": "6  Network Flows",
+    "title": "7  Network Flows",
     "section": "",
     "text": "https://en.wikipedia.org/wiki/Linear_programming↩︎",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   },
   {
     "objectID": "07_Network_Flows.html#cuts-and-flow",
     "href": "07_Network_Flows.html#cuts-and-flow",
-    "title": "6  Network Flows",
-    "section": "6.2 Cuts and Flow",
-    "text": "6.2 Cuts and Flow\n\n6.2.1 \\(st\\)-cuts\nGiven a subset of nodes \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V \\setminus S\\).\n\nDefinition 6.2 An st-cut is the set of arcs that enter or leave \\(S\\): \\[\n\\delta(S) = \\delta^+(S) \\cup \\delta^{-}(S).\n\\]\n\n\nDefinition 6.3 The (forward) capacity of the \\(st\\)-cut is \\[\nk(\\delta(S)) = \\sum_{(i,j) \\in \\delta^+(S)} k_{ij}.\n\\]\n\n\n\n6.2.2 Net Flow across a Cut\n\nDefinition 6.4 The net flow across \\(\\delta (S)\\) is \\[\n\\varphi(\\delta(S)) := \\sum_{(i,j)\\in \\delta^+(S)} x_{ij}\n    - \\sum_{(i,j) \\in \\delta^{-}(S)} x_{ij}.\n\\]\n\n\n\n6.2.3 Example\n\nExample 6.2 Consider the graph given in Figure 6.2.\n\n\n\n\n\n\nFigure 6.2: Directed graph with \\(S=\\{s,2\\}\\)\n\n\n\nThe forward and backward cuts induced by \\(S\\) are given in Figure 6.3.\n\n\n\n\n\n\n\n\n\n\n\n(a) Forward cut \\(\\delta^{+}(S) = \\{(s,1), (2,1), (2,t)\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Backward cut \\(\\delta^{-}(S) = \\{(1,2)\\}\\)\n\n\n\n\n\n\n\nFigure 6.3: Induced cuts in graph \\(G\\) given in Figure 6.2.\n\n\n\nThe \\(st\\)-cut induced by \\(S\\) is \\[\n    \\delta(S) = \\delta^{+}(S) \\cup \\delta^{-}(S)\n    = \\{(s,1), (2,1), (2,t), (1,2)\\}.\n\\] The forward capacity of this cut is \\[\n    k(\\delta(S)) = 7 + 1 + 5 = 13.\n\\] The value of this cut is \\[\n    \\varphi(\\delta(S)) = 3 + 0 + 2 - 2 = 3.\n\\]\n\n\n\n6.2.4 Conservation of Flow Across Cuts\n\nLemma 6.1 Given a flow \\(x\\) with net value \\(\\varphi\\), we have \\[\n\\varphi(\\delta(S)) = \\varphi\n\\] for every \\(S \\subseteq V\\) with \\(s \\in S\\), \\(t \\in V \\setminus S\\).",
+    "title": "7  Network Flows",
+    "section": "7.2 Cuts and Flow",
+    "text": "7.2 Cuts and Flow\n\n7.2.1 \\(st\\)-cuts\nGiven a subset of nodes \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V \\setminus S\\).\n\nDefinition 7.2 An st-cut is the set of arcs that enter or leave \\(S\\): \\[\n\\delta(S) = \\delta^+(S) \\cup \\delta^{-}(S).\n\\]\n\n\nDefinition 7.3 The (forward) capacity of the \\(st\\)-cut is \\[\nk(\\delta(S)) = \\sum_{(i,j) \\in \\delta^+(S)} k_{ij}.\n\\]\n\n\n\n7.2.2 Net Flow across a Cut\n\nDefinition 7.4 The net flow across \\(\\delta (S)\\) is \\[\n\\varphi(\\delta(S)) := \\sum_{(i,j)\\in \\delta^+(S)} x_{ij}\n    - \\sum_{(i,j) \\in \\delta^{-}(S)} x_{ij}.\n\\]\n\n\n\n7.2.3 Example\n\nExample 7.2 Consider the graph given in Figure 7.2.\n\n\n\n\n\n\nFigure 7.2: Directed graph with \\(S=\\{s,2\\}\\)\n\n\n\nThe forward and backward cuts induced by \\(S\\) are given in Figure 7.3.\n\n\n\n\n\n\n\n\n\n\n\n(a) Forward cut \\(\\delta^{+}(S) = \\{(s,1), (2,1), (2,t)\\}\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Backward cut \\(\\delta^{-}(S) = \\{(1,2)\\}\\)\n\n\n\n\n\n\n\nFigure 7.3: Induced cuts in graph \\(G\\) given in Figure 7.2.\n\n\n\nThe \\(st\\)-cut induced by \\(S\\) is \\[\n    \\delta(S) = \\delta^{+}(S) \\cup \\delta^{-}(S)\n    = \\{(s,1), (2,1), (2,t), (1,2)\\}.\n\\] The forward capacity of this cut is \\[\n    k(\\delta(S)) = 7 + 1 + 5 = 13.\n\\] The value of this cut is \\[\n    \\varphi(\\delta(S)) = 3 + 0 + 2 - 2 = 3.\n\\]\n\n\n\n7.2.4 Conservation of Flow Across Cuts\n\nLemma 7.1 Given a flow \\(x\\) with net value \\(\\varphi\\), we have \\[\n\\varphi(\\delta(S)) = \\varphi\n\\] for every \\(S \\subseteq V\\) with \\(s \\in S\\), \\(t \\in V \\setminus S\\).\n\n\nConsider the balance constraint \\[\n\\sum_{(h,j) \\in \\delta^+(h)} x_{hj}\n    - \\sum_{(i,h) \\in \\delta^-(h)} x_{ih}=\n\\begin{cases}\n    + \\varphi, & \\text{if } h =s, \\\\\n    - \\varphi, & \\text{if } h = t,\\\\\n    0, &\\text{otherwise}.\n\\end{cases}\n\\] Let’s take the sum of both sides over all \\(h \\in S\\); note that \\(s \\in S\\) and \\(t \\notin S\\). First, the sum of the right-hand side over \\(h \\in S\\) is equal to \\(\\varphi\\).\nNext, each arc \\((i,j)\\) with \\(i,j \\in S\\) appears twice in the sum on the left-hand side: - When \\(h =i\\), we add \\(+x_{ij}\\) to the total. - When \\(h = j\\), we add \\(-x_{ij}\\) to the total. These two values cancel when we take the sum over all \\(h\\). On the other hand, if \\(i\\in S\\) and \\(j \\in V \\setminus S\\), then \\((i,j) \\in \\delta^{+}(S)\\) and appears once in the sum of the left-hand side (when \\(h=i\\)). Finally, if \\(i \\in V \\setminus S\\), \\(j \\in S\\) then \\((i,j) \\in \\delta^-(S)\\) and this edge contributes \\(-x_{ij}\\) to the sum in the left-hand side. Putting everything together, we have \\[\n\\sum_{(i,j)\\in\\delta^+(S)} x_{ij} - \\sum_{(i,j)\\in\\delta^-(S)} x_{ij} = \\varphi.\n\\] This completes the proof.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Network Flows</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#duality",
+    "href": "07_Network_Flows.html#duality",
+    "title": "7  Network Flows",
+    "section": "7.3 Duality",
+    "text": "7.3 Duality\n\n7.3.1 Weak Duality\nThe following theorem gives an upper bound on the value of any flow in terms of the capacity of an arbitrary cut. Specifically, the value of any flow is at most the capacity of any \\(st\\)-cut.\n\nTheorem 7.1 For each \\(S \\subseteq V\\) with \\(s \\in S\\) and \\(t \\in V\\setminus S\\), we have \\[\n\\varphi(x) \\le k(\\delta(S))\n\\] for any flow \\(x\\).\n\n\nLet \\(x\\) be a feasible flow and consider \\(st\\)-cut \\(S\\). Then \\[\n\\sum_{(i,j)\\in\\delta^+(S)} x_{ij} \\le \\sum_{(i,j)\\in\\delta^+(S)} k_{ij}\n\\] since \\(x_{ij}\\) k_{ij}$ for any arc \\((i,j)\\). On the other hand, \\[\n- \\sum_{(i,j)\\in\\delta^-(S)} x_{ij} le 0,\n\\] since \\(x_{ij} \\ge 0\\) for any arc \\((i,j)\\). Applying conservation of flow, Lemma 7.1, we have \\[\n\\varphi = \\sum_{(i,j)\\in\\delta^+(S)} x_{ij}  - \\sum_{(i,j)\\in\\delta^-(S)} x_{ij}\n\\le \\sum_{(i,j)\\in\\delta^+(S)} k_{ij} = k(\\delta(S)).\n\\]\n\n\n\n7.3.2 The Minimum Cut Problem\nTheorem 7.1 holds for every \\(st\\)-cut. In particular, it is true for the cut with minimum capacity. Thus, for any feasible flow \\(x\\), we have \\[\n    \\varphi(x) \\le \\Big\\{ k(\\delta(S)): \\delta(S) \\text{if a $st$-cut}\\Big\\}.\n\\]\n::: {#def-7-min-cut-problem}\n\n7.3.2.1 Minimum Cut Problem\nGiven a directed graph \\(G = (V, A)\\) with arc capacity function \\(k: A \\mapsto \\mathbf{R}_+\\) and two nodes \\(s,t \\in V\\).\n\nExample 7.3 Consider the graph given in Figure 7.1. Find an \\(st\\)-cut of minimum capacity.\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Minimum capacity cut \\(\\delta(\\{s\\})\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Minimum capacity cut \\(\\delta(\\{s\\})\\)\n\n\n\n\n\n\n\nFigure 7.4: Two minimum capacity cuts in Figure 7.1.\n\n\n\n\n\n\n7.3.3 Strong Duality: Max-Flow Min-Cut Theorem\nThe relationship \\[\n\\begin{aligned}\n    & \\varphi \\le k(\\delta(S)) \\text{ for all $st$-cuts} \\\\\n    & \\Leftrightarrow \\;\\;\\;\n    \\varphi \\le \\min_S \\Big\\{k(\\delta(S)): \\delta(S) \\text{ is a $st$-cut}\\Big\\}\n\\end{aligned}\n\\] holds for all net flow values \\(\\varphi\\).\nThis implies that for any flow value \\(\\varphi\\) we have \\[\n\\varphi \\le \\max \\Big\\{\\varphi(x): x \\text{ is a flow}\\Big\\}\n\\le\n\\Big\\{ k(\\delta(S)): \\delta(S) \\text{if a $st$-cut}\\Big\\}.\n\\]\nThe maximum flow value and minimum cut capacity are actually guaranteed to agree for every flow network. We have the following two results.\n\nLemma 7.2 Consider flow \\(x\\) of net value \\(\\varphi\\) and \\(st\\)-cut \\(\\delta(S)\\) of capacity \\(k(\\delta(S)).\\)\nIf \\(\\varphi = k(\\delta(S))\\), then \\(x\\) is a maximum flow and \\(\\delta(S)\\) is a minimum cut.\n\n\nTheorem 7.2 The value of a maximum flow is always equal to the capacity of a minimum \\(st\\)-cut.\n\nWe’ll construct an algorithmic proof: we’ll present an algorithm that reveals and constructs the flow and \\(st\\)-cut while solving the problem.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-ford-fulkerson-algorithm",
+    "href": "07_Network_Flows.html#the-ford-fulkerson-algorithm",
+    "title": "7  Network Flows",
+    "section": "7.4 The Ford-Fulkerson Algorithm",
+    "text": "7.4 The Ford-Fulkerson Algorithm\n\n7.4.1 Improving Flows along Forward and Backward Arcs\nIdea: Starting from given flow \\(x\\), we will try to find an \\(st\\)-path along which \\(\\varphi\\) can be increased.\nWe can increase flow using\n\nthe original arcs in the graph (forward arcs), and\narcs whose directions have been flipped (backward arcs).\n\n\nExample 7.4 Consider the graph given in Figure 7.5 (a) with flow \\(x\\) indicated.\nWe can increase the total flow by increasing by two units of flow along the forward arcs comprising the path \\((s2, 21, 1t)\\). This gives a new flow with value \\(\\varphi=3\\).\nSubsequently, we can move an additional \\(1\\) unit of flow by redirecting \\(1\\) unit of flow along arc \\(21\\) to flow along \\(2t\\) and pushing an additional unit of flow along \\(s1\\); see Figure 7.5 (b). This is equivalent to pushing \\(1\\) unit of flow along the path \\((s,1,2,t)\\), where \\(s1, 2t\\) are forward arcs and \\(12\\) is a backward arc; see Figure 7.5 (c).\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Initial flow \\(x\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Increased flow along path \\((s,2,1,t)\\)\n\n\n\n\n\n\n\n\n\n\n\n(c) Increased flow along path \\((s,1,2,t)\\)\n\n\n\n\n\n\n\nFigure 7.5: Increasing flow using forward and backward arcs.\n\n\n\n\n\n7.4.2 Saturated and Empty Arcs\n\nDefinition 7.5 An arc \\((i,j)\\) is saturated if \\(x_{ij} = k_{ij}\\).\n\n\nDefinition 7.6 An arc \\((i,j)\\) is empty if \\(x_{ij} = 0\\).\n\nObservation:\n\nIf \\((i,j)\\) is not saturated \\((x_{ij} &lt; k_{ij})\\) then \\(x_{ij}\\) can be increased.\nIf \\((i,j)\\) is not empty \\((x_{ij} &gt; 0)\\) then \\(x_{ij}\\) can be decreased.\n\n\nExample 7.5 Consider the graph \\(G\\) with flow \\(x\\) given in @#fig-7-saturated-ex-G. - Arcs \\(s2\\), \\(21\\), and \\(1t\\) are saturated; - Arc \\(2t\\) is empty; - Arc \\(s1\\) is not empty or saturated.\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Graph \\(G\\) with flow \\(x\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Saturated arcs\n\n\n\n\n\n\n\n\n\n\n\n\n\n(c) Empty arc \\(2t\\)\n\n\n\n\n\n\n\n\n\n\n\n(d) Arc \\(s1\\) is neither.\n\n\n\n\n\n\n\nFigure 7.6: Saturated and empty arcs for flow \\(x\\) in the given graph.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#termination-and-correction",
+    "href": "07_Network_Flows.html#termination-and-correction",
+    "title": "7  Network Flows",
+    "section": "7.6 Termination and Correction",
+    "text": "7.6 Termination and Correction\n\n7.6.1 Stopping Condition\nLet \\(S^*\\) be the set of nodes reachable from \\(s \\in G'\\) when the algorithm stops.\nWe can conclude that \\(\\delta_{G'}^+(S^*) = \\emptyset\\).\nBy the construction of \\(G'\\), this implies that:\n\nEvery arc \\((i,j) \\in \\delta_{G}^+(S^*)\\) is saturated!\nEvery arc \\((i,j) \\in \\delta_{G}^-(S^*)\\) is empty!\n\n\n\n7.6.2 Correctness of the FF-Algorithm\nWhen the algorithm terminates, all arcs in \\(\\delta_G^+(S^*)\\) are saturated and all arcs in \\(\\delta_G^-(S^*)\\) are empty: \\[\n\\varphi =\\varphi(\\delta(S^*)) = \\sum_{(i,j) \\in \\delta^+_G(S^*)} x_{ij} - \\sum_{(i,j) \\in \\delta^-_G(S^*)} x_{ij}\n= k(\\delta(S^*)).\n\\] However, we know that \\[\n\\varphi \\le \\text{max flow value} \\le \\text{min cut value}\n\\le k(\\delta(S^*)).\n\\]\nThis shows that when the algorithm terms, we have found a flow equal in value to the capacity of an \\(s,t\\) cut!.\nThis implies that:\n\nThe flow is optimal for the maximum flow problem.\nThe cut is optimal for the minimum cut problem\n\nThis establishes that the Ford-Fulkerson algorithm always finds an optimal solution!\nThis is an algorithmic proof of the max-flow min-cut theorem.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-ff-algorithm-pseudocode",
+    "href": "07_Network_Flows.html#the-ff-algorithm-pseudocode",
+    "title": "7  Network Flows",
+    "section": "7.7 The FF Algorithm – Pseudocode",
+    "text": "7.7 The FF Algorithm – Pseudocode\nInitialize x = 0, phi = 0.\n\nWhile x is not a max flow:\n    Construct auxiliary graph G' = (V, A') with capacities k_{ij}'.\n\n    Find an st-path P in G'. \n\n    If P does not exist: % Terminate\n        STOP! x is a max flow.\n    Else % Update flow.\n        Delta =  min {k_{ij}': (i,j) \\in P }\n        phi = phi + Delta. \n\n        For (i,j) in P: \n            If (i,j) is a forward arcL\n                x_{ij} = x_{ij} + \\Delta\n            Else \n                x_{ij} = x_{ij} - \\Delta",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-ff-algorithm-complexity-1",
+    "href": "07_Network_Flows.html#the-ff-algorithm-complexity-1",
+    "title": "7  Network Flows",
+    "section": "7.8 The FF Algorithm – Complexity – 1",
+    "text": "7.8 The FF Algorithm – Complexity – 1\nInitialize x = 0, phi = 0.\n\nWhile x is not a max flow:\n    Construct auxiliary graph G' = (V, A') with capacities k_{ij}'.\n\n    Find an st-path P in G'. \n\n    If P does not exist: % Terminate\n        STOP! x is a max flow.\n    Else % Update flow.\n        Delta =  min {k_{ij}': (i,j) \\in P }\n        phi = phi + Delta. \n\n        For (i,j) in P: \n            If (i,j) is a forward arcL\n                x_{ij} = x_{ij} + \\Delta\n            Else \n                x_{ij} = x_{ij} - \\Delta",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#complexity-2",
+    "href": "07_Network_Flows.html#complexity-2",
+    "title": "7  Network Flows",
+    "section": "7.11 Complexity – 2",
+    "text": "7.11 Complexity – 2\nQuestion: How many iterations are needed by the Ford-Fulkerson Algorithm in worst-case?\n\nLemma 7.3 If all capacities \\(k_{ij}\\) are integer then \\(k_{ij}'\\), \\(\\Delta\\), and \\(x\\) are integer at each iteration.\n\n\nSince \\(\\Delta\\) is integer, we could have unit increment \\(\\Delta = 1\\) each iteration (in worst case).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-2-1",
+    "href": "07_Network_Flows.html#example-2-1",
+    "title": "7  Network Flows",
+    "section": "7.17 Example – 2",
+    "text": "7.17 Example – 2\nLet’s construct the auxiliary graph after augmenting.\n\n\n\n\n\n\n\n\n\n\n\n(a) Flow\n\n\n\n\n\n\n\n\n\n\n\n(b) Auxiliary Graph\n\n\n\n\n\n\n\nFigure 7.14: Flow and auxiliary graph after augmenting flow by \\(\\Delta=1\\).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-3-1",
+    "href": "07_Network_Flows.html#example-3-1",
+    "title": "7  Network Flows",
+    "section": "7.18 Example – 3",
+    "text": "7.18 Example – 3",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#does-the-ff-algorithm-run-in-polynomial-time",
+    "href": "07_Network_Flows.html#does-the-ff-algorithm-run-in-polynomial-time",
+    "title": "7  Network Flows",
+    "section": "7.12 Does the FF Algorithm Run in Polynomial Time?",
+    "text": "7.12 Does the FF Algorithm Run in Polynomial Time?\nWe have deduced that the Ford-Fulkerson algorithm has complexity of \\(O(\\varphi^* m)\\).\n\nQuestion: is \\(O(\\varphi^* m)\\) a polynomial of the instance size?\n\n\nUnfortunately, we can’t bound \\(\\varphi^*\\) as a polynomial of \\(n\\) and/or \\(m\\).\n\n\nQuestion: how should we represent the size of \\(\\varphi^*\\)?",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#aside-binary-encoding",
+    "href": "07_Network_Flows.html#aside-binary-encoding",
+    "title": "7  Network Flows",
+    "section": "7.10 Aside: Binary Encoding",
+    "text": "7.10 Aside: Binary Encoding\nWe’ll use binary encoding of numbers in our model of complexity.\n\nBinary encoding is a positional notation system with base \\(2\\):\n\nUses two symbols: \\(0\\) and \\(1\\).\nIt is positional: same symbol represents different orders of magnitude based on relative position.\nDigit/symbol is called a bit.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#aside-converting-base-2-to-base-10",
+    "href": "07_Network_Flows.html#aside-converting-base-2-to-base-10",
+    "title": "7  Network Flows",
+    "section": "7.11 Aside: Converting Base-2 to Base-10",
+    "text": "7.11 Aside: Converting Base-2 to Base-10\n\nExample 7.9 Let’s convert the base-2 or binary encoding \\(100110\\) to base-10.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#aside-storage-for-numbers-in-base-2",
+    "href": "07_Network_Flows.html#aside-storage-for-numbers-in-base-2",
+    "title": "7  Network Flows",
+    "section": "7.10 Aside: Storage for Numbers in Base-2",
+    "text": "7.10 Aside: Storage for Numbers in Base-2\n\nTheorem 7.3 Given a base-10 number \\(n\\), we need \\[\n    \\lfloor{\\log n \\rfloor} + 1 = O(\\log n)\n\\] bits to encode it in base-2.\n\n\nExample 7.10 \\((38)_{10} = (100110)_{2}\\)",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#storage-needs-of-the-max-flow-problem",
+    "href": "07_Network_Flows.html#storage-needs-of-the-max-flow-problem",
+    "title": "7  Network Flows",
+    "section": "7.11 Storage Needs of the Max Flow Problem",
+    "text": "7.11 Storage Needs of the Max Flow Problem\nWe need to store graph topology and capacity value per arc.\n\nWe can extend our notion of an adjacency list to keep track of indices and arc capacities.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-4",
+    "href": "07_Network_Flows.html#example-4",
+    "title": "7  Network Flows",
+    "section": "7.14 Example",
+    "text": "7.14 Example\nHow does complexity \\(O(\\varphi^*)\\) compare to instance size \\(O(m(\\log n + \\log k_{\\max}))\\)?\n\n\n\n\n\n\nFigure 7.20: Graph \\(G\\) from earlier",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#instance-size-of-max-flow",
+    "href": "07_Network_Flows.html#instance-size-of-max-flow",
+    "title": "7  Network Flows",
+    "section": "7.13 Instance Size of Max Flow",
+    "text": "7.13 Instance Size of Max Flow\nArc \\((i,j)\\) corresponds to an entry in adjacency sublist \\(L(i)\\):\n\n\nThe index \\(j \\in \\{1,\\dots, n\\}\\) encoded using \\[\\lfloor{\\log j \\rfloor} + 1 = O(\\log j) \\text{ bits}\\]\nThe capacity \\(k_{ij}\\) of arc \\((i,j)\\) encoded using \\[\\lfloor{\\log k_{ij} \\rfloor} + 1 = O(\\log k_{\\max}) \\text{ bits,}\\] where \\(k_{\\max} := \\max\\left\\{k_{ij}: (i,j) \\in A \\right\\}\\).\n\nThis totals \\(O\\Big(m \\big(\\log n + \\log k_{\\max} \\big) \\Big)\\) bits.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#example-5",
+    "href": "07_Network_Flows.html#example-5",
+    "title": "7  Network Flows",
+    "section": "7.22 Example",
+    "text": "7.22 Example\nHow does complexity \\(O(\\varphi^*)\\) compare to instance size \\(O(m(\\log n + \\log k_{\\max}))\\)?\n\n\n\n\n\n\nFigure 7.18: Graph \\(G\\) from earlier",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-general-case",
+    "href": "07_Network_Flows.html#the-general-case",
+    "title": "7  Network Flows",
+    "section": "7.20 The General Case",
+    "text": "7.20 The General Case\nThis example establishes that the Ford-Fulkerson Algorithm is not polynomial.\nWe can generalize the complexity of the FF algorithm without relying on \\(\\varphi^*\\).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-19",
+    "href": "07_Network_Flows.html#section-19",
+    "title": "7  Network Flows",
+    "section": "7.41 ",
+    "text": "7.41",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#section-20",
+    "href": "07_Network_Flows.html#section-20",
+    "title": "7  Network Flows",
+    "section": "7.42 ",
+    "text": "7.42",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#pseudopolynomiality",
+    "href": "07_Network_Flows.html#pseudopolynomiality",
+    "title": "7  Network Flows",
+    "section": "7.10 Pseudopolynomiality",
+    "text": "7.10 Pseudopolynomiality\nThe complexity \\(O(k_{\\max} m^2)\\) is not polynomial if we assume a binary encoding because \\(k_{\\max} = O(2^{\\log k_{\\max}})\\).\nHowever, the instance size is polynomial with respect to instance size if we use a unary encoding (encode integers using only \\(1\\)s):\n\n\\(O(mn)\\) symbols to store the graph topology, and\n\\(O(mk_{\\max})\\) symbols to store the arc capacities.\n\nWe call such an algorithm pseudopolynomial.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#polynomial-time-algorithms-for-ff",
+    "href": "07_Network_Flows.html#polynomial-time-algorithms-for-ff",
+    "title": "7  Network Flows",
+    "section": "7.11 Polynomial-Time Algorithms for FF",
+    "text": "7.11 Polynomial-Time Algorithms for FF\nStrongly polynomial algorithms do exist for the maximum flow problem.\n\nThe Edmonds/Karp algorithm\\(^{1,2}\\) is the most widely used example, but is beyond the scope of this course.\n\n\n1: https://cp-algorithms.com/graph/edmonds_karp.html\n2: https://en.wikipedia.org/wiki/Edmonds-Karp_algorithm",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#the-ford-fulkerson-algorithm-pseudocode",
+    "href": "07_Network_Flows.html#the-ford-fulkerson-algorithm-pseudocode",
+    "title": "7  Network Flows",
+    "section": "7.7 The Ford-Fulkerson Algorithm – Pseudocode",
+    "text": "7.7 The Ford-Fulkerson Algorithm – Pseudocode\nInitialize x = 0, phi = 0.\n\nWhile x is not a max flow:\n    Construct auxiliary graph G' = (V, A') with capacities k_{ij}'.\n\n    Find an st-path P in G'. \n\n    If P does not exist: % Terminate\n        STOP! x is a max flow.\n    Else % Update flow.\n        Delta =  min {k_{ij}': (i,j) \\in P }\n        phi = phi + Delta. \n\n        For (i,j) in P: \n            If (i,j) is a forward arcL\n                x_{ij} = x_{ij} + \\Delta\n            Else \n                x_{ij} = x_{ij} - \\Delta",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#complexity-of-the-ford-fulkerson-algorithm",
+    "href": "07_Network_Flows.html#complexity-of-the-ford-fulkerson-algorithm",
+    "title": "7  Network Flows",
+    "section": "7.8 Complexity of the Ford-Fulkerson Algorithm",
+    "text": "7.8 Complexity of the Ford-Fulkerson Algorithm\n\n7.8.1 A Rough Bound on Elementary Operations\nWe can count the number of elementary operations used by each iteration of the Ford-Fulkerson Algorithm:\n\nConstructing the auxiliary graph \\(G'\\) in Line 4 costs \\(O(m+n)\\) elementary operations. Indeed, we need to construct a copy of \\(G\\), change direction of arcs (if necessary), and update capacities. This requires a finite number of operations for each arc and node.\nWe can find an \\(st\\)-path, if one exists, using a modification of the graph reachability algorithm. This requires \\(O(m+n)\\) elementary operations.\nThe remaining steps in the loop require \\(O(|P|)\\) elementary operations for augmenting path \\(P\\). Assuming that \\(P\\) is a simple path, we have \\(|P| \\le n-1\\) edges.\n\nTherefore, each iteration of the Ford-Fulkerson Algorithm requires \\(O(m)\\) elementary operations (assuming \\(n = O(m)\\)). If the algorithm uses \\(q\\) iterations, then the total number of operations is \\[\n    O(qm).\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
+    ]
+  },
+  {
+    "objectID": "07_Network_Flows.html#worst-case-analysis-of-the-number-of-iterations",
+    "href": "07_Network_Flows.html#worst-case-analysis-of-the-number-of-iterations",
+    "title": "7  Network Flows",
+    "section": "7.9 Worst-Case Analysis of the Number of Iterations",
+    "text": "7.9 Worst-Case Analysis of the Number of Iterations\nTo bound the number of operations needed by the Ford-Fulkerson Algorith, we need to determine how many iterations are needed by the Ford-Fulkerson Algorithm in worst-case?\nThe following lemma will help determine an upper bound on the number of iterations needed.\n\nLemma 7.3 If all capacities \\(k_{ij}\\) are integer then \\(k_{ij}'\\), \\(\\Delta\\), and \\(x\\) are integer at each iteration.\n\nSince \\(\\Delta\\) is integer, we could have unit increment \\(\\Delta = 1\\) each iteration (in worst case). More precisely, there are graphs where \\[\n\\Delta = \\min_{ij} k_{ij}' = 1\n\\] every iteration of the Ford-Fulkerson Algorithm. In this case, if we start with flow value \\(\\varphi=0\\) then we need \\(q = \\varphi^*\\) iterations, where \\(\\varphi^*\\) is the value of the maximum flow.\nOn the other hand, if \\(\\Delta\\) is integral and positive every iteration, then we increment \\(\\varphi\\) by at least \\(\\Delta\\) each iteration. Therefore, \\(q \\le \\varphi^*\\) if the capacities are integral.\nIt follows that the worst-case complexity of the Ford-Fulkerson Algorithm is \\(O(\\varphi^* m )\\).\n\n7.9.1 A Pathologically Bad Example\n\nExample 7.8 Let’s apply the Ford-Fulkerson Algorithm with the graph \\(G\\) given in Figure 7.13 and initial flow \\(x=0\\).\n\nWe increase flow by \\(\\Delta=1\\) along the augmenting path \\(P = (s,2,1,t)\\) (Figure 7.17 (a)) This yields the new flow given in Figure 7.14 (b).\n\n\n\n\n\n\nFigure 7.13: Graph \\(G\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Augmenting path in auxiliary graph\n\n\n\n\n\n\n\n\n\n\n\n(b) Updated flow\n\n\n\n\n\n\n\nFigure 7.14: Details for first step of the Ford-Fulkerson Algorithm.\n\n\n\nAfter updating the flow, we need to update the auxiliary graph. This reveals the augmenting path \\(P=(s,1,2,t)\\). We can increase the flow along this path by \\(\\Delta=1\\). See Figure 7.15.\n\n\n\n\n\n\n\n\n\n\n\n(a) Augmenting path in auxiliary graph\n\n\n\n\n\n\n\n\n\n\n\n(b) Updated flow\n\n\n\n\n\n\n\nFigure 7.15: Details for second step of the Ford-Fulkerson Algorithm.\n\n\n\nWe can repeat this process. In the next step, we have augmenting path \\(P=(s,2,1,t)\\); this is the same augmented path used in Step 1. We can increase flow by \\(\\Delta=1\\). In the fourth step, we increase flow by \\(1\\) along the augmenting path \\(P=(s,1,2,t)\\).\n\n\n\n\n\n\n\n\n\n\n\n(a) Augmenting path in auxiliary graph\n\n\n\n\n\n\n\n\n\n\n\n(b) Updated flow\n\n\n\n\n\n\n\nFigure 7.16: Details for third step of the Ford-Fulkerson Algorithm.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Augmenting path in auxiliary graph\n\n\n\n\n\n\n\n\n\n\n\n(b) Updated flow\n\n\n\n\n\n\n\nFigure 7.17: Details for fourth step of the Ford-Fulkerson Algorithm.\n\n\n\nWe can repeat this process a total of \\(M\\) times (\\(2M\\) iterations). This gives optimal flow given in\n\n\n\n\n\n\nFigure 7.18: Optimal flow in graph \\(G\\) given in Figure 7.13\n\n\n\nApplying the Ford-Fulkerson Algorithm with this graph requires exactly \\(q = 2M = \\varphi^*\\) iterations.\n\n\n7.9.2 Does the FF Algorithm Run in Polynomial Time?\nWe have deduced that the Ford-Fulkerson algorithm has complexity of \\(O(\\varphi^* m)\\).\nIt is unclear whether \\(O(\\varphi^* m)\\) a polynomial of the instance size.\nUnfortunately, we can’t bound \\(\\varphi^*\\) as a polynomial of \\(n\\) and/or \\(m\\).\nQuestion: how should we represent the size of \\(\\varphi^*\\)?\n\n\n7.9.3 Aside: Binary Encoding\nWe’ll use binary encoding of numbers in our model of complexity.\nBinary encoding is a positional notation system with base \\(2\\):\n\nUses two symbols: \\(0\\) and \\(1\\).\nIt is positional: same symbol represents different orders of magnitude based on relative position.\nDigit/symbol is called a bit.\n\n\nExample 7.9 Let’s convert the base-2 or binary encoding \\(100110\\) to base-10: \\[\n\\begin{aligned}\n(100110)_{10} &= 0 \\cdot 2^0 + 1 \\cdot 2^1 + 0\\cdot 2^3 + 0 \\cdot 2^4 + 1 \\cdot 2^5 \\\\\n&= 2 + 4 + 32 = 38.\n\\end{aligned}\n\\]\n\n\nTheorem 7.3 Given a base-10 number \\(n\\), we need \\[\n    \\lfloor{\\log n \\rfloor} + 1 = O(\\log n)\n\\] bits to encode it in base-2.\n\n\nExample 7.10 For example, \\[\n(38)_{10} = (100110)_{2}\n\\] requires \\[\n    \\lfloor\\log_2(38)\\rfloor \\approx \\lfloor 5.25\\rfloor + 1 = 6\n\\] bits of storage.\n\n\n\n7.9.4 Storage Needs of the Maximum Flow Problem\nFor an instance of the maximum flow problem, we need to store the graph topology, i.e., nodes and adjacencies encoded by arcs, and the capacity value per arc.\nWe can extend our notion of an adjacency list to keep track of indices and arc capacities. We will store the capacity of an arc using tuples in a list for each node. This is illustrated in the following example.\n\nExample 7.11 Consider the graph given in Figure 7.19. We can encode the edges within the adjacency list. For example, nodes \\(2\\) and \\(t\\) are both adjacent \\(1\\), by arcs with capacities \\(2\\) and \\(6\\) respectively. We can encode this using a modified adjacency list \\[\n    L(1) = \\{(2,2), (t,6)\\}.\n\\] We can construct adjacency lists for each remaining node using an identical process: \\[\n\\begin{aligned}\n    L(s) &= \\{(1,7), (2,4)\\}, \\\\\n    L(2) &= \\{(1,1), (t,5)\\}, \\\\\n    L(t) &= \\emptyset.\n\\end{aligned}\n\\]\n\n\n\n\n\n\n\nFigure 7.19: Graph \\(G\\)\n\n\n\n\n\n7.9.5 Instance Size of Maximum Flow\nArc \\((i,j)\\) corresponds to an entry in adjacency sublist \\(L(i)\\).\nUsing a binary encoding, each entry contains:\n\nThe index \\(j \\in \\{1,\\dots, n\\}\\) encoded using \\[\n\\lfloor{\\log j \\rfloor} + 1 = O(\\log j) = O(\\log n)\\text{ bits,}\n\\] since \\(\\log j = O(\\log n)\\).\nThe capacity \\(k_{ij}\\) of arc \\((i,j)\\) encoded using \\[\\lfloor{\\log k_{ij} \\rfloor} + 1 = O(\\log k_{\\max}) \\text{ bits,}\\] where \\(k_{\\max} := \\max\\left\\{k_{ij}: (i,j) \\in A \\right\\}\\).\n\nThis totals \\(O\\Big(m \\big(\\log n + \\log k_{\\max} \\big) \\Big)\\) bits.\n\nExample 7.12 Consider the graph \\(G\\) given in Figure 7.13. Recall, that solving the maximum flow problem using the Ford-Fulkerson Algorithm has complexity \\(O(\\varphi^*)\\). We’d like to know how this complexity \\(O(\\varphi^*)\\) compares to instance size \\(O(m(\\log n + \\log k_{\\max}))\\).\nRecall that \\(\\varphi^* = 2M\\) for this example. Moreover, \\(k_{\\max} = M\\). Unfortunately, the instance size depends logarithmically on \\(k_{\\max}\\), not linearly. Indeed, \\[\n    k_{\\max} = 2^{\\log_2 (k_{\\max})}.\n\\] This implies that \\[\nO(\\varphi^* m = O(k_{\\max} m) = O\\left( 2^{\\log k_{\\max}}\\cdot m \\right),\n\\] which grows exponentially in \\(\\log (k_{\\max})\\).\nOn the other hand, the instance size \\(O(m(\\log n + \\log k_{\\max}))\\) grows linearly in \\(\\log (k_{\\max})\\).\nTherefore, \\(O(\\varphi^* m)\\) is not a polynomial function of the instance size. Therefore, the Ford-Fulkerson Algorithm is not polynomial in complexity.\n\n\n\n7.9.6 The General Case\nThis example establishes that the Ford-Fulkerson Algorithm is not polynomial.\nWe can generalize the complexity of the FF algorithm without relying on \\(\\varphi^*\\). To avoid using \\(\\varphi^*\\), which is usually not known, we can substitute an upper bound on \\(\\varphi^*\\).\n\nExample 7.13 As a simple example, consider a graph with maximum capacity \\(k_{\\max}\\) and \\(m\\) arcs. Then \\[\n\\varphi^* \\le m k_{\\max}\n\\] since each arc cannot carry more flow than \\(k_{\\max}\\) and there are \\(m\\) arcs. This gives the upper bound on complexity \\[\n    O(\\varphi^* m) \\le O\\left( (k_{\\max} m) \\cdot m \\right)\n    = O\\left(k_{\\max} m^2 \\right).\n\\] Unfortunately, this upper bound is tight: there are graphs \\(G\\) for which the Ford-Fulkerson Algorithm uses \\(\\varphi^* = k_{\\max} m\\) iterations.\n\n\n\n7.9.7 Pseudopolynomiality\nThe complexity \\(O(k_{\\max} m^2)\\) is not polynomial if we assume a binary encoding because \\(k_{\\max} = O(2^{\\log k_{\\max}})\\).\nHowever, the instance size is polynomial with respect to instance size if we use a unary encoding (encode integers using only \\(1\\)s):\n\nFor example, \\(7\\) is encoded in unary as \\(1111111\\).\n\nUsing a unary encoding, we need:\n\n\\(O(mn)\\) symbols to store the graph topology, and\n\\(O(mk_{\\max})\\) symbols to store the arc capacities.\n\nWe call such an algorithm pseudopolynomial.\n\n\n7.9.8 Polynomial-Time Algorithms for FF\nStrongly polynomial algorithms do exist for the maximum flow problem. The Edmonds/Karp algorithm23 is the most widely used example, but is beyond the scope of this course.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
   }
 ]
