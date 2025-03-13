@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,6 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./08_Matching.html" rel="next">
 <link href="./06_Minimum_Cost_Spanning_Trees.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -182,6 +217,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Network Flows</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Matching Problems</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -222,6 +263,27 @@ window.Quarto = {
   <li><a href="#the-augmentation-step" id="toc-the-augmentation-step" class="nav-link" data-scroll-target="#the-augmentation-step"><span class="header-section-number">7.4.5</span> The Augmentation Step</a></li>
   </ul></li>
   <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">7.5</span> Example</a></li>
+  <li><a href="#termination-and-correctness" id="toc-termination-and-correctness" class="nav-link" data-scroll-target="#termination-and-correctness"><span class="header-section-number">7.6</span> Termination and Correctness</a>
+  <ul class="collapse">
+  <li><a href="#stopping-condition" id="toc-stopping-condition" class="nav-link" data-scroll-target="#stopping-condition"><span class="header-section-number">7.6.1</span> Stopping Condition</a></li>
+  <li><a href="#correctness-of-the-ff-algorithm" id="toc-correctness-of-the-ff-algorithm" class="nav-link" data-scroll-target="#correctness-of-the-ff-algorithm"><span class="header-section-number">7.6.2</span> Correctness of the FF-Algorithm</a></li>
+  </ul></li>
+  <li><a href="#the-ford-fulkerson-algorithm-pseudocode" id="toc-the-ford-fulkerson-algorithm-pseudocode" class="nav-link" data-scroll-target="#the-ford-fulkerson-algorithm-pseudocode"><span class="header-section-number">7.7</span> The Ford-Fulkerson Algorithm – Pseudocode</a></li>
+  <li><a href="#complexity-of-the-ford-fulkerson-algorithm" id="toc-complexity-of-the-ford-fulkerson-algorithm" class="nav-link" data-scroll-target="#complexity-of-the-ford-fulkerson-algorithm"><span class="header-section-number">7.8</span> Complexity of the Ford-Fulkerson Algorithm</a>
+  <ul class="collapse">
+  <li><a href="#a-rough-bound-on-elementary-operations" id="toc-a-rough-bound-on-elementary-operations" class="nav-link" data-scroll-target="#a-rough-bound-on-elementary-operations"><span class="header-section-number">7.8.1</span> A Rough Bound on Elementary Operations</a></li>
+  </ul></li>
+  <li><a href="#worst-case-analysis-of-the-number-of-iterations" id="toc-worst-case-analysis-of-the-number-of-iterations" class="nav-link" data-scroll-target="#worst-case-analysis-of-the-number-of-iterations"><span class="header-section-number">7.9</span> Worst-Case Analysis of the Number of Iterations</a>
+  <ul class="collapse">
+  <li><a href="#a-pathologically-bad-example" id="toc-a-pathologically-bad-example" class="nav-link" data-scroll-target="#a-pathologically-bad-example"><span class="header-section-number">7.9.1</span> A Pathologically Bad Example</a></li>
+  <li><a href="#does-the-ff-algorithm-run-in-polynomial-time" id="toc-does-the-ff-algorithm-run-in-polynomial-time" class="nav-link" data-scroll-target="#does-the-ff-algorithm-run-in-polynomial-time"><span class="header-section-number">7.9.2</span> Does the FF Algorithm Run in Polynomial Time?</a></li>
+  <li><a href="#aside-binary-encoding" id="toc-aside-binary-encoding" class="nav-link" data-scroll-target="#aside-binary-encoding"><span class="header-section-number">7.9.3</span> Aside: Binary Encoding</a></li>
+  <li><a href="#storage-needs-of-the-maximum-flow-problem" id="toc-storage-needs-of-the-maximum-flow-problem" class="nav-link" data-scroll-target="#storage-needs-of-the-maximum-flow-problem"><span class="header-section-number">7.9.4</span> Storage Needs of the Maximum Flow Problem</a></li>
+  <li><a href="#instance-size-of-maximum-flow" id="toc-instance-size-of-maximum-flow" class="nav-link" data-scroll-target="#instance-size-of-maximum-flow"><span class="header-section-number">7.9.5</span> Instance Size of Maximum Flow</a></li>
+  <li><a href="#the-general-case" id="toc-the-general-case" class="nav-link" data-scroll-target="#the-general-case"><span class="header-section-number">7.9.6</span> The General Case</a></li>
+  <li><a href="#pseudopolynomiality" id="toc-pseudopolynomiality" class="nav-link" data-scroll-target="#pseudopolynomiality"><span class="header-section-number">7.9.7</span> Pseudopolynomiality</a></li>
+  <li><a href="#polynomial-time-algorithms-for-ff" id="toc-polynomial-time-algorithms-for-ff" class="nav-link" data-scroll-target="#polynomial-time-algorithms-for-ff"><span class="header-section-number">7.9.8</span> Polynomial-Time Algorithms for FF</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -954,364 +1016,373 @@ Figure&nbsp;7.12: Details of Step 4
 </figcaption>
 </figure>
 </div>
-<!-- 
-## Termination and Correctness
-
-### Stopping Condition
-
-Let $S^*$ be the set of nodes **reachable** from $s \in G'$ when the
-algorithm stops.
-
-We can conclude that $\delta_{G'}^+(S^*) = \emptyset$.
-
-By the construction of $G'$, this implies that:
-
--   Every arc $(i,j) \in \delta_{G}^+(S^*)$ is **saturated!**
-
--   Every arc $(i,j) \in \delta_{G}^-(S^*)$ is **empty!**
-
-### Correctness of the FF-Algorithm
-
-When the algorithm terminates, **all arcs in** $\delta_G^+(S^*)$ **are
-saturated** and **all arcs in** $\delta_G^-(S^*)$ **are empty**:
-$$
+</section>
+</section>
+<section id="termination-and-correctness" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="termination-and-correctness"><span class="header-section-number">7.6</span> Termination and Correctness</h2>
+<section id="stopping-condition" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="stopping-condition"><span class="header-section-number">7.6.1</span> Stopping Condition</h3>
+<p>Let <span class="math inline">\(S^*\)</span> be the set of nodes <strong>reachable</strong> from <span class="math inline">\(s \in G'\)</span> when the algorithm stops.</p>
+<p>We can conclude that <span class="math inline">\(\delta_{G'}^+(S^*) = \emptyset\)</span>.</p>
+<p>By the construction of <span class="math inline">\(G'\)</span>, this implies that:</p>
+<ul>
+<li><p>Every arc <span class="math inline">\((i,j) \in \delta_{G}^+(S^*)\)</span> is <strong>saturated!</strong></p></li>
+<li><p>Every arc <span class="math inline">\((i,j) \in \delta_{G}^-(S^*)\)</span> is <strong>empty!</strong></p></li>
+</ul>
+</section>
+<section id="correctness-of-the-ff-algorithm" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="correctness-of-the-ff-algorithm"><span class="header-section-number">7.6.2</span> Correctness of the FF-Algorithm</h3>
+<p>When the algorithm terminates, <strong>all arcs in</strong> <span class="math inline">\(\delta_G^+(S^*)\)</span> <strong>are saturated</strong> and <strong>all arcs in</strong> <span class="math inline">\(\delta_G^-(S^*)\)</span> <strong>are empty</strong>: <span class="math display">\[
 \varphi =\varphi(\delta(S^*)) = \sum_{(i,j) \in \delta^+_G(S^*)} x_{ij} - \sum_{(i,j) \in \delta^-_G(S^*)} x_{ij}
 = k(\delta(S^*)).
-$$
-However,
-we know that
-$$
+\]</span> However, we know that <span class="math display">\[
 \varphi \le \text{max flow value} \le \text{min cut value}
-\le k(\delta(S^*)). 
-$$
-
-This shows that when the
-algorithm terms, we have found a **flow equal in value** to the
-**capacity of an $s,t$ cut**!.
-
-This implies that:
-
--   The **flow is optimal for the maximum flow problem**.
-
--   The **cut is optimal for the minimum cut problem**
-
-This establishes that the Ford-Fulkerson algorithm **always finds an
-optimal solution!**
-
-This is an **algorithmic proof** of the **max-flow min-cut theorem**.
-
-## The Ford-Fulkerson Algorithm -- Pseudocode
-
-
-
-```tcdshnmqj
-Initialize x = 0, phi = 0.
-
-While x is not a max flow:
-    Construct auxiliary graph G' = (V, A') with capacities k_{ij}'.
-
-    Find an st-path P in G'. 
-
-    If P does not exist: % Terminate
-        STOP! x is a max flow.
-    Else % Update flow.
-        Delta =  min {k_{ij}': (i,j) \in P }
-        phi = phi + Delta. 
-
-        For (i,j) in P: 
-            If (i,j) is a forward arcL
-                x_{ij} = x_{ij} + \Delta
-            Else 
-                x_{ij} = x_{ij} - \Delta
-```
-
-
-
-## Complexity of the Ford-Fulkerson Algorithm
-
-### A Rough Bound  on Elementary Operations
-
-We can count the number of elementary operations used by each iteration of the Ford-Fulkerson Algorithm:
-
-- Constructing the auxiliary graph $G'$ in Line 4 costs $O(m+n)$ elementary operations. Indeed, we need to construct a copy of $G$, change direction of arcs (if necessary), and update capacities. This requires a finite number of operations for each arc and node.
-
-- We can find an $st$-path, if one exists, using a modification of the *graph reachability algorithm*.
-This requires $O(m+n)$ elementary operations. 
-
-- The remaining steps in the loop require $O(|P|)$ elementary operations for augmenting path $P$.
-Assuming that $P$ is a simple path, we have $|P| \le n-1$ edges.
-
-Therefore, each iteration of the Ford-Fulkerson Algorithm requires $O(m)$ elementary operations (assuming $n = O(m)$).
-If the algorithm uses $q$ iterations, then the total number of operations is 
-$$
+\le k(\delta(S^*)).
+\]</span></p>
+<p>This shows that when the algorithm terminates, we have found a <strong>flow equal in value</strong> to the <strong>capacity of an <span class="math inline">\(s,t\)</span> cut</strong>!.</p>
+<p>This implies that:</p>
+<ul>
+<li><p>The <strong>flow is optimal for the maximum flow problem</strong>.</p></li>
+<li><p>The <strong>cut is optimal for the minimum cut problem</strong></p></li>
+</ul>
+<p>This establishes that the Ford-Fulkerson algorithm <strong>always finds an optimal solution!</strong></p>
+<p>This is an <strong>algorithmic proof</strong> of the <strong>max-flow min-cut theorem</strong>.</p>
+</section>
+</section>
+<section id="the-ford-fulkerson-algorithm-pseudocode" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="the-ford-fulkerson-algorithm-pseudocode"><span class="header-section-number">7.7</span> The Ford-Fulkerson Algorithm – Pseudocode</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {default} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>Initialize x = 0, phi = 0.</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>While x is not a max flow:</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    Construct auxiliary graph G' = (V, A') with capacities k_{ij}'.</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>    Find an st-path P in G'. </span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    If P does not exist: % Terminate</span>
+<span id="cb1-9"><a href="#cb1-9"></a>        STOP! x is a max flow.</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    Else % Update flow.</span>
+<span id="cb1-11"><a href="#cb1-11"></a>        Delta =  min {k_{ij}': (i,j) \in P }</span>
+<span id="cb1-12"><a href="#cb1-12"></a>        phi = phi + Delta. </span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>        For (i,j) in P: </span>
+<span id="cb1-15"><a href="#cb1-15"></a>            If (i,j) is a forward arcL</span>
+<span id="cb1-16"><a href="#cb1-16"></a>                x_{ij} = x_{ij} + \Delta</span>
+<span id="cb1-17"><a href="#cb1-17"></a>            Else </span>
+<span id="cb1-18"><a href="#cb1-18"></a>                x_{ij} = x_{ij} - \Delta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="complexity-of-the-ford-fulkerson-algorithm" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="complexity-of-the-ford-fulkerson-algorithm"><span class="header-section-number">7.8</span> Complexity of the Ford-Fulkerson Algorithm</h2>
+<section id="a-rough-bound-on-elementary-operations" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="a-rough-bound-on-elementary-operations"><span class="header-section-number">7.8.1</span> A Rough Bound on Elementary Operations</h3>
+<p>We can count the number of elementary operations used by each iteration of the Ford-Fulkerson Algorithm:</p>
+<ul>
+<li><p>Constructing the auxiliary graph <span class="math inline">\(G'\)</span> in Line 4 costs <span class="math inline">\(O(m+n)\)</span> elementary operations. Indeed, we need to construct a copy of <span class="math inline">\(G\)</span>, change direction of arcs (if necessary), and update capacities. This requires a finite number of operations for each arc and node.</p></li>
+<li><p>We can find an <span class="math inline">\(st\)</span>-path, if one exists, using a modification of the <em>graph reachability algorithm</em>. This requires <span class="math inline">\(O(m+n)\)</span> elementary operations.</p></li>
+<li><p>The remaining steps in the loop require <span class="math inline">\(O(|P|)\)</span> elementary operations for augmenting path <span class="math inline">\(P\)</span>. Assuming that <span class="math inline">\(P\)</span> is a simple path, we have <span class="math inline">\(|P| \le n-1\)</span> edges.</p></li>
+</ul>
+<p>Therefore, each iteration of the Ford-Fulkerson Algorithm requires <span class="math inline">\(O(m)\)</span> elementary operations (assuming <span class="math inline">\(n = O(m)\)</span>). If the algorithm uses <span class="math inline">\(q\)</span> iterations, then the total number of operations is <span class="math display">\[
     O(qm).
-$$
-
-## Worst-Case Analysis of the Number of Iterations
-
-To bound the number of operations needed by the Ford-Fulkerson Algorith, we need to determine how many iterations are needed by the Ford-Fulkerson Algorithm in worst-case?
-
-The following lemma will help determine an upper bound on the number of iterations needed.
-
-::: {#lem-7-int-Delta}
-If all capacities $k_{ij}$ are **integer** then $k_{ij}'$, $\Delta$, and
-$x$ are **integer at each iteration**.
-:::
-
-Since $\Delta$ is integer, we could have **unit increment** $\Delta = 1$
-each iteration (in worst case).
-More precisely, there are graphs where 
-$$
-\Delta = \min_{ij} k_{ij}' = 1 
-$$
-every iteration of the Ford-Fulkerson Algorithm.
-In this case, if we start with flow value $\varphi=0$ then we need $q = \varphi^*$ iterations, where $\varphi^*$ is the value of the maximum flow.
-
-On the other hand, if $\Delta$ is integral and positive every iteration, then we increment $\varphi$ by *at least* $\Delta$ each iteration. Therefore, $q \le \varphi^*$ if the capacities are integral. 
-
-It follows that the worst-case complexity of the Ford-Fulkerson Algorithm is $O(\varphi^* m )$.
-
-### A Pathologically Bad Example 
-
-:::{#exm-7-bad-ex}
-Let's apply the Ford-Fulkerson Algorithm with the graph $G$ given in @fig-7-comp-1 and initial flow $x=0$.
-:::
-
-We increase flow by $\Delta=1$ along the augmenting path $P = (s,2,1,t)$ (@fig-7-aug-path)
-This yields the new flow given in @fig-7-flow-1.
-
-![Graph $G$](Figures/7/comp_ex.png){#fig-7-comp-1 height=350}
-
-:::{#fig-7-bad-ex-1 layout-ncol="2"}
-![Augmenting path in auxiliary graph](Figures/7/bad-aug-path-1.png){#fig-7-aug-path}
-
-![Updated flow](Figures/7/bad-flow1.png){#fig-7-flow-1}
-
-Details for first step of the Ford-Fulkerson Algorithm.
-:::
-
-After updating the flow, we need to update the auxiliary graph. This reveals the augmenting path $P=(s,1,2,t)$. We can increase the flow along this path by $\Delta=1$. See @fig-7-bad-ex-2.
-
-:::{#fig-7-bad-ex-2 layout-ncol="2"}
-![Augmenting path in auxiliary graph](Figures/7/bad-aux-2.png){#fig-7-aug-path}
-
-![Updated flow](Figures/7/bad-flow2.png){#fig-7-flow-2}
-
-Details for second step of the Ford-Fulkerson Algorithm.
-:::
-
-We can repeat this process. In the next step, we have augmenting path $P=(s,2,1,t)$; this is the same augmented path used in Step 1. We can increase flow by $\Delta=1$. In the fourth step, we increase flow by $1$ along the augmenting path $P=(s,1,2,t)$.
-
-:::{#fig-7-bad-ex-3 layout-ncol="2"}
-![Augmenting path in auxiliary graph](Figures/7/bad-aux-3.png){#fig-7-aug-path}
-
-![Updated flow](Figures/7/bad-flow3.png){#fig-7-flow-3}
-
-Details for third step of the Ford-Fulkerson Algorithm.
-:::
-
-:::{#fig-7-bad-ex-3 layout-ncol="2"}
-![Augmenting path in auxiliary graph](Figures/7/bad-aux-4.png){#fig-7-aug-path}
-
-![Updated flow](Figures/7/bad-flow3.png){#fig-7-flow-4}
-
-Details for fourth step of the Ford-Fulkerson Algorithm.
-:::
-
-We can repeat this process a total of $M$ times ($2M$ iterations). 
-This gives optimal flow given in 
-
-![Optimal flow in graph $G$ given in @fig-7-comp-1](Figures/7/bad-flowtermination.png){#fig-complexity-ex-opt height=350}
-
-Applying the Ford-Fulkerson Algorithm with this graph requires exactly $q = 2M = \varphi^*$ iterations.
-
-### Does the FF Algorithm Run in Polynomial Time? 
-
-We have deduced that the
-**Ford-Fulkerson algorithm** has complexity of $O(\varphi^* m)$.
-
-It is unclear whether $O(\varphi^* m)$ a **polynomial of the instance
-size**.
-
-Unfortunately, we can't bound $\varphi^*$ as a polynomial of $n$ and/or
-$m$.
-
-**Question:** how should we represent the size of $\varphi^*$?
-
-
-### Aside: Binary Encoding
-
-We'll use **binary encoding** of numbers in our model of complexity.
-
-**Binary encoding** is a **positional notation system** with base $2$:
-
--   Uses **two symbols:** $0$ and $1$.
-
--   It is **positional:** same symbol represents different orders of
-    magnitude based on relative position.
-
--   Digit/symbol is called a **bit.**
-
-::: {#exm-7-2-to-10}
-Let's convert the **base-2** or **binary encoding** $100110$ to
-**base-10**: 
-$$
+\]</span></p>
+</section>
+</section>
+<section id="worst-case-analysis-of-the-number-of-iterations" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="worst-case-analysis-of-the-number-of-iterations"><span class="header-section-number">7.9</span> Worst-Case Analysis of the Number of Iterations</h2>
+<p>To bound the number of operations needed by the Ford-Fulkerson Algorith, we need to determine how many iterations are needed by the Ford-Fulkerson Algorithm in worst-case?</p>
+<p>The following lemma will help determine an upper bound on the number of iterations needed.</p>
+<div id="lem-7-int-Delta" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.3</strong></span> If all capacities <span class="math inline">\(k_{ij}\)</span> are <strong>integer</strong> then <span class="math inline">\(k_{ij}'\)</span>, <span class="math inline">\(\Delta\)</span>, and <span class="math inline">\(x\)</span> are <strong>integer at each iteration</strong>.</p>
+</div>
+<p>Since <span class="math inline">\(\Delta\)</span> is integer, we could have <strong>unit increment</strong> <span class="math inline">\(\Delta = 1\)</span> each iteration (in worst case). More precisely, there are graphs where <span class="math display">\[
+\Delta = \min_{ij} k_{ij}' = 1
+\]</span> every iteration of the Ford-Fulkerson Algorithm. In this case, if we start with flow value <span class="math inline">\(\varphi=0\)</span> then we need <span class="math inline">\(q = \varphi^*\)</span> iterations, where <span class="math inline">\(\varphi^*\)</span> is the value of the maximum flow.</p>
+<p>On the other hand, if <span class="math inline">\(\Delta\)</span> is integral and positive every iteration, then we increment <span class="math inline">\(\varphi\)</span> by <em>at least</em> <span class="math inline">\(\Delta\)</span> each iteration. Therefore, <span class="math inline">\(q \le \varphi^*\)</span> if the capacities are integral.</p>
+<p>It follows that the worst-case complexity of the Ford-Fulkerson Algorithm is <span class="math inline">\(O(\varphi^* m )\)</span>.</p>
+<section id="a-pathologically-bad-example" class="level3" data-number="7.9.1">
+<h3 data-number="7.9.1" class="anchored" data-anchor-id="a-pathologically-bad-example"><span class="header-section-number">7.9.1</span> A Pathologically Bad Example</h3>
+<div id="exm-7-bad-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.8</strong></span> Let’s apply the Ford-Fulkerson Algorithm with the graph <span class="math inline">\(G\)</span> given in <a href="#fig-7-comp-1" class="quarto-xref">Figure&nbsp;<span>7.13</span></a> and initial flow <span class="math inline">\(x=0\)</span>.</p>
+</div>
+<p>We increase flow by <span class="math inline">\(\Delta=1\)</span> along the augmenting path <span class="math inline">\(P = (s,2,1,t)\)</span> (<a href="#fig-7-aug-path" class="quarto-xref">Figure&nbsp;<span>7.17 (a)</span></a>) This yields the new flow given in <a href="#fig-7-flow-1" class="quarto-xref">Figure&nbsp;<span>7.14 (b)</span></a>.</p>
+<div id="fig-7-comp-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-comp-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/comp_ex.png" height="350" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-comp-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.13: Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="fig-7-bad-ex-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-bad-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-aug-path" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-aug-path-1.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Augmenting path in auxiliary graph
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-flow-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-flow1.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Updated flow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-bad-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.14: Details for first step of the Ford-Fulkerson Algorithm.
+</figcaption>
+</figure>
+</div>
+<p>After updating the flow, we need to update the auxiliary graph. This reveals the augmenting path <span class="math inline">\(P=(s,1,2,t)\)</span>. We can increase the flow along this path by <span class="math inline">\(\Delta=1\)</span>. See <a href="#fig-7-bad-ex-2" class="quarto-xref">Figure&nbsp;<span>7.15</span></a>.</p>
+<div id="fig-7-bad-ex-2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-bad-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-aug-path" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-aux-2.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Augmenting path in auxiliary graph
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-flow-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-flow2.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Updated flow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-bad-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.15: Details for second step of the Ford-Fulkerson Algorithm.
+</figcaption>
+</figure>
+</div>
+<p>We can repeat this process. In the next step, we have augmenting path <span class="math inline">\(P=(s,2,1,t)\)</span>; this is the same augmented path used in Step 1. We can increase flow by <span class="math inline">\(\Delta=1\)</span>. In the fourth step, we increase flow by <span class="math inline">\(1\)</span> along the augmenting path <span class="math inline">\(P=(s,1,2,t)\)</span>.</p>
+<div id="fig-7-bad-ex-3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-bad-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-aug-path" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-aux-3.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Augmenting path in auxiliary graph
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-flow-3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-flow3.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Updated flow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-bad-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.16: Details for third step of the Ford-Fulkerson Algorithm.
+</figcaption>
+</figure>
+</div>
+<div id="fig-7-bad-ex-3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-bad-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-aug-path" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-aux-4.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-aug-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Augmenting path in auxiliary graph
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-7-bad-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-7-flow-4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-flow-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-flow3.png" class="img-fluid figure-img" data-ref-parent="fig-7-bad-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-flow-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Updated flow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-bad-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.17: Details for fourth step of the Ford-Fulkerson Algorithm.
+</figcaption>
+</figure>
+</div>
+<p>We can repeat this process a total of <span class="math inline">\(M\)</span> times (<span class="math inline">\(2M\)</span> iterations). This gives optimal flow given in</p>
+<div id="fig-complexity-ex-opt" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-complexity-ex-opt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/bad-flowtermination.png" height="350" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-complexity-ex-opt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.18: Optimal flow in graph <span class="math inline">\(G\)</span> given in <a href="#fig-7-comp-1" class="quarto-xref">Figure&nbsp;<span>7.13</span></a>
+</figcaption>
+</figure>
+</div>
+<p>Applying the Ford-Fulkerson Algorithm with this graph requires exactly <span class="math inline">\(q = 2M = \varphi^*\)</span> iterations.</p>
+</section>
+<section id="does-the-ff-algorithm-run-in-polynomial-time" class="level3" data-number="7.9.2">
+<h3 data-number="7.9.2" class="anchored" data-anchor-id="does-the-ff-algorithm-run-in-polynomial-time"><span class="header-section-number">7.9.2</span> Does the FF Algorithm Run in Polynomial Time?</h3>
+<p>We have deduced that the <strong>Ford-Fulkerson algorithm</strong> has complexity of <span class="math inline">\(O(\varphi^* m)\)</span>.</p>
+<p>It is unclear whether <span class="math inline">\(O(\varphi^* m)\)</span> a <strong>polynomial of the instance size</strong>.</p>
+<p>Unfortunately, we can’t bound <span class="math inline">\(\varphi^*\)</span> as a polynomial of <span class="math inline">\(n\)</span> and/or <span class="math inline">\(m\)</span>.</p>
+<p><strong>Question:</strong> how should we represent the size of <span class="math inline">\(\varphi^*\)</span>?</p>
+</section>
+<section id="aside-binary-encoding" class="level3" data-number="7.9.3">
+<h3 data-number="7.9.3" class="anchored" data-anchor-id="aside-binary-encoding"><span class="header-section-number">7.9.3</span> Aside: Binary Encoding</h3>
+<p>We’ll use <strong>binary encoding</strong> of numbers in our model of complexity.</p>
+<p><strong>Binary encoding</strong> is a <strong>positional notation system</strong> with base <span class="math inline">\(2\)</span>:</p>
+<ul>
+<li><p>Uses <strong>two symbols:</strong> <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>.</p></li>
+<li><p>It is <strong>positional:</strong> same symbol represents different orders of magnitude based on relative position.</p></li>
+<li><p>Digit/symbol is called a <strong>bit.</strong></p></li>
+</ul>
+<div id="exm-7-2-to-10" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.9</strong></span> Let’s convert the <strong>base-2</strong> or <strong>binary encoding</strong> <span class="math inline">\(100110\)</span> to <strong>base-10</strong>: <span class="math display">\[
 \begin{aligned}
-(100110)_{10} &= 0 \cdot 2^0 + 1 \cdot 2^1 + 0\cdot 2^3 + 0 \cdot 2^4 + 1 \cdot 2^5 \\
-&= 2 + 4 + 32 = 38.
+(100110)_{10} &amp;= 0 \cdot 2^0 + 1 \cdot 2^1 + 0\cdot 2^3 + 0 \cdot 2^4 + 1 \cdot 2^5 \\
+&amp;= 2 + 4 + 32 = 38.
 \end{aligned}
-$$
-:::
-
-
-
-:::{#thm-7-binary-storage}
-Given a **base-10** number $n$, we
-need 
-$$
+\]</span></p>
+</div>
+<div id="thm-7-binary-storage" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 7.3</strong></span> Given a <strong>base-10</strong> number <span class="math inline">\(n\)</span>, we need <span class="math display">\[
     \lfloor{\log n \rfloor} + 1 = O(\log n)
-$$ 
-bits to encode it in
-base-2.
-:::
-
-::: {#exm-7-binary-storage}
-For example, 
-$$
+\]</span> bits to encode it in base-2.</p>
+</div>
+<div id="exm-7-binary-storage" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.10</strong></span> For example, <span class="math display">\[
 (38)_{10} = (100110)_{2}
-$$
-requires 
-$$
-    \lfloor\log_2(38)\rfloor \approx \lfloor 5.25\rfloor + 1 = 6 
-$$
-bits of storage.
-:::
-
-### Storage Needs of the Maximum Flow Problem 
-
-For an instance of the maximum flow problem, 
-we need to store the 
-**graph topology**, i.e., nodes and adjacencies encoded by arcs, and the **capacity value per arc**.
-
-We can extend our notion of an **adjacency list** to keep track of
-indices and arc capacities.
-We will store the capacity of an arc using tuples in a list for each node. This is illustrated in the following example.
-
-:::{#exm-max-flow-storage} 
-Consider the graph given in @fig-7-max-cut-storage. 
-We can encode the edges within the adjacency list.
-For example, nodes $2$ and $t$ are both adjacent $1$, by arcs with capacities $2$ and $6$ respectively. We can encode this using a modified adjacency list 
-$$
-    L(1) = \{(2,2), (t,6)\}. 
-$$
-We can construct adjacency lists for each remaining node using an identical process:
-$$
+\]</span> requires <span class="math display">\[
+    \lfloor\log_2(38)\rfloor \approx \lfloor 5.25\rfloor + 1 = 6
+\]</span> bits of storage.</p>
+</div>
+</section>
+<section id="storage-needs-of-the-maximum-flow-problem" class="level3" data-number="7.9.4">
+<h3 data-number="7.9.4" class="anchored" data-anchor-id="storage-needs-of-the-maximum-flow-problem"><span class="header-section-number">7.9.4</span> Storage Needs of the Maximum Flow Problem</h3>
+<p>For an instance of the maximum flow problem, we need to store the <strong>graph topology</strong>, i.e., nodes and adjacencies encoded by arcs, and the <strong>capacity value per arc</strong>.</p>
+<p>We can extend our notion of an <strong>adjacency list</strong> to keep track of indices and arc capacities. We will store the capacity of an arc using tuples in a list for each node. This is illustrated in the following example.</p>
+<div id="exm-max-flow-storage" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.11</strong></span> Consider the graph given in <a href="#fig-7-max-cut-storage" class="quarto-xref">Figure&nbsp;<span>7.19</span></a>. We can encode the edges within the adjacency list. For example, nodes <span class="math inline">\(2\)</span> and <span class="math inline">\(t\)</span> are both adjacent <span class="math inline">\(1\)</span>, by arcs with capacities <span class="math inline">\(2\)</span> and <span class="math inline">\(6\)</span> respectively. We can encode this using a modified adjacency list <span class="math display">\[
+    L(1) = \{(2,2), (t,6)\}.
+\]</span> We can construct adjacency lists for each remaining node using an identical process: <span class="math display">\[
 \begin{aligned}
-    L(s) &= \{(1,7), (2,4)\}, \\ 
-    L(2) &= \{(1,1), (t,5)\}, \\
-    L(t) &= \emptyset.
+    L(s) &amp;= \{(1,7), (2,4)\}, \\
+    L(2) &amp;= \{(1,1), (t,5)\}, \\
+    L(t) &amp;= \emptyset.
 \end{aligned}
-$$
-:::
-
-![Graph $G$](Figures/7/just_cap.png){#fig-7-max-cut-storage height=350}
-
-### Instance Size of Maximum Flow
-
-Arc $(i,j)$ corresponds to an entry in **adjacency sublist**
-$L(i)$.
-
-Using a **binary encoding**, each entry contains:
-
--   The **index** $j \in \{1,\dots, n\}$ encoded using
-    $$
-    \lfloor{\log j \rfloor} + 1 = O(\log j) = O(\log n)\text{ bits,}
-    $$
-    since $\log j = O(\log n)$. 
-
--   The **capacity** $k_{ij}$ of arc $(i,j)$ encoded using
-    $$\lfloor{\log k_{ij} \rfloor} + 1 = O(\log k_{\max}) \text{ bits,}$$
-    where $k_{\max} := \max\left\{k_{ij}: (i,j) \in A \right\}$.
-
-This **totals**
-$O\Big(m \big(\log n + \log k_{\max} \big) \Big)$ bits.
-
-:::{#exm-7-bad-ex-total}
-Consider the graph $G$ given in @fig-7-comp-1.
-Recall, that solving the maximum flow problem using the Ford-Fulkerson Algorithm has complexity $O(\varphi^*)$.
-We'd like to know
-how this complexity $O(\varphi^*)$ compares to instance size $O(m(\log n + \log k_{\max}))$.
-
-Recall that $\varphi^* = 2M$ for this example. Moreover, $k_{\max} = M$. 
-Unfortunately, the instance size depends *logarithmically* on $k_{\max}$, *not linearly*.
-Indeed, 
-$$
-    k_{\max} = 2^{\log_2 (k_{\max})}. 
-$$
-This implies that 
-$$
+\]</span></p>
+</div>
+<div id="fig-7-max-cut-storage" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-max-cut-storage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/7/just_cap.png" height="350" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-max-cut-storage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.19: Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="instance-size-of-maximum-flow" class="level3" data-number="7.9.5">
+<h3 data-number="7.9.5" class="anchored" data-anchor-id="instance-size-of-maximum-flow"><span class="header-section-number">7.9.5</span> Instance Size of Maximum Flow</h3>
+<p>Arc <span class="math inline">\((i,j)\)</span> corresponds to an entry in <strong>adjacency sublist</strong> <span class="math inline">\(L(i)\)</span>.</p>
+<p>Using a <strong>binary encoding</strong>, each entry contains:</p>
+<ul>
+<li><p>The <strong>index</strong> <span class="math inline">\(j \in \{1,\dots, n\}\)</span> encoded using <span class="math display">\[
+\lfloor{\log j \rfloor} + 1 = O(\log j) = O(\log n)\text{ bits,}
+\]</span> since <span class="math inline">\(\log j = O(\log n)\)</span>.</p></li>
+<li><p>The <strong>capacity</strong> <span class="math inline">\(k_{ij}\)</span> of arc <span class="math inline">\((i,j)\)</span> encoded using <span class="math display">\[\lfloor{\log k_{ij} \rfloor} + 1 = O(\log k_{\max}) \text{ bits,}\]</span> where <span class="math inline">\(k_{\max} := \max\left\{k_{ij}: (i,j) \in A \right\}\)</span>.</p></li>
+</ul>
+<p>This <strong>totals</strong> <span class="math inline">\(O\Big(m \big(\log n + \log k_{\max} \big) \Big)\)</span> bits.</p>
+<div id="exm-7-bad-ex-total" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.12</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-7-comp-1" class="quarto-xref">Figure&nbsp;<span>7.13</span></a>. Recall, that solving the maximum flow problem using the Ford-Fulkerson Algorithm has complexity <span class="math inline">\(O(\varphi^*)\)</span>. We’d like to know how this complexity <span class="math inline">\(O(\varphi^*)\)</span> compares to instance size <span class="math inline">\(O(m(\log n + \log k_{\max}))\)</span>.</p>
+<p>Recall that <span class="math inline">\(\varphi^* = 2M\)</span> for this example. Moreover, <span class="math inline">\(k_{\max} = M\)</span>. Unfortunately, the instance size depends <em>logarithmically</em> on <span class="math inline">\(k_{\max}\)</span>, <em>not linearly</em>. Indeed, <span class="math display">\[
+    k_{\max} = 2^{\log_2 (k_{\max})}.
+\]</span> This implies that <span class="math display">\[
 O(\varphi^* m = O(k_{\max} m) = O\left( 2^{\log k_{\max}}\cdot m \right),
-$$
-which grows exponentially in $\log (k_{\max})$.
-
-On the other hand, the instance size $O(m(\log n + \log k_{\max}))$ grows linearly in $\log (k_{\max})$. 
-
-Therefore, $O(\varphi^* m)$ is ***not a polynomial function*** of the instance size.
-Therefore, the Ford-Fulkerson Algorithm is ***not polynomial*** in complexity.
-:::
-
-
-### The General Case 
-This example establishes that the **Ford-Fulkerson
-Algorithm** is **not polynomial**.
-
-We can generalize the complexity of the FF algorithm **without** relying
-on $\varphi^*$.
-To avoid using $\varphi^*$, which is usually not known, we can substitute an upper bound on $\varphi^*$. 
-
-:::{#exm-7-bound-ex}
-As a simple example, consider a graph with maximum capacity $k_{\max}$ and $m$ arcs. Then 
-$$
-\varphi^* \le m k_{\max} 
-$$
-since each arc cannot carry more flow than $k_{\max}$ and there are $m$ arcs.
-This gives the upper bound on complexity
-$$
-    O(\varphi^* m) \le O\left( (k_{\max} m) \cdot m \right) 
+\]</span> which grows exponentially in <span class="math inline">\(\log (k_{\max})\)</span>.</p>
+<p>On the other hand, the instance size <span class="math inline">\(O(m(\log n + \log k_{\max}))\)</span> grows linearly in <span class="math inline">\(\log (k_{\max})\)</span>.</p>
+<p>Therefore, <span class="math inline">\(O(\varphi^* m)\)</span> is <strong><em>not a polynomial function</em></strong> of the instance size. Therefore, the Ford-Fulkerson Algorithm is <strong><em>not polynomial</em></strong> in complexity.</p>
+</div>
+</section>
+<section id="the-general-case" class="level3" data-number="7.9.6">
+<h3 data-number="7.9.6" class="anchored" data-anchor-id="the-general-case"><span class="header-section-number">7.9.6</span> The General Case</h3>
+<p>This example establishes that the <strong>Ford-Fulkerson Algorithm</strong> is <strong>not polynomial</strong>.</p>
+<p>We can generalize the complexity of the FF algorithm <strong>without</strong> relying on <span class="math inline">\(\varphi^*\)</span>. To avoid using <span class="math inline">\(\varphi^*\)</span>, which is usually not known, we can substitute an upper bound on <span class="math inline">\(\varphi^*\)</span>.</p>
+<div id="exm-7-bound-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.13</strong></span> As a simple example, consider a graph with maximum capacity <span class="math inline">\(k_{\max}\)</span> and <span class="math inline">\(m\)</span> arcs. Then <span class="math display">\[
+\varphi^* \le m k_{\max}
+\]</span> since each arc cannot carry more flow than <span class="math inline">\(k_{\max}\)</span> and there are <span class="math inline">\(m\)</span> arcs. This gives the upper bound on complexity <span class="math display">\[
+    O(\varphi^* m) \le O\left( (k_{\max} m) \cdot m \right)
     = O\left(k_{\max} m^2 \right).
-$$
-Unfortunately, this upper bound is *tight*: there are graphs $G$ for which the Ford-Fulkerson Algorithm uses $\varphi^* = k_{\max} m$ iterations.
-:::
-
-
-
-### Pseudopolynomiality 
-
-The complexity $O(k_{\max} m^2)$ is **not polynomial** if
-we assume a **binary encoding** because $k_{\max} = O(2^{\log k_{\max}})$.
-
-However, the instance size is **polynomial** with respect to instance
-size if we use a **unary encoding** (encode integers using only $1$s):
-
-- For example, $7$ is encoded in unary as $1111111$. 
-
-Using a unary encoding, we need:
-
--   $O(mn)$ symbols to store the graph topology, and
-
--   $O(mk_{\max})$ symbols to store the arc capacities.
-
-We call such an algorithm **pseudopolynomial**.
-
-### Polynomial-Time Algorithms for FF
-
-**Strongly polynomial algorithms** do exist for the maximum flow problem. 
-The **Edmonds/Karp
-algorithm**[^71][^72] is the most widely used example, but is beyond the scope of this course.
-
-[^71]: <https://cp-algorithms.com/graph/edmonds_karp.html>
-
-[^72]:<https://en.wikipedia.org/wiki/Edmonds-Karp_algorithm>] -->
+\]</span> Unfortunately, this upper bound is <em>tight</em>: there are graphs <span class="math inline">\(G\)</span> for which the Ford-Fulkerson Algorithm uses <span class="math inline">\(\varphi^* = k_{\max} m\)</span> iterations.</p>
+</div>
+</section>
+<section id="pseudopolynomiality" class="level3" data-number="7.9.7">
+<h3 data-number="7.9.7" class="anchored" data-anchor-id="pseudopolynomiality"><span class="header-section-number">7.9.7</span> Pseudopolynomiality</h3>
+<p>The complexity <span class="math inline">\(O(k_{\max} m^2)\)</span> is <strong>not polynomial</strong> if we assume a <strong>binary encoding</strong> because <span class="math inline">\(k_{\max} = O(2^{\log k_{\max}})\)</span>.</p>
+<p>However, the instance size is <strong>polynomial</strong> with respect to instance size if we use a <strong>unary encoding</strong> (encode integers using only <span class="math inline">\(1\)</span>s):</p>
+<ul>
+<li>For example, <span class="math inline">\(7\)</span> is encoded in unary as <span class="math inline">\(1111111\)</span>.</li>
+</ul>
+<p>Using a unary encoding, we need:</p>
+<ul>
+<li><p><span class="math inline">\(O(mn)\)</span> symbols to store the graph topology, and</p></li>
+<li><p><span class="math inline">\(O(mk_{\max})\)</span> symbols to store the arc capacities.</p></li>
+</ul>
+<p>We call such an algorithm <strong>pseudopolynomial</strong>.</p>
+</section>
+<section id="polynomial-time-algorithms-for-ff" class="level3" data-number="7.9.8">
+<h3 data-number="7.9.8" class="anchored" data-anchor-id="polynomial-time-algorithms-for-ff"><span class="header-section-number">7.9.8</span> Polynomial-Time Algorithms for FF</h3>
+<p><strong>Strongly polynomial algorithms</strong> do exist for the maximum flow problem. The <strong>Edmonds/Karp algorithm</strong><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> is the most widely used example, but is beyond the scope of this course.</p>
 
 
 </section>
@@ -1320,6 +1391,8 @@ algorithm**[^71][^72] is the most widely used example, but is beyond the scope o
 <hr>
 <ol>
 <li id="fn1"><p><a href="https://en.wikipedia.org/wiki/Linear_programming" class="uri">https://en.wikipedia.org/wiki/Linear_programming</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://cp-algorithms.com/graph/edmonds_karp.html" class="uri">https://cp-algorithms.com/graph/edmonds_karp.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://en.wikipedia.org/wiki/Edmonds-Karp_algorithm" class="uri">https://en.wikipedia.org/wiki/Edmonds-Karp_algorithm</a>]<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -1740,6 +1813,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./08_Matching.html" class="pagination-link" aria-label="Matching Problems">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Matching Problems</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
