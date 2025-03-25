@@ -210,6 +210,17 @@ window.Quarto = {
   <li><a href="#complexity-of-the-augmenting-path-algorithm" id="toc-complexity-of-the-augmenting-path-algorithm" class="nav-link" data-scroll-target="#complexity-of-the-augmenting-path-algorithm"><span class="header-section-number">8.1.8</span> Complexity of the Augmenting Path Algorithm</a></li>
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">8.1.9</span> Example</a></li>
   </ul></li>
+  <li><a href="#the-weighted-matching-problem" id="toc-the-weighted-matching-problem" class="nav-link" data-scroll-target="#the-weighted-matching-problem"><span class="header-section-number">8.2</span> The Weighted Matching Problem</a>
+  <ul class="collapse">
+  <li><a href="#problem-definition" id="toc-problem-definition" class="nav-link" data-scroll-target="#problem-definition"><span class="header-section-number">8.2.1</span> Problem Definition</a></li>
+  <li><a href="#extremality" id="toc-extremality" class="nav-link" data-scroll-target="#extremality"><span class="header-section-number">8.2.2</span> Extremality</a></li>
+  <li><a href="#augmentation-and-weights-of-matchings" id="toc-augmentation-and-weights-of-matchings" class="nav-link" data-scroll-target="#augmentation-and-weights-of-matchings"><span class="header-section-number">8.2.3</span> Augmentation and Weights of Matchings</a></li>
+  <li><a href="#the-shortest-augmenting-path-theorem" id="toc-the-shortest-augmenting-path-theorem" class="nav-link" data-scroll-target="#the-shortest-augmenting-path-theorem"><span class="header-section-number">8.2.4</span> The Shortest Augmenting Path Theorem</a></li>
+  <li><a href="#the-iterative-shortest-path-algorithm" id="toc-the-iterative-shortest-path-algorithm" class="nav-link" data-scroll-target="#the-iterative-shortest-path-algorithm"><span class="header-section-number">8.2.5</span> The Iterative Shortest Path Algorithm</a></li>
+  <li><a href="#complexity" id="toc-complexity" class="nav-link" data-scroll-target="#complexity"><span class="header-section-number">8.2.6</span> Complexity</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">8.2.7</span> Example</a></li>
+  <li><a href="#a-final-remark" id="toc-a-final-remark" class="nav-link" data-scroll-target="#a-final-remark"><span class="header-section-number">8.2.8</span> A Final Remark</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -256,7 +267,7 @@ window.Quarto = {
 </ol>
 </div>
 <div id="exm-8a-matching" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-8a-matchings" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-matchings</span></a>. The set <span class="math inline">\(M = \{01, 23\}\)</span> is a matching. On the other hand <span class="math inline">\(\tilde{M} = \{01, 03\}\)</span> is <em>not</em> a matching since it includes two edges incident with <span class="math inline">\(0\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 8.1</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-8a-matchings" class="quarto-xref">Figure&nbsp;<span>8.1</span></a>. The set <span class="math inline">\(M = \{01, 23\}\)</span> is a matching. On the other hand <span class="math inline">\(\tilde{M} = \{01, 03\}\)</span> is <em>not</em> a matching since it includes two edges incident with <span class="math inline">\(0\)</span>.</p>
 </div>
 <div id="fig-8a-matchings" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -306,7 +317,7 @@ Figure&nbsp;8.1: Subsets in graph <span class="math inline">\(G\)</span>: <span 
 </div>
 <p>We call <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> <strong>shores</strong> or <strong>color classes</strong> or <strong>independent sets</strong>.</p>
 <div id="exm-8a-bipartite-graphs" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.2</strong></span> <a href="#fig-8a-bipartite-ex" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-bipartite-ex</span></a> gives two representations of the same bipartite graph <span class="math inline">\(G\)</span>. The vertices of <span class="math inline">\(G\)</span> consist of two shores <span class="math inline">\(A = \{0,1,2,3\}\)</span> and <span class="math inline">\(B = \{4,5,6\}\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 8.2</strong></span> <a href="#fig-8a-bipartite-ex" class="quarto-xref">Figure&nbsp;<span>8.2</span></a> gives two representations of the same bipartite graph <span class="math inline">\(G\)</span>. The vertices of <span class="math inline">\(G\)</span> consist of two shores <span class="math inline">\(A = \{0,1,2,3\}\)</span> and <span class="math inline">\(B = \{4,5,6\}\)</span>.</p>
 </div>
 <div id="fig-8a-bipartite-ex" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -354,7 +365,7 @@ Figure&nbsp;8.2: Two visualizations of a bipartite graph <span class="math inlin
 <p><span class="theorem-title"><strong>Definition 8.4 (The Matching Number)</strong></span> We call the <strong>cardinality</strong> of a <strong>maximum matching</strong> the <strong>matching number</strong> <span class="math inline">\(\nu(G)\)</span>.</p>
 </div>
 <div id="exm-8a-max-matchings" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.3</strong></span> The graph given in <a href="#fig-8a-max-matching-ex" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-max-matching-ex</span></a> has matching number <span class="math inline">\(\nu(G) = 3\)</span>. Indeed, <span class="math inline">\(G\)</span> contains maximum cardinality matchings <span class="math inline">\(M_1 = \{03, 14, 25\}\)</span> and $M_2 = {05, 13, 24}</p>
+<p><span class="theorem-title"><strong>Example 8.3</strong></span> The graph given in <a href="#fig-8a-max-matching-ex" class="quarto-xref">Figure&nbsp;<span>8.3</span></a> has matching number <span class="math inline">\(\nu(G) = 3\)</span>. Indeed, <span class="math inline">\(G\)</span> contains maximum cardinality matchings <span class="math inline">\(M_1 = \{03, 14, 25\}\)</span> and $M_2 = {05, 13, 24}</p>
 </div>
 <div id="fig-8a-max-matching-ex" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -401,7 +412,7 @@ Figure&nbsp;8.3: Maximum matchings in a given graph.
 <p><span class="theorem-title"><strong>Definition 8.5 (Exposed nodes)</strong></span> Given a matching <span class="math inline">\(M\)</span>, we call any unmatched vertex <strong>exposed</strong>.</p>
 </div>
 <div id="exm-8a-exposed-nodes" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.4</strong></span> Consider the matching <span class="math inline">\(M= \{ 05, 24\}\)</span> for graph <span class="math inline">\(G\)</span> given in <a href="#fig-8a-exposed-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-exposed-1</span></a>. The nodes <span class="math inline">\(1\)</span> and <span class="math inline">\(3\)</span> are <em>exposed</em> for this matching.</p>
+<p><span class="theorem-title"><strong>Example 8.4</strong></span> Consider the matching <span class="math inline">\(M= \{ 05, 24\}\)</span> for graph <span class="math inline">\(G\)</span> given in <a href="#fig-8a-exposed-1" class="quarto-xref">Figure&nbsp;<span>8.4</span></a>. The nodes <span class="math inline">\(1\)</span> and <span class="math inline">\(3\)</span> are <em>exposed</em> for this matching.</p>
 </div>
 <div id="fig-8a-exposed-1" class="quarto-figure quarto-figure-left quarto-float anchored" data-fig-align="left">
 <figure class="quarto-float quarto-float-fig figure">
@@ -420,7 +431,7 @@ Figure&nbsp;8.4: Exposed nodes <span class="math inline">\(1\)</span> and <span 
 <p><span class="theorem-title"><strong>Definition 8.6 (Alternating Paths)</strong></span> Given a matching <span class="math inline">\(M\)</span>, a path <span class="math inline">\(P\)</span> is an <strong>alternating path (cycle)</strong> if the edges of the path (cycle) <strong>alternate</strong> between <span class="math inline">\(M\)</span> and <span class="math inline">\(E \setminus M\)</span>.</p>
 </div>
 <div id="exm-8a-alt-path" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.5</strong></span> Consider the graph <span class="math inline">\(G\)</span> with matching <span class="math inline">\(M= \{ 05, 24\}\)</span>. <a href="#fig-8a-alts" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-alts</span></a> highlights an <em>alternating path</em> <span class="math inline">\(P=(0,5,2,4)\)</span> and an <em>alternating cycle</em> <span class="math inline">\(C = (0,5,2,4,0)\)</span>. We use dashed edges to indicate edges in both <span class="math inline">\(M\)</span> and <span class="math inline">\(P/C\)</span> and dash-dotted edges for edges not in <span class="math inline">\(M\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 8.5</strong></span> Consider the graph <span class="math inline">\(G\)</span> with matching <span class="math inline">\(M= \{ 05, 24\}\)</span>. <a href="#fig-8a-alts" class="quarto-xref">Figure&nbsp;<span>8.5</span></a> highlights an <em>alternating path</em> <span class="math inline">\(P=(0,5,2,4)\)</span> and an <em>alternating cycle</em> <span class="math inline">\(C = (0,5,2,4,0)\)</span>. We use dashed edges to indicate edges in both <span class="math inline">\(M\)</span> and <span class="math inline">\(P/C\)</span> and dash-dotted edges for edges not in <span class="math inline">\(M\)</span>.</p>
 </div>
 <div id="fig-8a-alts" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -498,7 +509,7 @@ M' &amp;= M \Delta P &amp;= (M\cup P) \setminus (M\cap P) \\
     &amp;= (M \setminus P) \cup (P \setminus M).
 \end{aligned}
 \]</span></p>
-<p>Let <span class="math inline">\(P = ((v_1, v_2), (v_2, v_3), \dots, (v_{2k+1}, v_{2k+2}))\)</span>; we can assume that <span class="math inline">\(P\)</span> contains an even number of nodes by <a href="#lem-even-length-augmenting-paths" class="quarto-xref">Lemma&nbsp;<span class="quarto-unresolved-ref">lem-even-length-augmenting-paths</span></a>.</p>
+<p>Let <span class="math inline">\(P = ((v_1, v_2), (v_2, v_3), \dots, (v_{2k+1}, v_{2k+2}))\)</span>; we can assume that <span class="math inline">\(P\)</span> contains an even number of nodes by <a href="#lem-even-length-augmenting-paths" class="quarto-xref">Lemma&nbsp;<span>8.1</span></a>.</p>
 <p>We’ll use this fact to construct a matching with more edges than <span class="math inline">\(M\)</span>:</p>
 <ul>
 <li><p>We know that <span class="math inline">\((v_1, v_2) \notin M\)</span> since <span class="math inline">\(v_1\)</span> is exposed. This implies that <span class="math inline">\((v_1, v_2) \in M'\)</span>.</p></li>
@@ -515,7 +526,7 @@ M' &amp;= M \Delta P &amp;= (M\cup P) \setminus (M\cap P) \\
 <li><span class="math inline">\(H' = (V, M')\)</span>; and</li>
 <li><span class="math inline">\(H'' = (V, M'')\)</span>.</li>
 </ol>
-<p><a href="#fig-8a-proof" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-proof</span></a> gives an example illustrating the construction of these three subgraphs.</p>
+<p><a href="#fig-8a-proof" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> gives an example illustrating the construction of these three subgraphs.</p>
 <div id="fig-8a-proof" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-8a-proof-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -669,7 +680,7 @@ Figure&nbsp;8.8: Construction of the auxiliary graph for graph <span class="math
 <li><p>Look for an <span class="math inline">\(st\)</span>-path in the <strong>extended version</strong> of <span class="math inline">\(G'\)</span>.</p></li>
 </ol>
 <div id="exm-8a-extended-aux" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.7</strong></span> <a href="#fig-8a-extended-aux" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-extended-aux</span></a> illustrates the construction of the extended auxiliary graph with graph <span class="math inline">\(G\)</span> containing matching <span class="math inline">\(M = \{05, 24\}\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 8.7</strong></span> <a href="#fig-8a-extended-aux" class="quarto-xref">Figure&nbsp;<span>8.9</span></a> illustrates the construction of the extended auxiliary graph with graph <span class="math inline">\(G\)</span> containing matching <span class="math inline">\(M = \{05, 24\}\)</span>.</p>
 </div>
 <div id="fig-8a-extended-aux" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -731,7 +742,7 @@ Figure&nbsp;8.9
 <section id="example" class="level3" data-number="8.1.9">
 <h3 data-number="8.1.9" class="anchored" data-anchor-id="example"><span class="header-section-number">8.1.9</span> Example</h3>
 <div id="exm-8a-example" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.8</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-8a-ex-G" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-ex-G</span></a> with initial matching <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 8.8</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-8a-ex-G" class="quarto-xref">Figure&nbsp;<span>8.10</span></a> with initial matching <span class="math display">\[
 M_0 = \{16, 27, 39\}.
 \]</span></p>
 </div>
@@ -741,7 +752,7 @@ M_0 = \{16, 27, 39\}.
 <img src="Figures/8a/example_M0.png" height="200" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8a-ex-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8.10: Graph <span class="math inline">\(G\)</span> for <a href="#exm-8a-example" class="quarto-xref">Example&nbsp;<span class="quarto-unresolved-ref">exm-8a-example</span></a> with matching <span class="math inline">\(M_0\)</span>.
+Figure&nbsp;8.10: Graph <span class="math inline">\(G\)</span> for <a href="#exm-8a-example" class="quarto-xref">Example&nbsp;<span>8.8</span></a> with matching <span class="math inline">\(M_0\)</span>.
 </figcaption>
 </figure>
 </div>
@@ -804,7 +815,7 @@ Figure&nbsp;8.11: Details of the first step of the augmenting path algorithm.
 </section>
 <section id="step-2" class="level4" data-number="8.1.9.2">
 <h4 data-number="8.1.9.2" class="anchored" data-anchor-id="step-2"><span class="header-section-number">8.1.9.2</span> Step 2</h4>
-<p>As before, we construct the auxiliary graph <span class="math inline">\(G'\)</span> (<a href="#fig-ex-aux2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-ex-aux2</span></a>). Note that <span class="math inline">\(t\)</span> is <em>not reachable</em> from <span class="math inline">\(s\)</span> in <span class="math inline">\(G'\)</span>; <a href="#fig-8a-ex-reachable" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-8a-ex-reachable</span></a> gives the reachable set from <span class="math inline">\(s\)</span> in <span class="math inline">\(G'\)</span>.</p>
+<p>As before, we construct the auxiliary graph <span class="math inline">\(G'\)</span> (<a href="#fig-ex-aux2" class="quarto-xref">Figure&nbsp;<span>8.12 (a)</span></a>). Note that <span class="math inline">\(t\)</span> is <em>not reachable</em> from <span class="math inline">\(s\)</span> in <span class="math inline">\(G'\)</span>; <a href="#fig-8a-ex-reachable" class="quarto-xref">Figure&nbsp;<span>8.12 (b)</span></a> gives the reachable set from <span class="math inline">\(s\)</span> in <span class="math inline">\(G'\)</span>.</p>
 <p>This implies that there are no augmenting paths for matching <span class="math inline">\(M_1\)</span>. Therefore, <span class="math inline">\(M_1\)</span> is a maximum matching.</p>
 <div id="fig-8a-ex-step-2" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -841,363 +852,430 @@ Figure&nbsp;8.12: Details of the second and final step of the augmenting path al
 </figcaption>
 </figure>
 </div>
-<!-- ## The Weighted Matching Problem
-
-### Problem Definition
-::: {#def-8b-wmp}
-
-#### Weighted Matching Problem
-Given an undirected graph $G = (V,E)$ and a **weight function**
-$w: E \mapsto \mathbf{R}$, find a **matching** $M \subseteq E$ of **maximum
-weight**: 
-$$
+</section>
+</section>
+</section>
+<section id="the-weighted-matching-problem" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-weighted-matching-problem"><span class="header-section-number">8.2</span> The Weighted Matching Problem</h2>
+<section id="problem-definition" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="problem-definition"><span class="header-section-number">8.2.1</span> Problem Definition</h3>
+<div id="def-8b-wmp" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 8.8 (Weighted Matching Problem)</strong></span> Given an undirected graph <span class="math inline">\(G = (V,E)\)</span> and a <strong>weight function</strong> <span class="math inline">\(w: E \mapsto \mathbf{R}\)</span>, find a <strong>matching</strong> <span class="math inline">\(M \subseteq E\)</span> of <strong>maximum weight</strong>: <span class="math display">\[
 w(M) = \sum_{\{i,j\} \in M} w_{ij}.
-$$
-:::
-
-::: {#def-8b-weight-matching-num .absolute top=65%}
-
-#### Weighted Matching Number
-We call the **weight of a maximum-weight matching** of $G$ the
-**weighted matching number** and denote it $\nu_w(G)$.
-:::
-
-### Extremality
-
-::: {#def-8b-extreme-matching}
-
-#### Extreme Matchings
-We call a matching **extreme** if it has **maximum weight among all
-matchings of the same cardinality** $|M|$.
-:::
-
-**Question:** We know how to construct another matching of cardinality
-one unit larger using the **unweighted matching algorithm**.
-
--   Can we construct this matching so that it is **extreme?**
-
-- If so, we can build an extreme matching $M_1$ from an empty matching $M_0$. From $M_1$, we can build an extreme matching $M_2$ of size $2$, and so on.
-
-#### An Observation
-
-::: {#thm-8b-max-weight-matching}
-If $M_1, M_2, \dots, M_{\nu(G)}$ is a sequence of **extreme matchings of
-increasing size**, then
-$$
+\]</span></p>
+</div>
+<div id="def-8b-weight-matching-num" class="absolute theorem definition" data-top="65%">
+<p><span class="theorem-title"><strong>Definition 8.9 (Weighted Matching Number)</strong></span> We call the <strong>weight of a maximum-weight matching</strong> of <span class="math inline">\(G\)</span> the <strong>weighted matching number</strong> and denote it <span class="math inline">\(\nu_w(G)\)</span>.</p>
+</div>
+</section>
+<section id="extremality" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="extremality"><span class="header-section-number">8.2.2</span> Extremality</h3>
+<div id="def-8b-extreme-matching" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 8.10 (Extreme Matchings)</strong></span> We call a matching <strong>extreme</strong> if it has <strong>maximum weight among all matchings of the same cardinality</strong> <span class="math inline">\(|M|\)</span>.</p>
+</div>
+<p><strong>Question:</strong> We know how to construct another matching of cardinality one unit larger using the <strong>unweighted matching algorithm</strong>.</p>
+<ul>
+<li><p>Can we construct this matching so that it is <strong>extreme?</strong></p></li>
+<li><p>If so, we can build an extreme matching <span class="math inline">\(M_1\)</span> from an empty matching <span class="math inline">\(M_0\)</span>. From <span class="math inline">\(M_1\)</span>, we can build an extreme matching <span class="math inline">\(M_2\)</span> of size <span class="math inline">\(2\)</span>, and so on.</p></li>
+</ul>
+<section id="an-observation" class="level4" data-number="8.2.2.1">
+<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="an-observation"><span class="header-section-number">8.2.2.1</span> An Observation</h4>
+<div id="thm-8b-max-weight-matching" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 8.2</strong></span> If <span class="math inline">\(M_1, M_2, \dots, M_{\nu(G)}\)</span> is a sequence of <strong>extreme matchings of increasing size</strong>, then <span class="math display">\[
 M = \textrm{arg max} \Big\{ w(M_i): i = 1, 2, \dots, \nu(G) \Big\}
-$$
-is a
-maximum-weight matching.
-:::
-
-
-Here, the $\textrm{argmax}$ operator returns a extreme matching with maximum weight: 
-
-- if a maximum weight matching has cardinality $1$, then $M_1$ is a maximum weight matching; 
-
-- if a maximum weight matching has cardinality $2$, then $M_2$ is a maximum weight matching; etc.
-
-### Augmentation and Weights of Matchings
-
-Let $M$ be a matching and let be $P$ an **augmenting path**.
-
-Let 
-$$
-    M' := M \Delta P = (M \cup P) \setminus (M\cap P) = (M\setminus P) \cup (P \setminus M). 
-$$
-The weight of $M'$ is 
-$$
-w(M') = \sum_{ij \in M'} w_{ij} = w(M) + \underbrace{ \sum_{e \in P\setminus M} w_i - \sum_{e \in P \cap M} w_e}_{=:(*)}. 
-$$
-The summand $(*)$ is a linear combination of weights of edges in $P$ with 
-
-- coefficient $+1$ if $e \notin M$;
-
-- coefficient $-1$ if $e \in M$. 
-
-Let's introduce new weights and rewrite the identity:
-$$
-    \ell_{ij} = 
-    \begin{cases} 
-    -w_{ij} & \text{if } ij \notin M, \\ 
-    + w_{ij} & \text{if } ij \in M.
+\]</span> is a maximum-weight matching.</p>
+</div>
+<p>Here, the <span class="math inline">\(\textrm{argmax}\)</span> operator returns a extreme matching with maximum weight:</p>
+<ul>
+<li><p>if a maximum weight matching has cardinality <span class="math inline">\(1\)</span>, then <span class="math inline">\(M_1\)</span> is a maximum weight matching;</p></li>
+<li><p>if a maximum weight matching has cardinality <span class="math inline">\(2\)</span>, then <span class="math inline">\(M_2\)</span> is a maximum weight matching; etc.</p></li>
+</ul>
+</section>
+</section>
+<section id="augmentation-and-weights-of-matchings" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="augmentation-and-weights-of-matchings"><span class="header-section-number">8.2.3</span> Augmentation and Weights of Matchings</h3>
+<p>Let <span class="math inline">\(M\)</span> be a matching and let be <span class="math inline">\(P\)</span> an <strong>augmenting path</strong>.</p>
+<p>Let <span class="math display">\[
+    M' := M \Delta P = (M \cup P) \setminus (M\cap P) = (M\setminus P) \cup (P \setminus M).
+\]</span> The weight of <span class="math inline">\(M'\)</span> is <span class="math display">\[
+w(M') = \sum_{ij \in M'} w_{ij} = w(M) + \underbrace{ \sum_{e \in P\setminus M} w_i - \sum_{e \in P \cap M} w_e}_{=:(*)}.
+\]</span> The summand <span class="math inline">\((*)\)</span> is a linear combination of weights of edges in <span class="math inline">\(P\)</span> with</p>
+<ul>
+<li><p>coefficient <span class="math inline">\(+1\)</span> if <span class="math inline">\(e \notin M\)</span>;</p></li>
+<li><p>coefficient <span class="math inline">\(-1\)</span> if <span class="math inline">\(e \in M\)</span>.</p></li>
+</ul>
+<p>Let’s introduce new weights and rewrite the identity: <span class="math display">\[
+    \ell_{ij} =
+    \begin{cases}
+    -w_{ij} &amp; \text{if } ij \notin M, \\
+    + w_{ij} &amp; \text{if } ij \in M.
     \end{cases}
-$$
-Using these lengths, we have 
-$$
+\]</span> Using these lengths, we have <span class="math display">\[
     w(M') = w(M) - \sum_{ij \in P} \ell_{ij}.
-$$
-This implies that the increase in weight is **maximized** if the length of $P$ is **minimized**.
-
-### The Shortest Augmenting Path Theorem 
-
-**Question:** Suppose that we
-augment an **extreme matching** $M$ by a **shortest augmenting path**.
-
--   Does this yield an **extreme matching** $M'$ (with cardinality
-    $|M'| = |M| + 1$)?
-
-We have the following theorem.
-
-::: {#thm-shortest-aug-path-theorem}
-Given an **extreme matching** $M$ and an **augmenting path** $P$ of
-**minimum length**.
-
-The matching $M' := M \Delta P$ is an **extreme matching** of
-cardinality $|M'| = |M| + 1$.
-:::
-
-:::{.proof}
-We'll use *contradiction*. Let's assume that $M'$ is *not* extreme.
-Then there is $N'$ with $|N'| = |M'|$ such that 
-$$
-    w(N') > w(M'). 
-$$
-We know that $|N'| = |M'| > |M|$. By an identical argument to the proof in the unweighted case, the subgraph 
-$$
+\]</span> This implies that the increase in weight is <strong>maximized</strong> if the length of <span class="math inline">\(P\)</span> is <strong>minimized</strong>.</p>
+</section>
+<section id="the-shortest-augmenting-path-theorem" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="the-shortest-augmenting-path-theorem"><span class="header-section-number">8.2.4</span> The Shortest Augmenting Path Theorem</h3>
+<p><strong>Question:</strong> Suppose that we augment an <strong>extreme matching</strong> <span class="math inline">\(M\)</span> by a <strong>shortest augmenting path</strong>.</p>
+<ul>
+<li>Does this yield an <strong>extreme matching</strong> <span class="math inline">\(M'\)</span> (with cardinality <span class="math inline">\(|M'| = |M| + 1\)</span>)?</li>
+</ul>
+<p>We have the following theorem.</p>
+<div id="thm-shortest-aug-path-theorem" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 8.3</strong></span> Given an <strong>extreme matching</strong> <span class="math inline">\(M\)</span> and an <strong>augmenting path</strong> <span class="math inline">\(P\)</span> of <strong>minimum length</strong>.</p>
+<p>The matching <span class="math inline">\(M' := M \Delta P\)</span> is an <strong>extreme matching</strong> of cardinality <span class="math inline">\(|M'| = |M| + 1\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We’ll use <em>contradiction</em>. Let’s assume that <span class="math inline">\(M'\)</span> is <em>not</em> extreme. Then there is <span class="math inline">\(N'\)</span> with <span class="math inline">\(|N'| = |M'|\)</span> such that <span class="math display">\[
+    w(N') &gt; w(M').
+\]</span> We know that <span class="math inline">\(|N'| = |M'| &gt; |M|\)</span>. By an identical argument to the proof in the unweighted case, the subgraph <span class="math display">\[
     G_{M \Delta N'} = (V, M \Delta N')
-$$
-has a maximal connected component $C$ with maximal connected component $C$ with more edges from $N'$ than $M$, i.e., an alternating path.
-This alternating path augments $M$. (Notes $C$ may not be $P$.)
-
-Earlier, in the unweighted case, we used $C$ to extend $M$ to a larger matching. Here, we'll do the opposite: we'll shrink $N'$ using $C$:
-$$
-    N = N' \Delta C. 
-$$
-Note that 
-$$
+\]</span> has a maximal connected component <span class="math inline">\(C\)</span> with maximal connected component <span class="math inline">\(C\)</span> with more edges from <span class="math inline">\(N'\)</span> than <span class="math inline">\(M\)</span>, i.e., an alternating path. This alternating path augments <span class="math inline">\(M\)</span>. (Notes <span class="math inline">\(C\)</span> may not be <span class="math inline">\(P\)</span>.)</p>
+<p>Earlier, in the unweighted case, we used <span class="math inline">\(C\)</span> to extend <span class="math inline">\(M\)</span> to a larger matching. Here, we’ll do the opposite: we’ll shrink <span class="math inline">\(N'\)</span> using <span class="math inline">\(C\)</span>: <span class="math display">\[
+    N = N' \Delta C.
+\]</span> Note that <span class="math display">\[
 |N| = |N'| - 1 = |M|.
-$$
-We have 
-
-- four matchings $M, N, M', N'$; 
-
-- two augmenting paths $P$ and $C$.
-
-By assumption $\ell(P) \le \ell(C)$. Moreover, $w(M) \ge w(N)$.
-It follows that 
-$$
-    w(M') < w(N') = w(N) - \ell(C) \le w(M) - \ell(P) = w(M'). 
-$$
-This is a contradiction. Therefore, $M'$ is an extreme matching.
-:::
-
-
-### The Iterative Shortest Path Algorithm 
-
-#### The Algorithm 
-
-Initialize $M_0 = \emptyset$.
-
-For $i=0,1,2,\dots, \nu(G)$:
-
-- Find a **shortest** $M_i$-**augmenting path** $P$.
-
-- If $P \neq \emptyset$:
-
-    - $M_{i+1} \gets \left( M_i \cup P\right) \setminus \left(M_i \cap P \right).$
-
-    - $w(M_{i+1}) \gets w(M_i) - \ell(P)$
-
-- Else:
-    - **STOP** (exit loop).
-
-Return $M = \textrm{arg max} \{w(M_i)\}$.
-
-#### Finding a Shortest Augmenting Path
-
-We need to find augmenting paths. To do so, we construct an auxiliary graph and identify the shortest path, which will yield the desired augmenting path.
-
-- Build an **auxiliary directed graph** $G' = (V \cup \{s,t\}, A')$ for matching $M_i$:
-
-- For each $\{i,j\} \in E$:
-
-    -   Add $(i,j)$ to $A'$ if $\{i,j\} \notin M_i$ with length
-        $\ell_{ij} = - w_{ij}$.
-
-    -   Add $(j,i)$ to $A'$ if $\{i,j\} \in M_i$ with length
-        $\ell_{ij} = w_{ij}$
-
-- Connect $s$ and $t$ to/from the exposed nodes in the two shores with
-**zero length arcs**.
-
-- Finally, find a **shortest $st$-path** in $G'$.
-
-
-:::{#exm-8b-aux-graph}
-@fig-8b-aux-example illustrates the construction of the auxiliary graph for a given matching $M_0$.
-:::
-
-:::{#fig-8b-aux-example layout-ncol="2"}
-![Graph $G$ and matching $M_0$](Figures/8b/weighted_aux_G_M.png){#fig-8b-ex-1}
-
-![$G'$](Figures/8b/weighted_aux_G.png){#fig-8b-ex-1-aux}
-
-Auxiliary graph $G'$ for graph $G$ and matching $M_0 = \{16\}$.
-:::
-
-#### Cycles in Bipartite Graphs 
-
-**Question:** The auxiliary graph $G'$ has
-edges with **negative lengths**.
-
--   Is it possible to have cycle with negative length?
-
--   In this case, the shortest-path problem is ill-posed.
-
-We will use the following lemma to address this possible issue.
-
-::: {#lem-8b-no-odd-cycles}
-Every **directed bipartite graph** $G$ **does not contain odd cycles**
-:::
-
-:::{.proof}
-We use contradiction. Let's assume that $G$ has a cycle $C$ with odd length.
-Specifically, assume $C$ has $2k+1$ nodes for some positive integer $k$; label these nodes as $v_1, v_2, \dots, v_{2k+1}$.
-
-Since $G$ is bipartite, we change shore with each edge. That is, $v_i, v_{i+1}$ are in different shores. 
-The last edge in the cycle is $(v_{2k+1}, v_1)$. Since $C$ has odd length, $v_1$ and $v_{2k+1}$ are in the same shore of $G$. Thus, this edge cannot exist; a contradiction.
-
-Therefore, any cycle in $G$ has even length.
-:::
-
-The following theorem confirms that the auxiliary graph does not have negative-length cycles if the matching $M$ is extreme.
-
-::: {#thm-8b-no-negative-cycles}
-If $M$ is an **extreme matching** then $G'$**does not contain**
-negative-length cycles.
-:::
-
-:::{.proof}
-To obtain a contradiction, suppose $C$ is a cycle with negative length:
-$$
-\ell(C) = \sum_{e \in C} \ell_e < 0. 
-$$
-Since $G'$ is bipartite, $C$ has even length by @lem-8b-no-odd-cycles.
-Moreover, $C$ is alternating by the orientation of arcs of $G'$.
-
-Now, consider $M' = M \Delta C$. Note that 
-$$
+\]</span> We have</p>
+<ul>
+<li><p>four matchings <span class="math inline">\(M, N, M', N'\)</span>;</p></li>
+<li><p>two augmenting paths <span class="math inline">\(P\)</span> and <span class="math inline">\(C\)</span>.</p></li>
+</ul>
+<p>By assumption <span class="math inline">\(\ell(P) \le \ell(C)\)</span>. Moreover, <span class="math inline">\(w(M) \ge w(N)\)</span>. It follows that <span class="math display">\[
+    w(M') &lt; w(N') = w(N) - \ell(C) \le w(M) - \ell(P) = w(M').
+\]</span> This is a contradiction. Therefore, <span class="math inline">\(M'\)</span> is an extreme matching.</p>
+</div>
+</section>
+<section id="the-iterative-shortest-path-algorithm" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="the-iterative-shortest-path-algorithm"><span class="header-section-number">8.2.5</span> The Iterative Shortest Path Algorithm</h3>
+<section id="the-algorithm" class="level4" data-number="8.2.5.1">
+<h4 data-number="8.2.5.1" class="anchored" data-anchor-id="the-algorithm"><span class="header-section-number">8.2.5.1</span> The Algorithm</h4>
+<p>Initialize <span class="math inline">\(M_0 = \emptyset\)</span>.</p>
+<p>For <span class="math inline">\(i=0,1,2,\dots, \nu(G)\)</span>:</p>
+<ul>
+<li><p>Find a <strong>shortest</strong> <span class="math inline">\(M_i\)</span>-<strong>augmenting path</strong> <span class="math inline">\(P\)</span>.</p></li>
+<li><p>If <span class="math inline">\(P \neq \emptyset\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(M_{i+1} \gets \left( M_i \cup P\right) \setminus \left(M_i \cap P \right).\)</span></p></li>
+<li><p><span class="math inline">\(w(M_{i+1}) \gets w(M_i) - \ell(P)\)</span></p></li>
+</ul></li>
+<li><p>Else:</p>
+<ul>
+<li><strong>STOP</strong> (exit loop).</li>
+</ul></li>
+</ul>
+<p>Return <span class="math inline">\(M = \textrm{arg max} \{w(M_i)\}\)</span>.</p>
+</section>
+<section id="finding-a-shortest-augmenting-path" class="level4" data-number="8.2.5.2">
+<h4 data-number="8.2.5.2" class="anchored" data-anchor-id="finding-a-shortest-augmenting-path"><span class="header-section-number">8.2.5.2</span> Finding a Shortest Augmenting Path</h4>
+<p>We need to find augmenting paths. To do so, we construct an auxiliary graph and identify the shortest path, which will yield the desired augmenting path.</p>
+<ul>
+<li><p>Build an <strong>auxiliary directed graph</strong> <span class="math inline">\(G' = (V \cup \{s,t\}, A')\)</span> for matching <span class="math inline">\(M_i\)</span>:</p></li>
+<li><p>For each <span class="math inline">\(\{i,j\} \in E\)</span>:</p>
+<ul>
+<li><p>Add <span class="math inline">\((i,j)\)</span> to <span class="math inline">\(A'\)</span> if <span class="math inline">\(\{i,j\} \notin M_i\)</span> with length <span class="math inline">\(\ell_{ij} = - w_{ij}\)</span>.</p></li>
+<li><p>Add <span class="math inline">\((j,i)\)</span> to <span class="math inline">\(A'\)</span> if <span class="math inline">\(\{i,j\} \in M_i\)</span> with length <span class="math inline">\(\ell_{ij} = w_{ij}\)</span></p></li>
+</ul></li>
+<li><p>Connect <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span> to/from the exposed nodes in the two shores with <strong>zero length arcs</strong>.</p></li>
+<li><p>Finally, find a <strong>shortest <span class="math inline">\(st\)</span>-path</strong> in <span class="math inline">\(G'\)</span>.</p></li>
+</ul>
+<div id="exm-8b-aux-graph" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.9</strong></span> <a href="#fig-8b-aux-example" class="quarto-xref">Figure&nbsp;<span>8.13</span></a> illustrates the construction of the auxiliary graph for a given matching <span class="math inline">\(M_0\)</span>.</p>
+</div>
+<div id="fig-8b-aux-example" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8b-aux-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-aux-example" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-ex-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/weighted_aux_G_M.png" class="img-fluid figure-img" data-ref-parent="fig-8b-aux-example">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span> and matching <span class="math inline">\(M_0\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-aux-example" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-ex-1-aux" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-ex-1-aux-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/weighted_aux_G.png" class="img-fluid figure-img" data-ref-parent="fig-8b-aux-example">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-ex-1-aux-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8b-aux-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.13: Auxiliary graph <span class="math inline">\(G'\)</span> for graph <span class="math inline">\(G\)</span> and matching <span class="math inline">\(M_0 = \{16\}\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="cycles-in-bipartite-graphs" class="level4" data-number="8.2.5.3">
+<h4 data-number="8.2.5.3" class="anchored" data-anchor-id="cycles-in-bipartite-graphs"><span class="header-section-number">8.2.5.3</span> Cycles in Bipartite Graphs</h4>
+<p><strong>Question:</strong> The auxiliary graph <span class="math inline">\(G'\)</span> has edges with <strong>negative lengths</strong>.</p>
+<ul>
+<li><p>Is it possible to have cycle with negative length?</p></li>
+<li><p>In this case, the shortest-path problem is ill-posed.</p></li>
+</ul>
+<p>We will use the following lemma to address this possible issue.</p>
+<div id="lem-8b-no-odd-cycles" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 8.2</strong></span> Every <strong>directed bipartite graph</strong> <span class="math inline">\(G\)</span> <strong>does not contain odd cycles</strong></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We use contradiction. Let’s assume that <span class="math inline">\(G\)</span> has a cycle <span class="math inline">\(C\)</span> with odd length. Specifically, assume <span class="math inline">\(C\)</span> has <span class="math inline">\(2k+1\)</span> nodes for some positive integer <span class="math inline">\(k\)</span>; label these nodes as <span class="math inline">\(v_1, v_2, \dots, v_{2k+1}\)</span>.</p>
+<p>Since <span class="math inline">\(G\)</span> is bipartite, we change shore with each edge. That is, <span class="math inline">\(v_i, v_{i+1}\)</span> are in different shores. The last edge in the cycle is <span class="math inline">\((v_{2k+1}, v_1)\)</span>. Since <span class="math inline">\(C\)</span> has odd length, <span class="math inline">\(v_1\)</span> and <span class="math inline">\(v_{2k+1}\)</span> are in the same shore of <span class="math inline">\(G\)</span>. Thus, this edge cannot exist; a contradiction.</p>
+<p>Therefore, any cycle in <span class="math inline">\(G\)</span> has even length.</p>
+</div>
+<p>The following theorem confirms that the auxiliary graph does not have negative-length cycles if the matching <span class="math inline">\(M\)</span> is extreme.</p>
+<div id="thm-8b-no-negative-cycles" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 8.4</strong></span> If <span class="math inline">\(M\)</span> is an <strong>extreme matching</strong> then <span class="math inline">\(G'\)</span><strong>does not contain</strong> negative-length cycles.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>To obtain a contradiction, suppose <span class="math inline">\(C\)</span> is a cycle with negative length: <span class="math display">\[
+\ell(C) = \sum_{e \in C} \ell_e &lt; 0.
+\]</span> Since <span class="math inline">\(G'\)</span> is bipartite, <span class="math inline">\(C\)</span> has even length by <a href="#lem-8b-no-odd-cycles" class="quarto-xref">Lemma&nbsp;<span>8.2</span></a>. Moreover, <span class="math inline">\(C\)</span> is alternating by the orientation of arcs of <span class="math inline">\(G'\)</span>.</p>
+<p>Now, consider <span class="math inline">\(M' = M \Delta C\)</span>. Note that <span class="math display">\[
 |M'| = |M|.
-$$
-Indeed, $C$ is even so half of the edges in $M\cup C$ are in $M\cap C$. Thus, 
-$$
-    |C| = |M| + |M'| 
-$$
-is even and $|M| = |M'|$.. 
-
-Now consider the weight of $M'$:
-$$
-w(M') = w(M) - \ell(C) > w(M)
-$$
-since $\ell(C) < 0$.
-Therefore, $M$ is not an extreme matching.
-:::
-
-
-### Complexity 
-
-For each $i = 0, 1, 2, \dots, \nu(G)$, we need $O(n+m)$ operations to form the auxiliary graph $G'$ and $O(nm)$ operations to find the shortest $st$-path using the Bellman-Ford Algorithm. After identifying a shortest $M_i$-augmenting path, we need a further $O(n)$ operations to compute $M_{i+1}$. Thus, each iteration has complexity $O(mn)$.
-
-We repeat this process $\nu(G) = O(n)$. Thus, the total complexity is 
-$$
+\]</span> Indeed, <span class="math inline">\(C\)</span> is even so half of the edges in <span class="math inline">\(M\cup C\)</span> are in <span class="math inline">\(M\cap C\)</span>. Thus, <span class="math display">\[
+    |C| = |M| + |M'|
+\]</span> is even and <span class="math inline">\(|M| = |M'|\)</span>..</p>
+<p>Now consider the weight of <span class="math inline">\(M'\)</span>: <span class="math display">\[
+w(M') = w(M) - \ell(C) &gt; w(M)
+\]</span> since <span class="math inline">\(\ell(C) &lt; 0\)</span>. Therefore, <span class="math inline">\(M\)</span> is not an extreme matching.</p>
+</div>
+</section>
+</section>
+<section id="complexity" class="level3" data-number="8.2.6">
+<h3 data-number="8.2.6" class="anchored" data-anchor-id="complexity"><span class="header-section-number">8.2.6</span> Complexity</h3>
+<p>For each <span class="math inline">\(i = 0, 1, 2, \dots, \nu(G)\)</span>, we need <span class="math inline">\(O(n+m)\)</span> operations to form the auxiliary graph <span class="math inline">\(G'\)</span> and <span class="math inline">\(O(nm)\)</span> operations to find the shortest <span class="math inline">\(st\)</span>-path using the Bellman-Ford Algorithm. After identifying a shortest <span class="math inline">\(M_i\)</span>-augmenting path, we need a further <span class="math inline">\(O(n)\)</span> operations to compute <span class="math inline">\(M_{i+1}\)</span>. Thus, each iteration has complexity <span class="math inline">\(O(mn)\)</span>.</p>
+<p>We repeat this process <span class="math inline">\(\nu(G) = O(n)\)</span>. Thus, the total complexity is <span class="math display">\[
     O(\nu(G) mn) = O(n^2 m).
-$$
-
-
-### Example 
-
-:::{#exm-8b-weighted-matching-prob}
-Consider the graph $G$ given in @fig-8b-exm.
-:::
-
-:::{#fig-8b-exm layout-ncol="2"}
-![$G$](Figures/8b/w_match_ex.png){#fig-8b-exm-1}
-
-![$G'$](Figures/8b/match-it0-aux.png){#fig-8b-exm-1-aux}
-
-Graph $G$ with initial matching $M_0 = \emptyset$ and corresponding auxiliary graph $G'$.
-:::
-
-#### Step 1 {.unnumbered}
-
-We start by finding the shortest $st$-path in $G'$. Here, $(s,1,4,t)$ and $(s,0,5,t)$ are both shortest $st$-paths (with length $-5$). We can use either as an augmenting path. Let's choose $(s,1,4,t)$ to use as an augmenting path and add $14$ to $M_0$ to get $M_1:$
-$$
-    M_1 = M_0 \Delta P_0 = \emptyset \Delta \{14\} = \{14\}; 
+\]</span></p>
+</section>
+<section id="example-1" class="level3" data-number="8.2.7">
+<h3 data-number="8.2.7" class="anchored" data-anchor-id="example-1"><span class="header-section-number">8.2.7</span> Example</h3>
+<div id="exm-8b-weighted-matching-prob" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.10</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-8b-exm" class="quarto-xref">Figure&nbsp;<span>8.14</span></a>.</p>
+</div>
+<div id="fig-8b-exm" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8b-exm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-exm" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/w_match_ex.png" class="img-fluid figure-img" data-ref-parent="fig-8b-exm">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-exm" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-1-aux" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-1-aux-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it0-aux.png" class="img-fluid figure-img" data-ref-parent="fig-8b-exm">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-1-aux-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8b-exm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.14: Graph <span class="math inline">\(G\)</span> with initial matching <span class="math inline">\(M_0 = \emptyset\)</span> and corresponding auxiliary graph <span class="math inline">\(G'\)</span>.
+</figcaption>
+</figure>
+</div>
+<section id="step-1-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-1-1">Step 1</h4>
+<p>We start by finding the shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>. Here, <span class="math inline">\((s,1,4,t)\)</span> and <span class="math inline">\((s,0,5,t)\)</span> are both shortest <span class="math inline">\(st\)</span>-paths (with length <span class="math inline">\(-5\)</span>). We can use either as an augmenting path. Let’s choose <span class="math inline">\((s,1,4,t)\)</span> to use as an augmenting path and add <span class="math inline">\(14\)</span> to <span class="math inline">\(M_0\)</span> to get <span class="math inline">\(M_1:\)</span> <span class="math display">\[
+    M_1 = M_0 \Delta P_0 = \emptyset \Delta \{14\} = \{14\};
     \;\;\;
     w(M_1) = 5.
-$$
-
-:::{#fig-8b-ex-1 layout-ncol="2"}
-![Shortest $st$-path in $G'$](Figures/8b/match-it1-AP.png){#fig-8b-exm-1-ap}
-
-![$M_1$](Figures/8b/match-it1-match.png){#fig-8b-exm-1-match}
-
-Matching $M_1$ following one iteration of augmenting path algorithm.
-:::
-
-#### Step 2 {.unnumbered}
-
-The shortest $st$-path in the auxiliary graph $G'$ is $(s,0,5,t)$.
-We use the path $P_1 = \{05\}$ to update the matching:
-$$
+\]</span></p>
+<div id="fig-8b-ex-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8b-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-ex-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-1-ap" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-1-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it1-AP.png" class="img-fluid figure-img" data-ref-parent="fig-8b-ex-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-1-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-ex-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-1-match" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-1-match-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it1-match.png" class="img-fluid figure-img" data-ref-parent="fig-8b-ex-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-1-match-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(M_1\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8b-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.15: Matching <span class="math inline">\(M_1\)</span> following one iteration of augmenting path algorithm.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-2-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-2-1">Step 2</h4>
+<p>The shortest <span class="math inline">\(st\)</span>-path in the auxiliary graph <span class="math inline">\(G'\)</span> is <span class="math inline">\((s,0,5,t)\)</span>. We use the path <span class="math inline">\(P_1 = \{05\}\)</span> to update the matching: <span class="math display">\[
     M_2 = M_1 \Delta P_1 = \{14, 05\};
     \;\;\;
     w(M_2) = 10.
-$$
-
-:::{#fig-8b-ex-2 layout-ncol="2"}
-![Shortest $st$-path in $G'$](Figures/8b/match-it2-AP.png){#fig-8b-exm-2-ap}
-
-![$M_2$](Figures/8b/match-it2-match.png){#fig-8b-exm-2-match}
-
-Details of Step 2 of the augmenting path algorithm.
-:::
-
-#### Step 3 {.unnumbered}
-
-Next, the shortest $st$-path is $(s,2,4,1,3,t)$. We compute $M_3$ using $P_2 = (2,4,1,3)$:
-$$
-    M_3 = M_2 \Delta P_2 = \{05, 24, 13\}; 
+\]</span></p>
+<div id="fig-8b-ex-2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8b-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-ex-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-2-ap" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-2-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it2-AP.png" class="img-fluid figure-img" data-ref-parent="fig-8b-ex-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-2-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-ex-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-2-match" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-2-match-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it2-match.png" class="img-fluid figure-img" data-ref-parent="fig-8b-ex-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-2-match-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(M_2\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8b-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.16: Details of Step 2 of the augmenting path algorithm.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="step-3">Step 3</h4>
+<p>Next, the shortest <span class="math inline">\(st\)</span>-path is <span class="math inline">\((s,2,4,1,3,t)\)</span>. We compute <span class="math inline">\(M_3\)</span> using <span class="math inline">\(P_2 = (2,4,1,3)\)</span>: <span class="math display">\[
+    M_3 = M_2 \Delta P_2 = \{05, 24, 13\};
     \;\;\; w(M_3) = 13.
-$$
-
-:::{#fig-8b-ex-3 layout-ncol="2"}
-![Shortest $st$-path in $G'$](Figures/8b/match-it3-AP.png){#fig-8b-exm-3-ap}
-
-![$M_3$](Figures/8b/match-it3-match.png){#fig-8b-exm-3-match}
-
-Details of Step 3 of the augmenting path algorithm.
-:::
-
-
-#### Termination {.unnumbered}
-
-Each shore has three nodes and we have found a matching with three edges. This implies that the unweighted matching number is $\nu(G) = 3$. We can stop the algorithm.
-
-Note that 
-$$
-w(M_3) = 13 = \max\{w(M_0), w(M_1), w(M_2), w(M_3)\}. 
-$$
-Therefore, $M_3$ is the maximum weight matching.
-
-
-### A Final Remark 
-
-The extreme matching of maximum cardinality $M_\nu(G)$ is
-***not necessarily the maximum weight matching!***
-
-:::{#exm-8b-counter}
-Consider the graph given in @fig-8b-counter-ex. This graph has *maximum weight* matching $M_1 = \{12\}$ and *maximum  cardinality* matching $M_2 = \{02, 13\}$.
-:::
-
-:::{#fig-8b-counter-ex layout-ncol="2"}
-![$M_1 = \{12\}$ ](Figures/8b/w_match_ex2_M1.png){#fig-8b-counter-ex1}
-
-![$M_2 = \{02, 13\}$](Figures/8b/w_match_ex2_M2.png){#fig-8b-counter-ex2}
-
-A graph where the maximum cardinality matching is ***not*** the maximum weight matching.
-::: -->
+\]</span></p>
+<div id="fig-8b-ex-3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8b-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-3-ap" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-3-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it3-AP.png" class="img-fluid figure-img" data-ref-parent="fig-8b-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-3-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-exm-3-match" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-exm-3-match-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/match-it3-match.png" class="img-fluid figure-img" data-ref-parent="fig-8b-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-exm-3-match-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(M_3\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8b-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.17: Details of Step 3 of the augmenting path algorithm.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="termination" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="termination">Termination</h4>
+<p>Each shore has three nodes and we have found a matching with three edges. This implies that the unweighted matching number is <span class="math inline">\(\nu(G) = 3\)</span>. We can stop the algorithm.</p>
+<p>Note that <span class="math display">\[
+w(M_3) = 13 = \max\{w(M_0), w(M_1), w(M_2), w(M_3)\}.
+\]</span> Therefore, <span class="math inline">\(M_3\)</span> is the maximum weight matching.</p>
+</section>
+</section>
+<section id="a-final-remark" class="level3" data-number="8.2.8">
+<h3 data-number="8.2.8" class="anchored" data-anchor-id="a-final-remark"><span class="header-section-number">8.2.8</span> A Final Remark</h3>
+<p>The extreme matching of maximum cardinality <span class="math inline">\(M_\nu(G)\)</span> is <strong><em>not necessarily the maximum weight matching!</em></strong></p>
+<div id="exm-8b-counter" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.11</strong></span> Consider the graph given in <a href="#fig-8b-counter-ex" class="quarto-xref">Figure&nbsp;<span>8.18</span></a>. This graph has <em>maximum weight</em> matching <span class="math inline">\(M_1 = \{12\}\)</span> and <em>maximum cardinality</em> matching <span class="math inline">\(M_2 = \{02, 13\}\)</span>.</p>
+</div>
+<div id="fig-8b-counter-ex" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8b-counter-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-counter-ex" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-counter-ex1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-counter-ex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/w_match_ex2_M1.png" class="img-fluid figure-img" data-ref-parent="fig-8b-counter-ex">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-counter-ex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) <span class="math inline">\(M_1 = \{12\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8b-counter-ex" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8b-counter-ex2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8b-counter-ex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8b/w_match_ex2_M2.png" class="img-fluid figure-img" data-ref-parent="fig-8b-counter-ex">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8b-counter-ex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(M_2 = \{02, 13\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8b-counter-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.18: A graph where the maximum cardinality matching is <strong><em>not</em></strong> the maximum weight matching.
+</figcaption>
+</figure>
+</div>
 <!-- 
 ## The Assignment Problem 
 
@@ -1380,7 +1458,6 @@ $$
 $$ -->
 
 
-</section>
 </section>
 </section>
 

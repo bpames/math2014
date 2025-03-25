@@ -2488,5 +2488,265 @@
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Network Flows</span>"
     ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html",
+    "href": "09_Complexity_Classes.html",
+    "title": "9  Complexity Classes",
+    "section": "",
+    "text": "9.1 Problem Complexity\nRecall the Cobham-Edmonds thesis1: \\(P\\) is tractable or well-solved if\nWe have seen several problems which are tractable:\nIndeed, we have developed and analysed polynomial time algorithms for each of these problems earlier in the module.\nA foundational question in complexity theory is whether there are inherently difficult problems which cannot be solved in polynomial time?",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#problem-complexity",
+    "href": "09_Complexity_Classes.html#problem-complexity",
+    "title": "9  Complexity Classes",
+    "section": "",
+    "text": "There is an algorithm \\(A\\) which solves it.\n\\(A\\) has computational complexity which is a polynomial function of the instance size of \\(P\\).\n\n\n\nminimum spanning tree\nshortest path\nmax flow / min cut problem\nmatching (unweighted, weighted, and assignment).\n\n\n\n\nThere are many problems that nobody knows how to solve in polynomial time.\nThis doesn’t mean that it is impossible to solve them in polynomial time.\nIt just means we haven’t found a polynomial time algorithm yet.\n\n\nExample 9.1 (The PRIME Problem) PRIME: given an integer \\(k\\), is \\(k\\) prime?\nIt was thought that PRIME did not have a polynomial time algorithm for a long time. However, Agrawak, Kayal, and Saxena[^AKS1][^AKS2] found one in 2002 that requires \\(O \\Big( (\\log k)^{12} \\big( \\log (\\log k)^{12}\\big)^c\\Big)\\) elementary operations, for some \\(c \\ge 1\\).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#examples-of-tractable-problems",
+    "href": "09_Complexity_Classes.html#examples-of-tractable-problems",
+    "title": "9  Complexity Classes",
+    "section": "9.2 Examples of Tractable Problems",
+    "text": "9.2 Examples of Tractable Problems\n\nminimum spanning tree\nshortest path\nmax flow / min cut problem\nmatching (unweighted, weighted, and assignment).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#question",
+    "href": "09_Complexity_Classes.html#question",
+    "title": "9  Complexity Classes",
+    "section": "9.3 Question",
+    "text": "9.3 Question\n\nAre there inherently difficult problems which cannot be solved in polynomial time?\n\nThere are many problems that nobody knows how to solve in polynomial time.\nThis doesn’t mean that it is impossible to solve them in polynomial time.\nIt just means we haven’t found a polynomial time algorithm yet.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#example-the-prime-problem",
+    "href": "09_Complexity_Classes.html#example-the-prime-problem",
+    "title": "9  Complexity Classes",
+    "section": "9.4 Example: The PRIME Problem",
+    "text": "9.4 Example: The PRIME Problem\nPRIME: given an integer \\(k\\), is \\(k\\) prime?\nThought to not have a polytime algorithm for a long time.\n\nAgrawak, Kayal, and Saxena (AKS)\\(^{23}\\) found one in 2002 that requires \\(O \\Big( (\\log k)^{12} \\big( \\log (\\log k)^{12}\\big)^c\\Big)\\) elementary operations, for some \\(c \\ge 1\\).\n\n\n2: https://en.wikipedia.org/wiki/AKS_primality_test\n3: https://people.engr.tamu.edu/andreas-klappenecker/629/aks.pdf",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#goals",
+    "href": "09_Complexity_Classes.html#goals",
+    "title": "9  Complexity Classes",
+    "section": "9.2 Goals",
+    "text": "9.2 Goals\n\nWe want to build a theory that allows us to conclude that a problem does not have a polytime algorithm.\n\n\nThe best we can do today is develop theory that let’s us conclude that a problem is very unlikely to have a polytime algorithm.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#the-traveling-salesperson-problem",
+    "href": "09_Complexity_Classes.html#the-traveling-salesperson-problem",
+    "title": "9  Complexity Classes",
+    "section": "9.3 The Traveling Salesperson Problem",
+    "text": "9.3 The Traveling Salesperson Problem\n\nDefinition 9.1 A Hamiltonian circuit or cycle or tour of direted graph \\(G = (V,A)\\) is a cycle that visits each node exactly once\n\n\nDefinition 9.2 Traveling Salesperson Problem (TSP)\\(^4\\):\n\nGiven graph \\(G\\) with arc costs \\(c_{ij} \\in \\mathbf{Z}_+\\).\nFind a Hamiltonian cycle of \\(G\\) with minimum cost.\n\n\n::: {.absolute top=64%} Applications: logistics/transportation, circuit design, scheduling. ::: e\n\n4: http://www.math.uwaterloo.ca/~bico/",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#types-of-problems",
+    "href": "09_Complexity_Classes.html#types-of-problems",
+    "title": "9  Complexity Classes",
+    "section": "9.3 Types of Problems",
+    "text": "9.3 Types of Problems\nGiven problem instance \\(I\\) defined by set of feasible solutions \\(F\\) and cost function \\(c: F \\mapsto \\mathbf{R}\\).\n\n9.3.1 Decision Problem\n\nGiven \\(L \\in \\mathbf{R}\\), is there \\(X \\in F\\) such that \\(c(X) \\le L?\\)\nAlgorithm \\(A\\) takes input \\(I, L\\) and returns YES or NO.\nSearch version: \\(A\\) returns \\(X \\in F\\) with \\(c(X) \\le L\\) if one exists.\n\n\n\n9.3.2 Optimization Problems in Search Version\n\n\\(A\\) finds \\(X \\in F\\) minimizing \\(c(X)\\).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#example-tsp",
+    "href": "09_Complexity_Classes.html#example-tsp",
+    "title": "9  Complexity Classes",
+    "section": "9.3 Example: TSP",
+    "text": "9.3 Example: TSP\nWe can formally define two versions of the TSP:\n\n9.3.1 TSP as an Optimization Problem\nGiven directed graph \\(G = (V,A)\\) with costs \\(c_{ij} \\in \\mathbf{Z}_+\\) for each arc \\((i,j) \\in A\\), find a Hamiltonian cycle with minimum total cost.\n\n\n9.3.2 TSP as a Decision Problem\nGiven directed graph \\(G\\), arc costs \\(c_{ij}\\), and integer \\(L\\):\n\nDoes \\(G\\) contain a Hamiltonian cycle of total cost at most \\(L\\)?",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#decision-vs-optimization-problems",
+    "href": "09_Complexity_Classes.html#decision-vs-optimization-problems",
+    "title": "9  Complexity Classes",
+    "section": "9.3 Decision vs Optimization Problems",
+    "text": "9.3 Decision vs Optimization Problems\nWhich is inherently more difficult? Optimization or decision problems?\n\nTheorem 9.1 Any algorithm \\(A\\) for an optimization problem \\(P\\) solves the decision version \\(P_d\\).\n\n\nCorollary 9.1 If the optimization problem \\(P\\) is polytime solvable, then the decision problem \\(P_d\\) is also polytime solvable.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#complexity-classes-p",
+    "href": "09_Complexity_Classes.html#complexity-classes-p",
+    "title": "9  Complexity Classes",
+    "section": "9.3 Complexity Classes – P",
+    "text": "9.3 Complexity Classes – P\nWe aim to categorize decision problems based on their inherent difficulty.\n\nDefinition 9.5 We denote by \\(\\boldsymbol{P}\\) the class of all decision problems which can be solved in polynomial time for every instance \\(I\\)3.\n\n\n9.3.1 Examples\nThe decision versions of the minimum spanning tree, shortest path, max flow, matching, and assignment problems are all in \\(P\\).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#complexity-classes-np",
+    "href": "09_Complexity_Classes.html#complexity-classes-np",
+    "title": "9  Complexity Classes",
+    "section": "9.4 Complexity Classes – NP",
+    "text": "9.4 Complexity Classes – NP\n\nDefinition 9.6 We say a problem \\(P\\) belongs to the complexity class P or nondeterministic polynomial4 if:\n\nfor every instance \\(I\\) of \\(P\\) with answer YES (called a YES-instance), there is a certificate which verfies that the instance has answer YES in polynomial time.\n\n\n\nWe are not interested in how to build the certificate; just whether we can verify in polynomial time.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#example-tsp-1",
+    "href": "09_Complexity_Classes.html#example-tsp-1",
+    "title": "9  Complexity Classes",
+    "section": "9.4 Example: TSP",
+    "text": "9.4 Example: TSP\nThe Traveling Salesperson Problem is in \\(NP\\).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#section",
+    "href": "09_Complexity_Classes.html#section",
+    "title": "9  Complexity Classes",
+    "section": "9.5 ",
+    "text": "9.5",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#section-1",
+    "href": "09_Complexity_Classes.html#section-1",
+    "title": "9  Complexity Classes",
+    "section": "9.6 ",
+    "text": "9.6",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#section-2",
+    "href": "09_Complexity_Classes.html#section-2",
+    "title": "9  Complexity Classes",
+    "section": "9.7 ",
+    "text": "9.7",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#section-3",
+    "href": "09_Complexity_Classes.html#section-3",
+    "title": "9  Complexity Classes",
+    "section": "9.8 ",
+    "text": "9.8",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#differences-between-p-and-np",
+    "href": "09_Complexity_Classes.html#differences-between-p-and-np",
+    "title": "9  Complexity Classes",
+    "section": "9.9 Differences between P and NP",
+    "text": "9.9 Differences between P and NP\n\n\\(P\\) contains polynomial time solvable problems:\n\n\\(P\\) contains decision problems to which a YES/NO answer can be given for any instance in polynomial time.\n\n\n\n\\(NP\\) contains polynomial time certifiable problems:\n\nYES-instances admit a certificate which can be verified in polynomial time.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#turing-machines",
+    "href": "09_Complexity_Classes.html#turing-machines",
+    "title": "9  Complexity Classes",
+    "section": "9.10 Turing Machines",
+    "text": "9.10 Turing Machines\n::: {#def-tm .absolute top=20%} A turing machine (TM)5 is a mathematical model of computer as an abstract machine that:\n\nmanipulates symbols from an infinite tape (can read and write),\naccording to table of rules implementing a finite-state automaton6.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#relationship-between-tm-p-and-np",
+    "href": "09_Complexity_Classes.html#relationship-between-tm-p-and-np",
+    "title": "9  Complexity Classes",
+    "section": "9.11 Relationship between TM, P, and NP",
+    "text": "9.11 Relationship between TM, P, and NP\n\nEverything a computer can do can be modeled by a TM.\n\n\n\\(P\\) is the set of problems that can be solved in polynomial time by a TM.\n\n\n\\(P\\) is the class of problems that can be solved (not just certified) in polynomial time by a nondeterministic TM\\(^9\\).\n\n\n9: https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#relationship-between-p-and-np",
+    "href": "09_Complexity_Classes.html#relationship-between-p-and-np",
+    "title": "9  Complexity Classes",
+    "section": "9.12 Relationship Between P and NP",
+    "text": "9.12 Relationship Between P and NP\n\nTheorem 9.2 \\(P \\subseteq NP\\)",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#p-p-or-p-neq-p",
+    "href": "09_Complexity_Classes.html#p-p-or-p-neq-p",
+    "title": "9  Complexity Classes",
+    "section": "9.13 \\(P = P\\) or \\(P \\neq P?\\)",
+    "text": "9.13 \\(P = P\\) or \\(P \\neq P?\\)\n\nConjecture 9.1 It is widely conjectured that there is at least one problem in \\(P\\) but not in \\(P\\), i.e., \\(P \\neq P\\).\n\n\nFalsifying Conjecture 9.1 would prove that \\(P = P\\).\n\n\nDeterminining if \\(P = P\\) or \\(P \\neq P\\) is one of the seven Millenium Prize Problems7.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#footnotes",
+    "href": "09_Complexity_Classes.html#footnotes",
+    "title": "9  Complexity Classes",
+    "section": "",
+    "text": "https://en.wikipedia.org/wiki/Cobham's_thesis↩︎\nhttp://www.math.uwaterloo.ca/~bico/↩︎\nhttps://en.wikipedia.org/wiki/P_(complexity)↩︎\nhttps://en.wikipedia.org/wiki/NP_(complexity)↩︎\nhttps://en.wikipedia.org/wiki/Turing_machine↩︎\nhttps://en.wikipedia.org/ewiki/Finite-state_machine↩︎\nhttps://en.wikipedia.org/wiki/Nondeterministic_Turing_machine↩︎\nhttps://www.claymath.org/millennium-problems/↩︎",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#goals-of-complexity-theory",
+    "href": "09_Complexity_Classes.html#goals-of-complexity-theory",
+    "title": "9  Complexity Classes",
+    "section": "9.2 Goals of Complexity Theory",
+    "text": "9.2 Goals of Complexity Theory\nWe want to build a theory that allows us to conclude that a problem does not have a polynomial time algorithm.\nThe best we can do today is develop theory that let’s us conclude that a problem is very unlikely to have a polynomial time algorithm.\n\n9.2.1 The Traveling Salesperson Problem (TSP)\nWe will repeatedly reference the traveling salesperson problem as an illustrative example.\n\nDefinition 9.1 A Hamiltonian circuit or cycle or tour of direted graph \\(G = (V,A)\\) is a cycle that visits each node exactly once\n\n\nDefinition 9.2 Traveling Salesperson Problem (TSP):2\n\nGiven graph \\(G\\) with arc costs \\(c_{ij} \\in \\mathbf{Z}_+\\).\nFind a Hamiltonian cycle of \\(G\\) with minimum cost.\n\n\nThe TSP has many applications, especially within logistics/transportation, circuit design, and scheduling.\n\n\n9.2.2 Types of Problems\nGiven problem instance \\(I\\) defined by set of feasible solutions \\(F\\) and cost function \\(c: F \\mapsto \\mathbf{R}\\).\n\nDefinition 9.3 (Decision Problem)  \n\nGiven \\(L \\in \\mathbf{R}\\), is there \\(X \\in F\\) such that \\(c(X) \\le L?\\)\nAlgorithm \\(A\\) takes input \\(I, L\\) and returns YES or NO.\nSearch version: \\(A\\) returns \\(X \\in F\\) with \\(c(X) \\le L\\) if one exists.\n\n\n\nDefinition 9.4 (Optimization Problems in Search Version)  \n\nAlgorithm \\(A\\) finds \\(X \\in F\\) minimizing \\(c(X)\\).\n\n\n\n\n9.2.3 Example: TSP\nWe can formally define two versions of the TSP:\n\n9.2.3.1 TSP as an Optimization Problem\nGiven directed graph \\(G = (V,A)\\) with costs \\(c_{ij} \\in \\mathbf{Z}_+\\) for each arc \\((i,j) \\in A\\), find a Hamiltonian cycle with minimum total cost.\n\n\n9.2.3.2 TSP as a Decision Problem\nGiven directed graph \\(G\\), arc costs \\(c_{ij}\\), and integer \\(L\\):\n\nDoes \\(G\\) contain a Hamiltonian cycle of total cost at most \\(L\\)?\n\n\n\n\n9.2.4 Comparison of Complexity of Decision and Optimization Problems\nThis prompts a reasonable question:\n\nWhich is inherently more difficult?\nOptimization or decision problems?\n\nThe following theorem answers this fundamental question.\n\nTheorem 9.1 Any algorithm \\(A\\) for an optimization problem \\(P\\) solves the decision version \\(P_d\\).\n\n@#thm-opt-is-easier has a natural corollary, which establishes that tractable optimization problems correspond to tractable decision problems.\n\nCorollary 9.1 If the optimization problem \\(P\\) is polynomial time solvable, then the decision problem \\(P_d\\) is also polynomial time solvable.\n\n\nProof. We have the following algorithm for solving the decision problem \\(P_d\\) given an algorithm \\(A\\) for solving optimization problem \\(P\\):\n\nSolve \\(P\\) using \\(A\\). Let \\(X^*\\) be the minimizer of \\(P\\) with minimum value \\(c(X^*)\\).\nCompare the optimal value to \\(L\\):\n\nReturn YES if \\(c(X^*) \\le L\\);\nOtherwise, return NO.\n\n\nIf \\(A\\) is polynomial time then this algorithm is also polynomial time.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#complexity-classes",
+    "href": "09_Complexity_Classes.html#complexity-classes",
+    "title": "9  Complexity Classes",
+    "section": "9.3 Complexity Classes",
+    "text": "9.3 Complexity Classes\nWe aim to categorize decision problems based on their inherent difficulty.\nWe will start by comparing two complexity classes, \\(P\\) and \\(NP\\).\n\n9.3.1 The Class \\(P\\)\n\nDefinition 9.5 We denote by \\(P\\) the class of all decision problems which can be solved in polynomial time for every instance \\(I\\)3.\n\nWe have seen several examples of problems belonging to \\(P\\). Indeed, the decision versions of the minimum spanning tree, shortest path, max flow, matching, and assignment problems are all in \\(P\\).\n\n\n9.3.2 The Class \\(NP\\)\n\nDefinition 9.6 We say a problem \\(P\\) belongs to the complexity class P or nondeterministic polynomial4 if:\n\nEvery instance \\(I\\) of \\(P\\) with answer YES (called a YES-instance), has is a certificate which verfies that the instance has answer YES in polynomial time.\n\n\nWe are not interested in how to build the certificate; just whether we can verify in polynomial time.\n\nExample 9.2 (TSP) The Traveling Salesperson Problem is in \\(NP\\).\nSee that TSP is in \\(NP\\), we need to identify a certificate for an arbitrary YES-instance.\nConsider the following proposed certificate for instance of TSP with \\(G = (V,A)\\) and threshold \\(L\\):\n\nLet \\(P = (v_1, v_2, \\dots, v_n)\\) be a sequence of nodes such that\n\n\\(P\\) contains all nodes of \\(G\\) exactly once.\nPairs of consecutive nodes share an arc: \\((v_i, v_{i+1}) \\in A\\). Moreover, \\((v_n, v_1) \\in A\\).\nTotal cost of these arcs is \\[\n\\sum_{i=1}^n c((v_i, v_{i+1})) \\le L;\n  \\] here, we use \\(v_{n+1} = v_1\\).\n\n\nThis is a certificate! If given \\(P\\), we can that check that (1), (2), and (3) are satisfied in polynomial time.\n\nIndeed, \\(P\\) and \\((v_n, v_1)\\) define the desired Hamiltonian cycle in this case.\n\n\n\n\n9.3.3 Differences between \\(P\\) and \\(NP\\)\nThe class \\(P\\) contains polynomial time solvable problems:\n\n\\(P\\) contains decision problems to which a YES/NO answer can be given for any instance in polynomial time. :::\n\nOther other hand, \\(NP\\) contains polynomial time certifiable problems:\n\nYES-instances admit a certificate which can be verified in polynomial time.\n\n\n\n9.3.4 Turing Machines\n\nDefinition 9.7 A turing machine (TM)5 is a mathematical model of computer as an abstract machine that:\n\nmanipulates symbols from an infinite tape (can read and write),\naccording to table of rules implementing a finite-state automaton6.\n\n\nEverything a computer can do can be modeled by a TM.\n\n\\(P\\) is the set of problems that can be solved in polynomial time by a TM.\n\\(P\\) is the class of problems that can be solved (not just certified) in polynomial time by a nondeterministic TM7. :::",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
+  },
+  {
+    "objectID": "09_Complexity_Classes.html#the-relationship-between-p-and-np",
+    "href": "09_Complexity_Classes.html#the-relationship-between-p-and-np",
+    "title": "9  Complexity Classes",
+    "section": "9.4 The Relationship Between \\(P\\) and \\(NP\\)",
+    "text": "9.4 The Relationship Between \\(P\\) and \\(NP\\)\n\n9.4.1 \\(P \\subset NP\\)\nIt is known that \\(P\\) is a subset of \\(NP\\). That is, every problem in \\(P\\) also belongs to \\(NP\\).\nWe have the following theorem.\n\nTheorem 9.2 \\(P \\subseteq NP\\)\n\n\nProof. Suppose that problem \\(Q\\) in \\(P\\), i.e., \\(Q \\in P\\). This implies that there is a polynomial time algorithm \\(A\\) for \\(Q\\).\nThe steps of \\(A\\) act as a certificate:\n\nIf \\(A\\) solves search version of \\(Q\\), then the solution returned by \\(A\\) satisfies the conditions for YES response.\nIf \\(A\\) only returns YES or NO applying \\(A\\) and obtaining response YES is the certificate.\n\n\n\n\n9.4.2 \\(P = NP\\) or \\(P \\neq NP?\\)\n\nConjecture 9.1 It is widely conjectured that there is at least one problem in \\(NP\\) but not in \\(P\\), i.e., \\(P \\neq NP\\).\n\n\nFalsifying Conjecture 9.1 would prove that \\(P = NP\\).\nDeterminining if \\(P = NP\\) or \\(P \\neq NP\\) is one of the seven Millenium Prize Problems8.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Complexity Classes</span>"
+    ]
   }
 ]
