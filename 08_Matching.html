@@ -221,6 +221,13 @@ window.Quarto = {
   <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">8.2.7</span> Example</a></li>
   <li><a href="#a-final-remark" id="toc-a-final-remark" class="nav-link" data-scroll-target="#a-final-remark"><span class="header-section-number">8.2.8</span> A Final Remark</a></li>
   </ul></li>
+  <li><a href="#the-assignment-problem" id="toc-the-assignment-problem" class="nav-link" data-scroll-target="#the-assignment-problem"><span class="header-section-number">8.3</span> The Assignment Problem</a>
+  <ul class="collapse">
+  <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link" data-scroll-target="#preliminaries"><span class="header-section-number">8.3.1</span> Preliminaries</a></li>
+  <li><a href="#connection-to-maximum-matchings" id="toc-connection-to-maximum-matchings" class="nav-link" data-scroll-target="#connection-to-maximum-matchings"><span class="header-section-number">8.3.2</span> Connection to Maximum Matchings</a></li>
+  <li><a href="#complexity-of-the-assignment-problem" id="toc-complexity-of-the-assignment-problem" class="nav-link" data-scroll-target="#complexity-of-the-assignment-problem"><span class="header-section-number">8.3.3</span> Complexity of the Assignment Problem</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">8.3.4</span> Example</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1276,188 +1283,245 @@ Figure&nbsp;8.18: A graph where the maximum cardinality matching is <strong><em>
 </figcaption>
 </figure>
 </div>
-<!-- 
-## The Assignment Problem 
-
-### Preliminaries 
-
-
-::: {#def-8c-assignment-prob}
-#### The Assignment Problem
-
-Given two groups with $k$ items each and a ***pairwise cost*** $a_{ij}$ for each $i,j = 1,2,\dots, k$, 
-the **assigment problem** seeks an assignment of the objects from the first group to the second such that:
-
-1. Each object is assigned from group 1 to exactly one item in group 2.
-2. The total assignment cost is minimized. 
-:::
-
-#### Permutations 
-
-A **permutation** is a bijective function $\pi$ mapping $\{1,2,\dots, k\}$ onto itself. 
-
-The **assignment problem** can be expressed in terms of permutations: 
-
-- Given a $k\times k$ matrix $A$, find a ***permutation*** $\pi$ of $\{1,2,\dots, k\}$ maximizing 
-$$
-    \sum_{i=1}^k a_{i, \pi(i)}. 
-$$ 
-
-:::{#exm-8c-ass-perm}
-Suppose $k = 3$ and consider the **permutation** $\pi$ and **pairwise costs** $A$ given by 
-$$
+</section>
+</section>
+<section id="the-assignment-problem" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="the-assignment-problem"><span class="header-section-number">8.3</span> The Assignment Problem</h2>
+<section id="preliminaries" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">8.3.1</span> Preliminaries</h3>
+<div id="def-8c-assignment-prob" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 8.11 (The Assignment Problem)</strong></span> Given two groups with <span class="math inline">\(k\)</span> items each and a <strong><em>pairwise cost</em></strong> <span class="math inline">\(a_{ij}\)</span> for each <span class="math inline">\(i,j = 1,2,\dots, k\)</span>, the <strong>assigment problem</strong> seeks an assignment of the objects from the first group to the second such that:</p>
+<ol type="1">
+<li>Each object is assigned from group 1 to exactly one item in group 2.</li>
+<li>The total assignment cost is minimized.</li>
+</ol>
+</div>
+<section id="permutations" class="level4" data-number="8.3.1.1">
+<h4 data-number="8.3.1.1" class="anchored" data-anchor-id="permutations"><span class="header-section-number">8.3.1.1</span> Permutations</h4>
+<p>A <strong>permutation</strong> is a bijective function <span class="math inline">\(\pi\)</span> mapping <span class="math inline">\(\{1,2,\dots, k\}\)</span> onto itself.</p>
+<p>The <strong>assignment problem</strong> can be expressed in terms of permutations:</p>
+<ul>
+<li>Given a <span class="math inline">\(k\times k\)</span> matrix <span class="math inline">\(A\)</span>, find a <strong><em>permutation</em></strong> <span class="math inline">\(\pi\)</span> of <span class="math inline">\(\{1,2,\dots, k\}\)</span> maximizing <span class="math display">\[
+  \sum_{i=1}^k a_{i, \pi(i)}.
+\]</span></li>
+</ul>
+<div id="exm-8c-ass-perm" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.12</strong></span> Suppose <span class="math inline">\(k = 3\)</span> and consider the <strong>permutation</strong> <span class="math inline">\(\pi\)</span> and <strong>pairwise costs</strong> <span class="math inline">\(A\)</span> given by <span class="math display">\[
     \pi(1) = 3, \; \pi(2) = 1, \;
     \pi(3) = 2, \hspace{0.25in}
-    A = \begin{pmatrix} 
-    -5 & 2 & 3 \\ 
-    4 & 1 & 3 \\ 
-    7 & 2 & -4 
-    \end{pmatrix}. 
-$$
-Then the **cost of the assignment according to** $\pi$ is
-$$
-a_{1, \pi(1)} + a_{2, \pi(2)} + a_{3,\pi(3)} 
+    A = \begin{pmatrix}
+    -5 &amp; 2 &amp; 3 \\
+    4 &amp; 1 &amp; 3 \\
+    7 &amp; 2 &amp; -4
+    \end{pmatrix}.
+\]</span> Then the <strong>cost of the assignment according to</strong> <span class="math inline">\(\pi\)</span> is <span class="math display">\[
+a_{1, \pi(1)} + a_{2, \pi(2)} + a_{3,\pi(3)}
 = a_{13} + a_{21} + a_{32} = 3 + 4 + 2 = 9.
-$$
-:::
-
-### Connection to Maximum Matchings
-
-We can cast an instance of the **assignment problem** as an instance of **maximum weighted matching problem**: 
-
-- Construct ***complete bipartite graph*** $G = (U \cup V, E)$ with 
-$$
-    U = \{1,\dots, k\}, \hspace{0.5in}
-    V = \{1', \dots, k'\}. 
-$$
-
-- Reverse signs of costs $w_{ij} = -a_{ij}$ to obtain a ***maximization*** problem. 
-
-- Impose constraint $|M| = v(G) = n/2 = k$ to ensure assignment of all objects.
-
-It suffices to apply the **augmenting path algorithm** for the maximum weighted matching problem with ***one change***: 
-
-- The minimum cost assignment is the **last** matching $M_{\nu(G)}$.
-
-- This ensures that the assignment constraint is met.
-
-### Complexity of the Assignment Problem
-
-We can solve the weighted matching problem using $O(n^2 m)$ EOs using the augmenting path algorithm.
-
-**Question:** How does this translate to an instance size of the assignment problem?
-
-- Let $n$ is the number of vertices $G$ in the bipartite representation of the assignment problem with $k$ nodes in each shore $U$ and $V$:
-$$
-    n = |U| + |V| = k + k = 2. 
-$$
-
-- $G$ is complete bipartite, so it has 
-$$
-    k^2 = |U| \times |V|
-$$
-edges.
-
-This implies that we need 
-$$
+\]</span></p>
+</div>
+</section>
+</section>
+<section id="connection-to-maximum-matchings" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="connection-to-maximum-matchings"><span class="header-section-number">8.3.2</span> Connection to Maximum Matchings</h3>
+<p>We can cast an instance of the <strong>assignment problem</strong> as an instance of <strong>maximum weighted matching problem</strong>:</p>
+<ul>
+<li><p>Construct <strong><em>complete bipartite graph</em></strong> <span class="math inline">\(G = (U \cup V, E)\)</span> with <span class="math display">\[
+  U = \{1,\dots, k\}, \hspace{0.5in}
+  V = \{1', \dots, k'\}.
+\]</span></p></li>
+<li><p>Reverse signs of costs <span class="math inline">\(w_{ij} = -a_{ij}\)</span> to obtain a <strong><em>maximization</em></strong> problem.</p></li>
+<li><p>Impose constraint <span class="math inline">\(|M| = v(G) = n/2 = k\)</span> to ensure assignment of all objects.</p></li>
+</ul>
+<p>It suffices to apply the <strong>augmenting path algorithm</strong> for the maximum weighted matching problem with <strong><em>one change</em></strong>:</p>
+<ul>
+<li><p>The minimum cost assignment is the <strong>last</strong> matching <span class="math inline">\(M_{\nu(G)}\)</span>.</p></li>
+<li><p>This ensures that the assignment constraint is met.</p></li>
+</ul>
+</section>
+<section id="complexity-of-the-assignment-problem" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="complexity-of-the-assignment-problem"><span class="header-section-number">8.3.3</span> Complexity of the Assignment Problem</h3>
+<p>We can solve the weighted matching problem using <span class="math inline">\(O(n^2 m)\)</span> EOs using the augmenting path algorithm.</p>
+<p><strong>Question:</strong> How does this translate to an instance size of the assignment problem?</p>
+<ul>
+<li><p>Let <span class="math inline">\(n\)</span> is the number of vertices <span class="math inline">\(G\)</span> in the bipartite representation of the assignment problem with <span class="math inline">\(k\)</span> nodes in each shore <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span>: <span class="math display">\[
+  n = |U| + |V| = k + k = 2.
+\]</span></p></li>
+<li><p><span class="math inline">\(G\)</span> is complete bipartite, so it has <span class="math display">\[
+  k^2 = |U| \times |V|
+\]</span> edges.</p></li>
+</ul>
+<p>This implies that we need <span class="math display">\[
     O(n^2 m) = O(k^4)
-$$
-elementary operations to solve the assignment problem. This is quadratic in the number, $k^2$, of pairwise assignment costs. Thus, the modified augmenting path algorithm solves the assignment problem using at most a polynomial of its instance size operations.
-
-### Example
-
-:::{#exm-8c-ass-ex}
-Let's solve the instance of the assignment problem given by cost matrix 
-$$
-A = \begin{pmatrix} 
-    -5 & 2 & 3 \\ 
-    4 & 1 & 3 \\ 
-    7 & 2 & -4 
+\]</span> elementary operations to solve the assignment problem. This is quadratic in the number, <span class="math inline">\(k^2\)</span>, of pairwise assignment costs. Thus, the modified augmenting path algorithm solves the assignment problem using at most a polynomial of its instance size operations.</p>
+</section>
+<section id="example-2" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="example-2"><span class="header-section-number">8.3.4</span> Example</h3>
+<div id="exm-8c-ass-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.13</strong></span> Let’s solve the instance of the assignment problem given by cost matrix <span class="math display">\[
+A = \begin{pmatrix}
+    -5 &amp; 2 &amp; 3 \\
+    4 &amp; 1 &amp; 3 \\
+    7 &amp; 2 &amp; -4
     \end{pmatrix}.
-$$ 
-:::
-
-##### Initialization {.unnumbered}
-
-We start by constructing the weight matrix $W$ and constructing the corresponding instance of the maximum weighted matching problem:
-$$
-W = - A = \begin{pmatrix} 
-    +5 & -2 & -3 \\ 
-    -4 & -1 & -3 \\ 
-    -7 & -2 & +4 
+\]</span></p>
+</div>
+<section id="initialization" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="initialization">Initialization</h5>
+<p>We start by constructing the weight matrix <span class="math inline">\(W\)</span> and constructing the corresponding instance of the maximum weighted matching problem: <span class="math display">\[
+W = - A = \begin{pmatrix}
+    +5 &amp; -2 &amp; -3 \\
+    -4 &amp; -1 &amp; -3 \\
+    -7 &amp; -2 &amp; +4
     \end{pmatrix}.
-$$
-Associating rows in $A$ and $W$ with nodes $0,1,2$ and columns $3,4,5$ yields an instance of the maximum weight matching problem corresponding to the graph $G$ in @fig-8c-G. 
-
-![Graph $G$ corresponding to the assignment problem with costs $A$.](Figures/8c/assn_ex.png){#fig-8c-G height=300}
-
-##### Step 1 {.unnumbered}
-
-We construct the auxiliary graph $G'$ corresponding to the initial matching $M_0$ with $0$ edges. 
-The shortest $st$-path in $G'$ is $(s,0,3,t)$. We use the subpath $P_0 = (0,3)$ to compute $M_1$:
-$$
+\]</span> Associating rows in <span class="math inline">\(A\)</span> and <span class="math inline">\(W\)</span> with nodes <span class="math inline">\(0,1,2\)</span> and columns <span class="math inline">\(3,4,5\)</span> yields an instance of the maximum weight matching problem corresponding to the graph <span class="math inline">\(G\)</span> in <a href="#fig-8c-G" class="quarto-xref">Figure&nbsp;<span>8.19</span></a>.</p>
+<div id="fig-8c-G" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8c-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/assn_ex.png" height="300" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8c-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.19: Graph <span class="math inline">\(G\)</span> corresponding to the assignment problem with costs <span class="math inline">\(A\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-1-2" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="step-1-2">Step 1</h5>
+<p>We construct the auxiliary graph <span class="math inline">\(G'\)</span> corresponding to the initial matching <span class="math inline">\(M_0\)</span> with <span class="math inline">\(0\)</span> edges. The shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span> is <span class="math inline">\((s,0,3,t)\)</span>. We use the subpath <span class="math inline">\(P_0 = (0,3)\)</span> to compute <span class="math inline">\(M_1\)</span>: <span class="math display">\[
     M_1 = M_0 \Delta P_0 = \{03\}; \;\;\; w(M_1) = 5.
-$$
-
-:::{#fig-8c-ex-1 layout-ncol="2"}
-
-![Shortest $st$-path in $G'$](Figures/8c/AP-1.png){#fig-8c-ex-1-ap}
-
-![Matching $M_1$](Figures/8c/match-1.png){#fig-8c-match-1}
-
-Details of the first iteration of the augmenting path algorithm.
-
-:::
-
-##### Step 2 {.unnumbered}
-
-After updating the auxiliary graph, we see that shortest $st$-path in $G'$ is $(s,2,5,t)$. We let $P_1 = (2,5)$ and set 
-$$
+\]</span></p>
+<div id="fig-8c-ex-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8c-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8c-ex-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8c-ex-1-ap" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8c-ex-1-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/AP-1.png" class="img-fluid figure-img" data-ref-parent="fig-8c-ex-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8c-ex-1-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8c-ex-1" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8c-match-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8c-match-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/match-1.png" class="img-fluid figure-img" data-ref-parent="fig-8c-ex-1">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8c-match-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Matching <span class="math inline">\(M_1\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8c-ex-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.20: Details of the first iteration of the augmenting path algorithm.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-2-2" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="step-2-2">Step 2</h5>
+<p>After updating the auxiliary graph, we see that shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span> is <span class="math inline">\((s,2,5,t)\)</span>. We let <span class="math inline">\(P_1 = (2,5)\)</span> and set <span class="math display">\[
     M_2 = M_1 \Delta P_1 = \{03, 25\}; \;\;\ w(M_2) = 9.
-$$
-
-:::{#fig-8c-ex-2 layout-ncol="2"}
-
-![Shortest $st$-path in $G'$](Figures/8c/AP-2.png){#fig-8c-ex-2-ap}
-
-![Matching $M_2$](Figures/8c/match-2.png){#fig-8c-match-2}
-
-Details of the second iteration of the augmenting path algorithm.
-:::
-
-##### Step 3 {.unnumbered}
-
-The shortest $st$-path in the auxiliary graph $G'$ with respect to $M_2$ is $(s, 1, 4, t)$. We let $P_2 = (1,4)$ and obtain the matching 
-$$
+\]</span></p>
+<div id="fig-8c-ex-2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8c-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8c-ex-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8c-ex-2-ap" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8c-ex-2-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/AP-2.png" class="img-fluid figure-img" data-ref-parent="fig-8c-ex-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8c-ex-2-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8c-ex-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8c-match-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8c-match-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/match-2.png" class="img-fluid figure-img" data-ref-parent="fig-8c-ex-2">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8c-match-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Matching <span class="math inline">\(M_2\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8c-ex-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.21: Details of the second iteration of the augmenting path algorithm.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-3-1" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="step-3-1">Step 3</h5>
+<p>The shortest <span class="math inline">\(st\)</span>-path in the auxiliary graph <span class="math inline">\(G'\)</span> with respect to <span class="math inline">\(M_2\)</span> is <span class="math inline">\((s, 1, 4, t)\)</span>. We let <span class="math inline">\(P_2 = (1,4)\)</span> and obtain the matching <span class="math display">\[
     M_3 = M_2 \Delta P_2 = \{03, 25, 14\}
-$$
-with $w(M_3) = 9 - 1 = 8$.
-
-:::{#fig-8c-ex-3 layout-ncol="2"}
-
-![Shortest $st$-path in $G'$](Figures/8c/AP-3.png){#fig-8c-ex-3-ap}
-
-![Matching $M_3$](Figures/8c/match-3.png){#fig-8c-match-3}
-
-Details of the third iteration of the augmenting path algorithm.
-:::
-
-##### Termination {.unnumbered}
-
-Since $\nu(G) = 3$, we stop the algorithm.
-
-- The maximum weight matching is $M_2$ with $w(M_2) = 9$.
-
-- The minimum cost assignment is given by $M_3$:
-$$
+\]</span> with <span class="math inline">\(w(M_3) = 9 - 1 = 8\)</span>.</p>
+<div id="fig-8c-ex-3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8c-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8c-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8c-ex-3-ap" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8c-ex-3-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/AP-3.png" class="img-fluid figure-img" data-ref-parent="fig-8c-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8c-ex-3-ap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Shortest <span class="math inline">\(st\)</span>-path in <span class="math inline">\(G'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-8c-ex-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-8c-match-3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8c-match-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/8c/match-3.png" class="img-fluid figure-img" data-ref-parent="fig-8c-ex-3">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8c-match-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Matching <span class="math inline">\(M_3\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8c-ex-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.22: Details of the third iteration of the augmenting path algorithm.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="termination-1" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="termination-1">Termination</h5>
+<p>Since <span class="math inline">\(\nu(G) = 3\)</span>, we stop the algorithm.</p>
+<ul>
+<li><p>The maximum weight matching is <span class="math inline">\(M_2\)</span> with <span class="math inline">\(w(M_2) = 9\)</span>.</p></li>
+<li><p>The minimum cost assignment is given by <span class="math inline">\(M_3\)</span>: <span class="math display">\[
 \pi(0) = 0,\;\;\; \pi(1) = 1, \;\;\; \pi(2) = 2
-$$
-with minimum cost 
-$$
-\sum_{i=0}^2 a_{i, \pi(i)} = a_{11} + a_{22} + a_{33} = - w(M_3) = -8. 
-$$ -->
+\]</span> with minimum cost <span class="math display">\[
+\sum_{i=0}^2 a_{i, \pi(i)} = a_{11} + a_{22} + a_{33} = - w(M_3) = -8.
+\]</span></p></li>
+</ul>
 
 
+</section>
 </section>
 </section>
 
