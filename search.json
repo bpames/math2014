@@ -1,15 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Math 2014 Algorithms",
-    "section": "",
-    "text": "Preface\nThis document collects lecture notes for Math 2014 Algorithms.\nPlease follow the page navigation for each topic covered in the module.",
-    "crumbs": [
-      "Preface"
-    ]
-  },
-  {
     "objectID": "01_Introduction.html",
     "href": "01_Introduction.html",
     "title": "1  Introduction to Algorithms",
@@ -477,6 +467,16 @@
     "text": "8.3 The Assignment Problem\n\n8.3.1 Preliminaries\n\nDefinition 8.11 (The Assignment Problem) Given two groups with \\(k\\) items each and a pairwise cost \\(a_{ij}\\) for each \\(i,j = 1,2,\\dots, k\\), the assigment problem seeks an assignment of the objects from the first group to the second such that:\n\nEach object is assigned from group 1 to exactly one item in group 2.\nThe total assignment cost is minimized.\n\n\n\n8.3.1.1 Permutations\nA permutation is a bijective function \\(\\pi\\) mapping \\(\\{1,2,\\dots, k\\}\\) onto itself.\nThe assignment problem can be expressed in terms of permutations:\n\nGiven a \\(k\\times k\\) matrix \\(A\\), find a permutation \\(\\pi\\) of \\(\\{1,2,\\dots, k\\}\\) maximizing \\[\n  \\sum_{i=1}^k a_{i, \\pi(i)}.\n\\]\n\n\nExample 8.12 Suppose \\(k = 3\\) and consider the permutation \\(\\pi\\) and pairwise costs \\(A\\) given by \\[\n    \\pi(1) = 3, \\; \\pi(2) = 1, \\;\n    \\pi(3) = 2, \\hspace{0.25in}\n    A = \\begin{pmatrix}\n    -5 & 2 & 3 \\\\\n    4 & 1 & 3 \\\\\n    7 & 2 & -4\n    \\end{pmatrix}.\n\\] Then the cost of the assignment according to \\(\\pi\\) is \\[\na_{1, \\pi(1)} + a_{2, \\pi(2)} + a_{3,\\pi(3)}\n= a_{13} + a_{21} + a_{32} = 3 + 4 + 2 = 9.\n\\]\n\n\n\n\n8.3.2 Connection to Maximum Matchings\nWe can cast an instance of the assignment problem as an instance of maximum weighted matching problem:\n\nConstruct complete bipartite graph \\(G = (U \\cup V, E)\\) with \\[\n  U = \\{1,\\dots, k\\}, \\hspace{0.5in}\n  V = \\{1', \\dots, k'\\}.\n\\]\nReverse signs of costs \\(w_{ij} = -a_{ij}\\) to obtain a maximization problem.\nImpose constraint \\(|M| = v(G) = n/2 = k\\) to ensure assignment of all objects.\n\nIt suffices to apply the augmenting path algorithm for the maximum weighted matching problem with one change:\n\nThe minimum cost assignment is the last matching \\(M_{\\nu(G)}\\).\nThis ensures that the assignment constraint is met.\n\n\n\n8.3.3 Complexity of the Assignment Problem\nWe can solve the weighted matching problem using \\(O(n^2 m)\\) EOs using the augmenting path algorithm.\nQuestion: How does this translate to an instance size of the assignment problem?\n\nLet \\(n\\) is the number of vertices \\(G\\) in the bipartite representation of the assignment problem with \\(k\\) nodes in each shore \\(U\\) and \\(V\\): \\[\n  n = |U| + |V| = k + k = 2.\n\\]\n\\(G\\) is complete bipartite, so it has \\[\n  k^2 = |U| \\times |V|\n\\] edges.\n\nThis implies that we need \\[\n    O(n^2 m) = O(k^4)\n\\] elementary operations to solve the assignment problem. This is quadratic in the number, \\(k^2\\), of pairwise assignment costs. Thus, the modified augmenting path algorithm solves the assignment problem using at most a polynomial of its instance size operations.\n\n\n8.3.4 Example\n\nExample 8.13 Let’s solve the instance of the assignment problem given by cost matrix \\[\nA = \\begin{pmatrix}\n    -5 & 2 & 3 \\\\\n    4 & 1 & 3 \\\\\n    7 & 2 & -4\n    \\end{pmatrix}.\n\\]\n\n\nInitialization\nWe start by constructing the weight matrix \\(W\\) and constructing the corresponding instance of the maximum weighted matching problem: \\[\nW = - A = \\begin{pmatrix}\n    +5 & -2 & -3 \\\\\n    -4 & -1 & -3 \\\\\n    -7 & -2 & +4\n    \\end{pmatrix}.\n\\] Associating rows in \\(A\\) and \\(W\\) with nodes \\(0,1,2\\) and columns \\(3,4,5\\) yields an instance of the maximum weight matching problem corresponding to the graph \\(G\\) in Figure 8.19.\n\n\n\n\n\n\nFigure 8.19: Graph \\(G\\) corresponding to the assignment problem with costs \\(A\\).\n\n\n\n\n\nStep 1\nWe construct the auxiliary graph \\(G'\\) corresponding to the initial matching \\(M_0\\) with \\(0\\) edges. The shortest \\(st\\)-path in \\(G'\\) is \\((s,0,3,t)\\). We use the subpath \\(P_0 = (0,3)\\) to compute \\(M_1\\): \\[\n    M_1 = M_0 \\Delta P_0 = \\{03\\}; \\;\\;\\; w(M_1) = 5.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n(a) Shortest \\(st\\)-path in \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Matching \\(M_1\\)\n\n\n\n\n\n\n\nFigure 8.20: Details of the first iteration of the augmenting path algorithm.\n\n\n\n\n\nStep 2\nAfter updating the auxiliary graph, we see that shortest \\(st\\)-path in \\(G'\\) is \\((s,2,5,t)\\). We let \\(P_1 = (2,5)\\) and set \\[\n    M_2 = M_1 \\Delta P_1 = \\{03, 25\\}; \\;\\;\\ w(M_2) = 9.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n(a) Shortest \\(st\\)-path in \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Matching \\(M_2\\)\n\n\n\n\n\n\n\nFigure 8.21: Details of the second iteration of the augmenting path algorithm.\n\n\n\n\n\nStep 3\nThe shortest \\(st\\)-path in the auxiliary graph \\(G'\\) with respect to \\(M_2\\) is \\((s, 1, 4, t)\\). We let \\(P_2 = (1,4)\\) and obtain the matching \\[\n    M_3 = M_2 \\Delta P_2 = \\{03, 25, 14\\}\n\\] with \\(w(M_3) = 9 - 1 = 8\\).\n\n\n\n\n\n\n\n\n\n\n\n(a) Shortest \\(st\\)-path in \\(G'\\)\n\n\n\n\n\n\n\n\n\n\n\n(b) Matching \\(M_3\\)\n\n\n\n\n\n\n\nFigure 8.22: Details of the third iteration of the augmenting path algorithm.\n\n\n\n\n\nTermination\nSince \\(\\nu(G) = 3\\), we stop the algorithm.\n\nThe maximum weight matching is \\(M_2\\) with \\(w(M_2) = 9\\).\nThe minimum cost assignment is given by \\(M_3\\): \\[\n\\pi(0) = 0,\\;\\;\\; \\pi(1) = 1, \\;\\;\\; \\pi(2) = 2\n\\] with minimum cost \\[\n\\sum_{i=0}^2 a_{i, \\pi(i)} = a_{11} + a_{22} + a_{33} = - w(M_3) = -8.\n\\]",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Matching Problems</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Math 2014 Algorithms",
+    "section": "",
+    "text": "Preface\nThis document collects lecture notes for Math 2014 Algorithms.\nPlease follow the page navigation for each topic covered in the module.",
+    "crumbs": [
+      "Preface"
     ]
   }
 ]
