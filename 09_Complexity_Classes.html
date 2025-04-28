@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Math 2014 Algorithms - 9&nbsp; Complexity Classes</title>
+<title>Math 2014 Algorithms - 9&nbsp; Complexity of Problems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09_Complexity_Classes.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity Classes</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09_Complexity_Classes.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity of Problems</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -191,7 +191,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09_Complexity_Classes.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity Classes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity of Problems</span></span></a>
   </div>
 </li>
     </ul>
@@ -204,25 +204,18 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#problem-complexity" id="toc-problem-complexity" class="nav-link active" data-scroll-target="#problem-complexity"><span class="header-section-number">9.1</span> Problem Complexity</a></li>
-  <li><a href="#goals-of-complexity-theory" id="toc-goals-of-complexity-theory" class="nav-link" data-scroll-target="#goals-of-complexity-theory"><span class="header-section-number">9.2</span> Goals of Complexity Theory</a>
+  <li><a href="#complexity-classes" id="toc-complexity-classes" class="nav-link active" data-scroll-target="#complexity-classes"><span class="header-section-number">9.1</span> Complexity Classes</a>
   <ul class="collapse">
-  <li><a href="#the-traveling-salesperson-problem-tsp" id="toc-the-traveling-salesperson-problem-tsp" class="nav-link" data-scroll-target="#the-traveling-salesperson-problem-tsp"><span class="header-section-number">9.2.1</span> The Traveling Salesperson Problem (TSP)</a></li>
-  <li><a href="#types-of-problems" id="toc-types-of-problems" class="nav-link" data-scroll-target="#types-of-problems"><span class="header-section-number">9.2.2</span> Types of Problems</a></li>
-  <li><a href="#example-tsp" id="toc-example-tsp" class="nav-link" data-scroll-target="#example-tsp"><span class="header-section-number">9.2.3</span> Example: TSP</a></li>
-  <li><a href="#comparison-of-complexity-of-decision-and-optimization-problems" id="toc-comparison-of-complexity-of-decision-and-optimization-problems" class="nav-link" data-scroll-target="#comparison-of-complexity-of-decision-and-optimization-problems"><span class="header-section-number">9.2.4</span> Comparison of Complexity of Decision and Optimization Problems</a></li>
-  </ul></li>
-  <li><a href="#complexity-classes" id="toc-complexity-classes" class="nav-link" data-scroll-target="#complexity-classes"><span class="header-section-number">9.3</span> Complexity Classes</a>
-  <ul class="collapse">
-  <li><a href="#the-class-p" id="toc-the-class-p" class="nav-link" data-scroll-target="#the-class-p"><span class="header-section-number">9.3.1</span> The Class <span class="math inline">\(P\)</span></a></li>
-  <li><a href="#the-class-np" id="toc-the-class-np" class="nav-link" data-scroll-target="#the-class-np"><span class="header-section-number">9.3.2</span> The Class <span class="math inline">\(NP\)</span></a></li>
-  <li><a href="#differences-between-p-and-np" id="toc-differences-between-p-and-np" class="nav-link" data-scroll-target="#differences-between-p-and-np"><span class="header-section-number">9.3.3</span> Differences between <span class="math inline">\(P\)</span> and <span class="math inline">\(NP\)</span></a></li>
-  <li><a href="#turing-machines" id="toc-turing-machines" class="nav-link" data-scroll-target="#turing-machines"><span class="header-section-number">9.3.4</span> Turing Machines</a></li>
-  </ul></li>
-  <li><a href="#the-relationship-between-p-and-np" id="toc-the-relationship-between-p-and-np" class="nav-link" data-scroll-target="#the-relationship-between-p-and-np"><span class="header-section-number">9.4</span> The Relationship Between <span class="math inline">\(P\)</span> and <span class="math inline">\(NP\)</span></a>
-  <ul class="collapse">
-  <li><a href="#p-subset-np" id="toc-p-subset-np" class="nav-link" data-scroll-target="#p-subset-np"><span class="header-section-number">9.4.1</span> <span class="math inline">\(P \subset NP\)</span></a></li>
-  <li><a href="#p-np-or-p-neq-np" id="toc-p-np-or-p-neq-np" class="nav-link" data-scroll-target="#p-np-or-p-neq-np"><span class="header-section-number">9.4.2</span> <span class="math inline">\(P = NP\)</span> or <span class="math inline">\(P \neq NP?\)</span></a></li>
+  <li><a href="#problem-complexity" id="toc-problem-complexity" class="nav-link" data-scroll-target="#problem-complexity"><span class="header-section-number">9.1.1</span> Problem Complexity</a></li>
+  <li><a href="#the-prime-problem" id="toc-the-prime-problem" class="nav-link" data-scroll-target="#the-prime-problem"><span class="header-section-number">9.1.2</span> The PRIME Problem</a></li>
+  <li><a href="#goals-of-complexity-theory" id="toc-goals-of-complexity-theory" class="nav-link" data-scroll-target="#goals-of-complexity-theory"><span class="header-section-number">9.1.3</span> Goals of Complexity Theory</a></li>
+  <li><a href="#types-of-problems" id="toc-types-of-problems" class="nav-link" data-scroll-target="#types-of-problems"><span class="header-section-number">9.1.4</span> Types of Problems</a></li>
+  <li><a href="#comparison-of-complexity-of-decision-and-optimization-problems" id="toc-comparison-of-complexity-of-decision-and-optimization-problems" class="nav-link" data-scroll-target="#comparison-of-complexity-of-decision-and-optimization-problems"><span class="header-section-number">9.1.5</span> Comparison of Complexity of Decision and Optimization Problems</a></li>
+  <li><a href="#the-class-mathbfp" id="toc-the-class-mathbfp" class="nav-link" data-scroll-target="#the-class-mathbfp"><span class="header-section-number">9.1.6</span> The Class <span class="math inline">\(\mathbf{P}\)</span></a></li>
+  <li><a href="#the-class-mathbfnp" id="toc-the-class-mathbfnp" class="nav-link" data-scroll-target="#the-class-mathbfnp"><span class="header-section-number">9.1.7</span> The Class <span class="math inline">\(\mathbf{NP}\)</span></a></li>
+  <li><a href="#differences-between-mathbfp-and-mathbfnp" id="toc-differences-between-mathbfp-and-mathbfnp" class="nav-link" data-scroll-target="#differences-between-mathbfp-and-mathbfnp"><span class="header-section-number">9.1.8</span> Differences between <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{NP}\)</span></a></li>
+  <li><a href="#turing-machines" id="toc-turing-machines" class="nav-link" data-scroll-target="#turing-machines"><span class="header-section-number">9.1.9</span> Turing Machines</a></li>
+  <li><a href="#the-relationship-between-mathbfp-and-mathbfnp" id="toc-the-relationship-between-mathbfp-and-mathbfnp" class="nav-link" data-scroll-target="#the-relationship-between-mathbfp-and-mathbfnp"><span class="header-section-number">9.1.10</span> The Relationship Between <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{NP}\)</span></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -232,7 +225,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity Classes</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity of Problems</span></h1>
 </div>
 
 
@@ -249,8 +242,10 @@ window.Quarto = {
 </header>
 
 
-<section id="problem-complexity" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="problem-complexity"><span class="header-section-number">9.1</span> Problem Complexity</h2>
+<section id="complexity-classes" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="complexity-classes"><span class="header-section-number">9.1</span> Complexity Classes</h2>
+<section id="problem-complexity" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="problem-complexity"><span class="header-section-number">9.1.1</span> Problem Complexity</h3>
 <p>Recall the <strong>Cobham-Edmonds thesis</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>: <span class="math inline">\(P\)</span> is <strong>tractable</strong> or <strong>well-solved</strong> if</p>
 <ol type="1">
 <li><p>There is an algorithm <span class="math inline">\(A\)</span> which solves it.</p></li>
@@ -270,23 +265,24 @@ window.Quarto = {
 <li><p>This doesn’t mean that it is impossible to solve them in polynomial time.</p></li>
 <li><p>It just means we haven’t found a polynomial time algorithm <strong><em>yet</em></strong>.</p></li>
 </ul>
-<div id="exm-9-prime" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.1 (The PRIME Problem)</strong></span> <strong>PRIME</strong>: given an integer <span class="math inline">\(k\)</span>, is <span class="math inline">\(k\)</span> <strong><em>prime</em></strong>?</p>
-<p>It was thought that PRIME did not have a polynomial time algorithm for a long time. However, Agrawak, Kayal, and Saxena[^AKS1][^AKS2] found one in 2002 that requires <span class="math inline">\(O \Big( (\log k)^{12} \big( \log (\log k)^{12}\big)^c\Big)\)</span> elementary operations, for some <span class="math inline">\(c \ge 1\)</span>.</p>
-</div>
 </section>
-<section id="goals-of-complexity-theory" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="goals-of-complexity-theory"><span class="header-section-number">9.2</span> Goals of Complexity Theory</h2>
+<section id="the-prime-problem" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="the-prime-problem"><span class="header-section-number">9.1.2</span> The PRIME Problem</h3>
+<p><strong>PRIME</strong>: given an integer <span class="math inline">\(k\)</span>, is <span class="math inline">\(k\)</span> <strong><em>prime</em></strong>?</p>
+<p>It was thought that PRIME did not have a polynomial time algorithm for a long time. However, Agrawak, Kayal, and Saxena<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> found one in 2002 that requires <span class="math inline">\(O \Big( (\log k)^{12} \big( \log (\log k)^{12}\big)^c\Big)\)</span> elementary operations, for some <span class="math inline">\(c \ge 1\)</span>.</p>
+</section>
+<section id="goals-of-complexity-theory" class="level3" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="goals-of-complexity-theory"><span class="header-section-number">9.1.3</span> Goals of Complexity Theory</h3>
 <p>We want to <strong><em>build a theory</em></strong> that allows us to conclude that a problem <strong>does not have a polynomial time algorithm</strong>.</p>
 <p>The best we can do <strong><em>today</em></strong> is develop theory that let’s us conclude that a problem is <strong>very unlikely</strong> to have a polynomial time algorithm.</p>
-<section id="the-traveling-salesperson-problem-tsp" class="level3" data-number="9.2.1">
-<h3 data-number="9.2.1" class="anchored" data-anchor-id="the-traveling-salesperson-problem-tsp"><span class="header-section-number">9.2.1</span> The Traveling Salesperson Problem (TSP)</h3>
+<section id="the-traveling-salesperson-problem-tsp" class="level4" data-number="9.1.3.1">
+<h4 data-number="9.1.3.1" class="anchored" data-anchor-id="the-traveling-salesperson-problem-tsp"><span class="header-section-number">9.1.3.1</span> The Traveling Salesperson Problem (TSP)</h4>
 <p>We will repeatedly reference the <strong><em>traveling salesperson problem</em></strong> as an illustrative example.</p>
 <div id="def-HC" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 9.1</strong></span> A <strong>Hamiltonian circuit</strong> or <strong>cycle</strong> or <strong>tour</strong> of direted graph <span class="math inline">\(G = (V,A)\)</span> is a cycle that <strong><em>visits each node exactly once</em></strong></p>
 </div>
 <div id="def-TSP" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 9.2</strong></span> <strong>Traveling Salesperson Problem (TSP)</strong>:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><span class="theorem-title"><strong>Definition 9.2</strong></span> <strong>Traveling Salesperson Problem (TSP)</strong>:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <ul>
 <li>Given graph <span class="math inline">\(G\)</span> with arc costs <span class="math inline">\(c_{ij} \in \mathbf{Z}_+\)</span>.</li>
 <li>Find a Hamiltonian cycle of <span class="math inline">\(G\)</span> with <strong><em>minimum cost</em></strong>.</li>
@@ -294,8 +290,9 @@ window.Quarto = {
 </div>
 <p>The TSP has many applications, especially within logistics/transportation, circuit design, and scheduling.</p>
 </section>
-<section id="types-of-problems" class="level3" data-number="9.2.2">
-<h3 data-number="9.2.2" class="anchored" data-anchor-id="types-of-problems"><span class="header-section-number">9.2.2</span> Types of Problems</h3>
+</section>
+<section id="types-of-problems" class="level3" data-number="9.1.4">
+<h3 data-number="9.1.4" class="anchored" data-anchor-id="types-of-problems"><span class="header-section-number">9.1.4</span> Types of Problems</h3>
 <p>Given problem instance <span class="math inline">\(I\)</span> defined by set of feasible solutions <span class="math inline">\(F\)</span> and cost function <span class="math inline">\(c: F \mapsto \mathbf{R}\)</span>.</p>
 <div id="def-9-dec-prob" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 9.3 (Decision Problem)</strong></span> &nbsp;</p>
@@ -311,24 +308,24 @@ window.Quarto = {
 <li>Algorithm <span class="math inline">\(A\)</span> finds <span class="math inline">\(X \in F\)</span> minimizing <span class="math inline">\(c(X)\)</span>.</li>
 </ul>
 </div>
-</section>
-<section id="example-tsp" class="level3" data-number="9.2.3">
-<h3 data-number="9.2.3" class="anchored" data-anchor-id="example-tsp"><span class="header-section-number">9.2.3</span> Example: TSP</h3>
-<p>We can formally define <strong><em>two versions</em></strong> of the TSP:</p>
-<section id="tsp-as-an-optimization-problem" class="level4" data-number="9.2.3.1">
-<h4 data-number="9.2.3.1" class="anchored" data-anchor-id="tsp-as-an-optimization-problem"><span class="header-section-number">9.2.3.1</span> TSP as an Optimization Problem</h4>
-<p>Given directed graph <span class="math inline">\(G = (V,A)\)</span> with costs <span class="math inline">\(c_{ij} \in \mathbf{Z}_+\)</span> for each arc <span class="math inline">\((i,j) \in A\)</span>, <strong><em>find a Hamiltonian cycle with minimum total cost.</em></strong></p>
-</section>
-<section id="tsp-as-a-decision-problem" class="level4" data-number="9.2.3.2">
-<h4 data-number="9.2.3.2" class="anchored" data-anchor-id="tsp-as-a-decision-problem"><span class="header-section-number">9.2.3.2</span> TSP as a Decision Problem</h4>
-<p>Given directed graph <span class="math inline">\(G\)</span>, arc costs <span class="math inline">\(c_{ij}\)</span>, and <strong>integer</strong> <span class="math inline">\(L\)</span>:</p>
+<div id="exm-TSP" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.1 (Versions of TSP)</strong></span> We can formally define <strong><em>two versions</em></strong> of the TSP:</p>
 <ul>
-<li><strong><em>Does <span class="math inline">\(G\)</span> contain a Hamiltonian cycle of total cost at most <span class="math inline">\(L\)</span>?</em></strong></li>
+<li><p>TSP as an Optimization Problem:</p>
+<ul>
+<li>Given directed graph <span class="math inline">\(G = (V,A)\)</span> with costs <span class="math inline">\(c_{ij} \in \mathbf{Z}_+\)</span> for each arc <span class="math inline">\((i,j) \in A\)</span>:</li>
+<li><strong><em>Find a Hamiltonian cycle with minimum total cost</em></strong>.</li>
+</ul></li>
+<li><p>TSP as a Decision Problem</p>
+<ul>
+<li><p>Given directed graph <span class="math inline">\(G\)</span>, arc costs <span class="math inline">\(c_{ij}\)</span>, and <strong>integer</strong> <span class="math inline">\(L\)</span>:</p></li>
+<li><p><strong><em>Does <span class="math inline">\(G\)</span> contain a Hamiltonian cycle of total cost at most <span class="math inline">\(L\)</span>?</em></strong></p></li>
+</ul></li>
 </ul>
+</div>
 </section>
-</section>
-<section id="comparison-of-complexity-of-decision-and-optimization-problems" class="level3" data-number="9.2.4">
-<h3 data-number="9.2.4" class="anchored" data-anchor-id="comparison-of-complexity-of-decision-and-optimization-problems"><span class="header-section-number">9.2.4</span> Comparison of Complexity of Decision and Optimization Problems</h3>
+<section id="comparison-of-complexity-of-decision-and-optimization-problems" class="level3" data-number="9.1.5">
+<h3 data-number="9.1.5" class="anchored" data-anchor-id="comparison-of-complexity-of-decision-and-optimization-problems"><span class="header-section-number">9.1.5</span> Comparison of Complexity of Decision and Optimization Problems</h3>
 <p>This prompts a reasonable question:</p>
 <ul>
 <li><p>Which is inherently more difficult?</p></li>
@@ -338,7 +335,7 @@ window.Quarto = {
 <div id="thm-opt-is-easier" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 9.1</strong></span> Any algorithm <span class="math inline">\(A\)</span> for an <strong><em>optimization problem</em></strong> <span class="math inline">\(P\)</span> solves the <strong>decision version</strong> <span class="math inline">\(P_d\)</span>.</p>
 </div>
-<p>@#thm-opt-is-easier has a natural corollary, which establishes that tractable optimization problems correspond to tractable decision problems.</p>
+<p><a href="#thm-opt-is-easier" class="quarto-xref">Theorem&nbsp;<span class="quarto-unresolved-ref">thm-opt-is-easier</span></a> has a natural corollary, which establishes that tractable optimization problems correspond to tractable decision problems.</p>
 <div id="cor-opt-is-easier" class="theorem corollary">
 <p><span class="theorem-title"><strong>Corollary 9.1</strong></span> If the optimization problem <span class="math inline">\(P\)</span> is <strong><em>polynomial time solvable</em></strong>, then the decision problem <span class="math inline">\(P_d\)</span> is also <strong><em>polynomial time solvable</em></strong>.</p>
 </div>
@@ -354,117 +351,112 @@ window.Quarto = {
 </ol>
 <p>If <span class="math inline">\(A\)</span> is polynomial time then this algorithm is also polynomial time.</p>
 </div>
-</section>
-</section>
-<section id="complexity-classes" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="complexity-classes"><span class="header-section-number">9.3</span> Complexity Classes</h2>
 <p>We aim to categorize <strong><em>decision problems</em></strong> based on their inherent difficulty.</p>
-<p>We will start by comparing two complexity classes, <span class="math inline">\(P\)</span> and <span class="math inline">\(NP\)</span>.</p>
-<section id="the-class-p" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="the-class-p"><span class="header-section-number">9.3.1</span> The Class <span class="math inline">\(P\)</span></h3>
-<div id="def-P" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 9.5</strong></span> We denote by <span class="math inline">\(P\)</span> the class of all decision problems which can be solved in <strong><em>polynomial time</em></strong> for <strong>every instance</strong> <span class="math inline">\(I\)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-</div>
-<p>We have seen several examples of problems belonging to <span class="math inline">\(P\)</span>. Indeed, the decision versions of the <strong><em>minimum spanning tree, shortest path, max flow, matching,</em></strong> and <strong><em>assignment problems</em></strong> are all in <span class="math inline">\(P\)</span>.</p>
+<p>We will start by comparing two complexity classes, <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{NP}\)</span>.</p>
 </section>
-<section id="the-class-np" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="the-class-np"><span class="header-section-number">9.3.2</span> The Class <span class="math inline">\(NP\)</span></h3>
+<section id="the-class-mathbfp" class="level3" data-number="9.1.6">
+<h3 data-number="9.1.6" class="anchored" data-anchor-id="the-class-mathbfp"><span class="header-section-number">9.1.6</span> The Class <span class="math inline">\(\mathbf{P}\)</span></h3>
+<div id="def-P" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.5</strong></span> We denote by <span class="math inline">\(\mathbf{P}\)</span> the class of all decision problems which can be solved in <strong><em>polynomial time</em></strong> for <strong>every instance</strong> <span class="math inline">\(I\)</span><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+</div>
+<p>We have seen several examples of problems belonging to <span class="math inline">\(\mathbf{P}\)</span>. Indeed, the decision versions of the <strong><em>minimum spanning tree, shortest path, max flow, matching,</em></strong> and <strong><em>assignment problems</em></strong> are all in <span class="math inline">\(\mathbf{P}\)</span>.</p>
+</section>
+<section id="the-class-mathbfnp" class="level3" data-number="9.1.7">
+<h3 data-number="9.1.7" class="anchored" data-anchor-id="the-class-mathbfnp"><span class="header-section-number">9.1.7</span> The Class <span class="math inline">\(\mathbf{NP}\)</span></h3>
 <div id="def-NP" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 9.6</strong></span> We say a problem <span class="math inline">\(P\)</span> belongs to the <strong>complexity class</strong> <strong>P</strong> or <strong>nondeterministic polynomial</strong><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> if:</p>
+<p><span class="theorem-title"><strong>Definition 9.6</strong></span> We say a problem <span class="math inline">\(\mathbf{NP}\)</span> belongs to the <strong>complexity class</strong> <strong>P</strong> or <strong>nondeterministic polynomial</strong><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> if:</p>
 <ul>
-<li>Every instance <span class="math inline">\(I\)</span> of <span class="math inline">\(P\)</span> with answer <strong><em>YES</em></strong> (called a <strong>YES-instance</strong>), has is a <strong>certificate</strong> which verfies that the instance has answer <strong>YES</strong> in <strong><em>polynomial time</em></strong>.</li>
+<li>Every instance <span class="math inline">\(I\)</span> of <span class="math inline">\(P \in \mathbf{NP}\)</span> with answer <strong><em>YES</em></strong> (called a <strong>YES-instance</strong>), has a <strong>certificate</strong> which verifies that the instance has answer <strong>YES</strong> in <strong><em>polynomial time</em></strong>.</li>
 </ul>
 </div>
 <p>We are not interested in <strong><em>how to build the certificate</em></strong>; just whether we can verify in polynomial time.</p>
 <div id="exm-9-tsp-is-in-NP" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.2 (TSP)</strong></span> The <strong><em>Traveling Salesperson Problem</em></strong> is in <span class="math inline">\(NP\)</span>.</p>
-<p>See that TSP is in <span class="math inline">\(NP\)</span>, we need to identify a certificate for an arbitrary YES-instance.</p>
+<p><span class="theorem-title"><strong>Example 9.2 (Complexity Class of TSP)</strong></span> The <strong><em>Traveling Salesperson Problem</em></strong> is in <span class="math inline">\(\mathbf{NP}\)</span>.</p>
+<p>To see that TSP is in <span class="math inline">\(\mathbf{NP}\)</span>, we need to identify a certificate for an arbitrary YES-instance.</p>
 <p>Consider the following proposed certificate for instance of TSP with <span class="math inline">\(G = (V,A)\)</span> and threshold <span class="math inline">\(L\)</span>:</p>
 <ul>
-<li><p>Let <span class="math inline">\(P = (v_1, v_2, \dots, v_n)\)</span> be a sequence of nodes such that</p>
+<li><p>Let <span class="math inline">\(S = (v_1, v_2, \dots, v_n)\)</span> be a sequence of nodes such that</p>
 <ol type="1">
-<li><p><span class="math inline">\(P\)</span> contains all nodes of <span class="math inline">\(G\)</span> <strong><em>exactly</em></strong> once.</p></li>
+<li><p><span class="math inline">\(S\)</span> contains all nodes of <span class="math inline">\(G\)</span> <strong><em>exactly</em></strong> once.</p></li>
 <li><p>Pairs of consecutive nodes share an arc: <span class="math inline">\((v_i, v_{i+1}) \in A\)</span>. Moreover, <span class="math inline">\((v_n, v_1) \in A\)</span>.</p></li>
 <li><p>Total cost of these arcs is <span class="math display">\[
 \sum_{i=1}^n c((v_i, v_{i+1})) \le L;
   \]</span> here, we use <span class="math inline">\(v_{n+1} = v_1\)</span>.</p></li>
 </ol></li>
 </ul>
-<p>This is a <strong><em>certificate</em></strong>! If given <span class="math inline">\(P\)</span>, we can that check that (1), (2), and (3) are satisfied in polynomial time.</p>
+<p>This is a <strong><em>certificate</em></strong>! If given <span class="math inline">\(S\)</span>, we can that check that (1), (2), and (3) are satisfied in polynomial time.</p>
 <ul>
-<li>Indeed, <span class="math inline">\(P\)</span> and <span class="math inline">\((v_n, v_1)\)</span> define the desired Hamiltonian cycle in this case.</li>
+<li>Indeed, <span class="math inline">\(S\)</span> and <span class="math inline">\((v_n, v_1)\)</span> define the desired Hamiltonian cycle in this case.</li>
 </ul>
 </div>
 </section>
-<section id="differences-between-p-and-np" class="level3" data-number="9.3.3">
-<h3 data-number="9.3.3" class="anchored" data-anchor-id="differences-between-p-and-np"><span class="header-section-number">9.3.3</span> Differences between <span class="math inline">\(P\)</span> and <span class="math inline">\(NP\)</span></h3>
-<p>The class <span class="math inline">\(P\)</span> contains <strong>polynomial time solvable</strong> problems:</p>
+<section id="differences-between-mathbfp-and-mathbfnp" class="level3" data-number="9.1.8">
+<h3 data-number="9.1.8" class="anchored" data-anchor-id="differences-between-mathbfp-and-mathbfnp"><span class="header-section-number">9.1.8</span> Differences between <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{NP}\)</span></h3>
+<p>The class <span class="math inline">\(\mathbf{P}\)</span> contains <strong>polynomial time solvable</strong> problems:</p>
 <ul>
-<li><span class="math inline">\(P\)</span> contains decision problems to which a YES/NO answer can be given for any instance in polynomial time. :::</li>
+<li><span class="math inline">\(\mathbf{P}\)</span> contains decision problems to which a YES/NO answer can be given for any instance in polynomial time.</li>
 </ul>
-<p>Other other hand, <span class="math inline">\(NP\)</span> contains <strong>polynomial time certifiable</strong> problems:</p>
+<p>Other other hand, <span class="math inline">\(\mathbf{NP}\)</span> contains <strong>polynomial time certifiable</strong> problems:</p>
 <ul>
 <li>YES-instances admit a certificate which can be verified in polynomial time.</li>
 </ul>
 </section>
-<section id="turing-machines" class="level3" data-number="9.3.4">
-<h3 data-number="9.3.4" class="anchored" data-anchor-id="turing-machines"><span class="header-section-number">9.3.4</span> Turing Machines</h3>
+<section id="turing-machines" class="level3" data-number="9.1.9">
+<h3 data-number="9.1.9" class="anchored" data-anchor-id="turing-machines"><span class="header-section-number">9.1.9</span> Turing Machines</h3>
 <div id="def-tm" class="absolute theorem definition" data-top="20%">
-<p><span class="theorem-title"><strong>Definition 9.7</strong></span> A <strong>turing machine (TM)</strong><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> is a mathematical model of computer as an <strong>abstract machine</strong> that:</p>
+<p><span class="theorem-title"><strong>Definition 9.7</strong></span> A <strong>turing machine (TM)</strong><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> is a mathematical model of computer as an <strong>abstract machine</strong> that:</p>
 <ul>
 <li><p>manipulates symbols from an infinite tape (can read and write),</p></li>
-<li><p>according to table of rules implementing a <strong><em>finite-state automaton</em></strong><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p></li>
+<li><p>according to table of rules implementing a <strong><em>finite-state automaton</em></strong><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p></li>
 </ul>
-</div>
 <p>Everything a computer can do can be modeled by a TM.</p>
 <ul>
-<li><p><span class="math inline">\(P\)</span> is the set of problems that can be <strong>solved in polynomial time</strong> by a TM.</p></li>
-<li><p><span class="math inline">\(P\)</span> is the class of problems that can be <strong>solved</strong> (not just certified) in polynomial time by a <strong>nondeterministic TM</strong><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. :::</p></li>
+<li><p><span class="math inline">\(\mathbf{P}\)</span> is the set of problems that can be <strong>solved in polynomial time</strong> by a TM.</p></li>
+<li><p><span class="math inline">\(\mathbf{NP}\)</span> is the class of problems that can be <strong>solved</strong> (not just certified) in polynomial time by a <strong>nondeterministic TM</strong><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p></li>
 </ul>
+</div>
 </section>
-</section>
-<section id="the-relationship-between-p-and-np" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="the-relationship-between-p-and-np"><span class="header-section-number">9.4</span> The Relationship Between <span class="math inline">\(P\)</span> and <span class="math inline">\(NP\)</span></h2>
-<section id="p-subset-np" class="level3" data-number="9.4.1">
-<h3 data-number="9.4.1" class="anchored" data-anchor-id="p-subset-np"><span class="header-section-number">9.4.1</span> <span class="math inline">\(P \subset NP\)</span></h3>
-<p>It is known that <span class="math inline">\(P\)</span> is a <strong><em>subset</em></strong> of <span class="math inline">\(NP\)</span>. That is, every problem in <span class="math inline">\(P\)</span> also belongs to <span class="math inline">\(NP\)</span>.</p>
+<section id="the-relationship-between-mathbfp-and-mathbfnp" class="level3" data-number="9.1.10">
+<h3 data-number="9.1.10" class="anchored" data-anchor-id="the-relationship-between-mathbfp-and-mathbfnp"><span class="header-section-number">9.1.10</span> The Relationship Between <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{NP}\)</span></h3>
+<p>It is known that <span class="math inline">\(\mathbf{P}\)</span> is a <strong><em>subset</em></strong> of <span class="math inline">\(\mathbf{NP}\)</span>. That is, every problem in <span class="math inline">\(\mathbf{P}\)</span> also belongs to <span class="math inline">\(\mathbf{NP}\)</span>.</p>
 <p>We have the following theorem.</p>
 <div id="thm-P-in-NP" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 9.2</strong></span> <span class="math inline">\(P \subseteq NP\)</span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Suppose that problem <span class="math inline">\(Q\)</span> in <span class="math inline">\(P\)</span>, i.e., <span class="math inline">\(Q \in P\)</span>. This implies that there is a polynomial time algorithm <span class="math inline">\(A\)</span> for <span class="math inline">\(Q\)</span>.</p>
+<p><span class="proof-title"><em>Proof</em>. </span>Suppose that problem <span class="math inline">\(Q\)</span> in <span class="math inline">\(\mathbf{P}\)</span>, i.e., <span class="math inline">\(Q \in \mathbf{P}\)</span>. This implies that there is a polynomial time algorithm <span class="math inline">\(A\)</span> for <span class="math inline">\(Q\)</span>.</p>
 <p>The steps of <span class="math inline">\(A\)</span> act as a certificate:</p>
 <ol type="1">
 <li><p>If <span class="math inline">\(A\)</span> solves search version of <span class="math inline">\(Q\)</span>, then the solution returned by <span class="math inline">\(A\)</span> satisfies the conditions for <strong>YES</strong> response.</p></li>
 <li><p>If <span class="math inline">\(A\)</span> only returns <strong>YES</strong> or <strong>NO</strong> applying <span class="math inline">\(A\)</span> and obtaining response <strong>YES</strong> is the certificate.</p></li>
 </ol>
 </div>
-</section>
-<section id="p-np-or-p-neq-np" class="level3" data-number="9.4.2">
-<h3 data-number="9.4.2" class="anchored" data-anchor-id="p-np-or-p-neq-np"><span class="header-section-number">9.4.2</span> <span class="math inline">\(P = NP\)</span> or <span class="math inline">\(P \neq NP?\)</span></h3>
+<section id="does-mathbfp-mathbfnp-or-mathbfp-neq-mathbfnp" class="level4" data-number="9.1.10.1">
+<h4 data-number="9.1.10.1" class="anchored" data-anchor-id="does-mathbfp-mathbfnp-or-mathbfp-neq-mathbfnp"><span class="header-section-number">9.1.10.1</span> Does <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span> or <span class="math inline">\(\mathbf{P} \neq \mathbf{NP}?\)</span></h4>
 <div id="cnj-PneqNP" class="theorem conjecture">
-<p><span class="theorem-title"><strong>Conjecture 9.1</strong></span> It is widely conjectured that there is at least one problem in <span class="math inline">\(NP\)</span> <strong><em>but not in</em></strong> <span class="math inline">\(P\)</span>, i.e., <span class="math inline">\(P \neq NP\)</span>.</p>
+<p><span class="theorem-title"><strong>Conjecture 9.1</strong></span> It is widely conjectured that there is at least one problem in <span class="math inline">\(\mathbf{NP}\)</span> <strong><em>but not in</em></strong> <span class="math inline">\(\mathbf{P}\)</span>, i.e., <span class="math inline">\(\mathbf{P} \neq \mathbf{NP}\)</span>.</p>
 </div>
 <ul>
-<li><p>Falsifying <a href="#cnj-PneqNP" class="quarto-xref">Conjecture&nbsp;<span>9.1</span></a> would prove that <span class="math inline">\(P = NP\)</span>.</p></li>
-<li><p>Determinining if <span class="math inline">\(P = NP\)</span> or <span class="math inline">\(P \neq NP\)</span> is one of the seven <strong><em>Millenium Prize Problems</em></strong><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p></li>
+<li><p>Falsifying <a href="#cnj-PneqNP" class="quarto-xref">Conjecture&nbsp;<span class="quarto-unresolved-ref">cnj-PneqNP</span></a> would prove that <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span>.</p></li>
+<li><p>Determinining if <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span> or <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span> is one of the seven <strong><em>Millenium Prize Problems</em></strong><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p></li>
 </ul>
 
 
+</section>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p><a href="https://en.wikipedia.org/wiki/Cobham's_thesis" class="uri">https://en.wikipedia.org/wiki/Cobham's_thesis</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><a href="http://www.math.uwaterloo.ca/~bico/" class="uri">http://www.math.uwaterloo.ca/~bico/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p><a href="https://en.wikipedia.org/wiki/P_(complexity)" class="uri">https://en.wikipedia.org/wiki/P_(complexity)</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p><a href="https://en.wikipedia.org/wiki/NP_(complexity)" class="uri">https://en.wikipedia.org/wiki/NP_(complexity)</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p><a href="https://en.wikipedia.org/wiki/Turing_machine" class="uri">https://en.wikipedia.org/wiki/Turing_machine</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p><a href="https://en.wikipedia.org/ewiki/Finite-state_machine" class="uri">https://en.wikipedia.org/ewiki/Finite-state_machine</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p><a href="https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine" class="uri">https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p><a href="https://www.claymath.org/millennium-problems/" class="uri">https://www.claymath.org/millennium-problems/</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://en.wikipedia.org/wiki/AKS_primality_test" class="uri">https://en.wikipedia.org/wiki/AKS_primality_test</a>,<a href="https://people.engr.tamu.edu/andreas-klappenecker/629/aks.pdf" class="uri">https://people.engr.tamu.edu/andreas-klappenecker/629/aks.pdf</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="http://www.math.uwaterloo.ca/~bico/" class="uri">http://www.math.uwaterloo.ca/~bico/</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://en.wikipedia.org/wiki/P_(complexity)" class="uri">https://en.wikipedia.org/wiki/P_(complexity)</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://en.wikipedia.org/wiki/NP_(complexity)" class="uri">https://en.wikipedia.org/wiki/NP_(complexity)</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p><a href="https://en.wikipedia.org/wiki/Turing_machine" class="uri">https://en.wikipedia.org/wiki/Turing_machine</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p><a href="https://en.wikipedia.org/ewiki/Finite-state_machine" class="uri">https://en.wikipedia.org/ewiki/Finite-state_machine</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><a href="https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine" class="uri">https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p><a href="https://www.claymath.org/millennium-problems/" class="uri">https://www.claymath.org/millennium-problems/</a><a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
