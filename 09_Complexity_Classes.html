@@ -217,6 +217,11 @@ window.Quarto = {
   <li><a href="#turing-machines" id="toc-turing-machines" class="nav-link" data-scroll-target="#turing-machines"><span class="header-section-number">9.1.9</span> Turing Machines</a></li>
   <li><a href="#the-relationship-between-mathbfp-and-mathbfnp" id="toc-the-relationship-between-mathbfp-and-mathbfnp" class="nav-link" data-scroll-target="#the-relationship-between-mathbfp-and-mathbfnp"><span class="header-section-number">9.1.10</span> The Relationship Between <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{NP}\)</span></a></li>
   </ul></li>
+  <li><a href="#reductions" id="toc-reductions" class="nav-link" data-scroll-target="#reductions"><span class="header-section-number">9.2</span> Reductions</a>
+  <ul class="collapse">
+  <li><a href="#turing-and-cook-reductions" id="toc-turing-and-cook-reductions" class="nav-link" data-scroll-target="#turing-and-cook-reductions"><span class="header-section-number">9.2.1</span> Turing and Cook Reductions</a></li>
+  <li><a href="#mapping-reductions-and-polynomial-transformations" id="toc-mapping-reductions-and-polynomial-transformations" class="nav-link" data-scroll-target="#mapping-reductions-and-polynomial-transformations"><span class="header-section-number">9.2.2</span> Mapping Reductions and Polynomial Transformations</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -335,7 +340,7 @@ window.Quarto = {
 <div id="thm-opt-is-easier" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 9.1</strong></span> Any algorithm <span class="math inline">\(A\)</span> for an <strong><em>optimization problem</em></strong> <span class="math inline">\(P\)</span> solves the <strong>decision version</strong> <span class="math inline">\(P_d\)</span>.</p>
 </div>
-<p><a href="#thm-opt-is-easier" class="quarto-xref">Theorem&nbsp;<span class="quarto-unresolved-ref">thm-opt-is-easier</span></a> has a natural corollary, which establishes that tractable optimization problems correspond to tractable decision problems.</p>
+<p><a href="#thm-opt-is-easier" class="quarto-xref">Theorem&nbsp;<span>9.1</span></a> has a natural corollary, which establishes that tractable optimization problems correspond to tractable decision problems.</p>
 <div id="cor-opt-is-easier" class="theorem corollary">
 <p><span class="theorem-title"><strong>Corollary 9.1</strong></span> If the optimization problem <span class="math inline">\(P\)</span> is <strong><em>polynomial time solvable</em></strong>, then the decision problem <span class="math inline">\(P_d\)</span> is also <strong><em>polynomial time solvable</em></strong>.</p>
 </div>
@@ -437,12 +442,192 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Conjecture 9.1</strong></span> It is widely conjectured that there is at least one problem in <span class="math inline">\(\mathbf{NP}\)</span> <strong><em>but not in</em></strong> <span class="math inline">\(\mathbf{P}\)</span>, i.e., <span class="math inline">\(\mathbf{P} \neq \mathbf{NP}\)</span>.</p>
 </div>
 <ul>
-<li><p>Falsifying <a href="#cnj-PneqNP" class="quarto-xref">Conjecture&nbsp;<span class="quarto-unresolved-ref">cnj-PneqNP</span></a> would prove that <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span>.</p></li>
+<li><p>Falsifying <a href="#cnj-PneqNP" class="quarto-xref">Conjecture&nbsp;<span>9.1</span></a> would prove that <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span>.</p></li>
 <li><p>Determinining if <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span> or <span class="math inline">\(\mathbf{P} = \mathbf{NP}\)</span> is one of the seven <strong><em>Millenium Prize Problems</em></strong><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p></li>
 </ul>
-
-
 </section>
+</section>
+</section>
+<section id="reductions" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="reductions"><span class="header-section-number">9.2</span> Reductions</h2>
+<section id="turing-and-cook-reductions" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="turing-and-cook-reductions"><span class="header-section-number">9.2.1</span> Turing and Cook Reductions</h3>
+<p>Suppose we are given two decision problems <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>.</p>
+<div id="def-turing-reds" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.8 (Turing Reduction)</strong></span> There is a <strong>Turing reduction</strong> from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span>, denoted <span class="math inline">\(P \le_T Q\)</span> if <span class="math inline">\(P\)</span> can be solved by an algorithm that calls algorithm <span class="math inline">\(A_Q\)</span> for solving <span class="math inline">\(Q\)</span> as a subroutine.</p>
+</div>
+<div id="exm-9-matching-flow" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.3 (Maximum Matching and Network Flow)</strong></span> Let <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> be the decision versions of maximum matching and network flow respectively:</p>
+<ul>
+<li><span class="math inline">\(P\)</span>: does graph <span class="math inline">\(G\)</span> have a matching of cardinality <span class="math inline">\(\ge k\)</span>?</li>
+<li><span class="math inline">\(Q\)</span>: does flow network <span class="math inline">\(G\)</span> have a flow with value <span class="math inline">\(\ge k\)</span>?</li>
+</ul>
+<p>We saw in Problem Set 7 that every instance of the <em>maximum matching problem</em> translates to a special case of the <em>maximum flow problem</em>.</p>
+<p>Thus, we can solve instances of <span class="math inline">\(P\)</span> using algorithms for max flow and/or min cut. It follows that <span class="math display">\[
+\quad P \leq_T Q.
+\]</span></p>
+</div>
+<div id="def-cook-red" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.9 (Cook Reduction)</strong></span> There is a <strong>polynomial</strong> or <strong>Cook reduction</strong>, denoted <span class="math inline">\(P \le_T^P Q\)</span>, from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span> if</p>
+<ul>
+<li><p><span class="math inline">\(P\)</span> can be solved by an algorithm <span class="math inline">\(A_P\)</span> that calls algorithm <span class="math inline">\(A_Q\)</span> for solving <span class="math inline">\(Q\)</span> as a subroutine; and</p></li>
+<li><p><span class="math inline">\(A_P\)</span> would run in <strong>polynomial time</strong> if we assume that <span class="math inline">\(A_Q\)</span> has complexity <span class="math inline">\(O(1)\)</span>.</p></li>
+</ul>
+</div>
+<ul>
+<li><p>This requires that the number of calls to <span class="math inline">\(A_Q\)</span> is polynomial, and all other operations in <span class="math inline">\(A_P\)</span> run in polynomial time.</p></li>
+<li><p>Cook reductions are a special case of Turing reductions.</p></li>
+</ul>
+<p>If <span class="math inline">\(P \le_T^P Q\)</span> and <span class="math inline">\(A_Q\)</span> has complexity <span class="math inline">\(O(1)\)</span> then <span class="math inline">\(P\)</span> is solvable in polynomial time using the polynomial reduction.</p>
+<div id="thm-poly-reds" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.3</strong></span> Suppose that <span class="math inline">\(P \le_T^P Q\)</span>. If <span class="math inline">\(Q \in \mathbf{P}\)</span> then <span class="math inline">\(P \in \mathbf{P}\)</span>.</p>
+</div>
+</section>
+<section id="mapping-reductions-and-polynomial-transformations" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="mapping-reductions-and-polynomial-transformations"><span class="header-section-number">9.2.2</span> Mapping Reductions and Polynomial Transformations</h3>
+<div id="def-map-red" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.10</strong></span> There is a <strong>mapping reduction</strong> from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span> (<span class="math inline">\(P\le_m Q\)</span>) if there is a Turing reduction from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span> in which <span class="math inline">\(A_Q\)</span> is called <em>only once</em>.</p>
+</div>
+<p>In a mapping reduction, each instance of <span class="math inline">\(P\)</span> is transformed into an instance of <span class="math inline">\(Q\)</span> and solved with <span class="math inline">\(A_Q\)</span>.</p>
+<div id="def-karp-red" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.11 (Karp Reductions)</strong></span> There is a <strong>polynomial mapping reduction</strong> or <strong>Karp reduction</strong> from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span> (<span class="math inline">\(P \le_m^P Q\)</span>) if there is a <strong><em>polynomial</em></strong> <em>reduction</em> from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span> in which <span class="math inline">\(A_Q\)</span> is called only once.</p>
+</div>
+<div id="exm-UTSP-to-TSP-reduction" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.4 (Reductions for TSP)</strong></span> Consider the following versions of the TSP:</p>
+<ul>
+<li><p><strong>UTSP-d</strong>: Given an <strong>undirected</strong> graph with edge cost function <span class="math inline">\(c\)</span> and integer <span class="math inline">\(L\)</span>, is there a Hamiltonian cycle with cost <span class="math inline">\(\le L\)</span>?</p></li>
+<li><p><strong>TSP-d</strong>: Given a <strong>directed</strong> graph with arc cost function <span class="math inline">\(c\)</span> and integer <span class="math inline">\(L\)</span>, is there a Hamiltonian cycle with cost <span class="math inline">\(\le L\)</span>?</p></li>
+</ul>
+<p>Consider the instances of <strong>UTSP-d</strong> given in <a href="#fig-utsp" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>. We can replace this instance of <strong>UTSP-d</strong> with an instance of <strong>TSP-d</strong> by creating two directed arcs <span class="math inline">\((i,j)\)</span> and <span class="math inline">\((j,i)\)</span> for each edge <span class="math inline">\(ij\)</span> in <span class="math inline">\(G\)</span>. Both the undirected and directed graphs have Hamiltonian cycle <span class="math inline">\(C = (0,1,2,3,4)\)</span> with cost <span class="math inline">\(L = 15\)</span>.</p>
+<div id="fig-utsp" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-utsp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-utsp" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-utsp-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-utsp-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9b/UTSP_ex.png" class="img-fluid figure-img" data-ref-parent="fig-utsp">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-utsp-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) <span class="math inline">\(G = (V,E)\)</span>, <span class="math inline">\(L=15\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-utsp" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-utsp-1-C" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-utsp-1-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9b/UTSP_ex_C.png" class="img-fluid figure-img" data-ref-parent="fig-utsp">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-utsp-1-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Hamiltonian cycle in <span class="math inline">\(G\)</span> with length <span class="math inline">\(L\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-utsp" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-utsp-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-utsp-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9b/TSP_ex.png" class="img-fluid figure-img" data-ref-parent="fig-utsp">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-utsp-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) <span class="math inline">\(G' = (V',E')\)</span>, <span class="math inline">\(L'=15\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-utsp" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-tsp-1-C" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-tsp-1-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9b/TSP_ex_C.png" class="img-fluid figure-img" data-ref-parent="fig-utsp">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-tsp-1-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Directed Hamiltonian cycle in <span class="math inline">\(G'\)</span> with length <span class="math inline">\(L'\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-utsp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Instance of <strong>UTSP-d</strong> reduced to <strong>TSP-d</strong> with Hamiltonian cycles of length <span class="math inline">\(L = 15\)</span>.
+</figcaption>
+</figure>
+</div>
+<p>Let’s generalize this phenomena. Let <span class="math inline">\([G=(V,E), L]\)</span> be an instance of <strong>UTSP-d</strong>.</p>
+<p>We transform it into an instance of <strong>TSP-d</strong> <span class="math inline">\([G'=(V',E'), L']\)</span> as follows:</p>
+<ul>
+<li><span class="math inline">\(V'=V\)</span>;</li>
+<li>let <span class="math inline">\(E'\)</span> beset of arcs containing a pair of anti-parallel arcs for each edge in <span class="math inline">\(E\)</span> with same cost; i.e., add <span class="math inline">\((i,j)\)</span> and <span class="math inline">\((j,i)\)</span> to <span class="math inline">\(E'\)</span> for each <span class="math inline">\(ij\)</span> in <span class="math inline">\(E\)</span> with cost <span class="math display">\[
+  c'_{ij} = c_{ij} = c'_{ji}.
+\]</span></li>
+</ul>
+<p>Under this construction, <span class="math inline">\([G=(V,E), L]\)</span> has answer YES if and only if <span class="math inline">\([G'=(V',E'), L']\)</span> has answer YES. Indeed:</p>
+<ul>
+<li><p>If <span class="math inline">\(G\)</span> is a YES instance then follow its tour, either clockwise or anticlockwise, to get a directed tour in <span class="math inline">\(G'\)</span>. This implies that <span class="math inline">\(G'\)</span> is a YES instance too!</p></li>
+<li><p>If <span class="math inline">\(G'\)</span> is a YES instance then selecting arcs from its Hamiltonian cycle as edges in <span class="math inline">\(G\)</span> gives a Hamiltonian cycle in <span class="math inline">\(G\)</span>. Therefore, <span class="math inline">\(G\)</span> is a YES instance!</p></li>
+</ul>
+</div>
+<!-- ## The NP-complete class 
+
+:::{#def-NP-complete}
+A decision problem $P$ is $\mathbf{NP}$**-complete**^[<https://en.wikipedia.org/wiki/NP-completeness>] if 
+
+- $P \in \mathbf{NP}$. 
+
+- Every other problem in $\mathbf{NP}$ reduces polynomially to it:
+$$
+    \text{For all } Q \in \mathbf{NP}, \;\;
+    Q \le_T^P P. 
+$$
+:::
+
+
+::: {#thm-p-np}
+The existence of a polynomial time algorithm for **any NP-complete** problem would imply that
+$$
+    {\mathbf{P} = \mathbf{NP}}
+$$
+:::
+
+:::{.proof}
+-- Every problem $Q \in \text{NP}$ reduces in polynomial time to $R$ if $R$ is $\mathbf{NP}$**-complete**.
+
+- If we could solve $R$ using a polynomial-time algorithm, we could solve every $Q \in \text{NP}$ in polynomial time, which implies that 
+$\mathbf{P} = \mathbf{NP}.$
+:::
+
+### Consequences 
+
+We have established that problems in $\mathbf{NP}$**-complete** are more **general** than any problem in $\mathbf{NP}$:
+
+- Here, *generality* of a problem $Q$ follows the definition of polynomial reduction.
+
+- That is, as a measure of how many problems we could solve in polytime if we could solve $Q$ in $O(1)$.
+
+- If $Q$ is $\mathbf{NP}$**-complete** this generality is maximized since all of $\mathbf{NP}$ can be solve in polytime if $Q$ can be solved in $O(1)$.
+
+### Notions of Hardness
+
+Suppose we are trying to determine how hard it is to solve problem $Q$.
+
+- Suppose we try to construct a polynomial time algorithm but fail to find one.
+
+- Then try to show $Q$ is $\mathbf{NP}$**-complete** and succeed. 
+
+- This doesn't prove that $Q$ is not solvable in polynomial time. 
+
+If we *could solve* $Q$ in polynomial time, then $\mathbf{P = NP}$ and all problems in $\mathbf{NP}$ would be polytime solvable.
+
+- If $Q \in$$\mathbf{NP}$**-complete**, then $Q$ must be as hard as all other problems nobody knows how to solve in polytime. -->
+
+
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
