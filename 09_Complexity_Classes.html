@@ -222,6 +222,29 @@ window.Quarto = {
   <li><a href="#turing-and-cook-reductions" id="toc-turing-and-cook-reductions" class="nav-link" data-scroll-target="#turing-and-cook-reductions"><span class="header-section-number">9.2.1</span> Turing and Cook Reductions</a></li>
   <li><a href="#mapping-reductions-and-polynomial-transformations" id="toc-mapping-reductions-and-polynomial-transformations" class="nav-link" data-scroll-target="#mapping-reductions-and-polynomial-transformations"><span class="header-section-number">9.2.2</span> Mapping Reductions and Polynomial Transformations</a></li>
   </ul></li>
+  <li><a href="#the-np-complete-class" id="toc-the-np-complete-class" class="nav-link" data-scroll-target="#the-np-complete-class"><span class="header-section-number">9.3</span> The NP-complete class</a>
+  <ul class="collapse">
+  <li><a href="#consequences" id="toc-consequences" class="nav-link" data-scroll-target="#consequences"><span class="header-section-number">9.3.1</span> Consequences</a></li>
+  <li><a href="#notions-of-hardness" id="toc-notions-of-hardness" class="nav-link" data-scroll-target="#notions-of-hardness"><span class="header-section-number">9.3.2</span> Notions of Hardness</a></li>
+  </ul></li>
+  <li><a href="#constructing-turing-reductions" id="toc-constructing-turing-reductions" class="nav-link" data-scroll-target="#constructing-turing-reductions"><span class="header-section-number">9.4</span> Constructing Turing Reductions</a>
+  <ul class="collapse">
+  <li><a href="#the-satisfiability-sat-problem" id="toc-the-satisfiability-sat-problem" class="nav-link" data-scroll-target="#the-satisfiability-sat-problem"><span class="header-section-number">9.4.1</span> The Satisfiability (SAT) Problem</a></li>
+  <li><a href="#hierarchy-of-reductions" id="toc-hierarchy-of-reductions" class="nav-link" data-scroll-target="#hierarchy-of-reductions"><span class="header-section-number">9.4.2</span> Hierarchy of Reductions</a></li>
+  <li><a href="#the-mathbfnp-hard-class" id="toc-the-mathbfnp-hard-class" class="nav-link" data-scroll-target="#the-mathbfnp-hard-class"><span class="header-section-number">9.4.3</span> The <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong> Class</a></li>
+  <li><a href="#complexity-of-optimization-problems" id="toc-complexity-of-optimization-problems" class="nav-link" data-scroll-target="#complexity-of-optimization-problems"><span class="header-section-number">9.4.4</span> Complexity of Optimization Problems</a></li>
+  <li><a href="#examples-of-mathbfnp-hard-problems" id="toc-examples-of-mathbfnp-hard-problems" class="nav-link" data-scroll-target="#examples-of-mathbfnp-hard-problems"><span class="header-section-number">9.4.5</span> Examples of <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong> Problems</a></li>
+  </ul></li>
+  <li><a href="#example-a-chain-of-reductions" id="toc-example-a-chain-of-reductions" class="nav-link" data-scroll-target="#example-a-chain-of-reductions"><span class="header-section-number">9.5</span> Example: A Chain of Reductions</a>
+  <ul class="collapse">
+  <li><a href="#the-3-sat-problem" id="toc-the-3-sat-problem" class="nav-link" data-scroll-target="#the-3-sat-problem"><span class="header-section-number">9.5.1</span> The 3-SAT Problem</a></li>
+  <li><a href="#sat-to-3-sat" id="toc-sat-to-3-sat" class="nav-link" data-scroll-target="#sat-to-3-sat"><span class="header-section-number">9.5.2</span> SAT to 3-SAT</a></li>
+  <li><a href="#stable-sets" id="toc-stable-sets" class="nav-link" data-scroll-target="#stable-sets"><span class="header-section-number">9.5.3</span> Stable Sets</a></li>
+  <li><a href="#the-stable-set-problem" id="toc-the-stable-set-problem" class="nav-link" data-scroll-target="#the-stable-set-problem"><span class="header-section-number">9.5.4</span> The Stable Set Problem</a></li>
+  <li><a href="#sat-to-stab-d" id="toc-sat-to-stab-d" class="nav-link" data-scroll-target="#sat-to-stab-d"><span class="header-section-number">9.5.5</span> 3-SAT to STAB-d</a></li>
+  <li><a href="#cliques" id="toc-cliques" class="nav-link" data-scroll-target="#cliques"><span class="header-section-number">9.5.6</span> Cliques</a></li>
+  <li><a href="#the-maximum-clique-problem" id="toc-the-maximum-clique-problem" class="nav-link" data-scroll-target="#the-maximum-clique-problem"><span class="header-section-number">9.5.7</span> The Maximum Clique Problem</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -574,60 +597,535 @@ Figure&nbsp;9.1: Instance of <strong>UTSP-d</strong> reduced to <strong>TSP-d</s
 <li><p>If <span class="math inline">\(G'\)</span> is a YES instance then selecting arcs from its Hamiltonian cycle as edges in <span class="math inline">\(G\)</span> gives a Hamiltonian cycle in <span class="math inline">\(G\)</span>. Therefore, <span class="math inline">\(G\)</span> is a YES instance!</p></li>
 </ul>
 </div>
-<!-- ## The NP-complete class 
-
-:::{#def-NP-complete}
-A decision problem $P$ is $\mathbf{NP}$**-complete**^[<https://en.wikipedia.org/wiki/NP-completeness>] if 
-
-- $P \in \mathbf{NP}$. 
-
-- Every other problem in $\mathbf{NP}$ reduces polynomially to it:
-$$
-    \text{For all } Q \in \mathbf{NP}, \;\;
-    Q \le_T^P P. 
-$$
-:::
-
-
-::: {#thm-p-np}
-The existence of a polynomial time algorithm for **any NP-complete** problem would imply that
-$$
+</section>
+</section>
+<section id="the-np-complete-class" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="the-np-complete-class"><span class="header-section-number">9.3</span> The NP-complete class</h2>
+<div id="def-NP-complete" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.12</strong></span> A decision problem <span class="math inline">\(P\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> if</p>
+<ul>
+<li><p><span class="math inline">\(P \in \mathbf{NP}\)</span>.</p></li>
+<li><p>Every other problem in <span class="math inline">\(\mathbf{NP}\)</span> reduces polynomially to it: <span class="math display">\[
+  \text{For all } Q \in \mathbf{NP}, \;\;
+  Q \le_T^P P.
+\]</span></p></li>
+</ul>
+</div>
+<div id="thm-p-np" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.4</strong></span> The existence of a polynomial time algorithm for <strong>any NP-complete</strong> problem would imply that <span class="math display">\[
     {\mathbf{P} = \mathbf{NP}}
-$$
-:::
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Every problem <span class="math inline">\(Q \in \text{NP}\)</span> reduces in polynomial time to <span class="math inline">\(R\)</span> if <span class="math inline">\(R\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+<ul>
+<li>If we could solve <span class="math inline">\(R\)</span> using a polynomial-time algorithm, we could solve every <span class="math inline">\(Q \in \text{NP}\)</span> in polynomial time, which implies that <span class="math inline">\(\mathbf{P} = \mathbf{NP}.\)</span></li>
+</ul>
+</div>
+<section id="consequences" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="consequences"><span class="header-section-number">9.3.1</span> Consequences</h3>
+<p>We have established that problems in <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> are more <strong>general</strong> than any problem in <span class="math inline">\(\mathbf{NP}\)</span>:</p>
+<ul>
+<li><p>Here, <em>generality</em> of a problem <span class="math inline">\(Q\)</span> follows the definition of polynomial reduction.</p></li>
+<li><p>That is, as a measure of how many problems we could solve in polytime if we could solve <span class="math inline">\(Q\)</span> in <span class="math inline">\(O(1)\)</span>.</p></li>
+<li><p>If <span class="math inline">\(Q\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> this generality is maximized since all of <span class="math inline">\(\mathbf{NP}\)</span> can be solve in polytime if <span class="math inline">\(Q\)</span> can be solved in <span class="math inline">\(O(1)\)</span>.</p></li>
+</ul>
+</section>
+<section id="notions-of-hardness" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="notions-of-hardness"><span class="header-section-number">9.3.2</span> Notions of Hardness</h3>
+<p>Suppose that we are trying to determine how hard it is to solve problem <span class="math inline">\(Q\)</span>.</p>
+<ul>
+<li><p>Suppose that we try to construct a polynomial time algorithm but fail to find one.</p></li>
+<li><p>Then try to show <span class="math inline">\(Q\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> and succeed.</p></li>
+<li><p>This doesn’t prove that <span class="math inline">\(Q\)</span> is not solvable in polynomial time.</p></li>
+</ul>
+<p>If we <em>could solve</em> <span class="math inline">\(Q\)</span> in polynomial time, then <span class="math inline">\(\mathbf{P = NP}\)</span> and all problems in <span class="math inline">\(\mathbf{NP}\)</span> would be polytime solvable.</p>
+<ul>
+<li>If <span class="math inline">\(Q \in\)</span><span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>, then <span class="math inline">\(Q\)</span> must be as hard as all other problems nobody knows how to solve in polytime.</li>
+</ul>
+</section>
+</section>
+<section id="constructing-turing-reductions" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="constructing-turing-reductions"><span class="header-section-number">9.4</span> Constructing Turing Reductions</h2>
+<p>We can use <strong>polynomial reductions</strong> to prove that a problem is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+<div id="thm-reduction-complete" class="absolute theorem" data-top="%30">
+<p><span class="theorem-title"><strong>Theorem 9.5</strong></span> Given problem <span class="math inline">\(P \in \mathbf{NP}\)</span>.</p>
+<ul>
+<li>Suppose that there is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> problem <span class="math inline">\(Q\)</span> which reduces to <span class="math inline">\(P\)</span>.</li>
+<li>Then <span class="math inline">\(P\)</span> is also <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</li>
+</ul>
+</div>
+<p><strong>Issue:</strong> To show that <span class="math inline">\(P\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>, we need to know and use at least one other <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> problem!</p>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Suppose that <span class="math inline">\(Q\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>:</p>
+<ul>
+<li><span class="math inline">\(Q \in \mathbf{NP}\)</span>;</li>
+<li><span class="math inline">\(R \le_T^P Q\)</span> for all <span class="math inline">\(R \in \mathbf{NP}\)</span>.</li>
+</ul>
+<p>Now suppose that <span class="math inline">\(Q\)</span> reduces to <span class="math inline">\(P \in \mathbf{NP}\)</span>: <span class="math inline">\(Q \le_T^P P\)</span>. Then, we have <span class="math display">\[
+R \le_T^P Q \le_T^P P
+\]</span> for every problem <span class="math inline">\(R \in \mathbf{NP}\)</span>. Therefore, <span class="math inline">\(R \le_T^P P\)</span> and, hence, <span class="math inline">\(P\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+</div>
+<section id="the-satisfiability-sat-problem" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="the-satisfiability-sat-problem"><span class="header-section-number">9.4.1</span> The Satisfiability (SAT) Problem</h3>
+<p>Given <span class="math inline">\(n\)</span> Boolean variables <span class="math inline">\(Y_1, Y_2, \dots, Y_n\)</span> and <span class="math inline">\(m\)</span> Boolean clauses <span class="math inline">\(C_1, \dots, C_m\)</span>.</p>
+<p>Is there a <strong>truth assignment (TA)</strong> <strong><em>SATisfying</em></strong> all of the clauses?</p>
+<ul>
+<li>We call the occurrences of variable <span class="math inline">\(Y_i\)</span> in a clause <strong>literals</strong>.</li>
+<li>These are either <strong>positive</strong> <span class="math inline">\((Y_i)\)</span> or <strong>negative</strong> <span class="math inline">\((-Y_i)\)</span>.</li>
+<li><span class="math inline">\(\vee\)</span> denotes <strong>or</strong> in each clause.</li>
+</ul>
+<div id="thm-cook" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.6</strong></span> <strong>(Cook 1971)</strong> SAT is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+</div>
+<div id="exm-3-sat-examp" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.5</strong></span> Consider an instance of SAT with variables <span class="math inline">\(Y_1, Y_2, Y_3, Y_4\)</span> and clauses:</p>
+<ul>
+<li><span class="math inline">\(C_1: (Y_2 \vee Y_3)\)</span></li>
+<li><span class="math inline">\(C_2: (Y_1 \vee -Y_2 \vee Y_4)\)</span></li>
+<li><span class="math inline">\(C_3: (-Y_1 \vee -Y_2 \vee Y_3 \vee -Y_4)\)</span></li>
+</ul>
+<p>We want to assign values in <span class="math inline">\(\{T, F\}\)</span> to <span class="math inline">\(Y_1, Y_2, Y_3, Y_4\)</span> so that <span class="math inline">\(C_1\)</span> <strong>and</strong> <span class="math inline">\(C_2\)</span> <strong>and</strong> <span class="math inline">\(C_3\)</span> are all satisfied.</p>
+<p>This is a YES-instance of SAT. Indeed:</p>
+<ul>
+<li>Setting <span class="math inline">\(Y_2 = T\)</span> satisfies <span class="math inline">\(C_1\)</span>;</li>
+<li>Similarly, <span class="math inline">\(Y_1 = T\)</span> ensures that <span class="math inline">\(C_2\)</span> is satisfied;</li>
+<li>Finally, setting <span class="math inline">\(Y_3 = T\)</span> and/or <span class="math inline">\(Y_4 = F\)</span> satisfies <span class="math inline">\(C_3\)</span>.</li>
+</ul>
+<p>Therefore, this instance of SAT admits several solutions, including <span class="math inline">\((Y_1, Y_2, Y_3, Y_4) = (T, T, T, F)\)</span> and <span class="math inline">\((Y_1, Y_2, Y_3, Y_4) = (T, T, T, T)\)</span>.</p>
+</div>
+</section>
+<section id="hierarchy-of-reductions" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="hierarchy-of-reductions"><span class="header-section-number">9.4.2</span> Hierarchy of Reductions</h3>
+<p><strong>Karp 1972</strong>: 21 of most famous problems without known polytime algorithms are <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> by reduction from SAT.</p>
+<div id="fig-karp" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-karp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/Karp.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-karp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: Karp’s Heirarchy of Reductions
+</figcaption>
+</figure>
+</div>
+<p>Karp used a series of reductions from SAT to establish that each problem is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+</section>
+<section id="the-mathbfnp-hard-class" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="the-mathbfnp-hard-class"><span class="header-section-number">9.4.3</span> The <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong> Class</h3>
+<div id="def-np-hard" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.13</strong></span> We say that problem <span class="math inline">\(P\)</span> is <strong>NP-hard</strong> if every problem in <span class="math inline">\(\mathbf{NP}\)</span> polynomially reduces to it.</p>
+</div>
+<p><strong>Note:</strong> <span class="math inline">\(P\)</span> may not belong to <span class="math inline">\(\mathbf{NP}\)</span>.</p>
+</section>
+<section id="complexity-of-optimization-problems" class="level3" data-number="9.4.4">
+<h3 data-number="9.4.4" class="anchored" data-anchor-id="complexity-of-optimization-problems"><span class="header-section-number">9.4.4</span> Complexity of Optimization Problems</h3>
+<div id="thm-np-hard-opt" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.7</strong></span> If a decision problem <span class="math inline">\(P_d\)</span> is <strong>NP-complete</strong> then its optimization counterpart <span class="math inline">\(P_o\)</span> is <strong>NP-hard</strong>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Recall that <span class="math inline">\(P_d\)</span> can be solved by calling an algorithm for the optimization problem <span class="math inline">\(P_o\)</span>. Thus, <span class="math display">\[
+    P_d \le_T^P P_o.
+\]</span> If <span class="math inline">\(P_d\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> then every <span class="math inline">\(Q \in \mathbf{NP}\)</span> reduces to <span class="math inline">\(P_d\)</span>: <span class="math display">\[
+    Q \le_T^P P_d \le_T^P P_o.
+\]</span> Therefore, every <span class="math inline">\(Q \in \mathbf{NP}\)</span> reduces to <span class="math inline">\(P_o\)</span>. Therefore, <span class="math inline">\(P_0\)</span> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong>.</p>
+</div>
+<p>Note that <span class="math inline">\(P_o\)</span> is <strong>not</strong> in <span class="math inline">\(\mathbf{NP}\)</span> because <span class="math inline">\(P_o\)</span> is not a decision problem; thus, <span class="math inline">\(P_o\)</span> is <strong>not</strong> <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+</section>
+<section id="examples-of-mathbfnp-hard-problems" class="level3" data-number="9.4.5">
+<h3 data-number="9.4.5" class="anchored" data-anchor-id="examples-of-mathbfnp-hard-problems"><span class="header-section-number">9.4.5</span> Examples of <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong> Problems</h3>
+<p>All of the optimization counterparts of <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> problems we have see are <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong>.</p>
+<ul>
+<li><p><strong>TSP</strong> (given graph <span class="math inline">\(G\)</span> and arc costs <span class="math inline">\(c\)</span>, find Hamiltonian cycle with minimum cost) is <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong>.</p></li>
+<li><p>Unless <span class="math inline">\(\mathbf{P}=\mathbf{NP}\)</span>, the problems in <span class="math inline">\(\mathbf{P}\)</span> we have seen (e.g., <em>minimum spanning tree</em>, <em>shortest path</em>, <em>matching</em>, <em>max flow</em>) are <strong>not</strong> <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong>.</p>
+<ul>
+<li>If they were <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong>, every problem in <span class="math inline">\(\mathbf{NP}\)</span> would be solvable in polynomial time by reduction to them.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="example-a-chain-of-reductions" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="example-a-chain-of-reductions"><span class="header-section-number">9.5</span> Example: A Chain of Reductions</h2>
+<p>We’ll use the chain of reductions <span class="math display">\[
+    \text{SAT} \Rightarrow \text{3-SAT} \Rightarrow \text{STAB-d} \Rightarrow \text{CLIQUE-d}
+\]</span> to establish that each problem (except SAT) is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+<p>(We’ll formally define these problems as we go through the chain.)</p>
+<section id="the-3-sat-problem" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="the-3-sat-problem"><span class="header-section-number">9.5.1</span> The 3-SAT Problem</h3>
+<p>Given:</p>
+<ul>
+<li><span class="math inline">\(n\)</span> Boolean variables <span class="math inline">\(Y_1, \dots, Y_n\)</span>,</li>
+<li><span class="math inline">\(m\)</span> Boolean clauses <span class="math inline">\(C_1, \dots, C_m\)</span> <strong><em>each containing at most 3 literals</em></strong>.</li>
+</ul>
+<p>Is there a Truth Assignment (TA) satisfying all the clauses?</p>
+<ul>
+<li>The <em>3-SAT</em> problem is a <strong>restriction</strong> of <em>SAT</em>:
+<ul>
+<li>The definition of <em>3-SAT</em> adds a further constraint to the definition of <em>SAT</em>.</li>
+</ul></li>
+</ul>
+<div id="exm-3-sat-ex" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.6</strong></span> The following defines and instance of 3-SAT with four variables and three clauses: <span class="math display">\[
+(-Y_1\vee Y_2 \vee -Y_3) \wedge (Y_4 \vee -Y_2 \vee Y_3) \wedge (-Y_4 \vee Y_2 \vee Y_3)
+\]</span> This is a YES-instance of 3-SAT: <span class="math display">\[
+(Y_1, Y_2, Y_3, Y_4) = (F, T, T/F, T)
+\]</span> is a solution.</p>
+</div>
+</section>
+<section id="sat-to-3-sat" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="sat-to-3-sat"><span class="header-section-number">9.5.2</span> SAT to 3-SAT</h3>
+<div id="thm-3sat" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.8</strong></span> 3-SAT is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We will prove the theorem by:</p>
+<ol type="1">
+<li><p>Showing that 3-SAT <span class="math inline">\(\in \mathbf{NP}\)</span>.</p></li>
+<li><p>Showing that SAT <span class="math inline">\(\le_T^P\)</span> 3-SAT</p></li>
+</ol>
+</div>
+<section id="sat-in-mathbfnp" class="level4" data-number="9.5.2.1">
+<h4 data-number="9.5.2.1" class="anchored" data-anchor-id="sat-in-mathbfnp"><span class="header-section-number">9.5.2.1</span> 3-SAT <span class="math inline">\(\in \mathbf{NP}\)</span></h4>
+<p>Any Boolean vector in <span class="math inline">\(\{T,F\}^n\)</span> corresponding to a TA providing answer YES is a polytime-verifiable certificate:</p>
+<ul>
+<li>We can check in <strong>linear</strong> time whether each clause is satisfied.</li>
+<li>Indeed, we compare each literal in each clause with their counterpart in the TA.</li>
+<li>The clause is satisfied if we have:
+<ul>
+<li>positive literal <span class="math inline">\(Y_i\)</span> with <span class="math inline">\(Y_i=T\)</span>, or</li>
+<li>negative literal <span class="math inline">\(-Y_i\)</span> with <span class="math inline">\(Y_i=F\)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="reduction" class="level4" data-number="9.5.2.2">
+<h4 data-number="9.5.2.2" class="anchored" data-anchor-id="reduction"><span class="header-section-number">9.5.2.2</span> Reduction</h4>
+<p>Suppose that we are given a SAT instance with clauses with <strong><em>at least <span class="math inline">\(4\)</span> literals.</em></strong></p>
+<ul>
+<li>Otherwise, the SAT instance is already a 3-SAT instance.</li>
+</ul>
+<p>Let’s consider the SAT clause with variables <span class="math inline">\(X_1, \dots, X_k\)</span>: <span class="math display">\[
+    C_j = (x_1 \vee x_2 \vee \cdots \vee x_k).
+\]</span> Each <span class="math inline">\(x_j\)</span> is a literal (may correspond to either <span class="math inline">\(X_j\)</span> or <span class="math inline">\(-X_j\)</span>.) We want to replace <span class="math display">\[
+    C_j = (x_1 \vee x_2 \vee \cdots \vee x_k).
+\]</span> by a set of 3-SAT clauses.</p>
+<p>To do so, we introduce new variables <span class="math inline">\(Y_1, Y_2, \dots, Y_{k-3}\)</span>. We will show that <span class="math inline">\(C_j\)</span> is equivalent to the clause <span class="math display">\[
+\tilde C = (x_1 \vee x_2 \vee Y_1) \wedge
+    (x_3 \vee -Y_1 \vee Y_2) \wedge (x_4 \vee -Y_2 \vee Y_3) \wedge \cdots \wedge
+    (x_{k-1} \vee x_k \vee - Y_{k-3}).
+\]</span></p>
+<p>To see that <span class="math inline">\(C_j\)</span> and <span class="math inline">\(\tilde C\)</span> are equivalent, suppose that <span class="math inline">\(C_j\)</span> is satisfied. Then <span class="math inline">\(x_j = T\)</span> for some <span class="math inline">\(j\)</span>. We want to show that <span class="math inline">\(\tilde C\)</span> is also satisfied. Consider <span class="math display">\[
+Y_i =
+\begin{cases}
+T, &amp;\text{if } i =1,2,\dots, j-2, \\
+F, &amp;\text{if } i = j-1, \dots, k-3.
+\end{cases}
+\]</span> This choice of <span class="math inline">\((x,Y)\)</span> satisfies each of the 3-SAT subclauses in <span class="math inline">\(\tilde C\)</span>. Indeed, the clause <span class="math display">\[
+    x_i \vee - Y_{i-2} \vee Y_{i-1}
+\]</span> is satisfied by:</p>
+<ul>
+<li><span class="math inline">\(Y_{i-1}=T\)</span> for <span class="math inline">\(i=1,2,\dots, j-2\)</span>;</li>
+<li><span class="math inline">\(-Y_{i-2}=F\)</span> otherwise.</li>
+</ul>
+<p>On the other hand, suppose that <span class="math inline">\(\tilde C\)</span> is satisfied. We want to show that <span class="math inline">\(C_j\)</span> is also satisfied.</p>
+<p>We have two possible options. First, there is a <span class="math inline">\(j\)</span> such that <span class="math inline">\(x_j = T\)</span>. Then <span class="math inline">\(C_j\)</span> is satisfied as well.</p>
+<p>Next, we could have <span class="math inline">\(x_j = F\)</span> for all <span class="math inline">\(j\)</span>:</p>
+<ul>
+<li><span class="math inline">\(x_1 = x_2 = F\)</span> implies that <span class="math inline">\(Y_1 = T\)</span> if <span class="math inline">\(\tilde C\)</span> is satisfied;</li>
+<li><span class="math inline">\(x_3 = -Y_1 = F\)</span> implies that <span class="math inline">\(Y_2 = T\)</span>;</li>
+<li><span class="math inline">\(x_4 = -Y_2 = F\)</span> implies that <span class="math inline">\(Y_3 = T\)</span>; and so on.</li>
+</ul>
+<p>Iterating shows that <span class="math inline">\(Y_j = T\)</span> for all <span class="math inline">\(j = 1,2,\dots, k-3\)</span>. However, the final 3-SAT subclause <span class="math display">\[
+    -Y_{k-3} \vee x_{k-1} \vee x_k
+\]</span> is not satisfied since <span class="math display">\[
+    -Y_{k-3} = x_{k-1} = x_k = F.
+\]</span> This implies that we must have at least one <span class="math inline">\(x_j = T\)</span> and <span class="math inline">\(C_j\)</span> satisfied if <span class="math inline">\(\tilde C\)</span> is satisfied.</p>
+<p>We have shown that SAT is feasible if and only if 3-SAT is feasible. Since we can translate an instance of SAT to an instance of 3-SAT using a polynomial number of operations to create the additional clauses. Therefore, we have a polynomial mapping reduction from SAT to 3-SAT: SAT <span class="math inline">\(\le_T^P\)</span> 3-SAT.</p>
+<p>:::</p>
+</section>
+</section>
+<section id="stable-sets" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="stable-sets"><span class="header-section-number">9.5.3</span> Stable Sets</h3>
+<div id="def-stab-sets" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.14</strong></span> Given an undirected graph <span class="math inline">\(G = (V,E)\)</span>, we say that a subset <span class="math inline">\(S \subseteq V\)</span> is a <strong>stable set</strong> if it consists of <strong><em>completely disconnected vertices</em></strong>: <span class="math display">\[
+    \text{For all } \{i,j\} \in S,
+    \;\; \{i,j\} \notin E.
+\]</span></p>
+</div>
+<div id="exm-stable-sets" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.7</strong></span> <a href="#fig-ss" class="quarto-xref">Figure&nbsp;<span>9.3</span></a> illustrates the stable set <span class="math inline">\(\{1,5,7\}\)</span> in the given graph: there are no edges between the nodes in the stable set. On the other hand, the set <span class="math inline">\(\{2,4,6\}\)</span> is <em>not stable</em> because the given graph contains the edge <span class="math inline">\(\{2,4\}\)</span>.</p>
+</div>
+<div id="fig-ss" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ss" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-ss" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-ss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/stab_set.png" class="img-fluid figure-img" data-ref-parent="fig-ss">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Stable set <span class="math inline">\(\{1,5,7\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ss" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-ss-not" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-ss-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/stab_set_not.png" class="img-fluid figure-img" data-ref-parent="fig-ss">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ss-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Not stable <span class="math inline">\(\{2,4,6\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.3: Example of stable and not stable sets.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-stable-set-problem" class="level3" data-number="9.5.4">
+<h3 data-number="9.5.4" class="anchored" data-anchor-id="the-stable-set-problem"><span class="header-section-number">9.5.4</span> The Stable Set Problem</h3>
+<div id="def-stable-set-problem" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.15</strong></span> &nbsp;</p>
+<ul>
+<li><strong>STAB-d</strong>: Given an undirected graph <span class="math inline">\(G = (V,E)\)</span> and integer <span class="math inline">\(L\)</span>, does <span class="math inline">\(G\)</span> contain a stable set of size at least <span class="math inline">\(L\)</span>?</li>
+</ul>
+<p>Its optimization counterpart is</p>
+<ul>
+<li><strong>STAB</strong>: Given an undirected graph <span class="math inline">\(G=(V,E)\)</span>, find a stable set in <span class="math inline">\(G\)</span> of <strong><em>maximum size</em></strong>.</li>
+</ul>
+</div>
+</section>
+<section id="sat-to-stab-d" class="level3" data-number="9.5.5">
+<h3 data-number="9.5.5" class="anchored" data-anchor-id="sat-to-stab-d"><span class="header-section-number">9.5.5</span> 3-SAT to STAB-d</h3>
+<p>We have used a reduction to show that 3-SAT is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>. Next, we want to reduce <strong>3-SAT</strong> to <strong>STAB-d</strong> to show that <strong>STAB-d</strong> is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>. We have the following theorem.</p>
+<div id="thm-stab-np" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.9</strong></span> STAB-d is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+</div>
+<section id="membership-in-mathbfnp" class="level4" data-number="9.5.5.1">
+<h4 data-number="9.5.5.1" class="anchored" data-anchor-id="membership-in-mathbfnp"><span class="header-section-number">9.5.5.1</span> Membership in <span class="math inline">\(\mathbf{NP}\)</span></h4>
+<p>Any stable set with <span class="math inline">\(|S|\ge L\)</span> is a polytime-verifiable certificate.</p>
+<p>Indeed, we can check that</p>
+<ul>
+<li><span class="math inline">\(\{i,j\} \notin E\)</span> for each <span class="math inline">\(i,j \in S\)</span>, and</li>
+<li><span class="math inline">\(|S| \ge L\)</span></li>
+</ul>
+<p>in linear time in <span class="math inline">\((|V|, |E|)\)</span>.</p>
+</section>
+<section id="sat-le_tp-stab-d" class="level4" data-number="9.5.5.2">
+<h4 data-number="9.5.5.2" class="anchored" data-anchor-id="sat-le_tp-stab-d"><span class="header-section-number">9.5.5.2</span> 3-SAT <span class="math inline">\(\le_T^P\)</span> STAB-d</h4>
+<p>Given a 3-SAT instance, we build a STAB-d instance with</p>
+<ul>
+<li><p>3 vertices per clause, one per literal, all adjacent.</p>
+<ul>
+<li>The vertices of each clause form a triangle.</li>
+</ul></li>
+<li><p>An edge per pair of vertices whose literals represent the same variable but <strong><em>one is positive and the other is negative</em></strong>.</p></li>
+<li><p><span class="math inline">\(L = m\)</span> the number of 3-SAT clauses.</p></li>
+</ul>
+<div id="exm-graph-from-3SAT" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.8</strong></span> Consider the following 3-SAT instance. <span class="math display">\[
+(−Y_1 \vee Y_2 \vee −Y_3) \wedge (Y_4 \vee −Y_2 \vee Y_3) \wedge (−Y_4 \vee Y_2 \vee Y_3).
+\]</span> The corresponding instance of 3-SAT is given by the graph in <a href="#fig-3sat-to-stab" class="quarto-xref">Figure&nbsp;<span>9.4</span></a> with <span class="math inline">\(L = 3\)</span>. Here, we have three triangles/cycles corresponding to each of the three clauses.</p>
+</div>
+<div id="fig-3sat-to-stab" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-3sat-to-stab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/3-SAT-to-STAB.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3sat-to-stab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.4: STAB-d instance from 3-SAT instance
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="establishing-the-reduction" class="level4" data-number="9.5.5.3">
+<h4 data-number="9.5.5.3" class="anchored" data-anchor-id="establishing-the-reduction"><span class="header-section-number">9.5.5.3</span> Establishing the Reduction</h4>
+<p>We want to show that 3-SAT is feasible if and only if STAB-d has answer YES. That is, there is a TA satisfying all clauses in the 3-SAT instance if and only if there is a stable set <span class="math inline">\(S\)</span> in <span class="math inline">\(G\)</span> with size at least <span class="math inline">\(L\)</span>.</p>
+<p>We first establish <em>necessity</em>. To do so, note that, given a TA satisfying all clauses, we can construct a stable set <span class="math inline">\(S\)</span> by choosing a single vertex from each triangle corresponding to either:</p>
+<ol type="1">
+<li>positive literal <span class="math inline">\(Y_i\)</span> with <span class="math inline">\(Y_i = T\)</span>, or</li>
+<li>negative literal <span class="math inline">\(-Y_i\)</span> with <span class="math inline">\(Y_i = F\)</span>.</li>
+</ol>
+<p>To illustrate this process, consider the 3-SAT instance from before: <span class="math display">\[
+(−Y_1 \vee Y_2 \vee −Y_3) \wedge (Y_4 \vee −Y_2 \vee Y_3) \wedge (−Y_4 \vee Y_2 \vee Y_3).
+\]</span> This has TA: <span class="math inline">\((Y_1, Y_2, Y_3, Y_4) = (F, F, T, F)\)</span>.</p>
+<p>Following the process above:</p>
+<ul>
+<li>We add the node <span class="math inline">\(-Y_1\)</span> from the triangle corresponding to <span class="math inline">\(C_1\)</span> to <span class="math inline">\(S\)</span>;</li>
+<li>We can pick <span class="math inline">\(-Y_2\)</span> or <span class="math inline">\(Y_3\)</span> from <span class="math inline">\(C_2\)</span> to add; let’s pick <span class="math inline">\(-Y_2\)</span>;</li>
+<li>Similarly, we can pick either <span class="math inline">\(Y_3\)</span> or <span class="math inline">\(-Y_4\)</span> from <span class="math inline">\(C_3\)</span>; let’s pick <span class="math inline">\(Y_3\)</span>.</li>
+</ul>
+<p>This yields the stable set illustrated in <a href="#fig-stab-from-TA" class="quarto-xref">Figure&nbsp;<span>9.5</span></a>.</p>
+<div id="fig-stab-from-TA" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stab-from-TA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/TA-to-STAB.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stab-from-TA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.5: Stable set from TA
+</figcaption>
+</figure>
+</div>
+<p>This process yields a stable set <span class="math inline">\(S\)</span> with cardinality <span class="math inline">\(L=m\)</span>. Indeed, we have picked one node per triangle. Moreover, there are no inter-triangle edges, i.e., no edges between <span class="math inline">\(i,j \in S\)</span> within triangles. Finally, note that we picked literals to construct <span class="math inline">\(S\)</span> from a truth assignment. Thus, we cannot have <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(-Y_i\)</span> both in <span class="math inline">\(S\)</span>, so there are no intra-triangle edges. Therefore, <span class="math inline">\(|S| = m = L\)</span> and we have no edges between <span class="math inline">\(i,j\in S\)</span>. Therefore, <span class="math inline">\(S\)</span> is a stable set with <span class="math inline">\(|S| \ge L\)</span> and, hence this is a YES-instance of STAB-d.</p>
+<p>We next prove <em>sufficiency</em>. Given stable set <span class="math inline">\(S\)</span> of size <span class="math inline">\(L=m\)</span>, we can build a truth assignment.</p>
+<p>For each triangle/clause <span class="math inline">\(C\)</span>, we set:</p>
+<ol type="1">
+<li><p><span class="math inline">\(Y_i = T\)</span> if the vertex in <span class="math inline">\(S \cap C\)</span> is a vertex associated with positive literal <span class="math inline">\(Y_i\)</span>.</p></li>
+<li><p><span class="math inline">\(Y_i = F\)</span> if the vertex in <span class="math inline">\(S \cap C\)</span> is a vertex associated with a negative literal <span class="math inline">\(-Y_i\)</span>.</p></li>
+</ol>
+<p>We set any remaining variable to either <span class="math inline">\(T\)</span> or <span class="math inline">\(F\)</span> (it makes no difference).</p>
+<p>Returning to our earlier example, suppose that we have stable set given by <a href="#fig-TA-from-stab-2" class="quarto-xref">Figure&nbsp;<span>9.6</span></a>.</p>
+<div id="fig-TA-from-stab-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-TA-from-stab-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/3-SAT-to-STAB.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-TA-from-stab-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.6: TA from Stable set
+</figcaption>
+</figure>
+</div>
+<p>We can construct a truth assignment by setting <span class="math inline">\(Y_3 = F\)</span>, <span class="math inline">\(Y_2 = F\)</span>, and <span class="math inline">\(Y_4 = F\)</span> (<span class="math inline">\(Y_1\)</span> can be <span class="math inline">\(T\)</span> or <span class="math inline">\(F\)</span>).</p>
+<p>In general, the truth assignment we build is consistent:</p>
+<ul>
+<li>We cannot set <span class="math inline">\(Y_i = T\)</span> and <span class="math inline">\(Y_i = F\)</span> for some literal <span class="math inline">\(Y_i\)</span>.</li>
+<li>If we could, then <span class="math inline">\(S\)</span> would not be stable since we would have edge between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(-Y_i\)</span> in different clauses.</li>
+</ul>
+<p>By construction, all clauses are satistfied and 3-SAT is a YES-instance if and only if the corresponding instance of STAB-d is a YES-instance.</p>
+</section>
+</section>
+<section id="cliques" class="level3" data-number="9.5.6">
+<h3 data-number="9.5.6" class="anchored" data-anchor-id="cliques"><span class="header-section-number">9.5.6</span> Cliques</h3>
+<div id="def-clique" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.16</strong></span> Given an undirected graph <span class="math inline">\(G=(V,E)\)</span>, a <strong>clique</strong> is a subset <span class="math inline">\(C\subseteq V\)</span> of <strong><em>completely connected vertices</em></strong>: <span class="math display">\[
+    \{i,j\} \in E \;\;\; \text{for all } i\neq j \in C.
+\]</span></p>
+</div>
+<div id="exm-cliques" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.9</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-clique" class="quarto-xref">Figure&nbsp;<span>9.7</span></a>. The set <span class="math inline">\(\{2,4,5,6\}\)</span> is a clique since every node in this set is adjacent to every other node. On the other hand, the set <span class="math inline">\(\{3,4,5,6\}\)</span> is not a clique since several pairs of nodes in this set are not adjacent, e.g., <span class="math inline">\(\{3,4\},\{3,5\} \notin E\)</span>.</p>
+</div>
+<div id="fig-clique" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clique-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clique" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-c" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-c-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/clique.png" class="img-fluid figure-img" data-ref-parent="fig-clique">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-c-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Clique <span class="math inline">\(\{2,4,5,6\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clique" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-c-not" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-c-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/clique-not.png" class="img-fluid figure-img" data-ref-parent="fig-clique">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-c-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Not a clique <span class="math inline">\(\{3,4,5,6\}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-clique-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.7: Example of a clique and a not fully connected vertex set.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-maximum-clique-problem" class="level3" data-number="9.5.7">
+<h3 data-number="9.5.7" class="anchored" data-anchor-id="the-maximum-clique-problem"><span class="header-section-number">9.5.7</span> The Maximum Clique Problem</h3>
+<div id="def-clique" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.17</strong></span> &nbsp;</p>
+<ul>
+<li><p><strong>CLIQUE</strong>: Given undirected graph <span class="math inline">\(G\)</span>, find a clique in <span class="math inline">\(G\)</span> with <strong><em>maximum size</em></strong>.</p></li>
+<li><p><strong>CLIQUE-d</strong>: Given an undirected graph <span class="math inline">\(G=(V,E)\)</span> and integer <span class="math inline">\(L\)</span>, does <span class="math inline">\(G\)</span> have a clique of size <span class="math inline">\(\ge L\)</span>?</p></li>
+</ul>
+</div>
+<div id="thm-clique-np" class="absolute theorem" data-top="75%">
+<p><span class="theorem-title"><strong>Theorem 9.10</strong></span> CLIQUE-d is <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong>.</p>
+</div>
+<section id="membership-in-mathbfnp-1" class="level4" data-number="9.5.7.1">
+<h4 data-number="9.5.7.1" class="anchored" data-anchor-id="membership-in-mathbfnp-1"><span class="header-section-number">9.5.7.1</span> Membership in <span class="math inline">\(\mathbf{NP}\)</span></h4>
+<p>Any clique <span class="math inline">\(C\)</span> with <span class="math inline">\(|C| \ge L\)</span> is a polytime-verifiable certificate.</p>
+<p>Indeed, we require polynomially-many operations to check that</p>
+<ul>
+<li><span class="math inline">\(|C| \ge L\)</span>, and</li>
+<li><span class="math inline">\(\{i,j\} \in E\)</span> for all <span class="math inline">\(i,j \in C\)</span>.</li>
+</ul>
+</section>
+<section id="stab-d-le_tp-clique-d" class="level4" data-number="9.5.7.2">
+<h4 data-number="9.5.7.2" class="anchored" data-anchor-id="stab-d-le_tp-clique-d"><span class="header-section-number">9.5.7.2</span> STAB-d <span class="math inline">\(\le_T^p\)</span> CLIQUE-d</h4>
+<p>Let’s consider the <strong>complement graph</strong> <span class="math inline">\(\overline{G}\)</span> of <span class="math inline">\(G\)</span> where <span class="math display">\[
+    \overline{G} = (V, \overline{E})
+    \text{ with } \overline{E}:= V\times V \setminus {E}
+\]</span> (ignoring self-loops <span class="math inline">\(\{i,i\}\)</span>). Alternately, if <span class="math inline">\(i\neq j\)</span> then <span class="math inline">\(\{i,j\} \in \overline{E}\)</span> if and only if <span class="math inline">\(\{i,j\} \notin E\)</span>.</p>
+<div id="lem-equivalency-of-clique-stab" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 9.1</strong></span> Cliques in <span class="math inline">\(\overline{G}\)</span> are stable sets in <span class="math inline">\(G\)</span> since <span class="math inline">\(\overline{E}\)</span> is the complement of <span class="math inline">\({E}\)</span>.</p>
+</div>
+<div id="fig-clique-stab" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clique-stab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clique-stab" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-c-s" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-c-s-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/clique.png" class="img-fluid figure-img" data-ref-parent="fig-clique-stab">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-c-s-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Clique <span class="math inline">\(\{2,4,5,6\}\)</span> in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clique-stab" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-c-c-ss2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-c-c-ss2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/9c/clique-to-stab.png" class="img-fluid figure-img" data-ref-parent="fig-clique-stab">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-c-c-ss2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Stable set <span class="math inline">\(\{2,4,5,6\}\)</span> in <span class="math inline">\(\overline{G}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-clique-stab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.8: Example of equivalence of clique and stable set.
+</figcaption>
+</figure>
+</div>
+<p>The following theorem establishes equivalency of CLIQUE-d and STAB-d.</p>
+<div id="thm-stab-to-clique" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 9.11</strong></span> <span class="math inline">\(\overline{G}\)</span> contains a clique of size <span class="math inline">\(L\)</span> if and only if <span class="math inline">\(G\)</span> contains a stable set of size <span class="math inline">\(L\)</span>.</p>
+</div>
+<p><a href="#thm-stab-to-clique" class="quarto-xref">Theorem&nbsp;<span>9.11</span></a> establishes that STAB-d <span class="math inline">\(\le_T^P\)</span> CLIQUE-d.&nbsp;Indeed, we have to the following algorithm for solving <span class="math inline">\(G\)</span>:</p>
+<ul>
+<li>Given <span class="math inline">\(G\)</span>, <span class="math inline">\(L\)</span>.</li>
+<li>Form <span class="math inline">\(\overline G\)</span>.</li>
+<li>Use algorithm for CLIQUE-d to answer YES/NO for ``does <span class="math inline">\(\overline{G}\)</span> have clique of size at least <span class="math inline">\(L\)</span>?’’</li>
+<li>Use this answer to return YES/NO to the original instance of STAB-d.</li>
+</ul>
 
-:::{.proof}
--- Every problem $Q \in \text{NP}$ reduces in polynomial time to $R$ if $R$ is $\mathbf{NP}$**-complete**.
 
-- If we could solve $R$ using a polynomial-time algorithm, we could solve every $Q \in \text{NP}$ in polynomial time, which implies that 
-$\mathbf{P} = \mathbf{NP}.$
-:::
-
-### Consequences 
-
-We have established that problems in $\mathbf{NP}$**-complete** are more **general** than any problem in $\mathbf{NP}$:
-
-- Here, *generality* of a problem $Q$ follows the definition of polynomial reduction.
-
-- That is, as a measure of how many problems we could solve in polytime if we could solve $Q$ in $O(1)$.
-
-- If $Q$ is $\mathbf{NP}$**-complete** this generality is maximized since all of $\mathbf{NP}$ can be solve in polytime if $Q$ can be solved in $O(1)$.
-
-### Notions of Hardness
-
-Suppose we are trying to determine how hard it is to solve problem $Q$.
-
-- Suppose we try to construct a polynomial time algorithm but fail to find one.
-
-- Then try to show $Q$ is $\mathbf{NP}$**-complete** and succeed. 
-
-- This doesn't prove that $Q$ is not solvable in polynomial time. 
-
-If we *could solve* $Q$ in polynomial time, then $\mathbf{P = NP}$ and all problems in $\mathbf{NP}$ would be polytime solvable.
-
-- If $Q \in$$\mathbf{NP}$**-complete**, then $Q$ must be as hard as all other problems nobody knows how to solve in polytime. -->
-
-
+</section>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
@@ -642,6 +1140,7 @@ If we *could solve* $Q$ in polynomial time, then $\mathbf{P = NP}$ and all probl
 <li id="fn7"><p><a href="https://en.wikipedia.org/ewiki/Finite-state_machine" class="uri">https://en.wikipedia.org/ewiki/Finite-state_machine</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p><a href="https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine" class="uri">https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn9"><p><a href="https://www.claymath.org/millennium-problems/" class="uri">https://www.claymath.org/millennium-problems/</a><a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p><a href="https://en.wikipedia.org/wiki/NP-completeness" class="uri">https://en.wikipedia.org/wiki/NP-completeness</a><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
