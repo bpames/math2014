@@ -229,6 +229,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity of Problems</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Exponential_Algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Algorithms for (Potentially) Intractable Problems</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -333,9 +339,13 @@ window.Quarto = {
 <p>Regardless of physical application/interpretation of the network, we have the following standard collection of constraints.</p>
 <section id="capacity-constraints" class="level4" data-number="7.1.2.1">
 <h4 data-number="7.1.2.1" class="anchored" data-anchor-id="capacity-constraints"><span class="header-section-number">7.1.2.1</span> Capacity constraints</h4>
-<p>Each pipe cannot carry more than its capacity. - Let <span class="math inline">\(x_{ij}\)</span> denote the amount of commodity carried from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and let <span class="math inline">\(k_{ij}\)</span> denote the capacity of the pipe from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>. - Then we must have <span class="math display">\[
-    0 \le x_{ij} \le  k_{ij}.
-\]</span></p>
+<p>Each pipe cannot carry more than its capacity.</p>
+<ul>
+<li><p>Let <span class="math inline">\(x_{ij}\)</span> denote the amount of commodity carried from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and let <span class="math inline">\(k_{ij}\)</span> denote the capacity of the pipe from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>.</p></li>
+<li><p>Then we must have <span class="math display">\[
+  0 \le x_{ij} \le  k_{ij}.
+\]</span></p></li>
+</ul>
 </section>
 <section id="balance-constraints" class="level4" data-number="7.1.2.2">
 <h4 data-number="7.1.2.2" class="anchored" data-anchor-id="balance-constraints"><span class="header-section-number">7.1.2.2</span> Balance constraints</h4>
@@ -515,7 +525,12 @@ Figure&nbsp;7.3: Induced cuts in graph <span class="math inline">\(G\)</span> gi
     0, &amp;\text{otherwise}.
 \end{cases}
 \]</span> Let’s take the sum of both sides over all <span class="math inline">\(h \in S\)</span>; note that <span class="math inline">\(s \in S\)</span> and <span class="math inline">\(t \notin S\)</span>. First, the sum of the right-hand side over <span class="math inline">\(h \in S\)</span> is equal to <span class="math inline">\(\varphi\)</span>.</p>
-<p>Next, each arc <span class="math inline">\((i,j)\)</span> with <span class="math inline">\(i,j \in S\)</span> appears twice in the sum on the left-hand side: - When <span class="math inline">\(h =i\)</span>, we add <span class="math inline">\(+x_{ij}\)</span> to the total. - When <span class="math inline">\(h = j\)</span>, we add <span class="math inline">\(-x_{ij}\)</span> to the total. These two values cancel when we take the sum over all <span class="math inline">\(h\)</span>. On the other hand, if <span class="math inline">\(i\in S\)</span> and <span class="math inline">\(j \in V \setminus S\)</span>, then <span class="math inline">\((i,j) \in \delta^{+}(S)\)</span> and appears once in the sum of the left-hand side (when <span class="math inline">\(h=i\)</span>). Finally, if <span class="math inline">\(i \in V \setminus S\)</span>, <span class="math inline">\(j \in S\)</span> then <span class="math inline">\((i,j) \in \delta^-(S)\)</span> and this edge contributes <span class="math inline">\(-x_{ij}\)</span> to the sum in the left-hand side. Putting everything together, we have <span class="math display">\[
+<p>Next, each arc <span class="math inline">\((i,j)\)</span> with <span class="math inline">\(i,j \in S\)</span> appears twice in the sum on the left-hand side:</p>
+<ul>
+<li>When <span class="math inline">\(h =i\)</span>, we add <span class="math inline">\(+x_{ij}\)</span> to the total.</li>
+<li>When <span class="math inline">\(h = j\)</span>, we add <span class="math inline">\(-x_{ij}\)</span> to the total.</li>
+</ul>
+<p>These two values cancel when we take the sum over all <span class="math inline">\(h\)</span>. On the other hand, if <span class="math inline">\(i\in S\)</span> and <span class="math inline">\(j \in V \setminus S\)</span>, then <span class="math inline">\((i,j) \in \delta^{+}(S)\)</span> and appears once in the sum of the left-hand side (when <span class="math inline">\(h=i\)</span>). Finally, if <span class="math inline">\(i \in V \setminus S\)</span>, <span class="math inline">\(j \in S\)</span> then <span class="math inline">\((i,j) \in \delta^-(S)\)</span> and this edge contributes <span class="math inline">\(-x_{ij}\)</span> to the sum in the left-hand side. Putting everything together, we have <span class="math display">\[
 \sum_{(i,j)\in\delta^+(S)} x_{ij} - \sum_{(i,j)\in\delta^-(S)} x_{ij} = \varphi.
 \]</span> This completes the proof.</p>
 </div>

@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Math 2014 Algorithms - 10&nbsp; Algorithms for (Potentially) Intractable Problems</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./09_Complexity_Classes.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10_Exponential_Algorithms.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Algorithms for (Potentially) Intractable Problems</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Math 2014 Algorithms</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Algorithms</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction_to_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Graphs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Reachability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graph Reachability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Complexity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05a_Shortest_Paths.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Shortest Path Problem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Minimum_Cost_Spanning_Trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Minimum Cost Spanning Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Network_Flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Network Flows</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Matching Problems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Complexity_Classes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity of Problems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Exponential_Algorithms.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Algorithms for (Potentially) Intractable Problems</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#partial-enumeration" id="toc-partial-enumeration" class="nav-link active" data-scroll-target="#partial-enumeration"><span class="header-section-number">10.1</span> Partial Enumeration</a>
+  <ul class="collapse">
+  <li><a href="#plans-for-improvement" id="toc-plans-for-improvement" class="nav-link" data-scroll-target="#plans-for-improvement"><span class="header-section-number">10.1.1</span> Plans for Improvement</a></li>
+  <li><a href="#partial-enumeration-for-sat" id="toc-partial-enumeration-for-sat" class="nav-link" data-scroll-target="#partial-enumeration-for-sat"><span class="header-section-number">10.1.2</span> Partial Enumeration for SAT</a></li>
+  <li><a href="#another-example" id="toc-another-example" class="nav-link" data-scroll-target="#another-example"><span class="header-section-number">10.1.3</span> Another Example</a></li>
+  </ul></li>
+  <li><a href="#branch-and-bound-for-clique" id="toc-branch-and-bound-for-clique" class="nav-link" data-scroll-target="#branch-and-bound-for-clique"><span class="header-section-number">10.2</span> Branch and Bound for CLIQUE</a>
+  <ul class="collapse">
+  <li><a href="#characteristic-vectors" id="toc-characteristic-vectors" class="nav-link" data-scroll-target="#characteristic-vectors"><span class="header-section-number">10.2.1</span> Characteristic Vectors</a></li>
+  <li><a href="#partial-enumeration-for-clique" id="toc-partial-enumeration-for-clique" class="nav-link" data-scroll-target="#partial-enumeration-for-clique"><span class="header-section-number">10.2.2</span> Partial Enumeration for CLIQUE</a></li>
+  <li><a href="#branch-and-bound-algorithms" id="toc-branch-and-bound-algorithms" class="nav-link" data-scroll-target="#branch-and-bound-algorithms"><span class="header-section-number">10.2.3</span> Branch and Bound Algorithms</a></li>
+  <li><a href="#an-example-of-solving-clique-using-bb" id="toc-an-example-of-solving-clique-using-bb" class="nav-link" data-scroll-target="#an-example-of-solving-clique-using-bb"><span class="header-section-number">10.2.4</span> An Example of Solving CLIQUE using B+B</a></li>
+  </ul></li>
+  <li><a href="#approximation-algorithms" id="toc-approximation-algorithms" class="nav-link" data-scroll-target="#approximation-algorithms"><span class="header-section-number">10.3</span> Approximation Algorithms</a>
+  <ul class="collapse">
+  <li><a href="#metric-undirected-tsp" id="toc-metric-undirected-tsp" class="nav-link" data-scroll-target="#metric-undirected-tsp"><span class="header-section-number">10.3.1</span> Metric Undirected TSP</a></li>
+  <li><a href="#an-approximation-algorithm-for-mutsp" id="toc-an-approximation-algorithm-for-mutsp" class="nav-link" data-scroll-target="#an-approximation-algorithm-for-mutsp"><span class="header-section-number">10.3.2</span> An Approximation Algorithm for MUTSP</a></li>
+  <li><a href="#tsp-in-the-non-metric-case" id="toc-tsp-in-the-non-metric-case" class="nav-link" data-scroll-target="#tsp-in-the-non-metric-case"><span class="header-section-number">10.3.3</span> TSP in the Non-Metric Case</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Algorithms for (Potentially) Intractable Problems</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Most real-world problems are either <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> or <span class="math inline">\(\mathbf{NP}\)</span><strong>-hard</strong> (if not worse).</p>
+<p>Unless <span class="math inline">\(\mathbf{P}=\mathbf{NP}\)</span>, we cannot solve these problems efficiently.</p>
+<p>We still need an algorithm to solve them. Have two approaches:</p>
+<ul>
+<li><p>Exponential-time enumeration algorithms.</p></li>
+<li><p>Polynomial-time approximation algorithms.</p></li>
+</ul>
+<section id="partial-enumeration" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="partial-enumeration"><span class="header-section-number">10.1</span> Partial Enumeration</h2>
+<p>We can often (but not always) carefully apply enumeration to eliminate large numbers of potential solutions. We’ll illustrate using an instance of the satisfiability problem (SAT).</p>
+<div id="exm-PE-SAT" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.1</strong></span> Consider the following instance of SAT: <span class="math display">\[\begin{align*}
+    (Y_1 \vee Y_2 \vee Y_3 \vee Y_4) \wedge (Y_1 \vee -Y_2) \wedge (Y_2 \vee - Y_3) \\
+    \wedge (Y_3 \vee -Y_4) \wedge (Y_4 \vee - Y_1) \wedge (-Y_1 \vee - Y_4)
+\end{align*}\]</span></p>
+</div>
+<p>We can solve the problem by <strong><em>enumeration</em></strong>:</p>
+<ul>
+<li><p>Build all possible combinations of T/F for the variables.</p></li>
+<li><p>Check if any satisfy all of the clauses.</p></li>
+</ul>
+<p>For <a href="#exm-PE-SAT" class="quarto-xref">Example&nbsp;<span>10.1</span></a>, we have four variables, <span class="math inline">\(Y_1, Y_2, Y_3, Y_4\)</span> to assign value <span class="math inline">\(T\)</span> or <span class="math inline">\(F\)</span> to. Since each variable takes one of two possible values, we have <span class="math display">\[
+    2^4 = 16
+\]</span> possible truth assignments.</p>
+<p>In general, <span class="math inline">\(n\)</span> variables, <span class="math inline">\(Y_1, Y_2, \dots, Y_n\)</span>, have <span class="math inline">\(2^n\)</span> possible truth assignments. This clearly runs in exponential time. We cannot construct all possibilities and check if clauses are satisfied in a reasonable amount of time unless <span class="math inline">\(n\)</span> is small.</p>
+<section id="plans-for-improvement" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="plans-for-improvement"><span class="header-section-number">10.1.1</span> Plans for Improvement</h3>
+<p>Let’s try to design an algorithm which does not consider every possible truth assignment.</p>
+<p>This will still be exponential-time in worst case, but often faster the complete enumeration.</p>
+</section>
+<section id="partial-enumeration-for-sat" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="partial-enumeration-for-sat"><span class="header-section-number">10.1.2</span> Partial Enumeration for SAT</h3>
+<p>Let’s consider the SAT instance given in <a href="#exm-PE-SAT" class="quarto-xref">Example&nbsp;<span>10.1</span></a>: <span class="math display">\[\begin{align*}
+    (Y_1 \vee Y_2 \vee Y_3 \vee Y_4) \wedge (Y_1 \vee -Y_2) \wedge (Y_2 \vee - Y_3) \\
+    \wedge (Y_3 \vee -Y_4) \wedge (Y_4 \vee - Y_1) \wedge (-Y_1 \vee - Y_4).
+\end{align*}\]</span> Let’s call this instance <span class="math inline">\((P_1)\)</span>.</p>
+<p>Let’s consider the first variable <span class="math inline">\(Y_1\)</span>.</p>
+<ul>
+<li><p><span class="math inline">\(Y_1\)</span> can take two values <span class="math inline">\(T\)</span> and <span class="math inline">\(F\)</span>.</p></li>
+<li><p>Can build two subinstances of SAT, one where <span class="math inline">\(Y_1 = F\)</span> and <span class="math inline">\(Y_1 = T\)</span>.</p></li>
+</ul>
+<section id="investigating-y_1-f" class="level4" data-number="10.1.2.1">
+<h4 data-number="10.1.2.1" class="anchored" data-anchor-id="investigating-y_1-f"><span class="header-section-number">10.1.2.1</span> Investigating <span class="math inline">\(Y_1 = F\)</span></h4>
+<p>If we set <span class="math inline">\(Y_1 = F\)</span>, then <span class="math inline">\((P_1)\)</span> becomes <span class="math display">\[
+    (F \vee Y_2 \vee Y_3 \vee Y_4) \wedge
+    (F \vee -Y_2) \wedge
+    (Y_2 \vee - Y_3) \wedge
+    (Y_3 \vee -Y_4) \wedge
+    (Y_4 \vee T) \wedge
+    (T \vee -Y_4)
+\]</span> after substituting <span class="math inline">\(Y_1 = F\)</span> in each clause. We can simplify by:</p>
+<ul>
+<li>dropping any <span class="math inline">\(F\)</span> literals in clauses;</li>
+<li>eliminating clauses with <span class="math inline">\(T\)</span> literals, since these are already satisfied.</li>
+</ul>
+<p>This yields the SAT instance <span class="math inline">\((P_2)\)</span>: <span class="math display">\[
+(Y_2 \vee Y_3 \vee Y_4) \wedge
+    (-Y_2) \wedge
+    (Y_2 \vee - Y_3) \wedge
+    (Y_3 \vee -Y_4).
+\]</span> It should be clear from inspection that there are no valid truth assignments with <span class="math inline">\(Y_2 = T\)</span> and <span class="math inline">\(Y_1 = F\)</span>. Indeed, this would violate the clause <span class="math inline">\((-Y_2)\)</span> in <span class="math inline">\((P_2)\)</span>. We’ll revisit this after investigating the case when <span class="math inline">\(Y_1 = T\)</span>.</p>
+</section>
+<section id="investigating-y_1-t" class="level4" data-number="10.1.2.2">
+<h4 data-number="10.1.2.2" class="anchored" data-anchor-id="investigating-y_1-t"><span class="header-section-number">10.1.2.2</span> Investigating <span class="math inline">\(Y_1 = T\)</span></h4>
+<p>Substituting <span class="math inline">\(Y_1 = T\)</span> in <span class="math inline">\((P_1)\)</span> and simplifying the clauses gives the new instance <span class="math inline">\((P_3)\)</span> of SAT: <span class="math display">\[
+    (Y_2 \vee - Y_3) \wedge
+    (Y_3 \vee -Y_4) \wedge
+    (Y_4) \wedge
+    (-Y_4).
+\]</span> Note that we cannot have <span class="math inline">\(Y_4 = T\)</span> and <span class="math inline">\(Y_4 = F\)</span>. Thus, we must have <span class="math display">\[
+    (Y_4) \wedge
+    (-Y_4) = F
+\]</span> and <span class="math inline">\((P_3)\)</span> is <strong>infeasible</strong>. This implies that there are no solutions to <span class="math inline">\((P_1)\)</span> with <span class="math inline">\(Y_1 = T\)</span>! This eliminates half of the possible truth assignments that we need to consider.</p>
+</section>
+<section id="completing-the-partial-enumeration" class="level4" data-number="10.1.2.3">
+<h4 data-number="10.1.2.3" class="anchored" data-anchor-id="completing-the-partial-enumeration"><span class="header-section-number">10.1.2.3</span> Completing the Partial Enumeration</h4>
+<p>We can split <span class="math inline">\((P_2)\)</span> into two subproblems by setting <span class="math inline">\(Y_2 = F\)</span>: or <span class="math inline">\(Y_2 = T\)</span>. We already saw that the problem <span class="math inline">\((P_5)\)</span> we obtain by setting <span class="math inline">\(Y_2 = T\)</span> is infeasible. On the other hand, after setting <span class="math inline">\(Y_1 = F\)</span> and <span class="math inline">\(Y_2 = F\)</span>, we obtain the subproblem <span class="math inline">\((P_4)\)</span>: <span class="math display">\[
+    (Y_3 \vee Y_4) \wedge (-Y_3) \wedge (Y_3 \vee - Y_4).
+\]</span></p>
+<p>It is not obvious whether <span class="math inline">\((P_4)\)</span> is feasible or infeasible, so we split again:</p>
+<ul>
+<li><p>Setting <span class="math inline">\(Y_1 = F = Y_2\)</span> and <span class="math inline">\(Y_3=F\)</span> gives the subproblem <span class="math inline">\((P_6)\)</span>: <span class="math display">\[
+  Y_4 \wedge (-Y_4),
+\]</span> which is infeasible.</p></li>
+<li><p>Setting <span class="math inline">\(Y_1 = F = Y_2\)</span> and <span class="math inline">\(Y_3=T\)</span> gives an infeasible subproblem because the clause <span class="math inline">\(-Y_3\)</span> is not satisfied.</p></li>
+</ul>
+<p>All subproblems are infeasible in the last step of our branching process. This implies that the original problem <span class="math inline">\((P_1)\)</span> is infeasible. That is, we cannot satisfy all clauses with any assignment of <span class="math inline">\(T\)</span> or <span class="math inline">\(F\)</span> to the variables. Thus, we answer NO for this instance of SAT.</p>
+<p><strong>Note:</strong> we only needed to check <span class="math inline">\(6\)</span> subproblems or possible truth assignments, which is much smaller than the <span class="math inline">\(16\)</span> that full enumeration would consider.</p>
+</section>
+</section>
+<section id="another-example" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="another-example"><span class="header-section-number">10.1.3</span> Another Example</h3>
+<div id="exm-PE-SAT-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.2</strong></span> Consider the following instance <span class="math inline">\((P_1)\)</span> of SAT: <span class="math display">\[
+    (-Y_1 \vee Y_2 \vee -Y_3) \wedge
+    (Y_4 \vee -Y_2 \vee Y_3) \wedge
+    (-Y_4 \vee Y_2 \vee Y_3).
+\]</span> This is a YES-instance of SAT. Indeed, <span class="math inline">\((F, T, T, T)\)</span> is a valid truth assignment (among others). We’ll use partial enumeration to solve this instance of SAT.</p>
+</div>
+<section id="branching-using-y_1" class="level4" data-number="10.1.3.1">
+<h4 data-number="10.1.3.1" class="anchored" data-anchor-id="branching-using-y_1"><span class="header-section-number">10.1.3.1</span> Branching using <span class="math inline">\(Y_1\)</span></h4>
+<p>Let’s branch on <span class="math inline">\(Y_1\)</span> again, we obtain two subproblems <span class="math inline">\((P_2)\)</span> and <span class="math inline">\((P_3)\)</span> by assigning the value <span class="math inline">\(Y_1 = F\)</span> and <span class="math inline">\(Y_1 = T\)</span>, respectively: <span class="math display">\[\begin{align*}
+    (Y_4 \vee -Y_2 \vee Y_3) \wedge
+    (-Y_4 \vee Y_2 \vee Y_3) &amp;&amp; &amp;&amp; (P_2) \\
+    (Y_2 \vee -Y_3) \wedge
+    (Y_4 \vee -Y_2 \vee Y_3) \wedge
+    (-Y_4 \vee Y_2 \vee Y_3). &amp;&amp; &amp;&amp; (P_3)
+\end{align*}\]</span> It is not immediately clear if <span class="math inline">\((P_2)\)</span> or <span class="math inline">\((P_3)\)</span> are YES-instances of SAT, so we need to branch further.</p>
+</section>
+<section id="solving-p_2" class="level4" data-number="10.1.3.2">
+<h4 data-number="10.1.3.2" class="anchored" data-anchor-id="solving-p_2"><span class="header-section-number">10.1.3.2</span> Solving <span class="math inline">\((P_2)\)</span></h4>
+<p>Let’s focus on <span class="math inline">\((P_2)\)</span> to start. We assume that <span class="math inline">\(Y_1 = F\)</span> and set <span class="math inline">\(Y_2 = T\)</span> or <span class="math inline">\(Y_2 = F\)</span>:</p>
+<ul>
+<li><p>If <span class="math inline">\(Y_2 = T\)</span> then we obtain the subproblem <span class="math inline">\((P_4)\)</span>: <span class="math display">\[
+  (Y_4 \vee Y_3).
+\]</span> This is clearly a YES-instance of SAT: setting <span class="math inline">\(Y_4 = T\)</span> and/or <span class="math inline">\(Y_3 = T\)</span> satisfies the clause.</p></li>
+<li><p>If <span class="math inline">\(Y_2 = F\)</span>, then we obtain the subproblem <span class="math inline">\((P_5)\)</span> <span class="math display">\[
+   (-Y_4) \vee Y_3
+\]</span> which is also a YES-instance of SAT. Indeed, <span class="math inline">\(Y_4 = F\)</span> and/or <span class="math inline">\(Y_3 = T\)</span> satisfies the clause.</p></li>
+</ul>
+<p>This implies that <span class="math inline">\((P_1)\)</span> is also a YES-instance of SAT: <span class="math display">\[
+    (F,T, T, T), (F,T,T,F), (F,T,F,T), (F,F,F,F), (F,F,F,T)
+\]</span> are all solutions of <span class="math inline">\((P_1)\)</span>.</p>
+<p>At this point, we can conclude that <span class="math inline">\((P_1)\)</span> is a YES-instance of SAT and stop the algorithm.</p>
+</section>
+<section id="solving-p_3" class="level4" data-number="10.1.3.3">
+<h4 data-number="10.1.3.3" class="anchored" data-anchor-id="solving-p_3"><span class="header-section-number">10.1.3.3</span> Solving <span class="math inline">\((P_3)\)</span></h4>
+<p>For illustrative purposes, let’s apply branching to <span class="math inline">\((P_3)\)</span> as well:</p>
+<ul>
+<li>Assuming <span class="math inline">\(Y_2 = T\)</span> gives <span class="math display">\[
+(Y_3 \vee Y_4);
+\]</span> this implies that <span class="math inline">\((T, T, T, T/F)\)</span> and <span class="math inline">\((T, T, T/F, T)\)</span> are solutions of <span class="math inline">\((P_1)\)</span>.</li>
+<li>On the other hand, if <span class="math inline">\(Y_2 = F\)</span>, we have <span class="math display">\[
+  - Y_3 \wedge (-Y_4 \vee Y_3 \).
+\]</span> This implies that <span class="math inline">\((T, F, F, F)\)</span> is a solution of <span class="math inline">\((P_1)\)</span>.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="branch-and-bound-for-clique" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="branch-and-bound-for-clique"><span class="header-section-number">10.2</span> Branch and Bound for CLIQUE</h2>
+<p>Recall the CLIQUE problem:</p>
+<ul>
+<li>CLIQUE: Given an undirected graph <span class="math inline">\(G=(V,E)\)</span>, find a clique of maximum size.</li>
+</ul>
+<section id="characteristic-vectors" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="characteristic-vectors"><span class="header-section-number">10.2.1</span> Characteristic Vectors</h3>
+<div id="def-10-char-vect" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 10.1</strong></span> Let <span class="math inline">\(C\)</span> be a clique (or, more generally, subset of <span class="math inline">\(V\)</span>) for graph <span class="math inline">\(G = (V,E)\)</span>. The <strong>characteristic vector</strong> of <span class="math inline">\(C\)</span> is the binary vector such that <span class="math display">\[
+    x_i =
+    \begin{cases}
+        1, &amp; \text{if } i \in C, \\
+        0, &amp; \text{if } i \notin C.
+        \end{cases}
+\]</span></p>
+</div>
+<div id="fig-10-cv-ex" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-10-cv-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/10a/3-CLIQUE.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-10-cv-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Graph <span class="math inline">\(G\)</span> with clique <span class="math inline">\(C = \{0,2,3\}\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="exm-10-char-vect" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.3</strong></span> Consider the graph <span class="math inline">\(G\)</span> with clique <span class="math inline">\(C = \{0,2,3\}\)</span> given in <a href="#fig-10-cv-ex" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>. The characteristic vector <span class="math inline">\(x\)</span> of <span class="math inline">\(C\)</span> is <span class="math display">\[
+    (x_0, x_1, x_2, x_3) = (1,0,1,1).
+\]</span></p>
+</div>
+</section>
+<section id="partial-enumeration-for-clique" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="partial-enumeration-for-clique"><span class="header-section-number">10.2.2</span> Partial Enumeration for CLIQUE</h3>
+<p>We can solve CLIQUE using complete enumeration, trying all possible 0/1 values for potential characteristic vectors <span class="math inline">\(x\)</span>.</p>
+<p>We would need to consider <span class="math inline">\(2^n\)</span> possible solutions for a instance with <span class="math inline">\(n\)</span> vertices.</p>
+<p>As with SAT we can create subinstances by setting <span class="math inline">\(x_j =1\)</span> and <span class="math inline">\(x_j = 0\)</span>.</p>
+<p>We are solving an optimization problem, so we need to exclude subinstances that yield suboptimal solutions. (This differs from SAT where we eliminated infeasible branches)</p>
+</section>
+<section id="branch-and-bound-algorithms" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="branch-and-bound-algorithms"><span class="header-section-number">10.2.3</span> Branch and Bound Algorithms</h3>
+<p>Our partial enumeration algorithm for CLIQUE will take the form of a <strong>branch and bound algorithm</strong>.</p>
+<p>Let’s introduce three values associated with each sub-instance <span class="math inline">\(I\)</span>:</p>
+<ul>
+<li><p><strong><em>lower bound</em></strong> <span class="math inline">\(LB(I)\)</span>: value of a feasible solution to subinstance <span class="math inline">\(I\)</span>.</p></li>
+<li><p><strong><em>upper bound</em></strong> <span class="math inline">\(UB(I)\)</span>: value larger than any optimal solution to <span class="math inline">\(I\)</span>.</p></li>
+<li><p><strong><em>global lower bound</em></strong> <span class="math inline">\(GLB\)</span>: value of the <strong><em>best</em></strong> feasible solution found <strong><em>so far</em></strong>.</p></li>
+</ul>
+<p>We’ll use these to <em>prune</em> or ignore certain subinstances to allow partial enumeration.</p>
+<section id="estimating-upper-bound-for-clique" class="level4" data-number="10.2.3.1">
+<h4 data-number="10.2.3.1" class="anchored" data-anchor-id="estimating-upper-bound-for-clique"><span class="header-section-number">10.2.3.1</span> Estimating Upper Bound for CLIQUE</h4>
+<p>A simple upper bound for clique is given by <span class="math display">\[
+    UB(I) := |\{j\in V\}: x_j(I) = 1| + |\{j \in V\}: x_j(I) = -|.
+\]</span> (Here ``<span class="math inline">\(-\)</span>” denotes that the corresponding node can take value <span class="math inline">\(1\)</span> or <span class="math inline">\(0\)</span> in a possible solution.)</p>
+<div id="fig-upper-bound-ex" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-upper-bound-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-upper-bound-ex" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-ub1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-ub1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/10a/UB_1.png" class="img-fluid figure-img" data-ref-parent="fig-upper-bound-ex">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ub1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) <span class="math inline">\(x = (1,-,1,1)\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-upper-bound-ex" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-ub2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-ub2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/10a/UB_2.png" class="img-fluid figure-img" data-ref-parent="fig-upper-bound-ex">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ub2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(x = (-,1,0,0)\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-upper-bound-ex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: Potential characteristic vectors of subsets of graph <span class="math inline">\(G\)</span>.
+</figcaption>
+</figure>
+</div>
+<div id="exm-BB-upper-bounds" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.4</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-upper-bound-ex" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>.</p>
+<ul>
+<li><p>In <a href="#fig-ub1" class="quarto-xref">Figure&nbsp;<span>10.2 (a)</span></a>, node <span class="math inline">\(1\)</span> is unassigned to the subset (it could be included or not), and the remaining nodes are included in the given set. Using the formula gives <span class="math display">\[
+  UB(I) =|\{j\in V\}: x_j(I) = 1| + |\{j \in V\}: x_j(I) = -| = 3 + 1 = 4.
+\]</span> On the other, the given set forms a clique, so we have <span class="math display">\[
+  LB(I) = 3.
+\]</span> This implies that the maximum clique for this graph contains either <span class="math inline">\(3\)</span> nodes or <span class="math inline">\(4\)</span> nodes.</p></li>
+<li><p>On the other hand, the sub-instance given in <a href="#fig-ub2" class="quarto-xref">Figure&nbsp;<span>10.2 (b)</span></a>, assumes that nodes <span class="math inline">\(2\)</span> and <span class="math inline">\(3\)</span> are <em>not</em> included in a maximum clique, and node <span class="math inline">\(1\)</span> is. In this case, we have <span class="math display">\[
+  UB(I) = 1 + 1 = 2, \hspace{0.25in}
+  LB(I) = 1.
+\]</span> Note that this upper bound is less than the lower bound given by the sub-instance in <a href="#fig-ub1" class="quarto-xref">Figure&nbsp;<span>10.2 (a)</span></a>. This implies that we do not need to further explore the sub-instance given in <a href="#fig-ub2" class="quarto-xref">Figure&nbsp;<span>10.2 (b)</span></a>.</p></li>
+</ul>
+</div>
+</section>
+<section id="pruning" class="level4" data-number="10.2.3.2">
+<h4 data-number="10.2.3.2" class="anchored" data-anchor-id="pruning"><span class="header-section-number">10.2.3.2</span> Pruning</h4>
+<p>Efficient branch and bound algorithms rely on <strong><em>pruning</em></strong> some nodes.</p>
+<p>If <span class="math inline">\(UB(I) \le GLB\)</span> then sub- instance <span class="math inline">\(I\)</span> can be <strong><em>discarded</em></strong> or <strong><em>pruned</em></strong>.</p>
+<ul>
+<li>The best <span class="math inline">\(I\)</span> can give us is a solution with value <span class="math inline">\(UB(I)\)</span>, which is no better than the best solution found so far.</li>
+</ul>
+<div id="exm-10-pruning" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.5</strong></span> Suppose that we have a solution of value <span class="math inline">\(3\)</span> so that <span class="math inline">\(GLB =3\)</span>.</p>
+<p>Let’s reconsider the sub-instance <span class="math inline">\(I\)</span> given in <a href="#fig-ub2" class="quarto-xref">Figure&nbsp;<span>10.2 (b)</span></a>. We can <em>prune</em> this branch because we know that it will not contain the maximum clique.</p>
+</div>
+</section>
+</section>
+<section id="an-example-of-solving-clique-using-bb" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="an-example-of-solving-clique-using-bb"><span class="header-section-number">10.2.4</span> An Example of Solving CLIQUE using B+B</h3>
+<p>Consider the instance of clique given by</p>
+<div id="fig-10-clique" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-10-clique-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/10a/CLIQUE_ex.png" id="fig-10-clique" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-10-clique-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.3
+</figcaption>
+</figure>
+</div>
+<p>Let’s call this initial instance <span class="math inline">\(I_0\)</span>.</p>
+<p>We initialize the branch and bound process with initial solution <span class="math inline">\(x = (-,-,-,-)\)</span>. This notation indicates that we assume that any of the four nodes can be included in a maximum clique; we’ll determine which ones will be. Our initial upper bound is <span class="math inline">\(4\)</span> and the initial lower bound is <span class="math inline">\(0\)</span>.</p>
+<p>We can obtain two sub-instances of CLIQUE by setting <span class="math inline">\(x_0 = 0\)</span> or <span class="math inline">\(1\)</span>. We call these sub-instances <span class="math inline">\(I_1\)</span> and <span class="math inline">\(I_2\)</span> respectively.</p>
+<section id="solving-i_1" class="level4" data-number="10.2.4.1">
+<h4 data-number="10.2.4.1" class="anchored" data-anchor-id="solving-i_1"><span class="header-section-number">10.2.4.1</span> Solving <span class="math inline">\(I_1\)</span></h4>
+<p>Let’s assume that <span class="math inline">\(x_0=1\)</span>. That is, that node <span class="math inline">\(0\)</span> is included in a maximum clique:</p>
+<ul>
+<li>We can update the lower bound <span class="math inline">\(LB = 1\)</span> since <span class="math inline">\(\{0\}\)</span> is a clique;</li>
+<li><span class="math inline">\(UB = 4\)</span> is unchanged.</li>
+</ul>
+</section>
+<section id="branching-on-x_1" class="level4" data-number="10.2.4.2">
+<h4 data-number="10.2.4.2" class="anchored" data-anchor-id="branching-on-x_1"><span class="header-section-number">10.2.4.2</span> Branching on <span class="math inline">\(x_1\)</span></h4>
+<p>We can branch further by assuming that node <span class="math inline">\(1\)</span> does or does not belong to a maximum clique, i.e., that <span class="math inline">\(x_1 = 1\)</span> or <span class="math inline">\(x_1 = 0\)</span>.</p>
+<ul>
+<li><p>If <span class="math inline">\(x_1 = 1\)</span>, then we are assuming that both nodes <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> belong to a clique. However, <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> are not adjacent. Therefore, this branch, <span class="math inline">\(I_3\)</span>, is infeasible. We cannot any set containing both nodes <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> cannot be a clique.</p></li>
+<li><p>If <span class="math inline">\(x_1 = 0\)</span>, then we assume that Node <span class="math inline">\(0\)</span> belongs to a maximum clique, but Node <span class="math inline">\(1\)</span> does not. This yields sub-instance <span class="math inline">\(I_4\)</span> We have <span class="math display">\[
+  LB = 1, \hspace{0.25in} UB = 3
+\]</span> in this case.</p></li>
+</ul>
+</section>
+<section id="solving-i_4" class="level4" data-number="10.2.4.3">
+<h4 data-number="10.2.4.3" class="anchored" data-anchor-id="solving-i_4"><span class="header-section-number">10.2.4.3</span> Solving <span class="math inline">\(I_4\)</span></h4>
+<p>We can split <span class="math inline">\(I_4\)</span> further, but setting <span class="math inline">\(x_2 = 1\)</span> or <span class="math inline">\(x_2 = 0\)</span>:</p>
+<ul>
+<li><p>If <span class="math inline">\(x = (1, 0, 1, -)\)</span>, then we have found at least a clique <span class="math inline">\(\{0,2\}\)</span> of size <span class="math inline">\(2\)</span> since <span class="math inline">\(\{0,2\} \in E\)</span>. This implies gives bounds <span class="math display">\[
+  LB = 2, \hspace{0.25in} UB = 3.
+\]</span> Notice that our greatest lower bound so far is <span class="math inline">\(GLB = 2\)</span>. Let’s call this sub-instance <span class="math inline">\(I_5\)</span>.</p></li>
+<li><p>If <span class="math inline">\(x =(1,0,0,-)\)</span> then we have <span class="math inline">\(UB = 2 \le GLB\)</span>. Therefore, this set contains, at best, a clique of size <span class="math inline">\(2\)</span>. Therefore, we can prune this subinstance <span class="math inline">\((I_6)\)</span>.</p></li>
+</ul>
+</section>
+<section id="solving-i_5" class="level4" data-number="10.2.4.4">
+<h4 data-number="10.2.4.4" class="anchored" data-anchor-id="solving-i_5"><span class="header-section-number">10.2.4.4</span> Solving <span class="math inline">\(I_5\)</span></h4>
+<p><span class="math inline">\(I_7\)</span>: If we set <span class="math inline">\(x_3 = 1\)</span>, we obtain the solution <span class="math inline">\(x = (1,0,1,1)\)</span>. This corresponds to the clique <span class="math inline">\(\{0,2,3\}\)</span>. This is the largest clique we have found so far: <span class="math inline">\(GLB = 3\)</span>.</p>
+<p><span class="math inline">\(I_8\)</span>: On the other hand, taking <span class="math inline">\(x_3 = 0\)</span> gives the clique <span class="math inline">\(\{0,2\}\)</span> with two nodes (not a maximum clique).</p>
+</section>
+<section id="returing-to-i_2" class="level4" data-number="10.2.4.5">
+<h4 data-number="10.2.4.5" class="anchored" data-anchor-id="returing-to-i_2"><span class="header-section-number">10.2.4.5</span> Returing to <span class="math inline">\(I_2\)</span></h4>
+<p>We have successfully identified the largest clique containing node <span class="math inline">\(0\)</span>. We still need to investigate all vertex sets <em>not</em> containing node <span class="math inline">\(0\)</span>.</p>
+<p>Let’s branch using <span class="math inline">\(x_1\)</span>:</p>
+<ul>
+<li><p>Setting <span class="math inline">\(x_1 = 1\)</span> gives sub-instance <span class="math inline">\(I_9\)</span> with <span class="math inline">\(x = (0,1,-,-)\)</span> Here, <span class="math inline">\(UB = 3 \le GLB\)</span>. We can prune this branch.</p></li>
+<li><p>Setting <span class="math inline">\(x_1 = 0\)</span> gives <span class="math inline">\(I_{10}\)</span> with <span class="math inline">\(x = (0,0,-,-)\)</span>. Again, <span class="math inline">\(UB &lt; GLB\)</span> and we prune this branch.</p></li>
+</ul>
+</section>
+<section id="termination" class="level4" data-number="10.2.4.6">
+<h4 data-number="10.2.4.6" class="anchored" data-anchor-id="termination"><span class="header-section-number">10.2.4.6</span> Termination</h4>
+<p>We have now exhausted all possible solutions and have found maximum clique <span class="math inline">\(\{0,2,3\}\)</span>.</p>
+<p>Note that if we had explored sub-instance <span class="math inline">\(I_2\)</span> first (instead of <span class="math inline">\(I_1\)</span>), we would have found the maximum clique <span class="math inline">\(\{1,2,3\}\)</span> in the pruned branch <span class="math inline">\(I_9\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="approximation-algorithms" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="approximation-algorithms"><span class="header-section-number">10.3</span> Approximation Algorithms</h2>
+<p>We conclude by investigating algorithms for approximating the solution of intractable optimization problems.</p>
+<p>We’ll focus on a variant of the travelling salesperson problem as an illustrative example.</p>
+<section id="metric-undirected-tsp" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="metric-undirected-tsp"><span class="header-section-number">10.3.1</span> Metric Undirected TSP</h3>
+<div id="def-metric-tsp" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 10.2 (Metric Undirected Travelling Salesperson Problem (MUTSP))</strong></span> Given a <strong>complete</strong> undirected graph <span class="math inline">\(G=(V,E)\)</span> with edge cost function <span class="math inline">\(c\)</span> satisfying the <strong>triangle inequality</strong>:</p>
+<p><span class="math display">\[
+    c_{ij} \le c_{ik} + c_{kj} \text{ for all } i,j,k \in V.
+\]</span></p>
+<p><strong>MUTSP:</strong> Find a Hamiltonian cycle of minimum total cost.</p>
+</div>
+<div id="exm-MUTSP" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.6</strong></span> Consider the graph <span class="math inline">\(G\)</span> given in <a href="#fig-MUTSP" class="quarto-xref">Figure&nbsp;<span>10.4 (a)</span></a>. Assume that <span class="math inline">\(c_{ij}\)</span> is equal to the length of line segment representing edge <span class="math inline">\((i,j)\)</span>. The minimum cost Hamiltonian cycle is indicated by the highlighted edges in <a href="#fig-MUTSP-C" class="quarto-xref">Figure&nbsp;<span>10.4 (b)</span></a></p>
+</div>
+<div id="fig-mutsp-G" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mutsp-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-mutsp-G" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MUTSP" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MUTSP-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_ex.png" class="img-fluid figure-img" data-ref-parent="fig-mutsp-G">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MUTSP-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-mutsp-G" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MUTSP-C" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MUTSP-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_C.png" class="img-fluid figure-img" data-ref-parent="fig-mutsp-G">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MUTSP-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Graph <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mutsp-G-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.4: A graph <span class="math inline">\(G\)</span> with edge costs <span class="math inline">\(c_{ij}\)</span> is equal to length of line segment representing edge <span class="math inline">\((i,j)\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="an-approximation-algorithm-for-mutsp" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="an-approximation-algorithm-for-mutsp"><span class="header-section-number">10.3.2</span> An Approximation Algorithm for MUTSP</h3>
+<section id="plan" class="level4" data-number="10.3.2.1">
+<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="plan"><span class="header-section-number">10.3.2.1</span> Plan</h4>
+<p>We could develop a <em>branch and bound algorithm</em> for MUTSP similar to that we saw earlier for CLIQUE.</p>
+<p>Instead, we develop an <strong>approximation algorithm</strong>. That is, we want an algorithm that:</p>
+<ul>
+<li>Runs in polynomial time.</li>
+<li>Always produces a feasible solution which is no more than <span class="math inline">\(\alpha\)</span> times large than optimal value for some constant <span class="math inline">\(\alpha\)</span>.</li>
+</ul>
+</section>
+<section id="relaxing-mutsp" class="level4" data-number="10.3.2.2">
+<h4 data-number="10.3.2.2" class="anchored" data-anchor-id="relaxing-mutsp"><span class="header-section-number">10.3.2.2</span> Relaxing MUTSP</h4>
+<p>An optimal Hamiltonian cycle is a subset of edges that:</p>
+<ol type="1">
+<li>consists of a single cycle;</li>
+<li>visits each vertex in <span class="math inline">\(V\)</span> once;</li>
+<li>has minimum cost.</li>
+</ol>
+<p>Let’s <strong>relax</strong> the problem by ignoring the 1st constraint for now:</p>
+<ul>
+<li>Find a subgraph satisfying <strong>(2)</strong> and <strong>(3)</strong>. <strong>This may not be a cycle</strong>.</li>
+<li>This is an instance of the <strong>minimum-cost spanning tree (MST) problem</strong>.</li>
+</ul>
+<p>The feasible region of MST is larger than MUTSP. That is, every Hamiltonian cycle corresponds to a spanning tree. Indeed, deleting a single edge from a Hamiltonian cycle gives a spanning tree. However, not every spanning tree corresponds to a Hamiltonian cycle. Therefore: <span class="math display">\[
+    \text{optimal MUTSP cost } \ge
+    \text{optimal MST cost}.
+\]</span></p>
+<p>This leads to two natural questions:</p>
+<ul>
+<li><p>Can we use the MST to a obtain a feasible solution for MUTSP?</p></li>
+<li><p>How are the values of these solutions related?</p></li>
+</ul>
+<div id="fig-mutsp-relax" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mutsp-relax-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-mutsp-relax" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MUTSP-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MUTSP-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_ex.png" class="img-fluid figure-img" data-ref-parent="fig-mutsp-relax">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MUTSP-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) MUTSP Instance
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-mutsp-relax" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MST" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_T.png" class="img-fluid figure-img" data-ref-parent="fig-mutsp-relax">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Minimum spanning tree
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mutsp-relax-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.5: Minimum spanning tree of given MUTSP instance.
+</figcaption>
+</figure>
+</div>
+<div id="exm-mutsp-tree" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.7</strong></span> Let’s revisit the graph <span class="math inline">\(G\)</span> given in <a href="#fig-MUTSP" class="quarto-xref">Figure&nbsp;<span>10.4 (a)</span></a> (also given in <a href="#fig-MUTSP-1" class="quarto-xref">Figure&nbsp;<span>10.5 (a)</span></a>). This graph has minimum spanning tree <span class="math inline">\(T\)</span> indicated in <a href="#fig-MST" class="quarto-xref">Figure&nbsp;<span>10.5 (b)</span></a>.</p>
+</div>
+</section>
+<section id="building-a-tour-from-a-tree" class="level4" data-number="10.3.2.3">
+<h4 data-number="10.3.2.3" class="anchored" data-anchor-id="building-a-tour-from-a-tree"><span class="header-section-number">10.3.2.3</span> Building a Tour from a Tree</h4>
+<p>We can always construct a tour from the minimum spanning tree. - Indeed, choose a cycle that visits all vertices in <span class="math inline">\(G\)</span> by traversing MST in some order.</p>
+<ul>
+<li>This gives a <strong>tour</strong> using each MST each exactly <strong>twice</strong>. However, this tour is <strong>not simple</strong>.</li>
+<li>We use each edge in the MST twice, so the total cost of this cycle is <span class="math display">\[
+2 \times \text{ optimal MST cost}.
+\]</span></li>
+</ul>
+<div id="exm-tour-from-MST" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.8</strong></span> <a href="#fig-MUTSP" class="quarto-xref">Figure&nbsp;<span>10.4 (a)</span></a> illustrates this process for the graph <span class="math inline">\(G\)</span> considered in <a href="#exm-MUTSP" class="quarto-xref">Example&nbsp;<span>10.6</span></a>. The minimum spanning tree is given in <a href="#fig-just-T" class="quarto-xref">Figure&nbsp;<span>1 (a)</span></a>. The cycle <span class="math display">\[
+    C = (0,5,4,2,1,2,3,2,4,5,0)
+\]</span> traverses every node and arc in <span class="math inline">\(G\)</span> exactly twice (see <a href="#fig-MUTSP-tour" class="quarto-xref">Figure&nbsp;<span>10.7 (a)</span></a>).</p>
+</div>
+<div id="fig-MUTSP-tour" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-MUTSP-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-MUTSP-tour" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-just-T" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-just-T-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_T_only.png" class="img-fluid figure-img" data-ref-parent="fig-MUTSP-tour">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-just-T-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) MST <span class="math inline">\(T\)</span> in <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-MUTSP-tour" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MUTSP-tour" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MUTSP-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_tour.png" class="img-fluid figure-img" data-ref-parent="fig-MUTSP-tour">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MUTSP-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) The not-simple tour <span class="math inline">\(C\)</span> given by <span class="math inline">\(T\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-MUTSP-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.6: A tour constructed from the minimum spanning tree.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="finding-a-simple-tour" class="level4" data-number="10.3.2.4">
+<h4 data-number="10.3.2.4" class="anchored" data-anchor-id="finding-a-simple-tour"><span class="header-section-number">10.3.2.4</span> Finding a Simple Tour</h4>
+<p>We can produce a <strong>simple tour</strong>, i.e., a <strong>Hamiltonian cycle</strong> from the tour given by the minimum spanning tree:</p>
+<ul>
+<li>Follow the edges of the not-simple tour until we reach a vertex for the second time.</li>
+<li>Jump to the <strong>next unvisited node</strong>. Jump to the initial node if there are no unvisited nodes.</li>
+</ul>
+<p>Note that this is always possible because <span class="math inline">\(G\)</span> is complete.</p>
+<div id="exm-MUTSP-H-tour" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.9</strong></span> Let’s consider the graph <span class="math inline">\(G\)</span> again. We saw in <a href="#exm-tour-from-MST" class="quarto-xref">Example&nbsp;<span>10.8</span></a> that <span class="math display">\[
+C = (0,5,4,2,1,2,3,2,4,5,0)
+\]</span> is a non-simple tour of <span class="math inline">\(G\)</span>. Traversing this cycle until we reach <span class="math inline">\(1\)</span>, then skipping to the unvisited node <span class="math inline">\(3\)</span> along edge <span class="math inline">\(\{1,3\}\)</span>, then jumping back to <span class="math inline">\(0\)</span> via edge <span class="math inline">\(\{3,0\}\)</span> gives the Hamiltonian cycle <span class="math display">\[
+    H = (0,5,4,2,1, 3, 0).
+\]</span></p>
+</div>
+<div id="fig-MUTSP-simple-tour" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-MUTSP-simple-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-MUTSP-simple-tour" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MUTSP-tour" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MUTSP-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_tour.png" class="img-fluid figure-img" data-ref-parent="fig-MUTSP-simple-tour">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MUTSP-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) The not-simple tour <span class="math inline">\(C\)</span> given by <span class="math inline">\(T\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-MUTSP-simple-tour" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-MUTSP-H-tour" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-MUTSP-H-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Figures/11/MUTSP_simpletour.png" class="img-fluid figure-img" data-ref-parent="fig-MUTSP-simple-tour">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-MUTSP-H-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) The Hamiltonian cycle <span class="math inline">\(H\)</span> given by <span class="math inline">\(C\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-MUTSP-simple-tour-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.7: A Hamiltonian cycle constructed from the minimum spanning tree.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="cost-of-this-hamiltonian-cycle" class="level4" data-number="10.3.2.5">
+<h4 data-number="10.3.2.5" class="anchored" data-anchor-id="cost-of-this-hamiltonian-cycle"><span class="header-section-number">10.3.2.5</span> Cost of this Hamiltonian Cycle</h4>
+<p>Recall that the <strong>cost function</strong> is <strong>metric</strong>:</p>
+<ul>
+<li>skipping an intermediate node <span class="math inline">\(k\)</span> on path from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> <strong>does not increase</strong> the cost of the tour: <span class="math display">\[
+  c_{ij} \le c_{ik} + c_{kj}.
+\]</span> This implies that the cost of the Hamiltonian cycle computed using the MST has cost at most <span class="math inline">\(2\)</span> times the cost of the minimum spanning tree.</li>
+</ul>
+<div id="exm-cost-of-MST" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.10</strong></span> In our example, the cost of the Hamiltonian cycle is <span class="math display">\[
+    c(H) = c_{05} + c_{54} + c_{42} + c_{21} + c_{13} + c_{30}.
+\]</span> However, this graph is metric, so <span class="math display">\[\begin{align*}
+    c_{13} &amp; \le c_{12} + c_{23} \\
+    c_{30} &amp; \le c_{32} + c_{24} + c_{45} + c_{50}.
+\end{align*}\]</span> This implies that we have <span class="math display">\[
+    c(H) \le c(C) = 2 c(T).
+\]</span></p>
+</div>
+</section>
+<section id="summary" class="level4" data-number="10.3.2.6">
+<h4 data-number="10.3.2.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.3.2.6</span> Summary</h4>
+<p>In general, this process gives a Hamiltonian cycle <span class="math inline">\(H\)</span> with cost <span class="math display">\[
+c(H) \le 2 c(T).
+\]</span> However, we know that <span class="math display">\[
+    c(T) \le \text{MUTSP optimal value}.
+\]</span> This implies that <span class="math display">\[
+c(H) \le 2 \times \text{MUTSP optimal value}.
+\]</span></p>
+<p>This shows that this algorithm <strong>always</strong> productes a feasible Hamiltonian cycle with value <strong>at most</strong> twice the optimal cost. Moreover, the algorithm runs in polynomial time since MST can be solved and we can construct the Hamiltonian cycle from the MST in polynomial time. Therefore, we have a <strong>2-approximate algorithm</strong> for MUTSP (<span class="math inline">\(\alpha=2\)</span>).</p>
+</section>
+</section>
+<section id="tsp-in-the-non-metric-case" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="tsp-in-the-non-metric-case"><span class="header-section-number">10.3.3</span> TSP in the Non-Metric Case</h3>
+<div id="thm-1" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 10.1</strong></span> TSP <strong><em>does not admit</em></strong> an approximation algorithm unless <span class="math inline">\(\mathbf{P}=\mathbf{NP}\)</span>.</p>
+</div>
+<p><strong>Proof Idea:</strong> Use reduction to show that the existence of an <span class="math inline">\(\alpha\)</span>-approximate algorithm for TSP would given an algorithm for <strong>any</strong> <span class="math inline">\(\mathbf{NP}\)</span><strong>-complete</strong> problem for all <span class="math inline">\(\alpha\ge 1\)</span>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./09_Complexity_Classes.html" class="pagination-link" aria-label="Complexity of Problems">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Complexity of Problems</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
