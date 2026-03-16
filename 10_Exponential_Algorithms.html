@@ -282,7 +282,7 @@ window.Quarto = {
 <section id="plans-for-improvement" class="level3" data-number="10.1.1">
 <h3 data-number="10.1.1" class="anchored" data-anchor-id="plans-for-improvement"><span class="header-section-number">10.1.1</span> Plans for Improvement</h3>
 <p>Let’s try to design an algorithm which does not consider every possible truth assignment.</p>
-<p>This will still be exponential-time in worst case, but often faster the complete enumeration.</p>
+<p>This will still be exponential-time in worst case, but is often much faster than complete enumeration.</p>
 </section>
 <section id="partial-enumeration-for-sat" class="level3" data-number="10.1.2">
 <h3 data-number="10.1.2" class="anchored" data-anchor-id="partial-enumeration-for-sat"><span class="header-section-number">10.1.2</span> Partial Enumeration for SAT</h3>
@@ -829,7 +829,7 @@ c(H) \le 2 c(T).
 \]</span> This implies that <span class="math display">\[
 c(H) \le 2 \times \text{MUTSP optimal value}.
 \]</span></p>
-<p>This shows that this algorithm <strong>always</strong> productes a feasible Hamiltonian cycle with value <strong>at most</strong> twice the optimal cost. Moreover, the algorithm runs in polynomial time since MST can be solved and we can construct the Hamiltonian cycle from the MST in polynomial time. Therefore, we have a <strong>2-approximate algorithm</strong> for MUTSP (<span class="math inline">\(\alpha=2\)</span>).</p>
+<p>This shows that this algorithm <strong>always</strong> produces a feasible Hamiltonian cycle with value <strong>at most</strong> twice the optimal cost. Moreover, the algorithm runs in polynomial time since MST can be solved and we can construct the Hamiltonian cycle from the MST in polynomial time. Therefore, we have a <strong>2-approximate algorithm</strong> for MUTSP (<span class="math inline">\(\alpha=2\)</span>).</p>
 </section>
 </section>
 <section id="tsp-in-the-non-metric-case" class="level3" data-number="10.3.3">

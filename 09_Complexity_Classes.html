@@ -399,7 +399,7 @@ window.Quarto = {
 <section id="the-class-mathbfnp" class="level3" data-number="9.1.7">
 <h3 data-number="9.1.7" class="anchored" data-anchor-id="the-class-mathbfnp"><span class="header-section-number">9.1.7</span> The Class <span class="math inline">\(\mathbf{NP}\)</span></h3>
 <div id="def-NP" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 9.6</strong></span> We say a problem <span class="math inline">\(\mathbf{NP}\)</span> belongs to the <strong>complexity class</strong> <strong>P</strong> or <strong>nondeterministic polynomial</strong><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> if:</p>
+<p><span class="theorem-title"><strong>Definition 9.6</strong></span> We say a problem <span class="math inline">\(\mathbf{NP}\)</span> belongs to the <strong>complexity class</strong> <strong>NP</strong> or <strong>nondeterministic polynomial</strong><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> if:</p>
 <ul>
 <li>Every instance <span class="math inline">\(I\)</span> of <span class="math inline">\(P \in \mathbf{NP}\)</span> with answer <strong><em>YES</em></strong> (called a <strong>YES-instance</strong>), has a <strong>certificate</strong> which verifies that the instance has answer <strong>YES</strong> in <strong><em>polynomial time</em></strong>.</li>
 </ul>
@@ -482,14 +482,14 @@ window.Quarto = {
 <h2 data-number="9.2" class="anchored" data-anchor-id="reductions"><span class="header-section-number">9.2</span> Reductions</h2>
 <section id="turing-and-cook-reductions" class="level3" data-number="9.2.1">
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="turing-and-cook-reductions"><span class="header-section-number">9.2.1</span> Turing and Cook Reductions</h3>
-<p>Suppose we are given two decision problems <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>.</p>
+<p>Suppose that we are given two decision problems <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>.</p>
 <div id="def-turing-reds" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 9.8 (Turing Reduction)</strong></span> There is a <strong>Turing reduction</strong> from <span class="math inline">\(P\)</span> to <span class="math inline">\(Q\)</span>, denoted <span class="math inline">\(P \le_T Q\)</span> if <span class="math inline">\(P\)</span> can be solved by an algorithm that calls algorithm <span class="math inline">\(A_Q\)</span> for solving <span class="math inline">\(Q\)</span> as a subroutine.</p>
 </div>
 <div id="exm-9-matching-flow" class="theorem example">
 <p><span class="theorem-title"><strong>Example 9.3 (Maximum Matching and Network Flow)</strong></span> Let <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> be the decision versions of maximum matching and network flow respectively:</p>
 <ul>
-<li><span class="math inline">\(P\)</span>: does graph <span class="math inline">\(G\)</span> have a matching of cardinality <span class="math inline">\(\ge k\)</span>?</li>
+<li><span class="math inline">\(P\)</span>: does bipartite graph <span class="math inline">\(G\)</span> have a matching of cardinality <span class="math inline">\(\ge k\)</span>?</li>
 <li><span class="math inline">\(Q\)</span>: does flow network <span class="math inline">\(G\)</span> have a flow with value <span class="math inline">\(\ge k\)</span>?</li>
 </ul>
 <p>We saw in Problem Set 7 that every instance of the <em>maximum matching problem</em> translates to a special case of the <em>maximum flow problem</em>.</p>
